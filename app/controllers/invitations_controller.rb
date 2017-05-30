@@ -20,9 +20,10 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new(invitation_params)
     @invitation.sender_id = current_user.id
-    # byebug
-    respond_to do |format|
+    byebug
+    # respond_to do |format|
         if @invitation.save
+            byebug
           if @invitation.recipient != nil
               @url = login_url()
               #send a notification email
@@ -45,7 +46,7 @@ class InvitationsController < ApplicationController
           # format.js
         end
           # end
-    end
+    # end
   end
 
   def edit
