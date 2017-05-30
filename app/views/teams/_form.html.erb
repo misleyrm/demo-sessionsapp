@@ -1,0 +1,43 @@
+<%= form_for @team do |f| %>
+<div class="row">
+  <div class="col s12">
+    <div class="field">
+      <%= f.label :team_name %><br />
+      <%= f.text_field :team_name %>
+    </div>
+    <div class="field">
+      <%= f.label :avatar %></br>
+      <%= f.file_field :avatar %>
+    </div>
+
+    <div class="field">
+
+      <%= f.fields_for :users do |builder| %>
+      <div class="field">
+        <%= builder.label :first_name %><br>
+        <%= builder.text_field :first_name %>
+      </div>
+      <div class="field">
+        <%= builder.label :last_name %><br>
+        <%= builder.text_field :last_name %>
+      </div>
+      <div class="field">
+        <%= builder.label :email %><br>
+        <%= builder.text_field :email %>
+      </div>
+      <div class="field">
+        <%= builder.label :password %><br>
+        <%= builder.password_field :password %>
+      </div>
+      <div class="field">
+        <%= builder.label :password_confirmation %><br>
+        <%= builder.password_field :password_confirmation %>
+      </div>
+      <% end %>
+      <div class="actions">
+        <%= f.submit 'create team' %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

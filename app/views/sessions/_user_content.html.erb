@@ -1,0 +1,32 @@
+<% @session_users.each do |user| %>
+<div class="session_user" data="<%= @session.id %> <%= user.id %>">
+  <h6><%= link_to  "#{user.first_name}" " " "#{user.last_name}", edit_user_path(user) %></h6>
+  <ul>
+    <li>
+      <table>
+        <tbody>
+          <tr>
+            <td><% wip = @session_wips.find_by(user_id: user.id, session_id: @session.id) %><p><%= wip.id%></p>
+              <ul>
+                <li class="item_id" id="<%= wip.id %>" ><%= render partial:'wips/form', locals: {wip: wip} %></li>
+              </ul>
+            </td>
+            <td><% completed = @session_completeds.find_by(user_id: user.id, session_id: @session.id) %><p><%= completed.id%></p>
+              <ul>
+                <li class="item_id" id="<%= completed.id %>" ><%= render partial:'completeds/form', locals: {completed: completed} %></li>
+              </ul>
+            </td>
+            <td><% blocker = @session_blockers.find_by(user_id: user.id, session_id: @session.id)%><p><%= blocker.id%></p>
+              <ul>
+                <li class="item_id" id="<%= blocker.id %>" ><%= render partial:'blockers/form', locals: {blocker: blocker} %></li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+        <a class="waves-effect waves-light su-btn btn-flat removeUser">Remove user</a>
+      </table>
+    </li>
+  </ul>
+</div>
+<div class="divider"></div></br>
+<% end %>

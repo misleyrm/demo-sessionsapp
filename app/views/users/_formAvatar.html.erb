@@ -1,0 +1,31 @@
+<%= form_for(current_user, :remote => true) do |f| %>
+<%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <% if current_user.errors.any? %>
+    <div class="row">
+      <div class="col s12">
+        <div id="error_explanation">
+          <h2><%= pluralize(current_user.errors.count, "error") %> prohibited this user from being saved:</h2>
+          <ul>
+          <% current_user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col s12">
+
+      <div class="field">
+        <%= f.hidden_field :current_step, :value => "avatar" %>
+        <%= f.label :avatar %></br>
+        <%= f.file_field :avatar %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit 'Update Avatar' %>
+      </div>
+    </div>
+  </div>
+<% end %>

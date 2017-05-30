@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= "Listing Blockers for Session" %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Session</th>
+      <th>User</th>
+      <th>Blocker</th>
+      <th>Blocker id</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @blockers.each do |blocker| %>
+      <tr>
+        <td><%= blocker.session_id %></td>
+        <td><%= blocker.user_id %></td>
+        <td><%= blocker.blocker %></td>
+        <td><%= blocker.id %></td>
+        <td><%= link_to 'Show', sessions_path %></td>
+        <td><%= link_to 'Edit', edit_blocker_path(blocker) %></td>
+        <td><%= link_to 'Destroy', blocker, method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Blocker', new_blocker_path %>

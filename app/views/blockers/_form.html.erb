@@ -1,0 +1,23 @@
+<%= form_for blocker, remote: true do |f| %>
+  <% if blocker.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(blocker.errors.count, "error") %> prohibited this blocker from being saved:</h2>
+
+      <ul>
+      <% blocker.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= image_tag "blocker.png", :size => "15x15" %>
+    <%= f.label :blocker %><br>
+    <%= f.text_area :blocker %>
+    <%= f.text_field :tag_list %>
+  </div>
+  <!-- <div class="">
+    <%#= f.submit %>
+  </div> -->
+<% end %>

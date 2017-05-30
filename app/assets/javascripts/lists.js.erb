@@ -1,0 +1,69 @@
+$(document).on('turbolinks:load',function(){
+  $(".button-collapse").sideNav();
+  $('.edit_task').submitOnCheck();
+  $('.modal-trigger').modal();
+  // $(".sidebar-collapse").sideNav();
+
+  var $navItem = $(".navigationbar .nano-content>ul li");
+
+  $navItem.on('click', function(){
+    event.preventDefault();
+    console.log( !$(this).is("#ms-add"));
+    if (!$(this).is("#ms-add")){
+        $(".navigationbar .nano-content>ul li.active").removeClass('active');
+        $(this).addClass('active');
+
+
+        // $(this).attr("data-name")
+
+        var id = $('.navigationbar .nano-content>ul li.active a').attr('id');
+        $("#form_date").attr('action', '/lists/' + id);
+        var date = $('#form_date').val() ? $('#form_date').val(): new Date();
+
+        $.ajax({
+          complete:function(request){},
+          data:'date='+ date,
+          dataType:'script',
+          type:'get',
+          url: $('.navigationbar .nano-content>ul li.active a').attr('data-href')
+        })
+    }
+  });
+
+  $('#application-date .datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15, // Creates a dropdown of 15 years to control year
+      closeOnSelect: true,
+      hiddenName: true,
+      onClose: function (){
+        $('#form_date').val(this.get());
+        this.$root.parent('form').submit();
+       },
+       onStart: function (){
+          var date = new Date()
+          this.set('select', [date.getFullYear(), date.getMonth(), date.getDate()]);
+          $('#form_date').val(this.get());
+          console.log("date");
+          // this.$root.parent('form').submit();
+
+      },
+    });
+
+  // $('body').on('dateupdated','#mainDate', function(e){
+  //   var date = $('#mainDate').val();
+  //   $('#mainDate').parent('form').submit();
+  // });
+
+  // $('#today').click(function(){
+  //   var d = new Date();
+  //   $('#mainDate').datepicker( "setDate", d );
+  //   $('#mainDate').parent('form').submit();
+  // });
+
+
+  $(document).on("change", 'input#list_avatar', uploadAvatar);
+  // CHANGE IMAGE IN USER NEW FILE UPLOAD
+  $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
+  $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
+
+})

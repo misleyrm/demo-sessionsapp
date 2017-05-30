@@ -1,0 +1,15 @@
+<%= form_for(:password_reset, url: password_resets_path) do |f| %>
+<div class="input-field">
+  <i class="material-icons prefix">email</i>
+  <%= f.email_field :email, id: 'icon_prefix' %>
+  <%= f.label :icon_prefix, 'Email' %>
+</div>
+  <!-- <div class="input-field">
+    <i class="material-icons prefix">email</i>
+    <input class="form-control" type="email" name="password_reset[email]" id="password_reset_email icon_prefix">
+    <label for="icon_prefix" class="">email</label>
+  </div> -->
+ <div class="input-field center-align">
+  <a class="waves-effect waves-light btn-large col s12 submit"><%= submit_tag "Reset Password" %></a>
+ </div>
+<% end %>

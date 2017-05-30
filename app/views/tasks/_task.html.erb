@@ -1,0 +1,104 @@
+<!-- <p id="<%= task.id%>"><%= "#{task.detail} #{task.completed_at}" %></p>
+<% if (!task.is_blocker?) && (!task.completed?) %>
+	<ul class="menu-option menu-information">
+	<% if (all_task?(task.list_id) ) %>
+		<li><p><%= "#{task.list_belonging}"%></p></li>
+		<li>/</li>
+	<% end %>
+		<li><p><%= "#{distance_of_time_in_words(task.created_at, Time.now, include_seconds: true)} ago" %></p></li>
+		<li>/</li>
+		<li><p> created_at: <%= "#{task.created_at.strftime('%m:%d:%Y')} " %></p></li>
+		<% if (task.deadline?) %>
+			<li>/</li>
+		  <li><i class="material-icons md-18 md-red">&#xE858;</i><p><%= "#{task.deadline}" %></p></li>
+		<% end %>
+	</ul>
+<% end%> 44-->
+
+<div id='task_<%= task.id%>' class="row	<%= (!task.completed?)? task.task_created : ''  %>" data-task-id = "<%= task.id%>">
+	<div class="col s6 task-detail">
+		<p id="<%= task.id%>"><%= "#{task.detail} #{task.completed_at}" %></p>
+		<% if (!task.is_blocker?) && (!task.completed?) %>
+				<ul class="menu-information">
+						<% if (all_task?(task.list_id) ) %>
+								<li><p><%= "#{task.list_belonging}"%></p></li>
+						<% end %>
+						<li><p><%= "#{distance_of_time_in_words(task.updated_at, Time.now, include_seconds: true)} ago" %></p></li>
+						<li><p> created_at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>
+						<% if (task.deadline?) %>
+						  <li><i class="material-icons md-18 md-red">&#xE858;</i><p><%= "#{task.deadline}" %></p></li>
+						<% end %>
+				</ul>
+		<% end%>
+	</div>
+	<div class="col" id="menu">
+			<ul class="menu-option">
+					<li>
+						<% if !task.completed? %>
+							 <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true do %>
+									 <i class="material-icons md-18 md-<%= (task.important?)? today(task.created_at.to_date) : 'dark md-inactive'  %>">&#xE838;</i>
+							 <% end %>
+						<% end %>
+					</li>
+					<li>
+						<% if !task.completed? %>
+							 <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true do %>
+									 <i class="material-icons md-18 md-<%= (task.deadline?)? 'red' : 'dark md-inactive'%>">&#xE858;</i>
+							 <% end %>
+						<% end %>
+					</li>
+					<li>
+						<% if !task.completed? %>
+							 <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true, data: { behavior: 'modal' } do %>
+									 <i class="material-icons md-18 md-dark md-inactive">mode_edit</i>
+							 <% end %>
+						<% end %>
+					</li>
+					<li>
+						<% if !task.completed? %>
+							 <a class='dropdown-button2' href='#' data-activates='dropdownlist_<%= task.id%>'>
+								 <i class="material-icons md-18  md-dark md-inactive">view_list</i>
+							 </a>
+							 <ul id="dropdownlist_<%= task.id%>" class="dropdown-list">
+			 					<% @lists = User.find(task.user_id).created_lists.all.order('created_at')%>
+			 		     	<% @collaboration_lists = User.find(task.user_id).collaboration_lists.all%>
+			 		     	<% @current_all_lists ||= @lists + @collaboration_lists %>
+			 					<% @current_all_lists.each do |list| %>
+			 					    <% if (list.id != task.list_id) %>
+			 							    <li><%= link_to list.name, changelist_task_path(list_id: list.id, id: task.id ), remote: true, :method=> :patch  %></li>
+			 							<% end %>
+			 					<% end %>
+			 			  </ul>
+						<% end %>
+					</li>
+					<li>
+						<% if !task.completed? %>
+								<%= form_for task, url: complete_task_path(:id => task.id, :list_id => task.list_id), remote: true do |f| %>
+								<%= check_box_tag "completed[#{task.id}]", "#{task.id}", true, :name => "task_id", disabled: task.completed?  %>
+								<%= label_tag "completed_#{task.id}", ""%>
+								<%= f.submit "Update" %>
+								<% end %>
+						<% end %>
+					</li>
+					<li>
+							<%= link_to task, method: :delete, data: {confirm: "Are you sure?"}, remote: true do %>
+								 <i class="material-icons md-18 md-dark md-inactive">cancel</i>
+							<% end %>
+					</li>
+					<li>
+						<% if !task.completed? %>
+							 <!-- task_t_blockers_path -->
+							 <i class="material-icons md-18 md-red" data-has-blockers="<%= !task.t_blockers.blank? %>">warning</i>
+							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: 'link-blocker', remote: true, data: { behavior: 'modal' }  do %>
+									<i class="material-icons md-18 md-<%= (!task.t_blockers.blank?) ? 'red' : 'dark md-inactive' %>">warning</i>
+							 <% end %>
+						<% end %>
+					</li>
+		</ul>
+	</div>
+	<div class="col s3 show_blockers text-align:left" id="show_blockers_<%= task.id%>">
+		<% if !task.completed? %>
+			<%= render(partial: "tasks/t_blocker", collection: task.t_blockers) %>
+		<% end %>
+	</div>
+</div>

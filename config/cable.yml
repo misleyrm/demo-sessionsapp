@@ -1,0 +1,9 @@
+development:
+  adapter: async
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  url: redis://h:p6a6073d542a984e42852922206ab2b5e01e2bd9c67069d02c476fbc13f41f2c5@ec2-34-204-242-91.compute-1.amazonaws.com:13459

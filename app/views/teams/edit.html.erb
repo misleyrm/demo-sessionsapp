@@ -1,0 +1,33 @@
+<div class="team" id="team-new">
+  <div class="row">
+  	<div class="col s12 m6">
+      <div class="card">
+         <div class="card-title">
+           <div class="col s12 m9">
+             <h1>Editing Team</h1>
+             <h6><%= @team.team_name %></h6>
+           </div>
+           <div class="col s12 m3 right-align">
+             <%= image_tag @team.avatar(:medium), :height => "62" %>
+           </div>
+        </div>
+        <div class="card-content">
+            <%= render 'edit' %>
+        </div>
+        <div class="card-action">
+          <div class="row center-align">
+              <div class="col s12 m6">
+                <%= link_to 'USER', @team %>
+              </div>
+              <div class="col s12 m6">
+                <%= link_to 'BACK', sessions_path %>
+              </div>
+              <div class="col s12 m12">
+                Signed in as <%= current_user.first_name.capitalize %> | <%= link_to "Logout", '/logout' %>
+              </div>
+           </div>
+         </div>
+       </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<%= form_for wip, remote: true do |f| %>
+<% if wip.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(wip.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+      <% wip.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= image_tag "wip.png", :height => "15" %>
+    <%= f.label :work_in_progress %><br>
+    <%= f.text_area :wip_item %>
+  </div>
+  <!-- <div class="">
+    <%#= f.submit %>
+  </div> -->
+<% end %>

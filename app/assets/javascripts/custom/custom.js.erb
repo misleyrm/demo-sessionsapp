@@ -1,0 +1,248 @@
+jQuery.fn.submitOnCheck = function() {
+  this.find('input[type=submit]').remove();
+  this.find('input[type=checkbox]').click(function() {
+    $(this).parent('form').submit();
+  });
+  return this;
+};
+
+function handler(ev) {
+    var target = $(ev.target);
+    var elId = target.attr('id');
+
+       alert('The mouse was over'+ elId );
+
+}
+
+$(document).on('turbolinks:load',function(){
+  //$('.dropdown-button').dropdown();
+
+  $(document).on("click", '.dropdown-button',function(e){
+     e.preventDefault();
+     var id = "#"+ $(this).data('activates');
+     $('.dropdown-list').not($(id)).removeClass('show');
+     $(id).toggleClass('show');
+  })
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!($(event.target).parent('.dropdown-button').size() > 0)) {
+    var dropdowns = document.getElementsByClassName("dropdown-list");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+ // Show action-menu in blockers when mouseover
+  $(document).on("mouseover", "div.blocker", function(e){
+     $(this).addClass("active");
+  });
+  $(document).on("mouseleave", "div.blocker", function(e){
+     $(this).removeClass("active");
+  });
+
+  // dropdown-button
+  $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      hover: true, // Activate on hover
+      belowOrigin: true, // Displays dropdown below the button
+      alignment: 'right' // Displays dropdown with edge aligned to the left of button
+    });
+
+    // dropdown-button
+    $(document).on("click", '.dropdown-button2',function(e){
+       e.preventDefault();
+       var id = "#"+ $(this).data('activates');
+       $('.dropdown-list').not($(id)).removeClass('show');
+       $(id).toggleClass('show');
+    })
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!($(event.target).parent('.dropdown-button2').size() > 0)) {
+        var dropdowns = document.getElementsByClassName("dropdown-list");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+
+    // Modal for view
+    var modal_holder_selector;
+     modal_holder_selector = "#modal-holder";
+     $(document).on("click", "[data-behavior='modal']", function() {
+       var location;
+       location = $(this).attr("href");
+       $.get(location, function(data) {
+           $(modal_holder_selector).html(data);
+            $('.modal').modal();
+           return $("#ms-modal-dialog").modal("open");
+       })
+       return false;
+     })
+
+     return $(document).on("ajax:success", "[data-behavior='modal-form']", function(event, data, status, xhr) {
+     var url;
+     url = xhr.getResponseHeader("Location");
+     if (url) {
+       window.location = url;
+     } else {
+       $("#ms-modal-dialog").modal("close");
+     }
+       return false;
+     })
+
+      /* end modal*/
+      $(".sidebar-collapse").sideNav();
+
+      // MODAL
+      $('#ms-modal-applications').modal({
+           dismissible: false, // Modal can be dismissed by clicking outside of the modal
+           opacity: .5, // Opacity of modal background
+           inDuration: 300, // Transition in duration
+           outDuration: 200, // Transition out duration
+           startingTop: '4%', // Starting top style attribute
+           endingTop: '150px', // Ending top style attribute
+           ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+             console.log(modal, trigger);
+           },
+           complete: function() {  } // Callback for Modal close
+         })
+
+        $('select').material_select();
+        $('.modal-trigger').modal();
+
+        var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+        $("#stand-up ul li a").each(function(){
+               if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+               $(this).addClass("active");
+          })
+
+        $("#stand-up ul.menu li a").hover(function(){
+            change_img_nav(this);
+          }, function(){
+            change_img_nav(this)
+         });
+
+         // Initialize collapse button
+        $(".button-collapse").sideNav();
+
+        // jQuery Validator
+      //  $('#new_user').on("click",function(e){
+      //    e.preventDefault;
+       //
+      //  });
+
+        $('#new_user').validate({
+            debug: true,
+            rules: {
+            'user[avatar]': {required: true},
+            'user[first_name]': {required: true},
+            'user[last_name]': {required: true},
+            'user[email]': {required: true, email: true},
+            'user[password]': {required: true, minlength: 6},
+            'user[password_confirmation]': {required: true, equalTo: '#user_password'}
+            }
+            // console.log('in');
+          });
+
+
+}) /* end of $(document).on('turbolinks:load',function(){*/
+
+
+// Functions
+
+function change_img_nav(e){
+  var img = $(e).find("img#icon-change");
+  var img_path = img.attr('src');
+
+  if ((img.length) && (img_path.lastIndexOf("lightblue")== -1)){
+    img_path = img_path.substr(0,img_path.lastIndexOf("."))+'-lightblue.png';
+    $(e).css('color','#92daee');
+    img.attr('src',img_path);
+  } else if (img.length){
+      img_path = img_path.substr(0,img_path.lastIndexOf("-lightblue"))+'.png';
+      img.attr('src',img_path);
+      $(e).css('color','#fff');
+    }
+}
+
+function uploadAvatar(){
+
+  // Get a reference to the fileList
+  var files = !!this.files ? this.files : [];
+  var element = $(this);
+
+  // If no files were selected, or no FileReader support, return
+  if ( !files.length || !window.FileReader ) return;
+
+  // Only proceed if the selected file is an image
+  if ( /^image/.test( files[0].type ) ) {
+      // Create a new instance of the FileReader
+      var reader = new FileReader();
+
+      // Read the local file as a DataURL
+      reader.readAsDataURL( files[0] );
+
+      // When loaded, set image data as background of div
+      reader.onloadend = function(){
+          element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
+          element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+      }
+  }
+}
+
+// $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
+// $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
+
+function mouseOutAvatar(){
+  if ($('div.mousehover',this).hasClass('active')){
+    console.log('out');
+      $('div.mousehover',this).toggleClass('hover');
+      console.log($('div.mousehover',this).hasClass('hover'));
+    }
+}
+
+function mouseOverAvatar(){
+
+  if (!$('div.mousehover', this ).hasClass('hover')){
+    $( 'div.mousehover', this).toggleClass( 'hover' );
+  }
+}
+
+'use strict';
+
+(function(d){
+    var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+    d.prototype.getLongMonth = d.getLongMonth = function getLongMonth (inMonth) {
+        return gM.call(this, inMonth, mL);
+    }
+
+    d.prototype.getShortMonth = d.getShortMonth = function getShortMonth (inMonth) {
+        return gM.call(this, inMonth, mS);
+    }
+
+    function gM(inMonth, arr){
+        var m;
+
+        if(this instanceof d){
+            m = this.getMonth();
+        }
+        else if(typeof inMonth !== 'undefined') {
+            m = parseInt(inMonth,10) - 1; // Subtract 1 to start January at zero
+        }
+        return arr[m];
+    }
+})(Date);

@@ -1,0 +1,39 @@
+<div class="section" id="ms-reset-password">
+  <div class="row valign-wrapper">
+  <div class="col s12">
+    <div class="card">
+      <div class="card-title center-align valign-wrapper" >
+        <%= image_tag "sessions_logo.png", :size => "192x63", :alt => "Sessiontodos", :title => "Sessiontodos"%>
+      </div>
+      <div class="white row card-content">
+          <div class="col s12 l10 offset-l1">
+             <h5 class="center-align"><%= flash[:info]? 'Email sent!': 'Forgot Password?'%></h5>
+               <%= content_tag :div, flash[:notice] , class: "danger" %>
+             <% if flash[:danger] %>
+                <%= content_tag :div, flash[:danger] , class: "danger" %>
+             <% end %>
+             <% if flash[:info] %>
+                  <%= content_tag :p, flash[:info] , class: "notice center-align" %>
+            <% else %>
+                  <p class="center-align">To reset your password, enter the email address you use to sign in.</p>
+                  <div class="form">
+                    <%= render 'new_reset' %>
+                  </div>
+            <% end %>
+          </div>
+          <div class="padding-small col s12"></div>
+          <div class="card-action col s12">
+            <div class="center-align">
+              <div class="col s6 m6 l6 right-align border-right">
+                <%= link_to "Log In", login_path %>
+              </div>
+              <div class="col s6 m6 l6 left-align">
+                <%= link_to 'Create Account', sign_up_path %>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

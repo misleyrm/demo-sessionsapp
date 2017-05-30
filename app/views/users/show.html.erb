@@ -1,0 +1,51 @@
+<div class="user" id="users">
+  <div class="row">
+  	<div class="col s12 m6">
+        <div class="card">
+          <div class="card-title">
+            <div class="col s12 m9">
+              <h1>User: <strong><%= @user.first_name %> <%= @user.last_name %></strong></h1>
+              <h6></h6>
+            </div>
+            <i class="material-icons large col s12 m3">date_range</i>
+          </div>
+          <div class="card-content">
+            <div class="row">
+              <div class="col s12">
+                <strong>First name:</strong>
+                <%= @user.first_name %>
+              </div>
+              <div class="col s12">
+                <strong>Last name:</strong>
+                <%= @user.last_name %>
+              </div>
+              <div class="col s12">
+                <strong>Email:</strong>
+                <%= @user.email %>
+              </div>
+              <div class="col s12">
+                <strong>Id:</strong>
+                <%= @user.id %>
+              </div>
+              <div class="col s12">
+                <strong>Role:</strong>
+                <%= @user.role %>
+              </div>
+            </div>
+          </div>
+          <div class="card-action">
+            <div class="row center-align">
+              <div class="col s12 m6">
+                <%= link_to 'EDIT', edit_user_path(@user) %>
+              </div>
+              <div class="col s12 m6">
+                <%= link_to 'BACK', sessions_path %>
+              </div>
+              <div class="col s12 m12">
+                Signed in as <%= current_user.first_name.capitalize %> | <%= link_to "Logout", '/logout' %>
+              </div>
+            </div>
+          </div>
+       </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<%= form_for @team, url: team_path, html: { multipart: true } do |form| %>
+<div class="row">
+  <div class="input-field col s8">
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>File</span>
+        <input type="file" name="team[avatar]" id="team_avatar">
+
+
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text" placeholder="Upload file">
+      </div>
+    </div>
+  </div>
+  <div class="input-field col s4">
+    <div class="file-field input-field">
+        <%= form.file_field :avatar, placeholder: "Upload Photo"%>
+      <button class="btn waves-effect waves-light" type="submit" name="action">Update Team</button>
+    </div>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Session:</strong>
+  <%= @wip.session_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @wip.user_id %>
+</p>
+
+<p>
+  <strong>Work in progress:</strong>
+  <%= @wip.wip_item %>
+</p>
+
+<%= link_to 'Edit', edit_wip_path(@wip) %> |
+<%= link_to 'Back to Session', session_path(@wip.session_id) %>

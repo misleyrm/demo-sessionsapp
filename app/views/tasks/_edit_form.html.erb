@@ -1,0 +1,14 @@
+
+<%= form_for(@task, :remote => true,:html => {:"data-behavior" => 'modal-form'}) do |f| %>
+	<div class="input-field col">
+		<%= f.text_field :detail, id: "detail" %>
+  </div>
+	<div class="row">
+			<div class="col s6 input-field center-align">
+				 	<%= link_to 'Back', lists_path, remote: true,:class => "waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white" %>
+			</div>
+			<div class="col s6 input-field center-align">
+					<a class="waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white"><%= f.submit "Update"%></a>
+			</div>
+	</div>
+<% end %>

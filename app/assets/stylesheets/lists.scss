@@ -1,0 +1,143 @@
+// Place all the styles related to the lists controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.dropdown-list{
+    background-color: #FFFFFF;
+    margin: 0;
+    display: none;
+    min-width: 120px; /* Changed this to accomodate content width */
+    max-height: auto;
+  	margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
+    overflow: hidden; /* Changed this from overflow-y:auto; to overflow:hidden; */
+    opacity: 0;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 1;
+    will-change: width, height;
+    border: 1px solid #c3c3c3;
+}
+.dropdown-list li{
+  line-height: 30px;
+}
+.dropdown-list li:not(:last-child){
+  border-bottom: 1px solid #c3c3c3;
+}
+
+ul.dropdown-list li{
+  padding: 0px 20px;
+}
+
+ul.dropdown-list li:hover, ul.dropdown-list li:active {
+  background-color: #c3c3c3;
+}
+
+#edit_option {
+  float: left;
+}
+// .list-user-avatar{
+//   width: 46px;
+//   height: 46px;
+//   border: 2px solid #12AAED!important;
+//   background-color: #12AAED;
+//   text-align: center;
+//   display: table;
+// }
+// .list-user-avatar img{
+//   display: inline-table;
+//   vertical-align: middle;
+//   padding: 5px 0 0;
+// }
+#list h5{
+  margin: 1rem 0 1rem!important;
+  font-size: 1.3rem!important;
+}
+// @media only screen and (min-width: 601px){
+// #stand-up nav.task-option,
+// #stand-up nav.task-option .nav-wrapper i,
+// #stand-up nav.task-option a.button-collapse,
+// #stand-up nav.task-option a.button-collapse i {
+//     height: 35px;
+//     line-height: 35px;
+// }
+// }
+#application-date .datepicker{
+  border-bottom: none;
+}
+.secondary-content {
+    color: #9e9e9e!important;
+}
+#collaboration-users .chip a img{
+  border-radius: 50%;
+  border: 2px solid #C0BFBF;
+  background-color: #C0BFBF;
+  //padding: 5px!important;
+  height: 32px;
+  width: 32px;
+}
+
+#collaboration-users .chip a:hover img,
+.list-collaboration-users .chip a:hover i.add-user{
+  border-color: #55c2b9;
+  color: #55c2b9;
+}
+
+.list-collaboration-users .chip img {
+  margin: 0!important;
+  float: none;
+}
+
+.list-collaboration-users .chip{
+  background: none;
+  padding: 0 5px;
+}
+
+#collaboration-users a{
+  position: relative;
+  margin-left: -10px;
+}
+
+// #collaboration-users .chip.active a:after{
+//   text-decoration: none;
+//   content: '.';
+//   font-size: 46pt;
+//   color: red;
+//   position: absolute;
+//   top: -25px;
+//   left: -11px;
+//   padding: 0;
+//   height: 3px;
+// }
+
+#collaboration-users .chip:before{
+  text-decoration: none;
+    font-family: "Material Icons";
+    content: "\E061 ";
+    font-size: 6pt;
+    line-height: 6pt;
+    background-color: #fff;
+    color: #77B44E;
+    position: relative;
+    z-index: 999;
+    border-radius: 50%;
+    padding: 0;
+    left: 26px;
+    top: -22px;
+    opacity: 0;
+    transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+
+}
+
+#collaboration-users .chip.active:before{
+    opacity:1;
+    transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
+.list-collaboration-users #collaboration-users li{
+  // padding: 0px 4px 0px!important;
+  display: inline-block;
+  float: left;
+}

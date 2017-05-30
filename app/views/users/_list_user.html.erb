@@ -1,0 +1,33 @@
+<div id="list_user_<%= user.id%>" data-user-id = "<%= user.id%>">
+    <div class="chip user-img">
+        <% if !user.avatar.nil? %>
+           <%= image_tag(user.avatar(:medium), class: 'circle', alt: "#{user.first_name}", title:"#{user.first_name}") %>
+        <% else %>
+           <span class="user-initial circle"><%= initials(user.id) %></span>
+        <% end %>
+    </div>
+    <div class="<%= permitted_user?(user.id) ? 'permitted' : 'no-permitted'%>">
+          <div class="new-task">
+            <%= render partial: 'tasks/form', :locals =>{ :user => user }   %>
+          </div>
+          <div class="tasks table-of-task" id="incomplete_tasks">
+            <% for task in user.incompleted_tasks(list,current_date) %>
+              <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task } %>
+            <% end %>
+
+             <%#= render partial: "tasks/task", collection: user.incompleted_tasks(@list,@date)  %>
+              <!-- <%#= render(partial: "tasks/task", collection: user.incompleted_tasks(list,@date))%> -->
+          </div>
+
+            <div class="divider <%= (user.completed_tasks(list,current_date).count == 0) ? 'no-active' : '' %>"></div>
+
+            <div class="tasks" id="complete_tasks">
+              <% for task in user.completed_tasks(list,current_date) %>
+                <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task } %>
+              <% end %>
+              <%#= render partial: "tasks/task", collection: user.completed_tasks(@list,@date) %>
+                <!-- <%#= render(partial: "tasks/task", collection: user.completed_tasks(list,@date))  %> -->
+            </div>
+    </div>
+    <div class="divider100"></div>
+</div>

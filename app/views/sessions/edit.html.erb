@@ -1,0 +1,29 @@
+<div class="section" id="sessions-new">
+  <div class="row">
+  	<div class="col s12 m6">
+      <div class="card">
+         <div class="card-title">
+            <h1 class="col s12 m9">Editing Session</h1>
+            <i class="material-icons large col s12 m3">portrait</i>
+        </div>
+        <div class="card-content">
+          <%= render 'form' %>
+
+          <%= link_to 'Show', @session %>
+        </div>
+        <div class="card-action">
+          <div class="row center-align">
+              <div class="col s12 m6">
+                <%= link_to 'SESSIONS', @session %>
+              </div>
+              <div class="col s12 m6">
+                <%= link_to 'BACK', sessions_path %>
+              </div>
+           </div>
+         </div>
+       </div>
+    </div>
+
+  </div>
+
+</div>

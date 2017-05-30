@@ -1,0 +1,37 @@
+<div class="section" id="ms-reset-password">
+  <div class="row valign-wrapper">
+    <div class="card">
+      <div class="card-title center-align valign-wrapper" >
+        <%= image_tag "sessions_logo.png", :size => "192x63", :alt => "StandUp", :title => "StandUp"%>
+      </div>
+      <div class="white card-content">
+        <div class="row">
+          <div class="col s12 l10 offset-l1">
+              <div class="card-content">
+               <h5 class="center-align">Forgot Password?</h5>
+               <div class="notice">
+                  <% flash.each do |key, value| %>
+                    <%= content_tag :div, value, class: "flash #{key}" %>
+                   <% end %>
+                </div>
+               <p class="center-align">To reset your password, enter your new password.</p>
+               <div class="form">
+                  <%= render 'form' %>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-action">
+        <div class="row center-align">
+          <div class="col s12 m6 right-align border-right">
+            <%= link_to "Log in", root_path %>
+          <!-- </div>
+          <div class="col s12 m6 left-align">
+            <%#= link_to 'Create Team', new_team_path %>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

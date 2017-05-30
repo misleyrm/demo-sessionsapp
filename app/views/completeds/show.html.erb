@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Session:</strong>
+  <%= @completed.session_id %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @completed.user_id %>
+</p>
+
+<p>
+  <strong>Completed:</strong>
+  <%= @completed.completed %>
+</p>
+
+<%= link_to 'Edit', edit_completed_path(@completed) %> |
+<%= link_to 'Back to Session', session_path(@completed.session_id) %>

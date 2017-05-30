@@ -1,0 +1,6 @@
+<div class="chip">
+	<% if list.avatar.exists? %>
+		<%= image_tag(list.avatar(:medium), class: 'circle', size: "50x50") %>
+	<% else %><i class="material-icons">list</i><% end %>
+	<%= list.name %>
+</div>

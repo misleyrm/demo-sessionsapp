@@ -1,0 +1,11 @@
+*.gem
+.bundle
+pkg
+doc
+/test.rb
+Gemfile.lock
+/.rake_tasks~
+/*.gem
+rails/
+# Ignore application configuration
+/config/application.yml

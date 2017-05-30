@@ -1,0 +1,20 @@
+
+  <%= f.hidden_field :current_step, :value => "avatar" %>
+  <div class="valign-wrapper ms-upload-avatar left" style="<% if (!current_user.nil?) %>background-image: url('<%= current_user.avatar('thumb') %>');<% end %>">
+    <%= f.file_field :avatar %>
+    <label for="user_avatar">
+      <div class="mousehover <%= (current_user.nil?)? 'hover': 'active' %> ">
+        <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar
+      </div>
+    </label>
+  </div>
+  <div class="valign-wrapper ms-update-avatar">
+    <div>
+      <label for="btn-avatar">YOUR AVATAR</label>
+      <div class="input-field center-align">
+        <a class="waves-effect waves-light su-btn btn-flat submit"></a>
+      </div>
+    </div>
+  </div>
+
+<div class="clearfix"></div>

@@ -1,0 +1,20 @@
+<div id="my-add-task" class="row">
+		<%= form_for([current_list, current_list.tasks.build], :remote => true) do |f| %>
+			<div class="input-field left">
+				<% if !user.nil? %>
+					<%= f.hidden_field :user_id, :value => user.id  %>
+					<% if !current_user?(user) %>
+						<%= f.hidden_field :assigner_id, :value => current_user.id %>
+					<% end %>
+				<% end %>
+				<%= f.text_field :detail, id: "detail" %>
+		    <label for="detail">New Task</label>
+		  </div>
+			<div class="input-field">
+					<%= button_tag type: 'submit', class: "btn-floating btn-medium waves-effect waves-light add-button", id: "create_task_button" do %>
+		      	<i class="material-icons">add</i>
+		    	<% end %>
+			</div>
+			<% end %>
+</div>
+<div class="clearfix"></div>

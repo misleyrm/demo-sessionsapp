@@ -1,0 +1,1366 @@
+/*
+
+	Theme Name: Pond Child
+	Theme URI: http://www.spab-rice.com
+	Description: Pond child Theme.
+	Version: 1.0
+	Author: Prototype
+	Author URI: http://www.prototype-it.us
+	Template:    pond
+	Text Domain:  pond-child
+
+*/
+
+@import url("../pond/style.css");
+
+/* -----------------------------------
+	CHILD CSS
+------------------------------------- */
+@font-face {
+  font-family: 'Avenir-Light';
+  src: url('fonts/Avenir-Light.eot');
+  src: url('fonts/Avenir-Light.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Avenir-Light.svg#CrimsonRoman') format('svg'),
+      url('fonts/Avenir-Light.woff') format('woff'),
+      url('fonts/Avenir-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+
+@font-face {
+  font-family: 'Avenir-Roman';
+  src: url('fonts/Avenir-Roman.eot');
+  src: url('fonts/Avenir-Roman.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Avenir-Roman.svg#CrimsonRoman') format('svg'),
+      url('fonts/Avenir-Roman.woff') format('woff'),
+      url('fonts/Avenir-Roman.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+@font-face {
+  font-family: 'Avenir';
+  src: url('fonts/Avenir.eot');
+  src: url('fonts/Avenir.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Avenir.svg#CrimsonRoman') format('svg'),
+      url('fonts/Avenir.woff') format('woff'),
+      url('fonts/Avenir.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+@font-face {
+  font-family: 'Avenir-Heavy';
+  src: url('fonts/Avenir-Heavy.eot');
+  src: url('fonts/Avenir-Heavy.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Avenir-Heavy.svg#CrimsonRoman') format('svg'),
+      url('fonts/Avenir-Heavy.woff') format('woff'),
+      url('fonts/Avenir-Heavy.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+@font-face {
+  font-family: 'Avenir-Black';
+  src: url('fonts/Avenir-Black.eot');
+  src: url('fonts/Avenir-Black.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Avenir-Black.svg#CrimsonRoman') format('svg'),
+      url('fonts/Avenir-Black.woff') format('woff'),
+      url('fonts/Avenir-Black.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+@font-face {
+  font-family: 'Avenir-Book';
+  src: url('fonts/Avenir-Book.eot');
+  src: url('fonts/Avenir-Book.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Avenir-Book.svg#CrimsonRoman') format('svg'),
+      url('fonts/Avenir-Book.woff') format('woff'),
+      url('fonts/Avenir-Book.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+
+@font-face {
+  font-family: 'Maven-Pro-Medium';
+  src: url('fonts/mavenpro-medium.eot');
+  src: url('fonts/mavenpro-medium.eot?#iefix') format('embedded-opentype'),
+          url('fonts/mavenpro-medium.svg#CrimsonRoman') format('svg'),
+      url('fonts/mavenpro-medium.woff') format('woff'),
+      url('fonts/mavenpro-medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-variant: normal
+}
+body, h1, h3, h4, h6, nav#main-nav .nav-inner ul#primary li a, label,
+.tp-caption.pond-title-small-dark,
+.tp-caption.pond-title-small-white{
+  font-family: Avenir-Light!important;
+}
+
+.tp-caption.pond-title-micro-dark,
+.tp-caption.pond-title-micro-white{
+   font-family:Avenir-Heavy!important;
+}
+
+body, h1, h3, h4, h5, h6, label{
+ color: #333333;
+}
+h2{
+    font-family: Avenir-Heavy!important;
+  }
+div h6 {
+    margin-top: 17px;
+    color:#868686;
+}
+
+h5{
+  font-family: Avenir-Roman!important;
+}
+.main-title h5{
+   font-weight: 300;
+   color:#868686;
+   font-family: Avenir-Light!important;
+   letter-spacing: 0.1em;
+}
+
+label{
+  letter-spacing: 0em!important;
+}
+strong, b{
+ font-family: Avenir-Heavy!important;
+}
+.main-title h2 strong, .main-title h2{
+   font-weight: 300;
+   color: #333333;
+   font-size:26px;
+}
+#page-title .section-inner {
+    padding: 120px 0 65px;
+}
+.bordered .full-height {
+    min-height: -webkit-calc(100vh - 40px)!important;
+    min-height: -moz-calc(100vh - 40px)!important;
+    min-height: calc(100vh - 40px)!important;
+}
+input[type=submit],input[type=text],
+input[type=password], input[type=email],
+textarea, select, a.sr-button,
+.scroll-down-message, #backtoworks,
+.single-pagination li a,
+.entries-pagination li a,
+.filter li a,
+.blog-content a.read-more,
+.tabs ul.tab-nav li a {
+    font-family: Avenir-Light!important;
+    color: #333333!important;
+}
+input[type=submit] {
+  font-size: 16px;
+}
+
+input[type=text], input[type=password], input[type=email], textarea, select {
+  font-size: 14px!important;
+}
+input[type=submit]:hover {
+  background-color: #ffffff;
+  color: #f05059!important;
+  border-color: #f05059;
+}
+
+input::-webkit-input-placeholder { color:#333333!important; }
+input::-moz-placeholder { color:#333333!important; } /* firefox 19+ */
+input:-ms-input-placeholder { color:#333333!important; } /* ie */
+input:-moz-placeholder { color:#333333!important; }
+
+.my-contact-info{
+  font-size: 13.89px;
+}
+form {
+    margin-top: 63px;
+}
+
+.alert-confirm strong {
+    color: #8fc236;
+    font-family: Avenir-Light!important;
+}
+.su-divider-style-thin{
+  border-top: 1px solid #cacacb;
+  width: 100%;
+  margin:23px 0;
+}
+.arrowRight{
+ width: 100px;
+ height: 100px;
+ position: absolute;
+ top: 50%;
+ margin-top: -30px;
+ right:0;
+ border-top: 1px solid #cacacb;
+ border-right: 1px solid #cacacb;
+ -webkit-transform: rotate(45deg);
+ transform: rotate(45deg);
+ cursor:  pointer;
+ content: attr();
+}
+.my-border-left{
+  border-left: 1px solid #000;
+  padding: 10px 0px 10px 20px;
+}
+.my-uppercase{
+  text-transform: uppercase;
+}
+.my-text-creative a, .my-text-creative {
+   font-size: 16px;
+}
+.my-text-creative a{
+  color:#757575;
+}
+.my-text-creative {
+   position: absolute;
+   bottom: 50px;
+   width: 100%;
+ }
+.home-container{
+    margin-top: -320.6px;
+    margin-left: -540px;
+}
+.nav-logo{
+  top:0px!important;
+}
+.nav-logo img{
+  max-height: 28.63vh;
+}
+.home-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.my-text-creative a:hover{
+   color:#f05059;
+}
+.open-nav span.open-nav-text, #load-more a, footer #backtotop, #social-share .show-share {
+    font-family: Avenir-Heavy!important;
+    font-weight: 300!important;
+    font-size: 12px;
+    color: #333333;
+}
+.my-logo-name{
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding-top: 22.54px;
+    font-family: Maven-Pro-Medium;
+    color: #525352;
+}
+#logo{
+    padding-top: 5px;
+}
+header.sticky-header #logo {
+    max-height: 30px!important;
+}
+.my-wrapper-medium{
+  max-width: 87%;
+  margin: 0 auto;
+}
+.my-lspacing-1{
+  letter-spacing: 0.1em;
+}
+/*********HOMEPAGE WITH LOGO OBJECT ***********/
+
+.page-id-1200 footer, .page-id-1235 footer{
+  display: none!important;
+}
+.page-id-1200 #header, .page-id-1235 #header{
+    display:none!important;
+}
+.page-id-1200 h1#logo, .page-id-1235 h1#logo a{
+   width: 280px;
+   height: 100px;
+}
+.page-id-1235 h1#logo{
+   position: absolute;
+   z-index: 9999;
+   min-height: 100px;
+}
+.page-id-1200 #logo a, .page-id-1235 #logo a{
+   text-align: center;
+   margin: 40px 0 0 50px;
+   display: block;
+   width: 100%;
+   height: 100%;
+   text-indent: -9999px;
+   background: url("http://www.prototype-it.us/wp-content/uploads/2017/01/home-logo.svg");
+   background-repeat: no-repeat;
+   background-size: contain;
+}
+
+.page-id-1200 .my-text-creative, .page-id-1235 .my-text-creative{
+   width: 610px;
+   text-align: center;
+   right:78px;
+   bottom:15px;
+   position: absolute;
+}
+.page-id-1200.bordered #bodyborder-top, .page-id-1200.bordered #bodyborder-right,
+.page-id-1200.bordered #bodyborder-left, .page-id-1200.bordered #bodyborder-bottom,
+.page-id-1235.bordered #bodyborder-top, .page-id-1235.bordered #bodyborder-right,
+.page-id-1235.bordered #bodyborder-left, .page-id-1235.bordered #bodyborder-bottom{
+   height: 0px;
+}
+.my-home-nav{
+    position:absolute;
+    bottom: 91px;
+    right:78px;
+}
+.my-home-nav ul#primary {
+    list-style: none;
+    text-align: center;
+    margin: 0 auto;
+    width: 610px;
+}
+.my-home-nav ul#primary li {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    width: 30.66%;
+}
+.my-home-nav ul#primary li h2 a{
+    color: #58585a;
+    font-size: 18px;
+    line-height: 14px;
+    letter-spacing: 0.2em;
+    font-family: Avenir-Heavy!important;
+    font-weight: 500;
+}
+/**********Home logo menu Superfly ***************/
+.sfm-label-metro .sfm-navicon-button{
+  display: none;
+}
+/**** HOME HORIZONTAL *******/
+
+.page-id-1200 .home-container-logo, .page-id-1235 .home-container-logo{
+  // background-image: url("http://www.prototype-it.us/wp-content/uploads/2015/11/background.png");
+ //   background-size: cover;
+//    background-position: center center;
+  background: url("http://www.prototype-it.us/wp-content/uploads/2015/11/background.png") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"http://www.prototype-it.us/wp-content/uploads/2015/11/background.png"', sizingMethod='scale')";
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"http://www.prototype-it.us/wp-content/uploads/2015/11/background.png"', sizingMethod='scale');
+}
+/*********END ***********/
+/******* SERVICES TYPE PORTFOLIO VIEWS LOGO  ****/
+.my-portfolio-logo-top{
+    padding-bottom: 40px;
+    height:114px;
+}
+.my-portfolio-logo-top img{
+   height:114px;
+}
+.my-table{
+  display: table;
+  width: 100%;
+}
+.my-table-cell{
+  display: table-cell;
+  vertical-align: middle;
+}
+/*******HEADER********/
+.bordered .sticky-header #logo, .bordered .sticky-header #logo img {
+  height: 14px;
+}
+
+nav#main-nav .nav-inner ul#primary li {
+    margin: 0 23px;
+}
+/*******FOOTER********/
+
+.center{
+   text-align: center;
+}
+.my-left{
+  text-align:left;
+}
+.my-right{
+  text-align:right;
+}
+/***** HOME ********/
+.my-home{
+ position: relative;
+}
+.my-home #my-mlogo img{
+   max-height: 250px;
+   margin: 0 auto;
+}
+.my-home .my-logo-name h1{
+    letter-spacing: 0.30em;
+    text-align: center;
+    color: #FFF;
+    font-size: 24px;
+    padding-top: 25px;
+    line-height: 24px;
+    font-weight: 200;
+}
+.my-logo-name-category h2{
+    color: #ffffff;
+    font-size: 17px;
+    padding-top: 15px;
+    line-height: 14px;
+    letter-spacing: 0.2em;
+    font-family: Avenir-Heavy!important;
+    font-weight: 500;
+}
+.my-home .my-logo-category img{
+  height: 120px;
+}
+
+.my-full-height{
+   height: 100vh!important;
+}
+.my-gorow-magazine .my-padding-20{
+  padding-top:9%;
+}
+/******** CHANGE THEME STYLE **********/
+.page-loader-inner h6 {
+   display:none;
+}
+.page-loader-inner .loader-logo-name {
+   margin-top: -30px!important;
+}
+.scroll-down-message .icon {
+    width: 48px;
+    height: 19px;
+    background: url("http://www.prototype-it.us/wp-content/uploads/2015/08/arrow-video.png") no-repeat;
+}
+.text-light .scroll-down-message .icon, .scroll-down-message.text-light .icon {
+    background-image: url("http://www.prototype-it.us/wp-content/uploads/2015/08/arrow-video.png");
+}
+.scroll-down-message .text {
+   display: none;
+}
+.scroll-down-message {
+    line-height: 60px;
+}
+.column-section{
+    margin-top: 0px!important;
+
+}
+.bordered #page-content {
+    padding: 0px;
+}
+p.link-without a:after {
+   height: 0px!important;
+}
+.cursor: hover{
+      cursor: pointer;
+}
+nav#main-nav .nav-bg {
+   opacity: 1;
+   filter: alpha(opacity=100);
+   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100); /* internet explorer */
+   -khtml-opacity: 0.1;      /* khtml, previous version of Safari*/
+   -moz-opacity: 0.1;       /* firefox, mozilla, netscape */
+}
+nav#main-nav .nav-inner ul#primary li a {
+    font-weight: 300!important;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   -khtml-opacity: 0.1;      /* khtml, previous version of Safari*/
+   -moz-opacity: 0.1;       /* firefox, mozilla, netscape */
+}
+.page-loader-inner .loader-logo-name img{
+    max-height: 24px!important;
+}
+.su-row {
+    margin-bottom: 0!important;
+}
+
+/************@media only screen********************/
+@media only screen and (max-width: 640px){
+#section-about .wrapper-small,
+#section-contact .wrapper-small{
+  max-width: 88%!important;
+}
+footer {
+  padding: 0px 0px 20px !important;
+}
+}
+
+@media only screen and (orientation : portrait){
+ .page-id-1200 h1#logo, .page-id-1235 h1#logo a{
+   width: 16vh!important;
+   height: 15.854vh!important;
+   margin: 0px auto;
+}
+.page-id-1200 #logo a, .page-id-1235 #logo a{
+  /* margin: 50px auto 0!important; //  **change for logo */
+   margin: 0 auto!important;  //  new  **change for logo
+
+}
+.my-home-nav ul#primary{
+  width: 100%!important;
+}
+.my-home-nav ul#primary li h2 a {
+    font-size: 3.4vw;
+}
+.page-id-1200 .my-text-creative, .page-id-1235 .my-text-creative {
+    font-size: 3vw;
+}
+.page-id-1200 .my-home-nav, .page-id-1200 .my-text-creative,
+.page-id-1235 .my-home-nav, .page-id-1235 .my-text-creative,
+.page-id-1235 h1#logo{
+   width: 100%!important;
+   right: 0!important;
+ }
+
+}
+
+//iphone6
+@media only screen
+and (min-device-width : 375px)
+and (max-device-width : 667px)
+and (orientation : portrait) {
+ .my-home-nav ul#primary{
+      width: 100%;
+}
+}
+/*iPhone 6 and iPhone 6+ portrait and landscape*/
+@media only screen and (max-device-width: 640px) and (orientation : landscape), only screen and (max-device-width: 667px) and (orientation : landscape), only screen and (max-width: 480px) and (orientation : landscape){
+  .page-id-1200 #logo a,.page-id-1235 #logo a {
+    margin: 5vh 5vw;
+    width: 88%;
+    height: 88%;
+}
+.page-id-1200 .my-home-nav, .page-id-1200 .my-text-creative,
+.page-id-1235 .my-home-nav, .page-id-1235 .my-text-creative{
+    width: 67vw!important;
+ }
+.page-id-1200 .my-home-nav, .page-id-1200 .my-text-creative,
+.page-id-1235 .my-home-nav, .page-id-1235 .my-text-creative{
+     right: 0!important;
+}
+.page-id-1200 .my-home-nav,
+.page-id-1235 .my-home-nav{
+  bottom: 60px;
+}
+.page-id-1200 .my-text-creative,
+.page-id-1235 .my-text-creative{
+      bottom: 10px;
+}
+.my-home-nav ul#primary {
+    width: 100%!important;
+}
+
+}
+
+
+@media only screen and (max-width: 1280px){
+
+.my-gorow-magazine .my-padding-20{
+  padding-top:2%;
+}
+.my-hide-1280{
+   display: none!important;
+}
+}
+@media only screen and (max-width: 1273px){
+
+.my-remove-device > div {
+    display:none;
+}}
+@media only screen and (max-width: 1145px){
+.page-id-1200 #logo a,
+.page-id-1235 #logo a {
+    background: url("http://www.prototype-it.us/wp-content/uploads/2017/01/home-logo-m.svg"); /*http://www.prototype-it.us/wp-content/uploads/2015/12/home-logo-m.svg*/
+    margin: 3vh 5vw;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.page-id-1200 h1#logo,
+.page-id-1235 h1#logo a{
+   width: 110px;
+   height: 109px;
+}
+
+}
+@media only screen and (max-width: 1145px) and (orientation : landscape){
+  .my-home-nav ul#primary{
+        width: 56.2vw;
+}
+.page-id-1200 .my-home-nav,
+.page-id-1235 .my-home-nav{
+        right: 5vw;
+}
+.page-id-1200 .my-text-creative,
+.page-id-1235 .my-text-creative {
+    width: 56.2vw;
+    right: 5vw;
+}
+
+}
+@media only screen and (max-width: 1120px){
+.my-logo-name-category h2 {
+    font-size: 17px!important;
+    line-height: 14px!important;
+   }
+.split-bg{
+     background: none!important;
+}
+.my-gorow-magazine .su-column {
+    width: 100% !important;
+    margin: 0 0 1.5em 0 !important;
+    float: none !important;
+}
+.my-gorow-magazine{
+  text-align: center;
+}
+.my-pro-logo-3 img{
+   max-height: 115px!important;
+}
+.my-pro-logo-2 img{
+   max-height: 149px!important;
+}
+.my-wrapper-medium{
+    max-width: 100%;
+    text-align: justify;
+}
+.my-home-nav h2{
+  font-size:18px!important;
+}
+.postid-523 .split-wrapped-content, .postid-523 .split-mini-content {
+    padding: 100px 0 10px!important;
+    text-align:center;
+}
+.postid-523 .split-full-content {
+    padding: 50px 0 10px!important;
+    text-align:center;
+
+}
+.postid-523 .split-full-content .imgPhone {
+   padding-bottom: 40px;
+}
+}
+
+@media only screen and (max-width: 860px){
+.my-home .column {
+    margin: 20px 0 0 0 !important;
+}
+.my-home #my-mlogo img{
+   height: 207px;
+}
+.my-home .my-logo-category img {
+    height: 140px;
+}
+.my-home .my-logo-category{
+  display: inline;
+}
+.my-logo-name-category h2 {
+   font-size: 20.79px!important;
+   padding-top: 60.5px;
+   padding-left: 40px;
+   line-height: 20px!important;
+   letter-spacing: 0.2em!important;
+  }
+.my-logo-name-category{
+   display: inline-block;
+}
+.my-hide-device{
+   display: none!important;
+}
+.my-full-height {
+   min-height: 900px;
+
+}
+.page-id-1200 .my-full-height,
+.page-id-1235 .my-full-height {
+   //min-height: 400px;
+   min-height: 100%;
+}
+.page-id-1200 h1#logo,
+.page-id-1235 h1#logo a{
+   width: 110px;
+   height: 109px;
+   //margin: 0px auto!important;  **change for logo
+}
+.page-id-1200 #logo a,
+.page-id-1235 #logo a{
+  // margin: 50px auto 0!important;  **change for logo
+   margin: 0px auto!important;  //  new  **change for logo
+}
+.page-id-1200 #logo a,
+.page-id-1235 #logo a{
+ // background: url("http://www.prototype-it.us/wp-content/uploads/2015/12/home-logo-m.svg"); **change for logo
+}
+.my-home-nav ul#primary li:first-child {
+   // margin-top: 0;**change for logo
+}
+.my-home-nav ul#primary{
+  //  position: relative;  **change for logo
+  //  width:100%;          **change for logo
+}
+.my-home-nav ul#primary li{
+  //  margin: 22px auto 0 auto;  **change for logo
+ //   display: table;    **change for logo
+ //   width: 200px;      **change for logo
+}
+.my-home-nav ul#primary li h2 a {
+  //  font-size: 22px;  **change for logo
+  //  line-height: 20px;  **change for logo
+}
+.my-home-nav ul#primary li {
+ //   margin: 40px auto 0 auto;  **change for logo
+}
+.bordered .sticky-header #logo img {
+    height: 16px!important;
+}
+.my-home-nav {
+   // right:0px;   **change for logo
+  //  bottom:0px;   **change for logo
+   // position: relative;  **change for logo
+}
+.page-id-1200 .my-text-creative{
+  // width: 100%;
+   //right: 0;
+}
+footer {
+   padding: 0px 0px 40px!important;
+   }
+
+h2 {
+    font-size: 35px !important;
+    line-height: 43px !important;
+}
+nav#main-nav .nav-logo img {
+    height: 120px!important;
+    max-height: 120px!important;
+}
+nav#main-nav .nav-inner ul#primary li a {
+    font-size: 24px !important;
+    line-height: 30px !important;
+}
+.my-logo-contact{
+  padding-top: 56px;
+}
+.my-left, .my-right{
+  text-align:center!important;
+}
+.my-border-left {
+  border-left: none;
+  padding: 0;
+  text-align: justify;
+  font-size: 14px;
+  padding-top: 20px;
+}
+.my-surpin-be-column .su-column-size-1-4{
+   width: 100%!important;
+}
+.my-mobile-img {
+   display: block!important;
+}
+.main-title.portfolio {
+    padding-top: 102px!important;
+}
+.my-surpin-be-column .su-column {
+    max-height: 424px;
+ }
+}
+@media only screen and (max-width: 768px){
+.my-pro-logo-3.su-row .su-column, .my-go-logo-1.su-row .su-column {
+    width: 50% !important;
+    margin: 0 0 1.5em 0 !important;
+    float: left !important;
+}
+.my-hide-device-768{
+   display: none!important;
+}
+.my-pro-logo {
+   padding-top: 55px!important;
+}
+.my-pro-logo-2 {
+   padding-top: 40px!important;
+}
+.my-pro-logo-3 {
+   padding-top: 30px!important;
+}
+.my-pro-logo-3 .su-column.first {
+   text-align: center!important;
+}
+.main-title.portfolio{
+  //padding-top: 40px!important;
+}
+img.my-pro-stationary{
+  content:url("http://www.prototype-it.us/wp-content/uploads/2015/09/pro-stationary-mobile.png")!important;
+  padding-bottom: 85px;
+  padding-top: 66px;
+}
+.my-pro-web-app{
+  content:url("http://www.prototype-it.us/wp-content/uploads/2015/08/pro-web-app-m-2.png")!important;
+  padding-top: 45px;
+}
+.my-go-web-app{
+  content:url("http://www.prototype-it.us/wp-content/uploads/2016/05/gometrix-web-app-1B.png")!important;
+  padding-top: 45px;
+}
+.su-column.divice-1-2{
+    width: 48%!important;
+    float: left!important;
+}
+.su-column.divice-1-2.left{
+    margin-right: 4%!important;
+}
+.su-column.divice-1-2 img{
+  height: 106px;
+}
+.my-comodin .my-text-description{
+  padding: 50px 0px 60px;
+}
+.my-comodin .my-dsection .my-table{
+  height: 100%!important;
+}
+.my-comodin .my-img-dsection {
+  padding: 100px 0px 30px!important;
+}
+.my-mobile-img-768{
+  display: block!important;
+}
+.my-comodin-logo3{
+  max-width: 394px!important;
+}
+.my-comodin-slogo5{
+   max-width: 365px;
+   margin: 0 auto;
+}
+.my-comodin-slogo5 .border-bottom{
+   height: 0px;
+}
+.my-comodin-slogo5 img{
+   padding-bottom: 20px;
+}
+.my-comodin-tarjeta img, .my-comodin-avm img{
+    max-width:330px!important;
+    }
+.my-comodin-tarjeta img{
+  padding-bottom: 85px;
+}
+.my-home-nav, .page-id-1200 .my-text-creative{
+ // width:100%!important; *Change for logo
+ // right:0px!Important;  *Change for logo
+}
+.my-home .my-slogo {
+    margin: 50px auto 50px;
+    max-width: 250px;
+}
+.my-home-nav .su-column {
+    margin: 0 0 0.3em 0 !important;
+}
+.my-home-nav h2 {
+    font-size: 22px!important;
+}
+}
+
+@media only screen and (max-width: 640px){
+
+.single-pagination{
+  display: none;
+}
+.my-description-right{
+   padding-right: 0!important;
+}
+.my-home.my-full-height {
+   margin: 40px 0 0;
+}
+form .form-submit {
+  text-align: center;
+}
+
+h2 {
+    letter-spacing: 0.15em!important;
+}
+input[type=text], input[type=password], input[type=email], textarea, select {
+   font-size: 18px!important;
+}
+label{
+   font-size: 14px!important;
+}
+
+footer .copyright {
+    margin-top: 0px;
+    margin-bottom: 40px;
+}
+.my-contact-info {
+    font-size: 16px;
+    line-height: 35px;
+}
+.my-logo-contact img{
+    height: 206px!important;
+}
+
+.bordered #bodyborder-top {
+    background: #ffffff!important;
+}
+body.home.bordered #bodyborder-top {
+    background: #F05059!important;
+}
+.bordered .sticky-header, .bordered.big-border .sticky-header {
+    background: none!important;
+}
+body.home{
+   //background-color: #f05059;
+}
+.home footer{
+  display:none !important;
+}
+.page-template-template-portfolio #page-title .section-inner {
+    padding: 90px 0 50px;
+}
+.bordered nav#main-nav, .bordered.big-border nav#main-nav {
+    top: 0px!important;
+    right: 0px!important;
+    width: 100%!important;
+    height:100%!important;
+}
+
+nav#main-nav .nav-bg {  /********/
+    opacity: 1!important;
+    filter: alpha(opacity=70)!important; /* internet explorer */
+   -khtml-opacity: 0.7!important;      /* khtml, previous version of Safari*/
+   -moz-opacity: 0.7!important;       /* firefox, mozilla, netscape */
+   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"!important;
+}
+.home #logo .logotype img{
+  content:url("http://www.prototype-it.us/wp-content/uploads/2015/08/picglobal-light.svg")!important;
+}
+.home .sticky-header .open-nav span.hamburger, .home .open-nav.nav-dark span.hamburger {
+    background-color: #ffffff;
+}
+
+.home .sticky-header .open-nav span.hamburger:before,.home .sticky-header .open-nav span.hamburger:after,.home .open-nav.nav-dark span:before,.home .open-nav.nav-dark span:after {
+    background-color: #ffffff;
+}
+.my-flower-header{
+  display:none;
+}
+.postid-1087 #page-title{
+  background-position-x: left!important;
+}
+
+}
+@media only screen and (max-width: 450px){
+
+.my-home .my-logo-category{
+  display: block;
+}
+.my-logo-name-category h2 {
+   font-size: 20px!important;
+   padding-top: 15px;
+   padding-left: 0px;
+  }
+.my-logo-name-category{
+   display: block;
+}}
+
+@media only screen and (max-width: 400px){
+ .my-pro-logo-3 img{
+   max-height: 100px!important;
+}
+
+.my-pro-logo img {
+    width: 100%!important;
+}
+.my-pro-logo-2 img {
+    width: 100%!important;
+}
+
+}
+/*iphone 5  */
+@media only screen and (max-device-width : 568px)
+and (orientation : landscape) {
+  .page-id-1200 #logo a,
+  .page-id-1235 #logo a {
+    margin: 1vh 3vw;
+    width: 80%;
+    height: 80%;
+}
+.page-id-1200 .my-home-nav ul#primary li h2 a,
+.page-id-1235 .my-home-nav ul#primary li h2 a{
+    font-size: 14px;
+}
+.page-id-1200 .my-home-nav,
+.page-id-1235 .my-home-nav {
+    bottom: 50px;
+}
+.page-id-1200 .my-home-nav ul#primary,  .page-id-1200 .my-text-creative,
+.page-id-1235 .my-home-nav ul#primary,  .page-id-1235 .my-text-creative {
+    width: 65vw;
+}
+.page-id-1200 .my-text-creative,
+.page-id-1235 .my-text-creative {
+   font-size: 12px;
+}
+}
+/*iphone 4*/
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px)
+and (orientation : landscape) {
+.page-id-1200 #logo a,
+.page-id-1235 #logo a {
+    margin: 2vh 3vw;
+    width: 70%;
+    height: 70%;
+}
+
+.page-id-1200 .my-home-nav, .page-id-1200 .my-text-creative,
+.page-id-1235 .my-home-nav, .page-id-1235 .my-text-creative {
+    width: 78vw!important;
+}
+.page-id-1200 .my-text-creative,
+.page-id-1235 .my-text-creative {
+    bottom: 10px;
+}
+.page-id-1200 .my-home-nav,
+.page-id-1235 .my-home-nav {
+    bottom: 45px;
+}
+}
+
+
+/************End @media only screen********************/
+
+.my-text-justify{
+  text-align: justify;
+}
+/*.split-wrapped-content, .split-full-content, .split-mini-content {
+   padding: 120px 0 20px;
+}*/
+.imgoverlay .overlaycaption .overlay-name{  /*overlay caption center for portfolio*/
+   transform: none!important;
+   -ms-transform: none!important;
+   -webkit-transform:none!important;
+   -moz-transform: none!important;
+   -o-transform: none!important;
+   top: 55%;
+
+}
+.imgoverlay .overlaycaption .overlay-name strong{
+    font-family: Avenir-Book!important;
+    font-weight: 100!important;
+    font-size: 23.18px;
+}
+/*********PAGE FOR PORTFOLIO***********/
+.my-relative{
+  position: relative;
+}
+.my-divider-port{
+  border-color: #919191!important;
+  padding-bottom: 20px;
+}
+.my-port-nav{
+   padding: 0 20px!important;
+
+}
+.my-port-nav ul {
+    height: auto;
+    padding: 0px;
+    margin: 0px;
+}
+.my-port-nav ul li{
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+
+}
+
+.my-port-nav ul li.my-next{
+ float: right;
+}
+.my-port-nav ul li.my-prev{
+  float: left;
+}
+ .my-port-nav .my-prev .pagination-icon:before {
+    content: "\e686" !important;
+
+}
+ .my-port-nav .my-next .pagination-icon:before {
+    content: "\e684" !important;
+
+}
+
+.my-port-nav .my-prev .pagination-icon {
+    display: inline-block !important;
+    margin: 0 10px 0 0 !important;
+}
+.my-port-nav .my-next .pagination-icon {
+    display: inline-block !important;
+    margin: 0 0 0 10px !important;
+}
+
+.my-port-nav .pagination-icon {
+    display: none;
+    font-family: 'Pe-icon-7-stroke';
+    font-size: 20px;
+    line-height: 38px;
+    height: 40px;
+    position: relative;
+    margin: 0 10px;
+    width: 8px;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    vertical-align: middle;
+    color: #333333;
+}
+.my-port-nav ul li a{
+    padding: 0px;
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    display: block;
+    transition: all 300ms ease;
+    -webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    text-decoration: none;
+    color: #333333;
+    font-family: Avenir-Roman;
+
+}
+
+
+/*********END PAGE FOR PORTFOLIO***********/
+/*********MENU LOGO***********/
+
+nav#main-nav .nav-logo img {
+    height: 250px!important;
+    line-height: 10px;
+}
+nav#main-nav .nav-logo img {
+    max-height: 28.63vh;
+}
+.overlaycaption .separator-small{
+  display: none!important;
+}
+
+/**** COMODIN *********/
+.my-text-description{
+    color: #a0a0a0;
+    text-align: justify;
+    font-size: 16px;
+    letter-spacing: normal;
+    line-height: 20px;
+    margin-top: 0px;
+}
+.my-comodin .my-dsection .my-table{
+    height: 500px;
+}
+.my-comodin .my-img-dsection {
+    padding-top: 30px;
+}
+.my-comodin-brand.su-row .su-column {
+    margin: 0 0 0 2%;
+}
+.my-wrapper-790{
+  max-width: 790px;
+  margin:0 auto;
+}
+.border-bottom{
+    border-bottom: 1px solid #D5D9DD;
+}
+.my-unwrap-parent{
+    margin: 0 auto;
+    width: 100%;
+}
+.my-flower-header{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 453px;
+    height: 425px;
+    overflow: hidden;
+}
+.my-flower-header img{
+   margin: 0px -220px 0px 0px;
+   min-width: 673px;
+   height: 675px;
+   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+   /* This works in IE 8 & 9 too */
+   /* ... but also 5, 6, 7 */
+   filter: alpha(opacity=50);
+   /* Older than Firefox 0.9 */
+   -moz-opacity:0.5;
+   /* Safari 1.x (pre WebKit!) */
+   -khtml-opacity: 0.5;
+   /* Modern!
+   /* Firefox 0.9+, Safari 2?, Chrome any?
+   /* Opera 9+, IE 9+ */
+   opacity: 0.5;
+}
+.my-comodin-tarjeta img{
+    max-width:427.72px!important;
+    width: 100%;
+    }
+.my-comodin-avm img{
+  max-width:437.78px!important;
+  width: 100%;
+}
+/**** PRO-SECUR *********/
+.my-pro-logo img{
+  max-width: 366px;
+}
+.my-pro-logo-2 img{
+  max-width: 657px;
+}
+.my-pro-logo-3 img{
+   max-height: 170px;
+}
+.my-pro-logo-3 .su-column-size-1-3 {
+    width: 33.3%;
+}
+.my-pro-logo-3 .su-column-size-1-3 {
+    width: 33.3%;
+}
+.my-pro-logo-3.su-row .su-column {
+    margin: 0 0 0 0;
+}
+.my-pro-logo-3.su-row .su-column.first{
+  text-align: left;
+}
+.my-pro-logo-3.su-row .su-column.last{
+  text-align: right;
+}
+.my-comodin.bg-product{
+  background-image: url("http://www.prototype-it.us/wp-content/uploads/2016/05/Background-Kiosk-Light.jpg");
+}
+
+/******SURPIN ***********/
+
+.my-surpin-be-column .su-column-size-3-4{
+   width: 59.35%;
+}
+.my-surpin-be-column .su-column-size-1-4{
+   width: 36.35%;
+}
+.my-surpin-be-column .su-column{
+   height:555px;
+}
+
+.my-surpin-be-column .su-column-size-3-4 .my-table {
+   height:555px;
+}
+.my-surpin-be-column .su-column-size-1-4 img{
+   max-height:555px;
+}
+.my-mobile-img, .my-mobile-img-768{
+   display:none;
+}
+.my-mobile-img.su-spacer, .my-mobile-img-768.su-spacer{
+   display:none;
+}
+img.my-mobile-img, img.my-mobile-img-768{
+   margin:0 auto;
+}
+.my-surpin-bd-column .my-table{
+   height:335px;
+
+}
+/****** Prosecur ********/
+.postid-525 .horizontalsection .parallax-image{
+   top: -10px!important;
+}
+/******* Collections ********/
+ul:not(.browser-default) {
+    padding-left: 0;
+    list-style-type: none;
+}
+.collection {
+    margin: 0.5rem 0 1rem 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.collection .collection-item.avatar {
+    min-height: 84px;
+    //padding-left: 72px;
+    min-width:100%;
+    position: relative;
+    display: table;
+}
+.collection .collection-item {
+    line-height: 1.5rem;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    margin: 0;
+    color: #a9a9a9;
+    border-bottom: 1px solid #e0e0e0;
+}
+.collection .collection-item.avatar .circle {
+   // position: absolute;
+    width: 98px;
+    max-height: 48px;
+    overflow: hidden;
+    padding-top: 20px;
+    //left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.collection .collection-item.avatar .title,
+.collection .collection-item.img-product .title {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.collection .collection-item.avatar p {
+    margin: 0;
+    line-height: 1.1rem;
+    font-size: 14px;
+}
+.collection .collection-item.avatar .left,
+.collection .collection-item.avatar .right{
+    display: inline-table;
+    vertical-align: middle;
+
+}
+.collection .collection-item.avatar .right{
+    text-align: left;
+    padding-left:15px;
+    max-width: 65%;
+}
+.collection .collection-item.avatar .left{
+   max-width: 30%;
+   height:82px;
+}
+
+.collection .collection-item.img-product .square{
+    overflow: hidden;
+    padding-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.collection .collection-item.img-product .title{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.2rem;
+    text-align:left;
+}
+.collection .collection-item.img-product{
+  border: none!important;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+footer.stickonload #backtotop {
+    opacity: 1!important;
+}

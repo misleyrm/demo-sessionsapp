@@ -1,0 +1,20 @@
+ <% if params[:type].present? %>
+ console.log("<%= current_list.id %>")
+    var $list = $('[data-list-id = "<%= current_list.id %>"]');
+    var $listUsers = $('#list-users',$list);
+    var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
+    var $user = $('[data-user-id = "<%= @user.id %>"]',$list);
+
+    // console.log($user);
+    if ($collaboration_user.hasClass('active')) {
+        $collaboration_user.removeClass('active');
+        $user.remove();
+        // console.log('remove active');
+      } else {
+        // console.log($('#application-date .datepicker').val());
+        $collaboration_user.addClass('active');
+        $listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>");
+        $('input[id="task_user_id"]',$user).val("<%= @user.id %>");
+        $('.edit_task').submitOnCheck();
+     }
+ <% end %>

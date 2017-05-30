@@ -1,0 +1,39 @@
+// Place all the styles related to the Sessions controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+// #sessions-new .card-title,
+// #sessions-list .card-title,
+// #sessions .card-title{
+//   border-bottom: 1px solid rgba(160,160,160,0.2);
+// }
+// #sessions-new .card-title,
+// #sessions-list .card-title{
+//   height: 114px;
+//
+// }
+// #sessions .card-title{
+//   height: 124px;
+// }
+// #sessions-new .card-title h1,
+// #sessions-list .card-title h1,
+// #sessions .card-title h1{
+//   margin-top: 10px;
+//   margin-bottom: 0px;
+// }
+#sessions-list .card-title h6,
+#sessions .card-title h6,
+#sessions h6{
+  text-transform: uppercase;
+}
+#sessions .card-title h6 span{
+  font-size: 2rem;
+}
+
+// #sessions-new .card,
+// #sessions-list .card,
+// #sessions .card{
+//   padding: 1rem 1rem 1rem;
+// }
+#sessions-list .card-content{
+  min-height: 350px;
+}

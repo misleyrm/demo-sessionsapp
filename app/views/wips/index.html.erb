@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Wips</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Session</th>
+      <th>User</th>
+      <th>Work in progress</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @wips.each do |wip| %>
+      <tr>
+        <td><%= wip.session_id %></td>
+        <td><%= wip.user_id %></td>
+        <td><%= wip.wip_item %></td>
+        <td><%= wip.id %></td>
+        <td><%= link_to 'Show', wips_path %></td>
+        <td><%= link_to 'Edit', edit_wip_path(wip) %></td>
+        <td><%= link_to 'Destroy', wip, method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Wip', new_wip_path %>

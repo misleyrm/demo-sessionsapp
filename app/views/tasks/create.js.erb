@@ -1,0 +1,16 @@
+
+ $('.edit_task').submitOnCheck();
+ <% if params[:type].present? %>
+  // $('#show_blockers_<%= @task.id%>').append('<%#= j render partial: "t_blocker", object: @t_blocker %>');
+   $('#edit_task_<%= @t_blocker.id %>').submitOnCheck();
+   $('.show_blockers #detail').val('');
+
+<% else %>
+   <% @date= Date.today %>
+  //  $('#list_user_<%#=@user.id%> #incomplete_tasks').append('<%#= j render partial: "task", layout: "incompleted", locals: {task: @task}  %>');
+  // var $num_incompleted_tasks= $('#<%#= @list.id%> .secondary-content span#num');
+  // $num_incompleted_tasks.html('<%#= current_user.num_incompleted_tasks(@list)%>');
+
+   $('#edit_task_<%= @task.id %>').submitOnCheck();
+  $('.new_task #detail').val('');
+ <% end %>

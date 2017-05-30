@@ -1,0 +1,10 @@
+ // <% if (params[:type].present? && params[:type]=="blocker") %>
+ //    $('#blocker_<%= @task.id %>').remove();
+ //  <% else %>
+ //    $('div[data-task-id= <%= @task.id %>]').remove();
+ //  <% end %>
+  // $('#task_<%= @task.id %>').remove();
+  <% if (@task.user_id == current_user.id) %>
+        // var $num_incompleted_tasks= $('#<%= @task.list_id%> .secondary-content span#num');
+        // $num_incompleted_tasks.html('<%#= current_user.num_incompleted_tasks(List.find(@task.list_id))%>');
+  <% end %>

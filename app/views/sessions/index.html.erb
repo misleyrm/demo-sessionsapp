@@ -1,0 +1,82 @@
+<p id="notice"><%= notice %></p>
+<div class="section" id="sessions-list">
+  <div class="row">
+    <div class="col s12 m5">
+      <div class="card">
+        <div class="card-title">
+          <div class="row">
+            <div class="col s12 m9">
+              <!-- <h1>Team <%#= link_to @team.team_name, edit_team_path(@team) %></h1> -->
+              <h6>ALL Sessions</h6>
+            </div>
+            <div class="col s12 m3 right-align">
+              <%= image_tag "all-sessions.png", :height => "62" %>
+            </div>
+          </div>
+        </div>
+        <div class="card-content">
+          <select multiple id="searchByUser">
+            <option id="selectUser" value="" disabled selected>Narrow your search</option>
+            <% @users.each do |u| %>
+            <option value='<%= u.id %>'><%= u.first_name %></option>
+            <% end %>
+          </select>
+          <div class="input-field col s12 m6">
+            <label for="select">Select Date</label>
+            <input type="text" name="datepicker" id ="datepicker">
+          </div>
+          <div class="input-field col s12 m6">
+            <label for="select">Select Date</label>
+            <input type="text" name="datepicker" id ="datepicker2">
+          </div>
+
+          <div class="col s12 center-align">
+            <a class="waves-effect waves-light su-btn btn-flat" id="narrowSearch">Search</a>
+          </div>
+          <table class="">
+            <tbody>
+              <% @sessions.each do |session| %>
+              <tr data="<%= session.id %>">
+                <% if session.created_at.strftime("%A") == "Monday" %>
+                <td><%= image_tag "wip.png", :height => "15" %></td>
+                <td><%= link_to session.created_at.strftime("%A") + " Stand-up", session %></td>
+                <td><%= link_to session.created_at.strftime("%b %d"), session %></td>
+                <td class="delete">
+                  <a data-confirm="Delete this session?">
+                    <i class="small material-icons">delete</i>
+                  </a>
+                </td>
+                <% else %>
+                <td>
+                  <%= image_tag "wip.png", :height => "15" %>
+                </td>
+                <td><%= link_to session.created_at.strftime("%A")+ " Stand-up", session %></td>
+                <td><%= link_to session.created_at.strftime("%b %d"), session %></td>
+                <td class="delete">
+                  <a data-confirm="Delete this session?">
+                    <i class="small material-icons">delete</i>
+                  </a>
+                </td>
+                <% end %>
+                <% end %>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="card-action">
+          <div class="row center-align">
+            <div class="col s12 m12">
+              <%= link_to 'All Users', users_path %>
+              <%= link_to 'New User', new_user_path %>
+              <%= link_to 'New Session', new_session_path %>
+            </div>
+            <div class="col s12 m12 signed_user">
+              Signed in as <%= link_to current_user.first_name.capitalize, edit_user_path(current_user) %> | <%= link_to "Logout", '/logout' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

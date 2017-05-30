@@ -1,0 +1,27 @@
+<% if @user.errors.any? %>
+  <div class="row">
+    <div class="col s12">
+      <div id="error_explanation">
+        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+        <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+  <div class="ms-tabsSetting-content">
+
+    <!-- <%= hidden_field_tag :authenticity_token, form_authenticity_token %> -->
+    <%= flash[:message] %>
+    <div id="profile">
+      <%= render 'users/personal_info'%>
+    </div>
+    <div id="avatar" class="ms-tabsSetting-content">
+    </div>
+    <div id="security" class="ms-tabsSetting-content">
+    </div>
+  </div>

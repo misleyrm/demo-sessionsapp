@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Session:</strong>
+  <%= @blocker.session_id %>
+</p>
+<p>
+  <strong>User:</strong>
+  <%= @blocker.user_id %>
+</p>
+<p>
+  <strong>Blocker:</strong>
+  <%= @blocker.blocker %>
+</p>
+
+<%= link_to 'Edit', edit_blocker_path(@blocker) %> |
+<%= link_to 'Back to Session', session_path(@blocker.session_id) %>
