@@ -21,7 +21,6 @@ class Invitation < ApplicationRecord
   private
 
   def check_recipient_existence
-    byebug
     recipient = User.find_by_email(recipient_email)
     if recipient
       self.recipient_id = recipient.id

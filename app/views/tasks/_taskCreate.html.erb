@@ -35,7 +35,7 @@
 		<% end%>
 	</div>
 	<div class="col" id="menu">
-		<% if (current_date.today?) %>
+		<% if (current_date == Date.today) %>
 				<ul class="menu-option">
 					<li>
 						<% if !task.completed? %>

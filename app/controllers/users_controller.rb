@@ -80,8 +80,8 @@ class UsersController < ApplicationController
     @token = params[:invitation_token]
     if @user.save
       if !@token.nil?
-          list = Invitation.find_by_token(@token).list_id #find the list_id attached to the invitation
-          @user.collaboration_lists << List.find(list) #add this user to the list as a collaborator
+          list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
+          @user.collaboration_lists << list #add this user to the list as a collaborator
       end
       UserMailer.account_activation(@user).deliver_now
       flash[:info] = "Please check your email to activate your account."

@@ -20,10 +20,9 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new(invitation_params)
     @invitation.sender_id = current_user.id
-    byebug
+    # byebug
     # respond_to do |format|
         if @invitation.save
-            byebug
           if @invitation.recipient != nil
               @url = login_url()
               #send a notification email

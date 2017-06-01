@@ -5,11 +5,11 @@
     <div class="nano-content">
         <ul id="slide-out" class="side-nav fixed">
             <li class="bar-user-info">
-              <a href="">
-                <%= image_tag(current_user.avatar(:medium), class: 'circle responsive-img center valign profile-image',alt: current_user.first_name, title:current_user.first_name) %>
-                <h3 class="bar-user-info-name"><%= current_user.first_name %></h3>
-                <div class="bar-user-email"><%=current_user.email%></div>
-              </a>
+               <%= link_to user_path(current_user) do %>
+                  <%= image_tag(current_user.avatar(:medium), class: 'circle responsive-img center valign profile-image',alt: current_user.first_name, title:current_user.first_name) %>
+                  <h3 class="bar-user-info-name"><%= current_user.first_name %></h3>
+                  <div class="bar-user-email"><%=current_user.email%></div>
+               <% end %>
             </li>
                 <li class="bold avatar <%= current_list?(current_all_tasks.id)? 'active' : '' %>" data-name="<%=current_all_tasks.name %>" data-list-id="<%=current_all_tasks.id %>">
                   <a href="#" class="waves-effect waves-cyan" id="<%=current_all_tasks.id %>" data-remote="true" data-href= "<%=list_path(current_all_tasks) %>">

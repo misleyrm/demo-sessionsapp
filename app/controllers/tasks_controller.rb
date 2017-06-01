@@ -66,6 +66,7 @@ class TasksController < ApplicationController
   end
 
   def update
+    authorize @task
     @task.update_attributes!(task_params)
     respond_to do |format|
       format.html { }

@@ -1,63 +1,63 @@
 <%= form_for @user ,validate: true do |f| %>
     <div class="row">
-      <div class="col s12">
-            <% if @user.errors.any? %>
-                  <div id="error_explanation">
-                    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-                    <ul>
-                    <% @user.errors.full_messages.each do |message| %>
-                      <li><%= message %></li>
-                    <% end %>
-                    </ul>
-                  </div>
-            <% end %>
-            <% flash.each do |name, msg| %>
-                <%= content_tag :div, msg, :id => "flash#{name}" %>
-            <% end %>
-      </div>
+        <div class="col s12">
+              <% if @user.errors.any? %>
+                    <div id="error_explanation">
+                      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+                      <ul>
+                      <% @user.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                      </ul>
+                    </div>
+              <% end %>
+              <% flash.each do |name, msg| %>
+                  <%= content_tag :div, msg, :id => "flash#{name}" %>
+              <% end %>
+        </div>
     </div>
     <div class="row">
         <div class="col s12">
               <div class="valign-wrapper ms-upload-avatar">
-                <%= f.file_field :avatar %>
-                <label for="user_avatar">
+                  <%= f.file_field :avatar %>
+                  <label for="user_avatar">
                   <div class="mousehover <%= (current_user.nil?)? 'hover': '' %> ">
                     <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar</label>
                   </div>
               </div>
               <div class="input-field">
-                <% if @token != nil %>
-                  <%= hidden_field_tag :invitation_token, @token %>
-                <% end %>
+                  <% if @token != nil %>
+                    <%= hidden_field_tag :invitation_token, @token %>
+                  <% end %>
               </div>
               <div class="input-field capitalize">
-                <i class="material-icons prefix">person_outline</i>
-                <%= f.text_field :first_name, class: 'validate'%>
-                <%= f.label :first_name, id: 'icon_prefix' %>
+                  <i class="material-icons prefix">person_outline</i>
+                  <%= f.text_field :first_name, class: 'validate'%>
+                  <%= f.label :first_name, id: 'icon_prefix' %>
               </div>
               <div class="input-field capitalize">
-                <i class="material-icons prefix">person_outline</i>
-                <%= f.text_field :last_name %>
-                <%= f.label :last_name, id: 'icon_prefix' %>
+                  <i class="material-icons prefix">person_outline</i>
+                  <%= f.text_field :last_name %>
+                  <%= f.label :last_name, id: 'icon_prefix' %>
               </div>
               <div class="input-field">
-                <i class="material-icons prefix">email</i>
-                <%= f.text_field :email %>
-                <%= f.label :email, id: 'icon_prefix' %>
+                  <i class="material-icons prefix">email</i>
+                  <%= f.text_field :email %>
+                  <%= f.label :email, id: 'icon_prefix' %>
               </div>
               <div class="input-field">
-                <i class="material-icons prefix">lock_outline</i>
-                <%= f.password_field :password %>
-                <%= f.label :password, id: 'icon_prefix' %>
+                  <i class="material-icons prefix">lock_outline</i>
+                  <%= f.password_field :password %>
+                  <%= f.label :password, id: 'icon_prefix' %>
               </div>
               <div class="input-field">
-                <i class="material-icons prefix">lock_outline</i>
-                <%= f.password_field :password_confirmation %>
-                <%= f.label :password_confirmation, id: 'icon_prefix' %>
+                  <i class="material-icons prefix">lock_outline</i>
+                  <%= f.password_field :password_confirmation %>
+                  <%= f.label :password_confirmation, id: 'icon_prefix' %>
               </div>
 
               <div class="input-field center-align">
-               <a class="waves-effect waves-light btn-large col s12 submit"><%= f.submit "Sign Up" %></a>
+                 <a class="waves-effect waves-light btn-large col s12 submit"><%= f.submit "Sign Up" %></a>
              </div>
         </div>
   </div>

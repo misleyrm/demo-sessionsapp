@@ -51,8 +51,8 @@ class User < ApplicationRecord
   # has_many :collaboration_tasks, through: :collaboration_lists, :source => :tasks
   # has_many :my_tasks, through: :created_lists, :source => :tasks
 
-  has_many :invitations, :class_name => "invitation", :foreign_key => 'recipient_id'
-  has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id'
+  has_many :invitations, :class_name => "Invitation", :foreign_key => 'recipient_id', :dependent => :destroy
+  has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id',  :dependent => :destroy
 
   attr_writer :current_step
 
