@@ -7,10 +7,15 @@ class ApplicationController < ActionController::Base
   # before_filter :get_current_datebre
   before_action :set_current_user
   before_action :set_current_list
+  before_action :current_date
 
   def set_current_user
     User.current = current_user
   end
+
+  # def set_current_date
+  #   @date = current_date
+  # end
 
   def set_current_list
     List.current = current_list

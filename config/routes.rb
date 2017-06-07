@@ -91,7 +91,8 @@ Rails.application.routes.draw do
       member do
         patch :add_deadline
         patch :complete
-        patch :changelist
+        patch :changelist  
+        patch :importanttask
       end
     end
 

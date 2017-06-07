@@ -1,11 +1,23 @@
 $(document).on('turbolinks:load',function(){
-$( ".show_blockers ul" ).mouseenter(function(){
-   console.log("in");
-    $( this ).css("background-color","red");
-  })
-  .mouseleave( function() {
-    $( this ).css("background-color","white");
-  })
+
+
+    $( "input#datepicker" ).datepicker({
+      altField: "#alternate",
+      altFormat: "D, d MM",
+    });
+
+    $("i#btn-datepicker").on('click', function(){
+        console.log($(this).siblings(".hidden-datepicker"));
+       $(this).siblings(".hidden-datepicker").focus();
+    })
+
+    $( ".show_blockers ul" ).mouseenter(function(){
+       console.log("in");
+        $( this ).css("background-color","red");
+      })
+      .mouseleave( function() {
+        $( this ).css("background-color","white");
+      })
 
 
 // $("div.no-permitted > ul.menu-option li > a").attr("disabled", "disabled");

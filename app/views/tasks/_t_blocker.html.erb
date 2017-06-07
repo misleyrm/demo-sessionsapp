@@ -1,5 +1,5 @@
 <div id='blocker_<%= t_blocker.id %>' data-blocker-id="<%= t_blocker.id %>" class="blocker">
-	 <%= link_to edit_task_t_blocker_path(id: t_blocker.id, task_id: t_blocker.parent_task_id),class: "blocker_detail", remote: true, data: {behavior: 'modal'} do %>
+	 <%= link_to edit_task_t_blocker_path(id: t_blocker.id, task_id: t_blocker.parent_task_id),class: "blocker_detail", remote: true do %>
 		 <%= label_tag "blocker_#{t_blocker.id}", t_blocker.detail %>
 	 <% end %>
 		<ul class="action-menu">

@@ -1,4 +1,5 @@
 $(document).on('turbolinks:load',function(){
+
   $(".button-collapse").sideNav();
   $('.edit_task').submitOnCheck();
   $('.modal-trigger').modal();
@@ -30,24 +31,7 @@ $(document).on('turbolinks:load',function(){
     }
   });
 
-  $('#application-date .datepicker').pickadate({
-      selectMonths: true, // Creates a dropdown to control month
-      selectYears: 15, // Creates a dropdown of 15 years to control year
-      closeOnSelect: true,
-      hiddenName: true,
-      onClose: function (){
-        $('#form_date').val(this.get());
-        this.$root.parent('form').submit();
-       },
-       onStart: function (){
-          var date = new Date()
-          this.set('select', [date.getFullYear(), date.getMonth(), date.getDate()]);
-          $('#form_date').val(this.get());
-          console.log("date");
-          // this.$root.parent('form').submit();
 
-      },
-    });
 
   // $('body').on('dateupdated','#mainDate', function(e){
   //   var date = $('#mainDate').val();

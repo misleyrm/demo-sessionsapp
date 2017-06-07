@@ -70,7 +70,6 @@ module LoginHelper
 
   #date
   def current_date
-
     if (params[:date].blank?) && (session[:current_date].nil?)
       session[:current_date] =  Date.today
     else

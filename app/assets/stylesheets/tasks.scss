@@ -25,7 +25,9 @@
   min-width: 26px;
   padding-right: 8px;
 }
-.permitted .tasks ul.menu-option >li a:hover .material-icons{
+.permitted .tasks ul.menu-option >li a:hover .material-icons,
+.show_blockers ul.action-menu li a:hover i.material-icons,
+.permitted .tasks ul.menu-option >li i#btn-datepicker:hover{
   color: #55C2B9!important;
 }
 

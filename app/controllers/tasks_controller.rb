@@ -44,6 +44,7 @@ class TasksController < ApplicationController
   end
 
   def create
+    #  authorize @task
     task_info = task_params
     if params[:type].present?
        @t_blocker = @task.t_blockers.build(task_params)
@@ -72,6 +73,19 @@ class TasksController < ApplicationController
       format.html { }
       format.js
     end
+  end
+
+
+  def importanttask
+    authorize @task
+    # @task.update_attribute(:flag, 'true')
+    @task.toggle! :flag
+
+    respond_to do |format|
+      format.html {  redirect_to current_list, notice: "Task was correctily updated" }
+      format.js
+    end
+
   end
 
    def destroy

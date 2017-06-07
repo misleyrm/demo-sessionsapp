@@ -2,7 +2,7 @@ class ListsController < ApplicationController
   include LoginHelper
   include ApplicationHelper
   before_action :require_logged_in
-  before_action :current_date,  if: -> { !params[:date].blank? }
+  # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users]
 
@@ -10,11 +10,13 @@ class ListsController < ApplicationController
     @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
     @lists = current_user.created_lists.all.order('created_at')
     @collaboration_lists = current_user.collaboration_lists.all
+    # byebug
+    # @date = current_date
     # @collaborators = @list.collaboration_users
-    # respond_to do |format|
-    #   format.html
-    #   format.json
-    # end
+    respond_to do |format|
+      format.html
+      format.json
+    end
 
   end
 

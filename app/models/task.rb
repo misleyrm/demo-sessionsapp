@@ -76,10 +76,7 @@ class Task < ApplicationRecord
     user = self.user_id
     list = self.list_id
    end
-
-  #  partial = (is_blocker?) ? 't_blocker' : 'task'
    num = ''
-
    if (self.previous_changes.key?(:list_id) &&
       self.previous_changes[:list_id].first != self.previous_changes[:list_id].last)
       status = 'changelist'
@@ -91,6 +88,9 @@ class Task < ApplicationRecord
        status = 'completed'
        num = self.user.num_incompleted_tasks(self.list)
        ActionCable.server.broadcast "list_channel", { html: render_task(self,partial),user: self.user_id, id: self.id, status: status,list_id: self.list_id, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }
+   elsif self.previous_changes.key?(:flag) &&
+          self.previous_changes[:flag].first != self.previous_changes[:flag].last
+       ActionCable.server.broadcast 'list_channel', status: 'important', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,important: self.flag
    else
       status = 'saved'
       ActionCable.server.broadcast "list_channel", { html: render_task(self,partial),user: user, id: self.id, status: status,list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }

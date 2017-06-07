@@ -1,12 +1,22 @@
 class TaskPolicy < ApplicationPolicy
-  attr_reader :current_date
+  # attr_reader :current_date
 
   def create?
       user.owner?(record.try(:list)) || record.try(:user) == user
   end
 
   def update?
-      user.owner?(record.try(:list)) || record.try(:user) == user
+     if record.is_blocker?
+       user.owner?(record.try(:parent_task).list) || record.try(:parent_task).user == user
+     else
+       user.owner?(record.try(:list)) || record.try(:user) == user
+     end
+  end
+
+  def importanttask?
+     if !record.is_blocker?
+       user.owner?(record.try(:list)) || record.try(:user) == user
+     end
   end
 
   def destroy?
