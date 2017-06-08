@@ -35,6 +35,9 @@ App.list = App.cable.subscriptions.create "ListChannel",
             $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-dark md-inactive').addClass('md-jellow')
           else
             $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-jellow').addClass('md-dark md-inactive')
+        when 'deadline'
+          alert($task)
+          $('input#alternate', $task).val(data.deadline)
         when 'changelist'
           $task.remove()
           if (data.num != '')
@@ -50,6 +53,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
           $('.edit_task').submitOnCheck()
 
       $('.dropdown-button').dropdown()
+      deadlineDatepicker()
     else
       if data.blocker
           $parent = $('[data-task-id = "' + data.parentId + '"]', $user)

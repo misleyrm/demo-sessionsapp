@@ -704,7 +704,7 @@ textarea.materialize-textarea:focus.valid {
 i#btn-datepicker{
   cursor: pointer;
 }
-.menu-information li.ms-important input#alternate{
+.menu-information li.ms-deadline input#alternate{
   width: 87%;
   margin: 0 0 0 20px;
   height: 18px;
@@ -714,8 +714,17 @@ i#btn-datepicker{
   color: #a4a6a9;
 }
 
-.menu-information li.ms-important i{
+.menu-information li.ms-deadline i{
   position: absolute;
   font-size: 14px;
   line-height: 18px;
+}
+
+
+li.ms-deadline:not(.active){
+  opacity: 0;
+}
+
+li.ms-deadline.active{
+  opacity: 1;
 }

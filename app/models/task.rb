@@ -91,6 +91,9 @@ class Task < ApplicationRecord
    elsif self.previous_changes.key?(:flag) &&
           self.previous_changes[:flag].first != self.previous_changes[:flag].last
        ActionCable.server.broadcast 'list_channel', status: 'important', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,important: self.flag
+   elsif self.previous_changes.key?(:deadline) &&
+            self.previous_changes[:deadline].first != self.previous_changes[:deadline].last
+        ActionCable.server.broadcast 'list_channel', status: 'deadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline
    else
       status = 'saved'
       ActionCable.server.broadcast "list_channel", { html: render_task(self,partial),user: user, id: self.id, status: status,list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }

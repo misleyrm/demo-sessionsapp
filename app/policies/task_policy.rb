@@ -13,6 +13,10 @@ class TaskPolicy < ApplicationPolicy
      end
   end
 
+  def add_deadline?
+    (user.owner?(record.try(:list)) || record.try(:user) == user) 
+ end
+
   def importanttask?
      if !record.is_blocker?
        user.owner?(record.try(:list)) || record.try(:user) == user

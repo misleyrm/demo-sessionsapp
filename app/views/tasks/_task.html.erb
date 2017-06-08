@@ -23,10 +23,10 @@
 						<% if (all_task?(task.list_id) ) %>
 								<li><p><%= "#{task.list_belonging}"%></p></li>
 						<% end %>
-						<li><p><%= "#{distance_of_time_in_words(task.updated_at, Time.now, include_seconds: true)} ago" %></p></li>
-						<li><p> created_at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>
+						<!-- <li><p><%= "#{distance_of_time_in_words(task.updated_at, Time.now, include_seconds: true)} ago" %></p></li> -->
+						<li><p> created at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>
 						<%# if (task.deadline?) %>
-						  <li class="ms-important"><i class="material-icons md-18 md-red">&#xE858;</i><input type="text" id="alternate"><%= "#{task.deadline}" %></li>
+						  <li class="ms-deadline <%= (!task.deadline.nil?) ? 'active' : '' %>"><i class="material-icons md-18 md-red">&#xE858;</i><input type="text" id="alternate" value="<%= (!task.deadline.nil?) ? task.deadline.strftime('%a, %e %B') : '' %>"></li>
 						<%# end %>
 				</ul>
 		<% end%>
@@ -44,8 +44,8 @@
 						<% if !task.completed? %>
 							 <!-- <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true do %> -->
 							 <div class="input-group">
-							     <input type="text" id="datepicker" class="hidden-datepicker">
-									 <i class="material-icons md-18 <%= (task.deadline?)? 'red' : 'md-dark md-inactive'%>" id="btn-datepicker">&#xE858;</i>
+							     <input type="text" class="deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>">
+									 <i class="material-icons md-18 <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%>" id="btn-datepicker" data-href = "<%= "#{ add_deadline_task_url(id: task.id)}"%>">&#xE858;</i>
 							</div>
 							 <!-- <% end %> -->
 						<% end %>

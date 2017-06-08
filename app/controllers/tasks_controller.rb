@@ -7,6 +7,7 @@ class TasksController < ApplicationController
   before_action :set_task,  if: -> { !params[:type].blank? || !params[:id].blank? }
   before_action :set_user, only: [:create, :index ]
   before_action :saved_list, only: [:changelist, :update, :complete ]
+  # respond_to :html, :js
   # before_action :set_current_user, only: [:changelist, :update, :complete ]                #if: -> { params[:assigner_id].present? || current_user !=  }
   # after_action :set_current_user, only: [:new], unless: -> { @task.nil? }
   # skip_before_filter :verify_authenticity_token
@@ -27,20 +28,11 @@ class TasksController < ApplicationController
      else
        @task = current_list.tasks.build
     end
-
-     render layout: 'modal'
-    # respond_to do |format|
-    #   format.html { redirect_to @list  }
-    #   format.js
-    # end
+    render layout: 'modal'
   end
 
   def edit
-    # if (params[:type].present? || params[:type]=="blocker")
-    #    render partial: "edit_form_t_blocker"
-    # else
-      render layout: 'modal'
-    # end
+    render layout: 'modal'
   end
 
   def create
@@ -75,6 +67,17 @@ class TasksController < ApplicationController
     end
   end
 
+  def add_deadline
+    if (!params[:deadline].blank?)
+      authorize @task
+
+      @task.update_attribute(:deadline, params[:deadline])
+      respond_to do |format|
+        format.html { }
+        format.js
+      end
+    end
+  end
 
   def importanttask
     authorize @task
@@ -150,7 +153,7 @@ class TasksController < ApplicationController
      end
 
      def task_params
-        params.require(:task).permit(:detail, :user_id, :assigner_id)
+        params.require(:task).permit(:detail, :user_id, :assigner_id, :deadline)
      end
 
      def saved_list
