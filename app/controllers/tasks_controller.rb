@@ -68,9 +68,9 @@ class TasksController < ApplicationController
   end
 
   def add_deadline
-    if (!params[:deadline].blank?)
-      authorize @task
 
+    if (!params[:deadline].blank?) && (!params[:deadline].nil?) && (params[:deadline] != "null")
+      authorize @task
       @task.update_attribute(:deadline, params[:deadline])
       respond_to do |format|
         format.html { }

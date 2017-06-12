@@ -26,7 +26,7 @@
 						<!-- <li><p><%= "#{distance_of_time_in_words(task.updated_at, Time.now, include_seconds: true)} ago" %></p></li> -->
 						<li><p> created at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>
 						<%# if (task.deadline?) %>
-						  <li class="ms-deadline <%= (!task.deadline.nil?) ? 'active' : '' %>"><i class="material-icons md-18 md-red">&#xE858;</i><input type="text" id="alternate" value="<%= (!task.deadline.nil?) ? task.deadline.strftime('%a, %e %B') : '' %>"></li>
+						  <li class="ms-deadline <%= (!task.deadline.nil?) ? 'active' : '' %>"><i class="material-icons md-18 md-red">&#xE858;</i><p id="alternate"><%= (!task.deadline.nil?) ? task.deadline.strftime('%a, %e %B') : '' %></p></li>
 						<%# end %>
 				</ul>
 		<% end%>

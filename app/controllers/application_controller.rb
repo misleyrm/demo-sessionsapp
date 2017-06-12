@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
   # before_filter :get_current_datebre
   before_action :set_current_user
-  before_action :set_current_list
+  # before_action :set_current_list
   before_action :current_date
 
   def set_current_user

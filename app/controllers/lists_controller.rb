@@ -23,7 +23,7 @@ class ListsController < ApplicationController
   def show
     # respond_to do |format|
     #   format.html
-    #   format.json
+    #   format.json { render json: @list }
     # end
   end
 
@@ -42,10 +42,10 @@ class ListsController < ApplicationController
       @c_users['value'] =   user.id
       @c_users['label'] =   user.first_name
     end
-    respond_to do |format|
-      format.html {redirect_to lists_url}
-      format.json { render json: @c_users }
-    end
+    # respond_to do |format|
+    #   format.html {redirect_to lists_url}
+    #   format.json { render json: @c_users }
+    # end
   end
 
   def new
@@ -60,25 +60,25 @@ class ListsController < ApplicationController
   def create
     @list = current_user.created_lists.build(list_params)
 
-    respond_to do |format|
-      if @list.save
-        # @lists = current_user.created_lists.all
-        # set_task_per_list
-        format.html{ redirect_to lists_url}
-        format.js
-
-      end
+    if @list.save
+    # respond_to do |format|
+    #     # @lists = current_user.created_lists.all
+    #     # set_task_per_list
+    #     format.html{ redirect_to lists_url}
+    #     format.js
+    #
+    #   end
     end
   end
 
   def update
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to lists_path }
-        format.json { render :show, status: :ok, location: @list }
+        # format.html { redirect_to lists_path }
+        # format.json { render :show, status: :ok, location: @list }
       else
-        format.html { render :edit }
-        format.json { render json: @list.errors, status: :unprocessable_entity }
+        # format.html { render :edit }
+        # format.json { render json: @list.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -101,7 +101,7 @@ class ListsController < ApplicationController
         @list = List.find(params[:id])
         @_current_list = session[:list_id] = List.current = nil
         session[:list_id] = params[:id]
-        @_current_list = List.current = @list
+        @_current_list =  @list
       end
       # set_current_list
 

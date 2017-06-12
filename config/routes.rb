@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+
+    # get 'dashboard' => 'home#dashboard'
+    root to: 'home#dashboard', as: '/'
+    # get 'home/unregistered'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
     #Paperclip images
@@ -14,7 +19,7 @@ Rails.application.routes.draw do
     # See how all your routes lay out with "rake routes".
     get '/new' => 'users#new', :as => 'sign_up'
     # root :to => 'login#new'
-    root :to => 'lists#index'
+    # root :to => 'lists#index'
     # You can have the root of your site routed with "root"
 
     get '/login' => 'login#new'
@@ -91,7 +96,7 @@ Rails.application.routes.draw do
       member do
         patch :add_deadline
         patch :complete
-        patch :changelist  
+        patch :changelist
         patch :importanttask
       end
     end

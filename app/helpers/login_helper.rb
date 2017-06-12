@@ -56,9 +56,13 @@ module LoginHelper
   end
 
   def current_list
-    if (list_id = session[:list_id])
-       @_current_list = List.find(list_id)
+byebug
+    if (!params[:id].blank?) && (params[:controller]=="lists") || (!params[:list_id].blank?)
+      list_id  = (params[:list_id].present?) ? params[:list_id] : params[:id]
+    else
+      list_id  = session[:list_id]
     end
+     @_current_list = List.find(list_id)
 
   end
 
