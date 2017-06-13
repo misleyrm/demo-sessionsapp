@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   # before_action :set_task_per_user, only: [:show]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
+  before_action :set_current_list, if: -> { !params[:type].blank? }
 
   def index
     # this_user = User.find(session[:user_id])
@@ -31,6 +32,10 @@ class UsersController < ApplicationController
     #FIX SET USER
 
     # @user = User.find(session[:user_id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new

@@ -1,0 +1,19 @@
+<div class="wrapper vertical-sidebar" id="full-page">
+  <% if logged_in? %>
+      <%= render 'layouts/navigation' %>
+      <header id="header" class="page-topbar">
+          <%= render 'layouts/topnavbar' %>
+      </header>
+  <% end %>
+  <main>
+    <div  id="content"  class="<% if current_user.nil? %>toggled<% end %> container">
+      <div id="page-content">
+          <%= render partial: "lists/list", locals: { list: current_list, user: current_user } %>
+      </div>
+    </div>
+  </main>
+  <!-- Footer -->
+  <%= render 'layouts/footer' %>
+  <!-- Modal Structure -->
+  <div id="modal-holder"></div>
+</div>

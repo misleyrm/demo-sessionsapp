@@ -42,13 +42,20 @@ class Task < ApplicationRecord
   end
 
   def broadcast_delete
+    parentTask = self.parent_task.id
   #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
       num = ''
+      user = self.parent_task.user_id
+      list = self.parent_task.list_id
+      numBlockers = self.parent_task.t_blockers.count
     else
       num = (!is_blocker?) ? self.user.num_incompleted_tasks(List.find(self.list_id)) : ''
+      user = self.user_id
+      list = self.list_id
+      numBlockers = self.t_blockers.count
     end
-    ActionCable.server.broadcast 'list_channel', status: 'deleted', id: self.id, user: self.user_id, list_id: self.list_id, blocker: is_blocker?,num: num
+    ActionCable.server.broadcast 'list_channel', status: 'deleted', id: self.id, user: user, list_id: list, blocker: self.is_blocker?,num: num, numBlockers: numBlockers, parentTask: parentTask
   end
 
   def broadcast_save

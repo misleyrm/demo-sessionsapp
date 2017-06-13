@@ -24,6 +24,7 @@ $(document).on('turbolinks:load',function(){
       onClose: function (){
         $('#form_date').val(this.get());
         this.$root.parent('form').submit();
+        deadlineDatepicker();
        },
        onStart: function (){
           var dateVar = window.current_date;
@@ -247,26 +248,51 @@ function mouseOverAvatar(){
 'use strict';
 
 (function(d){
-    var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    var mS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  	var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  	var mS = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
-    d.prototype.getLongMonth = d.getLongMonth = function getLongMonth (inMonth) {
-        return gM.call(this, inMonth, mL);
-    }
+    var wL = [ 'Sunday','Monday','Tuesday','Wednesday','Thursday', 'Friday','Saturday'];
+  	var wS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    d.prototype.getShortMonth = d.getShortMonth = function getShortMonth (inMonth) {
-        return gM.call(this, inMonth, mS);
-    }
+  	d.prototype.getLongMonth = d.getLongMonth = function getLongMonth (inMonth) {
+  		return gM.call(this, inMonth, mL);
+  	}
 
-    function gM(inMonth, arr){
-        var m;
+  	d.prototype.getShortMonth = d.getShortMonth = function getShortMonth (inMonth) {
+  		return gM.call(this, inMonth, mS);
+  	}
 
-        if(this instanceof d){
-            m = this.getMonth();
-        }
-        else if(typeof inMonth !== 'undefined') {
-            m = parseInt(inMonth,10) - 1; // Subtract 1 to start January at zero
-        }
-        return arr[m];
-    }
+    d.prototype.getLongDayWeek = d.getLongDayWeek = function getLongDayWeek (inWeek) {
+  		return gD.call(this, inWeek, wL);
+  	}
+
+  	d.prototype.getShortDayWeek = d.getShortDayWeek = function getShortDayWeek (inWeek) {
+  		return gD.call(this, inWeek, wS);
+  	}
+
+  	function gM(inMonth, arr){
+    		var m;
+
+    		if(this instanceof d){
+    			m = this.getMonth();
+    		}
+    		else if(typeof inMonth !== 'undefined') {
+    			m = parseInt(inMonth,10) - 1; // Subtract 1 to start January at zero
+    		}
+
+    		return arr[m];
+  	}
+
+    function gD(inWeek, arr){
+  		var m;
+
+  		if(this instanceof d){
+  			m = this.getDay();
+  		}
+  		else if(typeof inWeek !== 'undefined') {
+  			m = parseInt(inWeek,10) ; // Subtract 1 to start January at zero
+  		}
+
+  		return arr[m];
+  	}
 })(Date);

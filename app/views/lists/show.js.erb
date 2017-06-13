@@ -1,4 +1,5 @@
-var $form =  $('#application-date form')
+var $form =  $('#application-date form');
+var $content = $('#page-content');
 if($('#new-list').length){
   $('#new-list').remove();
 }
@@ -8,12 +9,14 @@ if($('#ms-user-edit').length){
 if($('#ms-tabsSetting').length){
     $('#ms-tabsSetting').remove();
 }
-if($('body').hasClass('expand-header')){
+if ($('body').hasClass('expand-header')){
     $('body').removeClass('expand-header');
 }
 console.log("<%= @_current_list.id %>")
-console.log("<%= @list.id %>")
-$('#page-content').html("<%= j render @list, locals: { list: current_list, user: current_user } %>");
+
+alert('showwww list ');
+
+$content.html("<%= j render partial: 'lists/list', locals: { list: current_list, user: current_user } %>");
 // $('#collaboration_users').html("<%#= j render partial: 'list_users', locals: {list: current_list} %>");
 // $('#show_collaboration_users').html("");
 
@@ -32,3 +35,7 @@ $('.edit_task').submitOnCheck();
 // });
 
 $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+deadlineDatepicker()
+
+
+console.log("lololol")
