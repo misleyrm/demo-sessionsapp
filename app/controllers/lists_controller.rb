@@ -98,6 +98,7 @@ class ListsController < ApplicationController
       if params[:id].blank?
         @list = current_list
       else
+        set_current_list
         @list = List.find(params[:id])
         @_current_list = session[:list_id] = List.current = nil
         session[:list_id] = params[:id]

@@ -29,6 +29,8 @@ class InvitationsController < ApplicationController
               InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
               unless @invitation.recipient.collaboration_lists.include?(@list)
                  @invitation.recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+                 html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @invitation.recipient, "current_list": @list}).squish
+                 ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @invitation.recipient.id, list_id: @list.id
               end
             else
               # byebug

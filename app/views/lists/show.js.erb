@@ -14,8 +14,6 @@ if ($('body').hasClass('expand-header')){
 }
 console.log("<%= @_current_list.id %>")
 
-alert('showwww list ');
-
 $content.html("<%= j render partial: 'lists/list', locals: { list: current_list, user: current_user } %>");
 // $('#collaboration_users').html("<%#= j render partial: 'list_users', locals: {list: current_list} %>");
 // $('#show_collaboration_users').html("");
@@ -36,6 +34,3 @@ $('.edit_task').submitOnCheck();
 
 $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
 deadlineDatepicker()
-
-
-console.log("lololol")
