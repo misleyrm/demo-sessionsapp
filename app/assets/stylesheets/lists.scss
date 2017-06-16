@@ -1,4 +1,4 @@
-// Place all the styles related to the lists controller here.
+email// Place all the styles related to the lists controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .dropdown-list{
@@ -140,4 +140,94 @@ ul.dropdown-list li:hover, ul.dropdown-list li:active {
   // padding: 0px 4px 0px!important;
   display: inline-block;
   float: left;
+}
+
+
+
+
+.users-search input {
+  width: 100%;
+  font-size: 1em;
+  padding: .5em 1.3em;
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 2em;
+}
+
+.users-search input:focus {
+  border-color: #A5CEF5;
+}
+.users-search .results .ui-widget-content {
+  background: #fff;
+  font-size: .9em;
+  padding: 0;
+  border-color: #ddd;
+  box-shadow: 0 .1em .2em rgba(187, 187, 187, 0.64);
+  line-height: 1.2;
+  max-height: 20em;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.users-search .results .ui-menu-item {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  padding: .4em .6em .4em 4.7em;
+  position: relative;
+  border: 0;
+  border-left: 5px solid transparent;
+  position: relative;
+  height: 3.5em;
+}
+.users-search .results .ui-state-focus {
+  background: #fff;
+  border-left-color: #08c;
+  font-weight: 300;
+}
+
+.users-search .results .ui-menu-item .img {
+  position: absolute;
+  width: 3em;
+  height: 3em;
+  top: .4em;
+  left: .5em;
+  overflow: hidden;
+}
+
+.users-search .results .ui-menu-item .img img {
+  max-width: 100%;
+}
+
+.users-search .results .ui-menu-item .name {
+  display: block;
+  color: #555;
+  text-transform: capitalize;
+}
+
+.users-search .results .ui-menu-item .email {
+  display: block;
+  font-size: .8em;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-top: .6em;
+  letter-spacing: 1px;
+}
+
+.users-search .results .ui-state-focus .email,
+.users-search .results .ui-state-focus .name {
+  color: #08c;
+  background-color: none;
+}
+.app-cont{
+  width: 500px;
+  margin: 0 auto;
+}
+
+.ui-autocomplete .ui-state-active,
+.ui-autocomplete .ui-widget-content .ui-state-active{
+   border: none;
+   background: none;
+}
+
+#users-search-results ul li.ui-menu-item:hover{
+  background: #ddd;
 }

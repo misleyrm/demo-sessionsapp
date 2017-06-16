@@ -1,0 +1,114 @@
+<article class="app-cont">
+
+  <section class="app-title cf">
+    <h1>User</h1>
+
+  </section>
+
+  <section class="app-content">
+    <div class="users-search">
+      <input type="text" id="users-search-txt" autofocus>
+      <input type="text" id="tags" autofocus>
+      
+      <div class="results" id="users-search-results"></div>
+    </div>
+  </section>
+
+</article>
+<%= javascript_tag do %>
+$(function() {
+    new app.Users;
+
+    /**** Tag user *****/
+    var availableTags = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"
+        ];
+
+    function split(val) {
+        return val.split(/@\s*/);
+    }
+
+    function extractLast(term) {
+        return split(term).pop();
+    }
+
+
+
+
+     $("#tags")
+     .bind("keydown", function(event) {
+         if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active) {
+             event.preventDefault();
+         }
+     }).autocomplete({
+         minLength: 0,
+         source: function(request, response) {
+             var term = request.term,
+                 results = [];
+             console.log(term);
+             if (term.indexOf("@") >= 0) {
+                 term = extractLast(request.term);
+                 if (term.length > 0) {
+                   console.log("/lists/search?term="+term);
+                   $.ajax({
+                          url: "/lists/search?term="+term,
+                          dataType: "json",
+                          success: function( data ) {
+                            console.log(data[0].label);
+                            results = data[0].name;
+
+                              }
+                          });
+                 } else {
+                     results = ['Start typing...'];
+                 }
+             }
+             response(results);
+         },
+         focus: function() {
+             // prevent value inserted on focus
+             return false;
+         },
+         select: function(event, ui) {
+           var terms = split(this.value);
+             // remove the current input
+             terms.pop();
+             // add the selected item
+             terms.push(ui.item.value);
+             // add placeholder to get the comma-and-space at the end
+             terms.push("");
+             this.value = terms.join("");
+             return false;
+         }
+     });
+    /*** end tag user ****/
+
+  });
+
+
+  /*** end tag user ****/
+
+
+
+<% end %>
