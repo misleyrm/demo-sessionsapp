@@ -20,6 +20,13 @@ class ListsController < ApplicationController
 
   end
 
+  def search
+    respond_to do |format|
+      format.html
+      format.json { @users = User.search(params[:term]) }
+    end
+  end
+
   def show
     # respond_to do |format|
     #   format.html

@@ -69,6 +69,10 @@ class User < ApplicationRecord
     end
     # END Methods for set current user for access from model
 
+    def self.search(term)
+      where('LOWER(first_name) LIKE :term OR LOWER(last_name) LIKE :term', term: "%#{term.downcase}%")
+    end
+
     def steps
       %w[personal avatar security]
     end

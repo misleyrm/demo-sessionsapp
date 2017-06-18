@@ -75,6 +75,7 @@ Rails.application.routes.draw do
       resources :tasks, :name_prefix => "list_"
       resources :invitations
       resources :collaboration_users, :controller => 'users', :defaults => {:type => 'collaborator'}
+      get :search, :on => :collection
       member do
         patch :num_incompleted_tasks
         get :complete_users
@@ -94,6 +95,7 @@ Rails.application.routes.draw do
 
     resources :tasks do
       resources :t_blockers, :controller => 'tasks', :defaults => {:type => 'blocker'}, :name_prefix => "tasks_"
+      # get :autocomplete_user_first_name, :on => :collection
       member do
         patch :add_deadline
         patch :complete
