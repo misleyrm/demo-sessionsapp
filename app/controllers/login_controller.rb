@@ -14,7 +14,13 @@ class LoginController < ApplicationController
         @token = params[:invitation_token]
         @invitation = Invitation.find_by_token(@token)
         if (!@token.nil?)&&(user.email==@invitation.recipient_email)
-            user.collaboration_lists << List.find(@invitation.list_id) #add this user to the list as a collaborator
+          @list = List.find(@invitation.list_id)
+          byebug
+          unless user.collaboration_lists.include?(@list)
+             user.collaboration_lists.push(@list)  #add this user to the list as a collaborator         current_list,     collaboration_user
+             html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list}).squish
+             ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: user.id, list_id: @list.id
+          end
         end
         log_in user
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
