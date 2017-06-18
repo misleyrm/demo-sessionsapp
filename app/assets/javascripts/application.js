@@ -10,12 +10,12 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 //= require jquery
-//= require jquery-ui
 //= require jquery_ujs
+//= require jquery-ui
 //= require rails.validations
 //= require turbolinks
-//= require triggeredAutocomplete/jquery-ui.triggeredAutocomplete
 //= require custom/custom
 //= require materialize-sprockets
 //= require perfect-scrollbar

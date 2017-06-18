@@ -3,19 +3,14 @@ $(document).on('turbolinks:load',function(){
   $(".button-collapse").sideNav();
   $('.edit_task').submitOnCheck();
   $('.modal-trigger').modal();
-  // $(".sidebar-collapse").sideNav();
 
   var $navItem = $(".navigationbar .nano-content>ul li");
 
   $navItem.on('click', function(){
     event.preventDefault();
-    console.log( !$(this).is("#ms-add"));
     if (!$(this).is("#ms-add")){
         $(".navigationbar .nano-content>ul li.active").removeClass('active');
         $(this).addClass('active');
-
-
-        // $(this).attr("data-name")
 
         var id = $('.navigationbar .nano-content>ul li.active a').attr('id');
         $("#form_date").attr('action', '/lists/' + id);
@@ -31,23 +26,88 @@ $(document).on('turbolinks:load',function(){
     }
   });
 
-
-
-  // $('body').on('dateupdated','#mainDate', function(e){
-  //   var date = $('#mainDate').val();
-  //   $('#mainDate').parent('form').submit();
-  // });
-
-  // $('#today').click(function(){
-  //   var d = new Date();
-  //   $('#mainDate').datepicker( "setDate", d );
-  //   $('#mainDate').parent('form').submit();
-  // });
-
-
   $(document).on("change", 'input#list_avatar', uploadAvatar);
   // CHANGE IMAGE IN USER NEW FILE UPLOAD
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
 })
+
+
+
+
+var app = window.app = {};
+
+function split(val) {
+    return val.split(/@\s*/);
+}
+
+function extractLast(term) {
+    return split(term).pop();
+}
+
+app.Users = function() {
+  this._input = $('#users-search-txt');
+  this._initAutocomplete();
+};
+
+app.Users.prototype = {
+_initAutocomplete: function() {
+  this._input
+    .bind("keydown", function(event) {
+        if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active) {
+            event.preventDefault();
+        }
+    })
+    .autocomplete({
+      source: function( request, response) {
+        var term = request.term,
+            results = [];
+        // console.log(term);
+        if (term.indexOf("@") >= 0) {
+            term = extractLast(request.term);
+            if (term.length > 0) {
+              $.getJSON( "/lists/search", {
+                term: term
+              }, response );
+            }
+        }
+      },
+      appendTo: '#users-search-results',
+      select: $.proxy(this._select, this)
+    })
+    .autocomplete('instance')._renderItem = $.proxy(this._render, this);
+},
+
+_render: function(ul, item) {
+  var markup = [
+    '<span class="img">',
+      '<img src="' + item.image_url + '" />',
+    '</span>',
+    '<span class="name">' + item.name + '</span>',
+    '<span class="email">' + item.email + '</span>'
+  ];
+  return $('<li>')
+    .append(markup.join(''))
+    .appendTo(ul);
+},
+
+_select: function(e, ui) {
+  var value, index, terms;
+
+  value = this._input[0].value;
+  index = value.lastIndexOf("@");
+  terms = value.substring(0, index);
+  terms = terms.split(" ");
+
+  // add the selected item
+  var name = '@['+ui.item.name+'](user:'+ui.item.id+')'
+  terms.push(name);
+
+  // add placeholder to get the comma-and-space at the end
+  terms.push("");
+  this._input.val(terms.join(" "));
+  return false;
+
+}
+};

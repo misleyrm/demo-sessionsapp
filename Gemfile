@@ -21,9 +21,12 @@ gem 'coffee-rails', '~> 4.2'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 gem 'hirb'
-gem 'jquery-ui-rails'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'rails-ujs'
+# gem 'rails-jquery-autocomplete'
 
 gem 'bootstrap-validator-rails'
 # gem 'client_side_validations', github: 'DavyJonesLocker/client_side_validations'
@@ -36,7 +39,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'activerecord-reset-pk-sequence'
 
-gem 'acts-as-taggable-on'
+
+# gem 'acts-as-taggable-on'
 
 gem 'simple_form'
 
