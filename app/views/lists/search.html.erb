@@ -7,16 +7,22 @@
 
   <section class="app-content">
     <div class="users-search">
+      <input type="hidden" id="users-search-hidden">
       <input type="text" id="users-search-txt" autofocus>
-      <input type="text" id="tags" autofocus>
-      
+
       <div class="results" id="users-search-results"></div>
+      <!-- <input type="text" id="tags" autofocus> -->
     </div>
   </section>
+  <div>
+
+      <input type="text" id="inputor">
+  </div>
 
 </article>
 <%= javascript_tag do %>
 $(function() {
+
     new app.Users;
 
     /**** Tag user *****/
