@@ -5,25 +5,27 @@
 
   </section>
 
-  <section class="app-content">
+  <!-- <section class="app-content">
     <div class="users-search">
       <input type="hidden" id="users-search-hidden">
       <input type="text" id="users-search-txt" autofocus>
 
       <div class="results" id="users-search-results"></div>
-      <!-- <input type="text" id="tags" autofocus> -->
-    </div>
-  </section>
+      <input type="text" id="tags" autofocus>
+     </div>
+  </section> -->
   <div>
-
       <input type="text" id="inputor">
+      <button id="btn-inputor">Value</button>
   </div>
+
+  <div id="inputor1" contentEditable="true">hello!</div>
 
 </article>
 <%= javascript_tag do %>
 $(function() {
 
-    new app.Users;
+    <!-- new app.Users; -->
 
     /**** Tag user *****/
     var availableTags = [

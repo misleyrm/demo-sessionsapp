@@ -33,23 +33,32 @@ $(document).on('turbolinks:load',function(){
 
   /************ Autocomplete with At.js  gem jquery-atwho-rails ***********/
   var $inputor = $('#inputor');
-
+  $("#btn-inputor").on('click', function(){
+    alert($inputor.html());
+  })
   $inputor.atwho({
   at: "@",
+  displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+  insertTpl: function(){
+     return '${atwho-at}[${email}]'
+  },
   callbacks: {
     remoteFilter: function(query, callback) {
-      $.getJSON("/lists/search", {term: query}, function(data) {
-        console.log(data);
-        callback(data)
-      });
+      if (query.length >= 1) {
+        $.getJSON("/lists/search", {term: query}, function(data) {
+          callback(data)
+        });
+      }
     }
   }
+
 }).on("inserted.atwho", function(event, $li, query) {
     // console.log(event, "matched " + flag + " and the result is " + query);
-        console.log(event, "$li: " + $li.html() + " query: " + query);
+        // console.log("$li: " + $li);
+        // console.log("query:" +query);
 });
 
-/******** END *****************/
+/******** END ********************/
 })
 
 /***** Autocomplete with jQuery Autocomplete *********/
