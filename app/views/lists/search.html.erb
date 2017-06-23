@@ -1,20 +1,21 @@
 <article class="app-cont">
 
   <section class="app-title cf">
-    <h1>User</h1>
+    <h1>User 1</h1>
 
   </section>
 
   <section class="app-content">
     <div class="users-search">
       <input type="text" id="users-search-txt" autofocus>
-      <input type="text" id="tags" autofocus>
       <div class="results" id="users-search-results"></div>
     </div>
   </section>
 
 </article>
+
 <%= javascript_tag do %>
+
 $(function() {
     new app.Users;
 
@@ -51,9 +52,6 @@ $(function() {
     function extractLast(term) {
         return split(term).pop();
     }
-
-
-
 
      $("#tags")
      .bind("keydown", function(event) {

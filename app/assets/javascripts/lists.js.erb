@@ -34,7 +34,7 @@ $(document).on('turbolinks:load',function(){
 })
 
 
-
+/************ Autocomplete *********************/
 
 var app = window.app = {};
 
@@ -54,16 +54,15 @@ app.Users = function() {
 app.Users.prototype = {
 _initAutocomplete: function() {
   this._input
-    .bind("keydown", function(event) {
-        if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active) {
-            event.preventDefault();
-        }
-    })
+    // .bind("keydown", function(event) {
+    //     if (event.keyCode === $.ui.keyCode.TAB ) {
+    //         event.preventDefault();
+    //     }
+    // })
     .autocomplete({
       source: function( request, response) {
         var term = request.term,
             results = [];
-        // console.log(term);
         if (term.indexOf("@") >= 0) {
             term = extractLast(request.term);
             if (term.length > 0) {

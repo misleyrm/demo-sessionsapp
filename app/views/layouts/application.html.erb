@@ -6,12 +6,15 @@
   <title>StandupLogs</title>
   <%= csrf_meta_tags %>
   <%= action_cable_meta_tag %>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js' type='text/javascript'></script>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons", media: "all", "data-turbolinks-track" => "reload" %>
-  <!-- <script src="assets/javascripts/jquery.nanoscroller.js" type="text/javascript"></script> -->
-  <style><%= yield :stylesheets %></style>
-  <%= javascript_tag do %> window.current_date = "<%= current_date.to_date %>"; <% end %>
+
+  <style><%= yield :stylesheets %> </style>
+  <%= javascript_tag do %>
+      window.current_date = "<%= current_date.to_date %>";
+  <% end %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag 'favicon.png' %>
 </head>
