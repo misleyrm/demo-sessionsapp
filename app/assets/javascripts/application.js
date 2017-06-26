@@ -18,7 +18,6 @@
 //= require rails.validations
 //= require turbolinks
 //= require custom/custom
-//= require custom/app
 //= require materialize-sprockets
 //= require perfect-scrollbar
 //= require_tree .

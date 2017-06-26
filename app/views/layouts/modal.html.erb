@@ -10,14 +10,32 @@
 		</div>
   </div>
 
+<%= javascript_tag do %>
 
+$(function() {
 
-  <!-- Modal Structure -->
-  <!-- <div id="edit_task" class="modal" >
-    <div class="valign-wrapper" style="height:100%">
-			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat right">
-				<i class="material-icons">close</i>
-			</a>
-			<div id="form" ></div>
-		</div>
-	</div> -->
+  var $inputor = $('#mentionsBlocker');
+  $inputor.atwho({
+    at: "@",
+    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+    insertTpl: function(){
+       return '${atwho-at}[${email}]'
+    },
+    callbacks: {
+      remoteFilter: function(query, callback) {
+        if (query.length >= 1) {
+          $.getJSON("/lists/search", {term: query}, function(data) {
+            callback(data)
+          });
+        }
+      }
+  }
+
+  }).on("inserted.atwho", function(event, $li, query) {
+    // console.log(event, "matched " + flag + " and the result is " + query);
+        // console.log("$li: " + $li);
+        // console.log("query:" +query);
+  });
+});
+
+<% end %>

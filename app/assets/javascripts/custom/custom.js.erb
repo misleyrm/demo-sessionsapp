@@ -12,9 +12,35 @@ function handler(ev) {
 
        alert('The mouse was over'+ elId );
 
-}
+};
 
 $(document).on('turbolinks:load',function(){
+
+  var $inputor = $('#mentionsBlocker');
+
+  $inputor.atwho({
+    at: "@",
+    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+    insertTpl: function(){
+       return '${atwho-at}[${email}]'
+    },
+    callbacks: {
+      remoteFilter: function(query, callback) {
+        if (query.length >= 1) {
+          $.getJSON("/lists/search", {term: query}, function(data) {
+            callback(data)
+          });
+        }
+      }
+  }
+
+  }).on("inserted.atwho", function(event, $li, query) {
+    // console.log(event, "matched " + flag + " and the result is " + query);
+        // console.log("$li: " + $li);
+        // console.log("query:" +query);
+  });
+
+  /***** Autocomplete with jQuery Autocomplete *********/
 
   $('#application-date .datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -39,7 +65,7 @@ $(document).on('turbolinks:load',function(){
       },
     });
 
-  //$('.dropdown-button').dropdown();
+  $('.dropdown-button').dropdown();
 
   $(document).on("click", '.dropdown-button',function(e){
      e.preventDefault();
@@ -161,12 +187,6 @@ window.onclick = function(event) {
          // Initialize collapse button
         $(".button-collapse").sideNav();
 
-        // jQuery Validator
-      //  $('#new_user').on("click",function(e){
-      //    e.preventDefault;
-       //
-      //  });
-
         $('#new_user').validate({
             debug: true,
             rules: {
@@ -181,7 +201,7 @@ window.onclick = function(event) {
           });
 
 
-}) /* end of $(document).on('turbolinks:load',function(){*/
+}); /* end of $(document).on('turbolinks:load',function(){*/
 
 
 

@@ -2,8 +2,8 @@
 <%= form_for(@task.t_blockers.build, url:task_t_blockers_path(@task), method: :post, :remote => true,:html => {:"data-behavior" => 'modal-form'}) do |f| %>
 
 	<div class="input-field col s10">
-		<%= f.text_field :detail, id: "detail" %>
-    <label for="detail">New Blocker</label>
+		<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor" %>
+    <label for="mentionsBlocker">New Blocker</label>
   </div>
 	<div class="row">
 			<div class="col s6 input-field center-align">
