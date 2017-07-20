@@ -66,10 +66,6 @@ class UsersController < ApplicationController
   def edit
     # authorize @user
     @user = User.find(params[:id])
-    respond_to do |format|
-      format.html
-      format.js
-    end
 
   end
 
@@ -99,21 +95,21 @@ class UsersController < ApplicationController
 
   def update
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    respond_to do |format|
+    # respond_to do |format|
         if @user.current_step == "security"
            update_password(user_params)
         elsif (@user.current_step == "personal")
           # @user.update_attribute(user_params[:first_name],user_params[:last_name],user_params[:avatar])
           @user.update(user_params)
-          format.html
-          format.js
+          # format.html
+          # format.js
         else
           @user.update(:avatar => user_params[:avatar])
-          format.html
-          format.js
+          # format.html
+          # format.js
         end
 
-    end
+    # end
   end
 
   def destroy

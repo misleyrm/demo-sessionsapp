@@ -1,6 +1,14 @@
-
-
-<%= form_for(@user, multipart: true) do |f| %>
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+<%= form_for(@user, multipart: true, :remote => true) do |f| %>
 <%= f.hidden_field :current_step, :value => "avatar" %>
 <div class="valign-wrapper ms-upload-avatar left" style="<% if (!current_user.nil?) %>background-image: url('<%= current_user.avatar('thumb') %>');<% end %>">
   <%= f.file_field :avatar %>
@@ -14,32 +22,32 @@
   <div>
     <label for="btn-avatar">YOUR AVATAR</label>
     <div class="input-field center-align">
-      <a class="waves-effect waves-light su-btn btn-flat submit"></a>
+      <a class="waves-effect waves-light su-btn btn-flat submit"><%= f.submit "UPDATE" %></a>
     </div>
   </div>
 </div>
-
+<% end%>
 <div class="clearfix"></div>
-
+<%= form_for(@user, multipart: true, :remote => true) do |g| %>
     <div class="section ms-form">
-        <%= f.hidden_field :current_step, :value => "personal" %>
+        <%= g.hidden_field :current_step, :value => "personal" %>
         <div class="input-field capitalize">
           <i class="material-icons prefix">person_outline</i>
-          <%= f.text_field :first_name %>
-          <%= f.label :first_name, id: 'icon_prefix',class:'active' %>
+          <%= g.text_field :first_name %>
+          <%= g.label :first_name, id: 'icon_prefix',class:'active' %>
         </div>
         <div class="input-field capitalize">
           <i class="material-icons prefix">person_outline</i>
-          <%= f.text_field :last_name %>
-          <%= f.label :last_name, id: 'icon_prefix',class:'active' %>
+          <%= g.text_field :last_name %>
+          <%= g.label :last_name, id: 'icon_prefix',class:'active' %>
         </div>
         <div class="input-field">
           <i class="material-icons prefix">email</i>
-          <%= f.text_field :email %>
-          <%= f.label :email, id: 'icon_prefix',class:'active' %>
+          <%= g.text_field :email %>
+          <%= g.label :email, id: 'icon_prefix',class:'active' %>
         </div>
         <div class="input-field center-align">
-          <a class="waves-effect waves-light btn-large row submit"><%= f.submit "Settings" %></a>
+          <a class="waves-effect waves-light btn-large row submit"><%= g.submit "Settings" %></a>
        </div>
      </div>
 <% end%>

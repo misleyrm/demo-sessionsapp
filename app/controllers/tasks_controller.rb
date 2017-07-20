@@ -44,6 +44,14 @@ class TasksController < ApplicationController
       #  @t_blocker.user_id = @task.user_id
       #  @t_blocker.list_id = @task.list_id
        if @t_blocker.save
+          tags_emails = params['tags_emails'].split(',')
+          tags_emails.each do |email|
+            # byebug
+              # user = User.find_by_email(email)
+              sender = current_user
+              TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now
+              # puts email
+          end
           flash[:success] = "Blocker created"
        end
      else

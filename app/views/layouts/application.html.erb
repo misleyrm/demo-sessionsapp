@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StandupLogs</title>
+  <title>Session | <%= content_for?(:title) ? yield(:title) : "Tasks manager app" %></title>
   <%= csrf_meta_tags %>
   <%= action_cable_meta_tag %>
   <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js' type='text/javascript'></script>

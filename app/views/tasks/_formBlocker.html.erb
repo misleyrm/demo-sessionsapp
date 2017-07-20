@@ -1,6 +1,6 @@
 
-<%= form_for(@task.t_blockers.build, url:task_t_blockers_path(@task), method: :post, :remote => true,:html => {:"data-behavior" => 'modal-form'}) do |f| %>
-
+<%= form_for(@task.t_blockers.build, url:task_t_blockers_path(@task), method: :post, :remote => true,:html => {:"data-behavior" => 'modal-form', :id => 'create-blocker'}) do |f| %>
+	<%= hidden_field_tag 'tags_emails'  %>
 	<div class="input-field col s10">
 		<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor" %>
     <label for="mentionsBlocker">New Blocker</label>
@@ -10,7 +10,7 @@
 					<%= link_to 'Back', lists_path, remote: true,:class => "waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white" %>
 			</div>
 			<div class="col s6 input-field center-align">
-					<a class="waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white"><%= f.submit "Create"%></a>
+					<a class="waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white"><%= f.submit "Create", id: "create-blocker"%></a>
 			</div>
 	</div>
 <% end %>

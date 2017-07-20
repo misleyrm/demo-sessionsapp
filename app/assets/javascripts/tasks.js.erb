@@ -2,40 +2,6 @@ $(document).on('turbolinks:load',function(){
 
     deadlineDatepicker();
 
-/************ Autocomplete with At.js  gem jquery-atwho-rails ***********/
-
-
-$("#btn-inputor").on('click', function(e){
-  e.preventDefault();
-var value = $inputor.val();
-var emails = value.match(/@\[((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))\]/g);
- console.log( 'l='+ emails);
- $.each(emails, function( index, value ) {
-   console.log( index+'='+ value.slice(2,-1));
- })
-});
-
-})
-function deadlineDatepicker(){
-
-  $('.menu-option input.deadline-datepicker').each(function(){
-    $(this).datepicker({
-      altFormat: "D, d MM",
-      minDate: 0,
-      onClose: function(){
-        var date = $(this).datepicker('getDate');
-        $.ajax({
-          complete:function(request){},
-          data:'deadline='+ date,
-          dataType:'script',
-          type:'PATCH',
-          url: $(this).siblings("i.material-icons").attr('data-href')
-        })
-      }
-    });
-  });
-
-}
     $("i#btn-datepicker").on('click', function(){
        $(this).siblings(".hidden-datepicker").focus();
     })
@@ -46,3 +12,5 @@ function deadlineDatepicker(){
       .mouseleave( function() {
         $( this ).css("background-color","white");
       })
+
+});

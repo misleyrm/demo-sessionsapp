@@ -15,7 +15,6 @@ function handler(ev) {
 };
 
 $(document).on('turbolinks:load',function(){
-
   var $inputor = $('#mentionsBlocker');
 
   $inputor.atwho({
@@ -34,10 +33,6 @@ $(document).on('turbolinks:load',function(){
       }
   }
 
-  }).on("inserted.atwho", function(event, $li, query) {
-    // console.log(event, "matched " + flag + " and the result is " + query);
-        // console.log("$li: " + $li);
-        // console.log("query:" +query);
   });
 
   /***** Autocomplete with jQuery Autocomplete *********/
@@ -65,36 +60,6 @@ $(document).on('turbolinks:load',function(){
       },
     });
 
-  $('.dropdown-button').dropdown();
-
-  $(document).on("click", '.dropdown-button',function(e){
-     e.preventDefault();
-     var id = "#"+ $(this).data('activates');
-     $('.dropdown-list').not($(id)).removeClass('show');
-     $(id).toggleClass('show');
-  })
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!($(event.target).parent('.dropdown-button').size() > 0)) {
-    var dropdowns = document.getElementsByClassName("dropdown-list");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
-
- // Show action-menu in blockers when mouseover
-  $(document).on("mouseover", ".permitted div.blocker", function(e){
-     $(this).addClass("active");
-  });
-  $(document).on("mouseleave", ".permitted div.blocker", function(e){
-     $(this).removeClass("active");
-  });
 
   // dropdown-button
   $('.dropdown-button').dropdown({
@@ -104,6 +69,44 @@ window.onclick = function(event) {
       belowOrigin: true, // Displays dropdown below the button
       alignment: 'right' // Displays dropdown with edge aligned to the left of button
     });
+
+    // dropdown-button
+    $('.dropdown-button2').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        hover: false, // Activate on hover
+        belowOrigin: true, // Displays dropdown below the button
+        alignment: 'right' // Displays dropdown with edge aligned to the left of button
+      });
+  $(document).on("click", '.dropdown-button',function(e){
+     e.preventDefault();
+     var id = "#"+ $(this).data('activates');
+     $('.dropdown-list').not($(id)).removeClass('show');
+     $(id).toggleClass('show');
+  })
+
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+    console.log('window onclick');
+    if (!($(event.target).parent('.dropdown-button').size() > 0)) {
+      var dropdowns = document.getElementsByClassName("dropdown-list");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+ // Show action-menu in blockers when mouseover
+  $(document).on("mouseover", ".permitted div.blocker", function(e){
+     $(this).addClass("active");
+  });
+  $(document).on("mouseleave", ".permitted div.blocker", function(e){
+     $(this).removeClass("active");
+  });
 
     // dropdown-button
     $(document).on("click", '.dropdown-button2',function(e){
@@ -154,7 +157,11 @@ window.onclick = function(event) {
 
       /* end modal*/
       $(".sidebar-collapse").sideNav();
+      // Initialize collapse button
+     $(".button-collapse").sideNav();
 
+     $('select').material_select();
+     $('.modal-trigger').modal();
       // MODAL
       $('#ms-modal-applications').modal({
            dismissible: false, // Modal can be dismissed by clicking outside of the modal
@@ -169,9 +176,6 @@ window.onclick = function(event) {
            complete: function() {  } // Callback for Modal close
          })
 
-        $('select').material_select();
-        $('.modal-trigger').modal();
-
         var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
         $("#stand-up ul li a").each(function(){
                if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
@@ -183,9 +187,6 @@ window.onclick = function(event) {
           }, function(){
             change_img_nav(this)
          });
-
-         // Initialize collapse button
-        $(".button-collapse").sideNav();
 
         $('#new_user').validate({
             debug: true,
@@ -201,9 +202,8 @@ window.onclick = function(event) {
           });
 
 
+
 }); /* end of $(document).on('turbolinks:load',function(){*/
-
-
 
 
 // Functions
@@ -263,6 +263,26 @@ function mouseOverAvatar(){
     $( 'div.mousehover', this).toggleClass( 'hover' );
   }
 }
+
+function deadlineDatepicker(){
+  $('input.deadline-datepicker').each(function(){
+    $(this).datepicker({
+      altFormat: "D, d MM",
+      minDate: 0,
+      onClose: function(){
+        var date = $(this).datepicker('getDate');
+        $.ajax({
+          complete:function(request){},
+          data:'deadline='+ date,
+          dataType:'script',
+          type:'PATCH',
+          url: $(this).siblings("i.material-icons").attr('data-href')
+        })
+      }
+    });
+  });
+
+};
 
 'use strict';
 

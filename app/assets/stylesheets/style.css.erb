@@ -883,8 +883,8 @@ select{
 .navigationbar ul>li.bar-user-info>a .bar-user-email, .user-info>a .bar-user-email{
   font-size: .75rem;
 }
-.navigationbar .nano-content>ul li a .bar-user-email i, .user-info a .bar-user-email i{
-
+.navigationbar .nano-content>ul li a .bar-user-email i,
+.user-info a .bar-user-email i{
   margin: 0 0 0 5px;
   vertical-align: middle;
   width: 1.4em;
@@ -894,7 +894,6 @@ select{
 
 
 .navigationbar .nano-content>ul li a .chip{
-
   margin-bottom: 0;
 }
 /*.navigationbar a:not(){
@@ -904,7 +903,6 @@ select{
 
 
 .navigationbar .nano-content>ul li>a {
-
     display: block;
     cursor: pointer;
     padding: 10px 15px 10px;
@@ -1528,15 +1526,21 @@ extra-small.notification-badge {
 .ms-tabsSetting-content .ms-upload-avatar label[for="user_avatar"],
 .ms-tabsSetting-content .ms-upload-avatar label[for="list_avatar"],
 .ms-tabsSetting-content .ms-upload-avatar{
-  width: 90px;
-  height: 90px;
+  width: 95px;
+  height: 95px;
 }
+
 
 .ms-tabsSetting-content .ms-upload-avatar{
   margin: 0 27px 61px 0px;
   display: inline-block;
 
 }
+.ms-tabsSetting-content .ms-update-avatar a.su-btn.btn-flat {
+    border: 1px solid rgba(111, 115, 126, 0.3)!important;
+    min-width: 100px;
+}
+
 .ms-upload-avatar input[type="file"]{
   width: 100px;
   height: 100px;

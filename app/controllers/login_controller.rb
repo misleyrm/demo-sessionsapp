@@ -15,7 +15,7 @@ class LoginController < ApplicationController
         @invitation = Invitation.find_by_token(@token)
         if (!@token.nil?)&&(user.email==@invitation.recipient_email)
           @list = List.find(@invitation.list_id)
-          byebug
+          # byebug
           unless user.collaboration_lists.include?(@list)
              user.collaboration_lists.push(@list)  #add this user to the list as a collaborator         current_list,     collaboration_user
              html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list}).squish
