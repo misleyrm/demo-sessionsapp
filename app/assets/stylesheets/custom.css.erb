@@ -162,7 +162,11 @@ div .card{
     box-shadow: none!important;
 }
 
-.z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover,.su-btn:hover  {
+.z-depth-1-half,
+.btn:hover,
+.btn-large:hover,
+.btn-floating:hover,
+.su-btn:hover  {
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12)!important;
 }
 
@@ -235,7 +239,9 @@ div .card{
 }
 /** END CHANGE COLOR IN FOCUS (MATERIALIZE) **/
 
-input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
   background: none !important;
   background-image: none;
   color: rgb(0, 0, 0);
@@ -255,7 +261,9 @@ select:-webkit-autofill:active{
   transition: background-color 5000s ease-in-out 0s;
   -webkit-box-shadow: 0 0 0px 1000px #fff inset;
 }
-textarea:focus, input:focus, select:focus{
+textarea:focus,
+input:focus,
+select:focus{
   outline: none;
 }
 /* END STYLE FOR INPUT */
@@ -272,7 +280,8 @@ i.small {
     line-height: 20px;
     vertical-align: middle;
 }
-.border-right, .div-right:after{
+.border-right,
+.div-right:after{
   border-right: 1px solid #9c9c9c;
 }
 .border-bottom{
@@ -359,7 +368,8 @@ i.small {
   background:none!important;     /*  #d3d3d5;*/
 }
 
-#new-list .divider, #edit-list .divider{
+#new-list .divider,
+#edit-list .divider{
 
     margin: 0px -5px 5px!important;
   }
@@ -381,9 +391,6 @@ i.small {
 .material-icons.md-before { color: rgba(249, 169, 90, 1); }
 .material-icons.md-before.md-inactive { color: rgba(249, 169, 90, 0.26); }
 
-.material-icons {
-
-}
 a{
   color:#848994;
 }
@@ -404,8 +411,25 @@ a{
     height: 36px;
 }
 
-.dropdown-list.show {display:block; opacity: 1;}
+.dropdown-list.show {
+  display:block;
+  opacity: 1;
+}
 
+.dropdown-list:not(.show){
+  display:none;
+  opacity: 0;
+}
+
+.dropdown-list {
+    border: 1px solid #b8b8b8;
+    min-width: 120px;
+    background: #fff;
+    z-index: 999;
+}
+.dropdown-list li{
+  min-width: 120px;
+}
 /********* MODAL ********/
 
 .modal h2{
@@ -437,10 +461,6 @@ a{
   .input-field textarea + label:not(.label-icon).active {
       transform: translateY(0%);
       /*text-transform: uppercase;*/
-  }
-
-  .input-field textarea + label:not(.label-icon){
-    /*text-transform: uppercase;*/
   }
 
   textarea.materialize-textarea:focus:not([readonly]) {
@@ -504,6 +524,7 @@ a{
   float: left;
   border: 1px solid hsla(0, 0%, 89%, 0.94);
 }
+
 .chip.user-img img, .chip.user-img {
    width: 46px;
    height: 46px;
@@ -612,10 +633,19 @@ textarea.materialize-textarea:focus.valid {
     box-shadow: 0 1px 0 0 #55C2B9;
 }
 
-.menu-information li:not(:last-child):after {
+.menu-information li:not(:first-child):before {
   content: "/";
-  padding: 0 0px 0 5px;
+  padding: 0 5px 0 0px;
 }
+
+.menu-information li.ms-deadline:not(.active):before {
+  opacity: 0;
+}
+
+.menu-information li.ms-deadline.active:before {
+  opacity: 1;
+}
+
 .menu-information li > p{
   display: inline;
 }
@@ -664,7 +694,7 @@ textarea.materialize-textarea:focus.valid {
 }
 .show_blockers ul.action-menu li {
     display: inline-table;
-    float: left
+    float: left;
     padding: 0 5px;
   }
 
@@ -706,6 +736,7 @@ textarea.materialize-textarea:focus.valid {
 i#btn-datepicker{
   cursor: pointer;
 }
+
 .menu-information li.ms-deadline p#alternate{
   width: 87%;
   margin: 0 0 0 20px;
@@ -729,4 +760,46 @@ li.ms-deadline:not(.active){
 
 li.ms-deadline.active{
   opacity: 1;
+}
+/****** Autocomplete with at.js *******/
+.atwho-view strong {
+    color: #55C2B9;
+    font-weight: 700;
+}
+
+.atwho-view .cur {
+    background: #55C2B9;
+}
+
+.atwho-view-ul span.img, .atwho-view-ul span.text {
+    display: inline-block;
+}
+
+.atwho-view-ul span.img {
+    width: 23px;
+    height: 23px;
+    position: absolute;
+}
+
+.atwho-view-ul span.img img{
+    width: 23px;
+    height: 23px;
+}
+
+.atwho-view-ul span.text {
+    line-height: 1.7rem;
+    padding-left: 1.9rem;
+  }
+
+  .atwho-view ul li {
+    height: 35px;
+  }
+
+  .atwho-view {
+      margin-top: 3.2rem;
+    }
+#inputor{
+  height: 34px;
+  border-bottom: 1px solid #55C2B9;
+
 }

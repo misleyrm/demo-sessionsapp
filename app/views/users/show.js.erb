@@ -1,16 +1,52 @@
- <% if params[:type].present? %>
-    var $list = $('[data-list-id = "<%= @_current_list.id %>"]');
-    var $listUsers = $('#list-users',$list);
-    var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
-    var $user = $('[data-user-id = "<%= @user.id %>"]',$list);
 
-    if ($collaboration_user.hasClass('active')) {
-        $collaboration_user.removeClass('active');
-        $user.remove();
-      } else {
-        $collaboration_user.addClass('active');
-        $listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @user, list: @_current_list } %>");
-        $('input[id="task_user_id"]',$user).val("<%= @user.id %>");
-        $('.edit_task').submitOnCheck();
-     }
- <% end %>
+   <% if params[:type].present? %>
+      var $list = $('[data-list-id = "<%= @_current_list.id %>"]');
+      var $listUsers = $('#list-users',$list);
+      var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
+      var $user = $('[data-user-id = "<%= @user.id %>"]',$list);
+
+      if ($collaboration_user.hasClass('active')) {
+          $collaboration_user.removeClass('active');
+          $user.remove();
+        } else {
+          $collaboration_user.addClass('active');
+          $listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @user, list: @_current_list } %>");
+          $('input[id="task_user_id"]',$user).val("<%= @user.id %>");
+          // dropdown-button
+          $('.dropdown-button2').dropdown({
+              inDuration: 300,
+              outDuration: 225,
+              hover: false, // Activate on hover
+              belowOrigin: true, // Displays dropdown below the button
+              alignment: 'right' // Displays dropdown with edge aligned to the left of button
+            });
+
+          $('.edit_task').submitOnCheck();
+       }
+   <% end %>
+
+$(document).on('turbolinks:load',function(){
+   deadlineDatepicker();
+
+ });
+ 
+ function deadlineDatepicker(){
+
+   $('input.deadline-datepicker').each(function(){
+     $(this).datepicker({
+       altFormat: "D, d MM",
+       minDate: 0,
+       onClose: function(){
+         var date = $(this).datepicker('getDate');
+         $.ajax({
+           complete:function(request){},
+           data:'deadline='+ date,
+           dataType:'script',
+           type:'PATCH',
+           url: $(this).siblings("i.material-icons").attr('data-href')
+         })
+       }
+     });
+   });
+
+ };

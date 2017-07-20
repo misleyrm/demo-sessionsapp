@@ -1,6 +1,4 @@
-email// Place all the styles related to the lists controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
 .dropdown-list{
     background-color: #FFFFFF;
     margin: 0;
@@ -27,7 +25,8 @@ ul.dropdown-list li{
   padding: 0px 20px;
 }
 
-ul.dropdown-list li:hover, ul.dropdown-list li:active {
+ul.dropdown-list li:hover,
+ul.dropdown-list li:active {
   background-color: #c3c3c3;
 }
 
@@ -47,7 +46,7 @@ ul.dropdown-list li:hover, ul.dropdown-list li:active {
 //   vertical-align: middle;
 //   padding: 5px 0 0;
 // }
-#list h5{
+#list h5 {
   margin: 1rem 0 1rem!important;
   font-size: 1.3rem!important;
 }
@@ -110,22 +109,22 @@ ul.dropdown-list li:hover, ul.dropdown-list li:active {
 
 #collaboration-users .chip:before{
   text-decoration: none;
-    font-family: "Material Icons";
-    content: "\E061 ";
-    font-size: 6pt;
-    line-height: 6pt;
-    background-color: #fff;
-    color: #77B44E;
-    position: relative;
-    z-index: 999;
-    border-radius: 50%;
-    padding: 0;
-    left: 26px;
-    top: -22px;
-    opacity: 0;
-    transition: opacity .25s ease-in-out;
-   -moz-transition: opacity .25s ease-in-out;
-   -webkit-transition: opacity .25s ease-in-out;
+  font-family: "Material Icons";
+  content: "\E061 ";
+  font-size: 6pt;
+  line-height: 6pt;
+  background-color: #fff;
+  color: #77B44E;
+  position: relative;
+  z-index: 999;
+  border-radius: 50%;
+  padding: 0;
+  left: 26px;
+  top: -22px;
+  opacity: 0;
+  transition: opacity .25s ease-in-out;
+ -moz-transition: opacity .25s ease-in-out;
+ -webkit-transition: opacity .25s ease-in-out;
 
 }
 
@@ -141,9 +140,6 @@ ul.dropdown-list li:hover, ul.dropdown-list li:active {
   display: inline-block;
   float: left;
 }
-
-
-
 
 .users-search input {
   width: 100%;
@@ -217,6 +213,7 @@ ul.dropdown-list li:hover, ul.dropdown-list li:active {
   color: #08c;
   background-color: none;
 }
+
 .app-cont{
   width: 500px;
   margin: 0 auto;
