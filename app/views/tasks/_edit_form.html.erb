@@ -1,7 +1,13 @@
 
 <%= form_for(@task, :remote => true,:html => {:"data-behavior" => 'modal-form'}) do |f| %>
 	<div class="input-field col">
-		<%= f.text_field :detail, id: "detail" %>
+		<% if @task.is_blocker? %>
+			<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor" %>
+			<label for="mentionsBlocker" class="active">New Blocker</label>
+		<% else %>
+			<%= f.text_field :detail, id: "detail" %>
+			<label for="detail" class="active">New Task</label>
+		<% end %>
   </div>
 	<div class="row">
 			<div class="col s6 input-field center-align">
