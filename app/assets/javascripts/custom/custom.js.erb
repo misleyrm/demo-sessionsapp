@@ -44,8 +44,15 @@ $(document).on('turbolinks:load',function(){
       hiddenName: true,
       onClose: function (){
         $('#form_date').val(this.get());
-        this.$root.parent('form').submit();
-        deadlineDatepicker();
+        console.log(this.$root.parent('form'));
+        // $.ajax({
+        //   complete:function(request){},
+        //   data:'date='+ this.get(),
+        //   dataType:'script',
+        //   type:'GET',
+        //   url: this.$root.parent('form').attr('action')
+        // })
+         this.$root.parent('form').submit();
        },
        onStart: function (){
           var dateVar = window.current_date;

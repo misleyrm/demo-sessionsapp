@@ -41,16 +41,11 @@ class TasksController < ApplicationController
     task_info = task_params
     if params[:type].present?
        @t_blocker = @task.t_blockers.build(task_params)
-      #  @t_blocker.user_id = @task.user_id
-      #  @t_blocker.list_id = @task.list_id
        if @t_blocker.save
-          tags_emails = params['tags_emails'].split(',')
-          tags_emails.each do |email|
-            # byebug
-              # user = User.find_by_email(email)
-              sender = current_user
-              TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now
-              # puts email
+         tag_emails = params['tags_emails'].split(',')
+         tag_emails.each do |email|
+             sender = current_user
+             TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now
           end
           flash[:success] = "Blocker created"
        end
@@ -69,7 +64,16 @@ class TasksController < ApplicationController
 
   def update
     authorize @task
-    @task.update_attributes!(task_params)
+    if (@task.update_attributes!(task_params))
+        if @task.is_blocker?
+          tag_emails = params['tags_emails'].split(',')
+          tag_emails.each do |email|
+              sender = current_user
+              TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now
+           end
+        end
+    end
+
     respond_to do |format|
       format.html { }
       format.js
@@ -168,4 +172,6 @@ class TasksController < ApplicationController
      def saved_list
        @task.list_before = @task.list_id
      end
+
+
 end

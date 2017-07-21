@@ -2,6 +2,7 @@
 <%= form_for(@task, :remote => true,:html => {:"data-behavior" => 'modal-form'}) do |f| %>
 	<div class="input-field col">
 		<% if @task.is_blocker? %>
+		  <%= hidden_field_tag 'tags_emails'  %>
 			<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor" %>
 			<label for="mentionsBlocker" class="active">New Blocker</label>
 		<% else %>
