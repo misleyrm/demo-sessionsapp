@@ -1,4 +1,5 @@
 class ListsController < ApplicationController
+
   include LoginHelper
   include ApplicationHelper
   before_action :require_logged_in
@@ -16,6 +17,7 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html
       format.json
+      format.js
     end
 
   end
@@ -24,19 +26,31 @@ class ListsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { @users = User.search(params[:term]) }
+      format.js
     end
   end
 
   def show
-    byebug
+    respond_to do |format|
+      format.html {redirect_to root_path }
+      format.json { render json: @list }
+      format.js
+    end
+
     # respond_to do |format|
-    #   format.html
-    #   format.json { render json: @list }
+    #   format.html{redirect_to @list}
+    #   format.json
+    #   format.js
     # end
   end
 
   def showList
-     render layout: 'modal'
+    respond_to do |format|
+      format.html{ render layout: 'modal'}
+      format.json
+      format.js
+    end
+
     # byebug
     # @list = List.find(params[:id])
     # set_task_per_list

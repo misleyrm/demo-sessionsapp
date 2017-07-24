@@ -44,8 +44,8 @@ App.list = App.cable.subscriptions.create "ListChannel",
             d = new Date(data.deadline)
             date = d.getShortDayWeek()+ ', ' + d.getDate() + ' ' + d.getShortMonth()
             $('ul.menu-information li.ms-deadline', $task).addClass('active')
-            if  $('#menu >ul.menu-option li i#btn-datepicker', $task).hasClass('md-dark md-inactive')
-              $('#menu >ul.menu-option li i#btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
+            if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
+              $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
             $('p#alternate', $task).html(date)
           else
             alert("in null")
@@ -64,7 +64,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
           $('.edit_task').submitOnCheck()
 
       $('.dropdown-button').dropdown()
-      deadlineDatepicker()
+      deadlineDatepicker($('input.deadline-datepicker',$list ))
     else
       if data.blocker
           $parent = $('[data-task-id = "' + data.parentId + '"]', $user)

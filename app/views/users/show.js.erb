@@ -26,27 +26,6 @@
    <% end %>
 
 $(document).on('turbolinks:load',function(){
-   deadlineDatepicker();
+  //  deadlineDatepicker();
 
  });
- 
- function deadlineDatepicker(){
-
-   $('input.deadline-datepicker').each(function(){
-     $(this).datepicker({
-       altFormat: "D, d MM",
-       minDate: 0,
-       onClose: function(){
-         var date = $(this).datepicker('getDate');
-         $.ajax({
-           complete:function(request){},
-           data:'deadline='+ date,
-           dataType:'script',
-           type:'PATCH',
-           url: $(this).siblings("i.material-icons").attr('data-href')
-         })
-       }
-     });
-   });
-
- };

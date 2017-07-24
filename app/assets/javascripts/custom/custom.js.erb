@@ -15,6 +15,29 @@ function handler(ev) {
 };
 
 $(document).on('turbolinks:load',function(){
+  $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
+        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+      // console.log($('input.deadline-datepicker'));
+      // var $div = $('#incomplete_tasks');
+        deadlineDatepicker($('input.deadline-datepicker'));
+    });
+    var c = 0;
+    $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
+          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+          c = c+1;
+        console.log(c);
+        console.log("#");
+        // var $div = $('#incomplete_tasks');
+          deadlineDatepicker($('input.deadline-datepicker'));
+      });
+
+
+
+
+  $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+
+  deadlineDatepicker($('input.deadline-datepicker'));
+
   var $inputor = $('#mentionsBlocker');
 
   $inputor.atwho({
@@ -215,6 +238,13 @@ $(document).on('turbolinks:load',function(){
 
 // Functions
 
+function handlerIn(){
+    $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
+};
+function handlerOut(){
+    $(this).next( ".i-btn-datepicker" ).css("color","rgba(0, 0, 0, 0.26)");
+};
+
 function change_img_nav(e){
   var img = $(e).find("img#icon-change");
   var img_path = img.attr('src');
@@ -271,9 +301,9 @@ function mouseOverAvatar(){
   }
 }
 
-function deadlineDatepicker(){
-  $('input.deadline-datepicker').each(function(){
-    $(this).datepicker({
+function deadlineDatepicker(e){
+  // e.each(function(){
+    $(e).datepicker({
       altFormat: "D, d MM",
       minDate: 0,
       onClose: function(){
@@ -287,7 +317,7 @@ function deadlineDatepicker(){
         })
       }
     });
-  });
+  // });
 
 };
 

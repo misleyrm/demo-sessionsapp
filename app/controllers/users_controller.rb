@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   def show
     # authorize @user
     #FIX SET USER
-
+    
     # @user = User.find(session[:user_id])
     respond_to do |format|
       format.html

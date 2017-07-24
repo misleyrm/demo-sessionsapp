@@ -45,7 +45,7 @@
 							 <!-- <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true do %> -->
 							 <div class="input-group">
 							     <input type="text" class="deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>">
-									 <i class="material-icons md-18 <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%>" id="btn-datepicker" data-href = "<%= "#{ add_deadline_task_url(id: task.id)}"%>">&#xE858;</i>
+									 <i class="i-btn-datepicker material-icons md-18 <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%> " id="btn-datepicker_<%= task.id%>" data-href = '<%= "#{ add_deadline_task_url(id: task.id)}"%>'>&#xE858;</i>
 							</div>
 							 <!-- <% end %> -->
 						<% end %>

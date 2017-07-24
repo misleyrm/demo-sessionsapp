@@ -8,7 +8,7 @@
   <main>
     <div  id="content"  class="<% if current_user.nil? %>toggled<% end %> container">
       <div id="page-content">
-          <%= render partial: "lists/list", locals: { list: current_list, user: current_user } %>
+          <%= render partial: "lists/list", locals: { list: @list, user: current_user } %>
       </div>
     </div>
   </main>
