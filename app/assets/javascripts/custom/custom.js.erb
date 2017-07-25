@@ -15,24 +15,21 @@ function handler(ev) {
 };
 
 $(document).on('turbolinks:load',function(){
+
   $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
         $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-      // console.log($('input.deadline-datepicker'));
-      // var $div = $('#incomplete_tasks');
         deadlineDatepicker($('input.deadline-datepicker'));
     });
-    var c = 0;
+
     $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-          c = c+1;
-        console.log(c);
-        console.log("#");
-        // var $div = $('#incomplete_tasks');
           deadlineDatepicker($('input.deadline-datepicker'));
       });
 
-
-
+    $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
+          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+          deadlineDatepicker($('input.deadline-datepicker'));
+      });
 
   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
@@ -59,6 +56,8 @@ $(document).on('turbolinks:load',function(){
   });
 
   /***** Autocomplete with jQuery Autocomplete *********/
+
+
 
   $('#application-date .datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
@@ -87,7 +86,7 @@ $(document).on('turbolinks:load',function(){
 
           // this.$root.parent('form').submit();
 
-      },
+      }
     });
 
 
@@ -242,7 +241,13 @@ function handlerIn(){
     $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
 };
 function handlerOut(){
-    $(this).next( ".i-btn-datepicker" ).css("color","rgba(0, 0, 0, 0.26)");
+   var color;
+   if ($(this).next( ".i-btn-datepicker" ).hasClass("md-red")){
+        color = 'rgb(238, 70, 114, 0.54)';
+   } else {
+         color = 'rgb(0, 0, 0, 0.26)';
+   }
+    $(this).next( ".i-btn-datepicker" ).css("color",color);
 };
 
 function change_img_nav(e){
@@ -306,15 +311,60 @@ function deadlineDatepicker(e){
     $(e).datepicker({
       altFormat: "D, d MM",
       minDate: 0,
+      showButtonPanel: true,
       onClose: function(){
         var date = $(this).datepicker('getDate');
-        $.ajax({
-          complete:function(request){},
-          data:'deadline='+ date,
-          dataType:'script',
-          type:'PATCH',
-          url: $(this).siblings("i.material-icons").attr('data-href')
-        })
+        if (date != null){
+          alert(date);
+          $.ajax({
+            complete:function(request){},
+            data:'deadline='+ date,
+            dataType:'script',
+            type:'PATCH',
+            url: $(this).siblings("i.material-icons").attr('data-href')
+          })
+        }
+
+
+      },
+      beforeShow: function( input ) {
+          var href = $(this).siblings("i.material-icons").attr("data-href-delete-deadline");
+          setTimeout(function() {
+              var buttonPane = $( input )
+                  .datepicker( "widget" )
+                  .find( ".ui-datepicker-buttonpane" );
+
+              $( "<button>", {
+                  text: "Clear",
+                  click: function() {
+                  //Code to clear your date field (text box, read only field etc.) I had to remove the line below and add custom code here
+                      $.datepicker._clearDate( input );
+                      var date = null;
+                      $.ajax({
+                        complete:function(request){},
+                        data:'deadline='+ date,
+                        dataType:'script',
+                        type:'PATCH',
+                        url: href
+                      })
+                  }
+              }).appendTo( buttonPane ).addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
+          }, 1 );
+      },
+      onChangeMonthYear: function( year, month, instance ) {
+          setTimeout(function() {
+              var buttonPane = $( instance )
+                  .datepicker( "widget" )
+                  .find( ".ui-datepicker-buttonpane" );
+
+              $( "<button>", {
+                  text: "Clear",
+                  click: function() {
+                  //Code to clear your date field (text box, read only field etc.) I had to remove the line below and add custom code here
+                      $.datepicker._clearDate( instance.input );
+                  }
+              }).appendTo( buttonPane ).addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
+          }, 1 );
       }
     });
   // });

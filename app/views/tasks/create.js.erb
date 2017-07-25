@@ -12,5 +12,7 @@
   // $num_incompleted_tasks.html('<%#= current_user.num_incompleted_tasks(@list)%>');
 
    $('#edit_task_<%= @task.id %>').submitOnCheck();
+   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+   deadlineDatepicker($('input.deadline-datepicker'));
   $('.new_task #detail').val('');
  <% end %>

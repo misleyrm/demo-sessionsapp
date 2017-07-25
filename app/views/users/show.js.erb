@@ -22,10 +22,7 @@
             });
 
           $('.edit_task').submitOnCheck();
+          deadlineDatepicker($('input.deadline-datepicker'));
+          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
        }
    <% end %>
-
-$(document).on('turbolinks:load',function(){
-  //  deadlineDatepicker();
-
- });

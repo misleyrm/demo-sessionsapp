@@ -36,7 +36,7 @@
 					<li>
 						<% if !task.completed? %>
 							 <%= link_to importanttask_task_path(id: task.id), :method=> :patch, remote: true do %>
-									 <i class="material-icons md-18 <%= (task.important?)? 'md-jellow' : 'md-dark md-inactive'  %>" id="md-important">&#xE838;</i>
+									 <i class="tooltipped material-icons md-18 <%= (task.important?)? 'md-jellow' : 'md-dark md-inactive'  %>" id="md-important" data-position="top" data-delay="50" data-tooltip="Mark as important">&#xE838;</i>
 							 <% end %>
 						<% end %>
 					</li>
@@ -44,8 +44,8 @@
 						<% if !task.completed? %>
 							 <!-- <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true do %> -->
 							 <div class="input-group">
-							     <input type="text" class="deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>">
-									 <i class="i-btn-datepicker material-icons md-18 <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%> " id="btn-datepicker_<%= task.id%>" data-href = '<%= "#{ add_deadline_task_url(id: task.id)}"%>'>&#xE858;</i>
+							     <input type="text" class="tooltipped deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>" data-position="top" data-delay="50" data-tooltip="Add deadline">
+									 <i class="i-btn-datepicker material-icons md-18 <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%> " id="btn-datepicker_<%= task.id%>" data-href = '<%= "#{ add_deadline_task_url(id: task.id)}"%>' data-href-delete-deadline = '<%= "#{ delete_deadline_task_url(id: task.id)}"%>'>&#xE858;</i>
 							</div>
 							 <!-- <% end %> -->
 						<% end %>
@@ -53,14 +53,14 @@
 					<li>
 						<% if !task.completed? %>
 							 <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true, data: { behavior: 'modal' } do %>
-									 <i class="material-icons md-18 md-dark md-inactive">mode_edit</i>
+									 <i class="tooltipped material-icons md-18 md-dark md-inactive" data-position="top" data-delay="50" data-tooltip="Edit Task">mode_edit</i>
 							 <% end %>
 						<% end %>
 					</li>
 					<li>
 						<% if !task.completed? %>
 							 <a class='dropdown-button2' href='#' data-activates='dropdownlist_<%= task.id%>'>
-								 <i class="material-icons md-18  md-dark md-inactive">view_list</i>
+								 <i class="tooltipped material-icons md-18  md-dark md-inactive" data-position="top" data-delay="50" data-tooltip="Change task to another list">view_list</i>
 							 </a>
 							 <ul id="dropdownlist_<%= task.id%>" class="dropdown-list">
 			 					<% @lists = User.find(task.user_id).created_lists.all.order('created_at')%>
@@ -78,22 +78,22 @@
 						<% if !task.completed? %>
 								<%= form_for task, url: complete_task_path(:id => task.id, :list_id => task.list_id), remote: true do |f| %>
 								<%= check_box_tag "completed[#{task.id}]", "#{task.id}", true, :name => "task_id", disabled: task.completed?  %>
-								<%= label_tag "completed_#{task.id}", ""%>
+								<%= label_tag "completed_#{task.id}", "", class: "tooltipped", 'data-position' => "top", 'data-delay' => "50", 'data-tooltip' => "Mark task as completed"%>
 								<%= f.submit "Update" %>
 								<% end %>
 						<% end %>
 					</li>
 					<li>
 							<%= link_to task, method: :delete, data: {confirm: "Are you sure?"}, remote: true do %>
-								 <i class="material-icons md-18 md-dark md-inactive">cancel</i>
+								 <i class="tooltipped material-icons md-18 md-dark md-inactive" data-position="top" data-delay="50" data-tooltip="Delete task">cancel</i>
 							<% end %>
 					</li>
 					<li>
 						<% if !task.completed? %>
 							 <!-- task_t_blockers_path -->
-							 <i class="material-icons md-18 md-red" data-has-blockers="<%= !task.t_blockers.blank? %>">warning</i>
+							 <i class="material-icons md-18 md-red" data-has-blockers="<%= !task.t_blockers.blank? %>" >warning</i>
 							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: 'link-blocker', remote: true, data: { behavior: 'modal' }  do %>
-									<i class="material-icons md-18 md-<%= (!task.t_blockers.blank?) ? 'red' : 'dark md-inactive' %>">warning</i>
+									<i class="tooltipped material-icons md-18 md-<%= (!task.t_blockers.blank?) ? 'red' : 'dark md-inactive' %>" data-position="top" data-delay="50" data-tooltip="Add blocker">warning</i>
 							 <% end %>
 						<% end %>
 					</li>

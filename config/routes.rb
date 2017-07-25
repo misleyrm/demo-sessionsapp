@@ -98,6 +98,7 @@ Rails.application.routes.draw do
       # get :autocomplete_user_first_name, :on => :collection
       member do
         patch :add_deadline
+        patch :delete_deadline
         patch :complete
         patch :changelist
         patch :importanttask

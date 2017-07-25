@@ -28,10 +28,11 @@ App.list = App.cable.subscriptions.create "ListChannel",
         when 'saved'
           $task.replaceWith data.html
           $('.edit_task').submitOnCheck()
+          deadlineDatepicker($('input.deadline-datepicker'));
+          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
         when 'deleted'
           $task.remove()
           if (data.blocker) && (data.numBlockers == 0)
-            alert(data.numBlockers)
             $parentTask = $('[data-task-id = "' + data.parentTask + '"]', $user)
             $('#menu >ul.menu-option li a#link-blocker i', $parentTask).removeClass('md-red').addClass('md-dark md-inactive')
         when 'important'
@@ -39,6 +40,11 @@ App.list = App.cable.subscriptions.create "ListChannel",
             $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-dark md-inactive').addClass('md-jellow')
           else
             $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-jellow').addClass('md-dark md-inactive')
+        when 'deletedeadline'
+            $('ul.menu-information li.ms-deadline', $task).removeClass('active')
+            if  !($('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive'))
+              $('#menu >ul.menu-option li i.i-btn-datepicker', $task).addClass('md-dark md-inactive').removeClass('md-red')
+            $('p#alternate', $task).html('')
         when 'deadline'
           if (data.deadline != "") || (data.deadline != "null")
             d = new Date(data.deadline)
@@ -47,8 +53,6 @@ App.list = App.cable.subscriptions.create "ListChannel",
             if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
               $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
             $('p#alternate', $task).html(date)
-          else
-            alert("in null")
         when 'changelist'
           $task.remove()
           if (data.num != '')

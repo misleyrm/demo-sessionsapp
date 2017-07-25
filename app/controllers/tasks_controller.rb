@@ -92,6 +92,20 @@ class TasksController < ApplicationController
     end
   end
 
+  def delete_deadline
+    respond_to do |format|
+      if @task.update_attribute(:deadline, '')
+        format.html {redirect_to root_path, notice: 'Deadline date was removed' }
+        format.json {render json: @task }
+        format.js
+      else
+        format.html {redirect_to root_path, notice: 'We were unable to delete deadline, try later' }
+        format.json {render json: @task }
+        format.js
+      end
+    end
+  end
+
   def importanttask
     authorize @task
     # @task.update_attribute(:flag, 'true')
@@ -105,10 +119,9 @@ class TasksController < ApplicationController
   end
 
    def destroy
-
      if (@task.destroy)
          respond_to do |format|
-           format.html { redirect_to current_list }
+           format.html { redirect_to root_path, notice: "Task was deleted" }
            format.js
          end
      end
@@ -125,10 +138,6 @@ class TasksController < ApplicationController
    end
 
    def changelist
-# <<<<<<< HEAD
-# =======
-#     #  list_before = @task.list_id
-# >>>>>>> 52b73134bdddf9620062fa590026cf31f6acfa2e
      @task.update_attribute(:list_id, params[:list_id])
 
      respond_to do |format|

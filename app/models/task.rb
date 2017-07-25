@@ -42,9 +42,10 @@ class Task < ApplicationRecord
   end
 
   def broadcast_delete
-    parentTask = self.parent_task.id
+    parentTask = ''
   #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
+      parentTask = self.parent_task.id
       num = ''
       user = self.parent_task.user_id
       list = self.parent_task.list_id
@@ -100,7 +101,11 @@ class Task < ApplicationRecord
        ActionCable.server.broadcast 'list_channel', status: 'important', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,important: self.flag
    elsif self.previous_changes.key?(:deadline) &&
             self.previous_changes[:deadline].first != self.previous_changes[:deadline].last
-        ActionCable.server.broadcast 'list_channel', status: 'deadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline
+        if (self.deadline?)
+          ActionCable.server.broadcast 'list_channel', status: 'deadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline
+        else
+          ActionCable.server.broadcast 'list_channel', status: 'deletedeadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline
+        end
    else
       status = 'saved'
       ActionCable.server.broadcast "list_channel", { html: render_task(self,partial),user: user, id: self.id, status: status,list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }

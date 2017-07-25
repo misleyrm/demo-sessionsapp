@@ -28,12 +28,9 @@ class UsersController < ApplicationController
 
 
   def show
-    # authorize @user
-    #FIX SET USER
-    
-    # @user = User.find(session[:user_id])
     respond_to do |format|
-      format.html
+      format.html {redirect_to root_path}
+      format.json { render json: @user }
       format.js
     end
   end
@@ -66,6 +63,11 @@ class UsersController < ApplicationController
   def edit
     # authorize @user
     @user = User.find(params[:id])
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @user}
+      format.js { }
+    end
 
   end
 
@@ -95,21 +97,46 @@ class UsersController < ApplicationController
 
   def update
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    # respond_to do |format|
-        if @user.current_step == "security"
-           update_password(user_params)
-        elsif (@user.current_step == "personal")
-          # @user.update_attribute(user_params[:first_name],user_params[:last_name],user_params[:avatar])
-          @user.update(user_params)
-          # format.html
-          # format.js
-        else
-          @user.update(:avatar => user_params[:avatar])
-          # format.html
-          # format.js
-        end
+    if @user.update_attributes(user_params)
+      flash[:notice] = "Profile updated"
 
-    # end
+      respond_to do |format|
+        format.html { }
+        format.json { render json: @user}
+        format.js {  render :action => "update" }
+      end
+
+    end
+        # if (@user.current_step == "security") || (@user.current_step == "personal")
+        #   if @user.update_attributes(user_params)
+        #   end
+        # else
+        #   @user.update_attributes(:avatar => user_params[:avatar])
+        # end
+
+
+  end
+
+  def updateAvatar
+
+    if @user.update_attributes(user_params)
+      flash[:notice] = "Avatar updated"
+
+      respond_to do |format|
+        format.html { }
+        format.json { render json: @user}
+        format.js
+      end
+
+    end
+        # if (@user.current_step == "security") || (@user.current_step == "personal")
+        #   if @user.update_attributes(user_params)
+        #   end
+        # else
+        #   @user.update_attributes(:avatar => user_params[:avatar])
+        # end
+
+
   end
 
   def destroy
@@ -118,6 +145,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
+      format.js
       User.reset_pk_sequence
     end
   end

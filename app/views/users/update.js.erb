@@ -7,5 +7,10 @@ $('nav a.button-collapse').css('display','block');
 $('.navigationbar ul#slide-out').css({transform:'translateX(-100%)'});
 $('#page-content').html('<%= j render 'users/edit' %>');
 $('ul.tabs').tabs();
+
+ Materialize.toast("<%= flash[:notice] %>", 4000); // 4000 is the duration of the toast
 // $('#ms-modal-applications').modal('open');
 // $('.side-nav').hide();
+// # <% if flash[:notice] %>
+// #    <div class="notice"><%= flash[:notice] %></div>
+// #  <% end %>
