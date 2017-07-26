@@ -118,7 +118,7 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-
+     byebug
     if @user.update_attributes(user_params)
       flash[:notice] = "Avatar updated"
 

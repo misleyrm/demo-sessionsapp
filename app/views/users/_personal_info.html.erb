@@ -8,7 +8,11 @@
     </ul>
   </div>
 <% end %>
-<%= form_for(@user, url: updateAvatar_user_path(@user), method: :patch, :html=>{:id=>"user-edit-avatar",:remote=>true}) do |f| %>
+
+
+
+
+<%= form_for(@user, url: updateAvatar_user_path(@user), method: :patch, :html=>{id: "user-edit-avatar",remote: true, multipart: true}) do |f| %>
     <%= f.hidden_field :current_step, :value => "avatar" %>
     <div class="valign-wrapper ms-upload-avatar left" style="<% if (!current_user.nil?) %>background-image: url('<%= current_user.avatar('thumb') %>');<% end %>">
       <%= f.file_field :avatar %>
@@ -22,11 +26,12 @@
       <div>
         <label for="btn-avatar">YOUR AVATAR</label>
         <div class="input-field center-align">
-          <a class="waves-effect waves-light su-btn btn-flat submit"><%= f.submit "UPDATE" %></a>
+          <a class="waves-effect waves-light su-btn btn-flat submit"><%= f.submit "UPDATE", id: "update-avatar-submit" %></a>
         </div>
       </div>
     </div>
 <% end%>
+
 <div class="clearfix"></div>
 <%= form_for(@user, :html=>{:id=>"user_edit_pinfo", :multipart=> true, :remote => true}) do |g| %>
     <div class="section ms-form">
