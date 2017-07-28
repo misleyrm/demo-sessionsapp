@@ -26,7 +26,8 @@
     <tr>
       <td width="10%">&nbsp;</td>
       <td style="text-align:center;">
-        <font style="font-family: Verdana, Geneva, sans-serif; color:#ffffff; font-size:14px">  <%= link_to "Activate", edit_account_activation_url(@user.activation_token,email: @user.email,host: "localhost:3000"),:class => "ms-email-button"  %></font>
+        <font style="font-family: Verdana, Geneva, sans-serif; color:#ffffff; font-size:14px">  <%= link_to "Activate", edit_account_activation_url(@user.activation_token,email: @user.email,host: "https://demo-sessionsapp.herokuapp.com"),:class => "ms-email-button"  %></font>
+          <!-- <font style="font-family: Verdana, Geneva, sans-serif; color:#ffffff; font-size:14px">  <%= link_to "Activate", edit_account_activation_url(@user.activation_token,email: @user.email,host: "localhost:3000"),:class => "ms-email-button"  %></font> -->
 <!-- https://demo-sessionsapp.herokuapp.com -->
       </td>
       <td>&nbsp;</td>
