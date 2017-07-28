@@ -155,11 +155,12 @@ class UsersController < ApplicationController
   end
 
   def resend_activation
+    byebug
     @user = User.find_by(email:params[:email])
     @user.activation_token = User.new_token
     UserMailer.account_activation(@user).deliver_now
     flash[:info] = "Please check your email to activate your account."
-    redirect_to new_password_reset_url
+    redirect_to login_url
   end
 
   private
