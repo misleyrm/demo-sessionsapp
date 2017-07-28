@@ -83,6 +83,13 @@ class ListsController < ApplicationController
     @list = current_user.created_lists.build(list_params)
 
     if @list.save
+      respond_to do |format|
+          # @lists = current_user.created_lists.all
+          # set_task_per_list
+          format.html{ redirect_to @list}
+          format.js
+
+        end
     # respond_to do |format|
     #     # @lists = current_user.created_lists.all
     #     # set_task_per_list
