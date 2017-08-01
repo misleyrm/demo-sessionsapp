@@ -79,20 +79,25 @@ class UsersController < ApplicationController
     # user_info[:password] = temp_password
     # user_info[:password_confirmation] = temp_password
     # @team = Team.find(session[:team_id])
-    @user = User.create(user_params)
-    @token = params[:invitation_token]
-    if @user.save
-      if !@token.nil?
-          list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
-          @user.collaboration_lists << list #add this user to the list as a collaborator
-      end
-      UserMailer.account_activation(@user).deliver_now
-      flash[:info] = "Please check your email to activate your account."
-      redirect_to login_path
+    if (@user = User.find_by_email(user_params[:email]))
+      flash[:danger] = "We found an account under that email. Please login or reset your password."
+      redirect_to password_resets_path
     else
-      render 'new', layout: "login"
+      @user = User.create(user_params)
+      @token = params[:invitation_token]
+      if @user.save
+        if !@token.nil?
+            list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
+            @user.collaboration_lists << list #add this user to the list as a collaborator
+        end
+        @user.send_activation_email
+        # UserMailer.account_activation(@user).deliver_now
+        flash[:info] = "Please check your email to activate your account."
+        redirect_to login_path
+      else
+        render 'new', layout: "login"
+      end
     end
-
   end
 
   def update
@@ -118,7 +123,6 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-     byebug
     if @user.update_attributes(user_params)
       flash[:notice] = "Avatar updated"
 
@@ -155,9 +159,10 @@ class UsersController < ApplicationController
   end
 
   def resend_activation
-    byebug
     @user = User.find_by(email:params[:email])
     @user.activation_token = User.new_token
+    @user.create_activation_digest
+    @user.send_activation_email
     UserMailer.account_activation(@user).deliver_now
     flash[:info] = "Please check your email to activate your account."
     redirect_to login_url

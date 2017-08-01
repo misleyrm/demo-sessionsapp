@@ -1,26 +1,31 @@
 <%= form_for(:session, url: login_path) do |f| %>
-<% flash.each do |name, msg| %>
-    <%= content_tag :div, msg, :id => "flash#{name}" %>
-<% end %>
-  <% if @token != nil %>
-    <%= hidden_field_tag :invitation_token, @token %>
-  <% end %>
-  <div class="input-field">
-    <i class="material-icons prefix">email</i>
-    <%= f.email_field :email, id: 'icon_prefix' %>
-    <%= f.label :icon_prefix, 'Email' %>
-  </div>
-  <div class="input-field">
-    <i class="material-icons prefix">lock_outline</i>
-    <%= f.password_field :password, id: 'icon_prefix' %>
-    <%= f.label :icon_prefix, 'Password' %>
-  </div>
-  <div class="input-field">
-    <%= f.check_box :remember_me %>
-    <%= f.label :remember_me, 'Remember me', class: 'ms-text-small' %>
-  </div>
-  <div class="padding-large"></div>
-  <div class="input-field center-align">
-   <a class="waves-effect waves-light btn-large submit col s12"><%= submit_tag "Enter" %></a>
-  </div>
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>">
+        <%= message %>
+      </div>
+    <% end %>
+    <!-- <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, :id => "flash#{name}" %>
+    <% end %> -->
+      <% if @token != nil %>
+        <%= hidden_field_tag :invitation_token, @token %>
+      <% end %>
+      <div class="input-field">
+        <i class="material-icons prefix">email</i>
+        <%= f.email_field :email, id: 'icon_prefix' %>
+        <%= f.label :icon_prefix, 'Email' %>
+      </div>
+      <div class="input-field">
+        <i class="material-icons prefix">lock_outline</i>
+        <%= f.password_field :password, id: 'icon_prefix' %>
+        <%= f.label :icon_prefix, 'Password' %>
+      </div>
+      <div class="input-field">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me, 'Remember me', class: 'ms-text-small' %>
+      </div>
+      <div class="padding-large"></div>
+      <div class="input-field center-align">
+       <a class="waves-effect waves-light btn-large submit col s12"><%= submit_tag "Enter" %></a>
+      </div>
 <% end %>

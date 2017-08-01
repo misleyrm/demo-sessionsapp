@@ -101,16 +101,26 @@ class ListsController < ApplicationController
   end
 
   def update
-
-      if @list.update_attributes(list_params)
-        respond_to do |format|
-          format.html {redirect_to root_path, notice: 'List was successfully updated.'}
-          format.js
+     if (@list.all_tasks_list?)
+         if (@list.update_attributes(:description,params[:description]))
+           respond_to do |format|
+             format.html {redirect_to root_path, notice: 'List was successfully updated.'}
+             format.js
+           end
+         else
+             flash[:danger] = "We can't update the list."
+             render :action => "edit"
+          end
+      elsif (@list.update_attributes(list_params))
+            respond_to do |format|
+              format.html {redirect_to root_path, notice: 'List was successfully updated.'}
+              format.js
+            end
+        else
+            flash[:danger] = "We can't update the list."
+            render :action => "edit"
         end
-
-     else
-        render :action => "edit"
-    end
+  
   end
 
   def destroy

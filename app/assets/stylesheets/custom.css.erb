@@ -291,11 +291,12 @@ i.small {
   text-align: center;
   line-height: 2em;
 }
-.danger{
+.danger, .notice, .alert-danger, .alert-notice{
   text-align: center;
   font-style: italic;
-  line-height: 3em;
-  color: #f77f5f;
+  line-height: 1.1em;
+  color: #f77f5f!important;
+  padding-bottom: 20px;
 }
 
 /********* HELPER **********/
@@ -875,4 +876,13 @@ li.ms-deadline.active{
     font-family: 'ProximaNova-Light';
     letter-spacing: .6px;
 
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating){
+  color: #848994;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover,
+.card .card-content a:hover{
+  color: rgb(85, 194, 185);
 }
