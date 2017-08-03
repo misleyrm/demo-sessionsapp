@@ -40,6 +40,9 @@ Rails.application.routes.draw do
 
     post 'users/roleUpdate' => 'users#roleUpdate'
 
+    # for ajax
+    put 'users/updateAvatar' => 'users#updateAvatar', as: :updateAvatar
+
     post 'users/resend_activation' => 'users#resend_activation'
     # get 'lists/:id' => 'lists#complete_users'
     # post 'sessions/:session_id/wips/:id/update' => 'wips#update'

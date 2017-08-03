@@ -1,0 +1,69 @@
+$(document).on('turbolinks:load',function(){
+    $('.modal-trigger').modal();
+  $('select#user_role').on('change', function(){
+
+    var newSelect = $('select').val();
+    var userId = $(this).parents('.selected_role').attr('data');
+    $.ajax({
+      url: 'users/roleUpdate',
+      type: 'POST',
+      dataType: 'json',
+      data: {'user_id': userId, 'new_role': newSelect},
+      success: function(){
+        // alert ('user role was changed to' + newSelect);
+      }
+    });
+  });
+
+  $(document).on("change", 'input#user_avatar', uploadAvatar);
+  // CHANGE IMAGE IN USER NEW FILE UPLOAD
+  $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
+  $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
+  // $("form#user-edit-avatar").submit(function(e){
+  //              e.preventDefault(e);
+  //              alert('submit intercepted');
+  //          });
+
+
+  $(document).on("click","a.submit",function(){
+      // e.preventDefault();
+    var formData = new FormData(),
+      $input = $("#user_avatar");
+
+  	formData.append('user[avatar]', $input[0].files[0]);
+
+  	$.ajax({
+  	  url: $("form#user-edit-avatar").attr("action"),
+  	  data: formData,
+  	  cache: false,
+  	  contentType: false,
+  	  processData: false,
+  	  type: 'PUT'
+  	});
+  })
+
+
+  //  $(document).on("submit", "form#user-edit-avatar", function(e){
+  //      e.preventDefault();
+  //     //  alert($(input[type=file]).val());
+  //      var $input = $("#user_avatar");
+  //         var avatar  = $input[0].files[0];
+
+        //   var form = new FormData();
+        //   form.append("avatar", $("#user_avatar")[0].files[0]);
+        // console.log(form);
+
+
+      //  $.ajax({
+      //    complete:function(request){
+      //      console.log("avatar changed ");
+      //    },
+      //    data:'user='+ form,
+      //    dataType:'script',
+      //    type:'patch',
+      //    url: $(this).attr('action')
+  //     //  })
+  //   return  false;
+  //  });
+})
+// END

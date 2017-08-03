@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     if !@token.nil?
       @user.email = Invitation.find_by_token(@token).recipient_email
     end
-    render layout: "login"
+
   end
 
   # def set_task_per_user
@@ -101,6 +101,7 @@ class UsersController < ApplicationController
   end
 
   def update
+
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     if @user.update_attributes(user_params)
       flash[:notice] = "Profile updated"
@@ -125,14 +126,19 @@ class UsersController < ApplicationController
   def updateAvatar
     if @user.update_attributes(user_params)
       flash[:notice] = "Avatar updated"
-
-      respond_to do |format|
-        format.html { }
-        format.json { render json: @user}
-        format.js
-      end
-
+      render :json => {:status => 'success',:image_url => @user.avatar.url}
+    else
+      render :json => {:status => 'fail'}
     end
+
+
+
+
+    # respond_to do |format|
+    #   format.html {render 'show', layout: "application" }
+    #   format.json { render json: @user}
+    #   format.js
+    # end
         # if (@user.current_step == "security") || (@user.current_step == "personal")
         #   if @user.update_attributes(user_params)
         #   end

@@ -56,8 +56,12 @@ class User < ApplicationRecord
 
   attr_writer :current_step
 
-    validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
-    validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
+  validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
+  validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
+
+  # after_destroy :broadcast_delete
+  after_commit :broadcast_update
+  # after_create :broadcast_save
 
     # Methods for set current user for access from model
     def self.current
@@ -233,6 +237,14 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
+  end
+
+  def broadcast_update
+    if (self.previous_changes.key?(:avatar_file_name) &&
+       self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
+       status = 'changeavatar'
+       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url
+    end
   end
 
   private

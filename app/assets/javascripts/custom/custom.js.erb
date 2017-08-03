@@ -16,6 +16,13 @@ function handler(ev) {
 
 $(document).on('turbolinks:load',function(){
 
+
+
+  $("form#user-edit-avatar").submit(function(e){
+               e.preventDefault(e);
+               alert('submit intercepted');
+           });
+
   $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
         $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
         deadlineDatepicker($('input.deadline-datepicker'));

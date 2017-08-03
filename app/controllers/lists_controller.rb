@@ -5,7 +5,7 @@ class ListsController < ApplicationController
   before_action :require_logged_in
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users]
+  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search]
 
   def index
     @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
@@ -23,9 +23,11 @@ class ListsController < ApplicationController
   end
 
   def search
+
+    @collaborators = @list.collaboration_users
     respond_to do |format|
       format.html
-      format.json { @users = User.search(params[:term]) }
+      format.json { @users = @collaborators.search(params[:term]) }
       format.js
     end
   end
@@ -101,26 +103,27 @@ class ListsController < ApplicationController
   end
 
   def update
-     if (@list.all_tasks_list?)
-         if (@list.update_attributes(:description,params[:description]))
+
+     if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
            respond_to do |format|
-             format.html {redirect_to root_path, notice: 'List was successfully updated.'}
+            #  redirect_to root_path, notice: 'List was successfully updated.'
+             flash[:danger] = "List was successfully updated."
+             format.html {}
              format.js
            end
-         else
-             flash[:danger] = "We can't update the list."
-             render :action => "edit"
-          end
-      elsif (@list.update_attributes(list_params))
+
+    elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
             respond_to do |format|
-              format.html {redirect_to root_path, notice: 'List was successfully updated.'}
+              # redirect_to root_path, notice: 'List was successfully updated.'
+              flash[:danger] = "List was successfully updated."
+              format.html {}
               format.js
             end
         else
             flash[:danger] = "We can't update the list."
             render :action => "edit"
         end
-  
+
   end
 
   def destroy
