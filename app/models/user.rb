@@ -243,7 +243,7 @@ class User < ApplicationRecord
     if (self.previous_changes.key?(:avatar_file_name) &&
        self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
        status = 'changeavatar'
-       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url
+       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url, name: self.first_name
     end
   end
 

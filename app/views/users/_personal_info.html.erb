@@ -9,9 +9,6 @@
   </div>
 <% end %>
 
-
-
-
 <%= form_for(@user, url: 'users/updateAvatar', method: :patch, :html=>{id: "user-edit-avatar",remote: true, multipart: true, class: "edit-avatar"}) do |f| %>
     <%= f.hidden_field :current_step, :value => "avatar" %>
     <div class="valign-wrapper ms-upload-avatar left" style="<% if (!current_user.nil?) %>background-image: url('<%= current_user.avatar('thumb') %>');<% end %>">
@@ -26,7 +23,7 @@
       <div>
         <label for="btn-avatar">YOUR AVATAR</label>
         <div class="input-field center-align">
-          <a class="waves-effect waves-light su-btn btn-flat submit">Upload</a>
+          <a class="waves-effect waves-light su-btn btn-flat submit" id="btn-user-avatar-upload">Upload</a>
         </div>
       </div>
     </div>
@@ -56,7 +53,3 @@
        </div>
      </div>
 <% end%>
-
-<%= javascript_tag do %>
-
-<% end %>

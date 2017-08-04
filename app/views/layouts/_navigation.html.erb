@@ -1,5 +1,4 @@
 <aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
-  <!--class  /*user_lists navigation-lists */ -->
   <div class="nano">
     <div class="nano-content">
         <ul id="slide-out" class="side-nav fixed">
@@ -10,59 +9,24 @@
                   <div class="bar-user-email"><%=current_user.email%></div>
                <% end %>
             </li>
-                <li class="bold avatar <%= current_list?(current_all_tasks.id)? 'active' : '' %>" data-name="<%=current_all_tasks.name %>" data-list-id="<%=current_all_tasks.id %>">
-                  <a href="#" class="waves-effect waves-cyan" id="<%=current_all_tasks.id %>" data-remote="true" data-href= "<%=list_path(current_all_tasks) %>">
-                    <!-- <i class="material-icons">view_list</i>
-                    <%=current_all_tasks.name %> -->
-                    <%= render partial: "lists/nav_list_name", locals: {list: current_all_tasks} %>
-                    <span class="bar-number-task right"><%= current_user.num_incompleted_tasks(current_all_tasks) %></span>
-                  </a>
-                </li>
-                <% current_created_lists.each do |list| %>
-                  <% if (current_all_tasks.id != list.id)  %>
-                      <li class="bold <%= current_list?(list.id)? 'active' : '' %>" data-name="<%=list.name %>" data-list-id="<%=list.id %>">
-                        <a href="#"  id="<%=list.id %>" class="waves-effect waves-cyan" data-href= "<%=list_path(list) %>" data-remote="true">
-                          <!-- <i class="material-icons"><%= image_tag(list.avatar(:medium), class: 'circle', size: "28x28") %></i><%=list.name %> -->
-                            <%= render partial: "lists/nav_list_name", locals: {list: list} %>
-                              <div class="right">
-                                <% if list.collaborations? %>
-                                  <i class="material-icons bar-collaboration-icon">group</i>
-                                <%end %>
-                                <span class="bar-number-task"><%= current_user.num_incompleted_tasks(list)%></span>
-                              </div>
-                        </a>
-                      </li>
-                  <% end %>
+            <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: current_all_tasks}%>
+            <% current_created_lists.each do |list| %>
+              <% if (current_all_tasks.id != list.id)  %>
+                    <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: list}%>
+              <% end %>
+            <% end %>
+            <li class="li-hover"></li>
+            <li class="bold" id="ms-add">
+                <%= link_to new_list_path, data: { behavior: 'modal' },class: "waves-effect waves-cyan ms-add-list" do%>
+                     Add List <i class="material-icons right ms-text-green">add_circle_outline</i>
                 <% end %>
-                <li class="li-hover"></li>
-                <li class="bold" id="ms-add">
-                    <%= link_to new_list_path, data: { behavior: 'modal' },class: "waves-effect waves-cyan ms-add-list" do%>
-                         Add List <i class="material-icons right ms-text-green">add_circle_outline</i>
-                    <% end %>
-
-                      <!-- <a href="<%= new_list_path%>" class="waves-effect waves-cyan ms-add-list" data-remote="true" >
-                        Add List <i class="material-icons right ms-text-green">add_circle_outline</i>
-                      </a> -->
-                </li>
-                <% if !current_collaboration_lists.empty? %>
-                      <!-- <li class="li-hover"><div class="divider"></div></li> -->
-                      <li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>
-                      <% @current_collaboration_lists.each do |collection_list| %>
-                          <li class="bold <%= current_list?(collection_list.id)? 'active' : '' %>" data-name="<%=collection_list.name %>" data-list-id="<%=collection_list.id %>">
-                            <a id="<%= collection_list.id %>" href="#" data-href= "<%=list_path(collection_list) %>" data-remote="true">
-                                <%= render partial: "lists/nav_list_name", locals: {list: collection_list} %>
-                                <!-- <i class="material-icons "><%= image_tag(collection_list.avatar(:medium), class: 'circle', size: "28x28") %></i><%= collection_list.name %> -->
-                                <!-- <p>By <%#= collection_list.owner.first_name %></p> -->
-                                <div class="right">
-                                  <% if collection_list.collaborations? %>
-                                      <i class="material-icons bar-collaboration-icon">group</i>
-                                  <% end %>
-                                  <span class="bar-number-task"><%=current_user.num_incompleted_tasks(collection_list)%></span>
-                               </div>
-                            </a>
-                          </li>
-                      <% end %>
+            </li>
+            <% if !current_collaboration_lists.empty? %>
+                  <li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>
+                  <% @current_collaboration_lists.each do |collection_list| %>
+                       <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: collection_list}%>
                   <% end %>
+              <% end %>
         </ul>
      </div>
    </div>

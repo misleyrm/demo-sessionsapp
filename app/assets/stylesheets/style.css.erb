@@ -17,29 +17,11 @@ main{
   position: relative;
   padding-left: 350px;
 }
-
-.nav-main h1.logo{
-  display: inline-block;
-  width: 130px;
-  text-indent: -1000px;
-  background-image: url("<%= asset_path('sessions-main-logo.png')%>");
-  background-repeat: no-repeat;
-  background-position: right;
-  margin:0;
-  height: 40px;
-  vertical-align: middle;
-  margin-right: 20px;
+nav .nav-main .left h1.logo,
+nav .nav-main .left div.divider{
+  display: none;
 }
 
-.nav-main h1.logo ~.divider{
-  content: "";
-  height: 33px;
-  width: 1px;
-  display: inline-block;
-  background-color: #444;
-  margin: 0;
-  vertical-align: middle;
-}
 .nav-main #application-date {
   border-left: 1px solid #444;
   border-right: 1px solid #444;
@@ -74,7 +56,7 @@ main{
 nav .button-collapse.hamburger-menu{
   position: absolute;
   vertical-align: middle;
-  padding: 0px 10px;
+  /*padding: 0px 10px;*/
   left: 0;
 }
 
@@ -315,21 +297,21 @@ select{
    }
 }
 @media only screen and (max-width: 730px){
-  .nav-main .right{
+  /*.nav-main .right{
     display:block;
     width: 100%;
     text-align: right;
     line-height: 56px;
-  }
+  }*/
   .nav-main #application-date{
-    color:#808080;
+    /*color:#808080;*/
     border: 0;
   }
   .nav-main .right .settings {
     padding: 0px;
   }
   .nav-main .right .settings i{
-    color:#808080;
+    /*color:#808080;*/
     padding: 0px;
   }
   .nav-main .left{
@@ -387,7 +369,7 @@ select{
   }
   header .nav-main .right{
     position: absolute;
-    top: 90px;
+    /*top: 90px;*/
     right: 0;
   }
   body.expand-header header .nav-main .right{
@@ -403,11 +385,11 @@ select{
 
   @media only screen and (min-width: 600px) and (max-width: 1200px){
 
-    header .nav-main .right{
+    /*header .nav-main .right{
       position: absolute;
       top: 122px;
       right: 0;
-    }
+    }*/
     body.expand-header header .nav-main .right{
       position: absolute;
       top: 170px;
@@ -437,6 +419,10 @@ select{
         height: 90px!important;
         line-height: 90px!important;
     }
+
+    nav .nav-main .left{
+         line-height: 90px!important;
+     }
     .hamburger-menu>div {
         display: table;
         line-height: 90px;
@@ -479,6 +465,11 @@ select{
       height: 60px!important;
       line-height: 0px!important;
   }
+
+  nav .nav-main .left {
+       line-height: 60px!important;
+   }
+
   .hamburger-menu>div {
       display: table;
       line-height: 60px;
@@ -561,7 +552,46 @@ select{
   .product-sizer{width:50%}
   .product{width:50%}
   .gallary-sizer{width:50%}
-  .gallary-item img{width:50%}}
+  .gallary-item img{width:50%}
+
+  #task_detail {
+    min-width: 18rem;
+  }
+}
+
+@media screen and (min-width: 720px){
+  #task_detail {
+    min-width: 30rem;
+  }
+
+  nav .nav-main .left h1.logo,
+  nav .nav-main .left div.divider{
+    display: inline-block;
+  }
+
+  .nav-main h1.logo{
+    /*display: inline-block;*/
+    width: 130px;
+    text-indent: -1000px;
+    background-image: url("<%= asset_path('sessions-main-logo.png')%>");
+    background-repeat: no-repeat;
+    background-position: right;
+    margin:0;
+    height: 40px;
+    vertical-align: middle;
+    margin-right: 20px;
+  }
+
+  .nav-main h1.logo ~.divider{
+    content: "";
+    height: 33px;
+    width: 1px;
+    /*display: inline-block;*/
+    background-color: #444;
+    margin: 0;
+    vertical-align: middle;
+  }
+}
 @media screen and (max-width: 480px){
   .blog-sizer{width:100%}
   .blog{width:100%}

@@ -21,13 +21,15 @@ App.user = App.cable.subscriptions.create "UserChannel",
     $collaborationUsers = $('ul#collaboration-users')
     $liChip = $('[data-chip-user-id = "' + data.user + '"]', $collaborationUsers)
     $collaborationUserAvatar = $('a > img', $liChip )
+    $name = '' + data.name + ' changed avatar'
 
     switch data.status
       when 'changeavatar'
+        Materialize.toast($name, 4000);
         $barUserAvatar.attr('src',data.avatar )
         $contentUserAvatar.attr('src',data.avatar )
         $collaborationUserAvatar.attr('src',data.avatar )
-        
+
 
         # $('.edit_task').submitOnCheck()
         # deadlineDatepicker($('input.deadline-datepicker'));

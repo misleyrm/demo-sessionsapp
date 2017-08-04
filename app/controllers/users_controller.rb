@@ -88,7 +88,11 @@ class UsersController < ApplicationController
       if @user.save
         if !@token.nil?
             list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
-            @user.collaboration_lists << list #add this user to the list as a collaborator
+            hasCollaborationsList = User.first.collaboration_lists.count > 0 ? true : false
+            @user.collaboration_lists.push(list)  #add this user to the list as a collaborator
+            html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": list}).squish
+            htmlCollaborationsList = ""
+            ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
         end
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
