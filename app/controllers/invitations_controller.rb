@@ -31,8 +31,7 @@ class InvitationsController < ApplicationController
                  hasCollaborationsList = User.first.collaboration_lists.count > 0 ? true : false
                  @invitation.recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                  html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @invitation.recipient, "current_list": @list}).squish
-                 byebug
-                 htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: { "list": @list}).squish
+                 htmlCollaborationsList = ListsController.render(partial: "lists/li_nav_list", locals: { "list": @list, "user": current_user, "listCurrent": current_list}).squish
                  ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
               end
             else

@@ -14,7 +14,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require jquery-fileupload
 //= require jquery.atwho
 //= require rails.validations
 //= require turbolinks

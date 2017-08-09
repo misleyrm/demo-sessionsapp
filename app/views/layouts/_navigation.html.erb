@@ -9,10 +9,10 @@
                   <div class="bar-user-email"><%=current_user.email%></div>
                <% end %>
             </li>
-            <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: current_all_tasks}%>
+            <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: current_all_tasks,user: current_user}%>
             <% current_created_lists.each do |list| %>
               <% if (current_all_tasks.id != list.id)  %>
-                    <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: list}%>
+                    <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: list, user: current_user}%>
               <% end %>
             <% end %>
             <li class="li-hover"></li>
@@ -24,7 +24,7 @@
             <% if !current_collaboration_lists.empty? %>
                   <li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>
                   <% @current_collaboration_lists.each do |collection_list| %>
-                       <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: collection_list}%>
+                       <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: collection_list, user: current_user}%>
                   <% end %>
               <% end %>
         </ul>
