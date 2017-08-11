@@ -27,6 +27,7 @@ class InvitationsController < ApplicationController
               #send a notification email
               InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
               unless @invitation.recipient.collaboration_lists.include?(@list)
+                #  byebug
                  hasCollaborationsList = User.first.collaboration_lists.count > 0 ? true : false
                  @invitation.recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                  html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @invitation.recipient, "current_list": @list}).squish
