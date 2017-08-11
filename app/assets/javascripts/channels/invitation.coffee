@@ -21,6 +21,6 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           if !data.hasCollaborationsList
              $ul.append '<li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>'
 
-          $ul.append data['htmlCollaborationsList']
+          # $ul.append data['htmlCollaborationsList']
       when 'deleted'
         alert('delete')
