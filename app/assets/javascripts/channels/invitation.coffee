@@ -12,7 +12,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
 
     $navUser = $('[data-nav-id = "' + data.user + '"]')
     $ul = $('.nano .nano-content> ul', $navUser)
-
+    $navleft = $('#left-sidebar-nav')
 
     switch data.status
       when 'activated'

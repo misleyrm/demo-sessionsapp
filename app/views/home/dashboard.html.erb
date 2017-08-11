@@ -1,6 +1,5 @@
 <div class="wrapper vertical-sidebar" id="full-page">
   <% if logged_in? %>
-      <%= render 'layouts/navigation' %>
       <header id="header" class="page-topbar">
           <%= render 'layouts/topnavbar' %>
       </header>
@@ -8,7 +7,14 @@
   <main>
     <div  id="content"  class="<% if current_user.nil? %>toggled<% end %> container">
       <div id="page-content">
-          <%= render partial: "lists/list", locals: { list: @list, user: current_user } %>
+        <!-- <% if logged_in? %>
+        <% end %> -->
+        <aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
+            <%= render partial: 'layouts/navigation', locals: { user: current_user } %>
+        </aside>
+        <div id="main_center">
+            <%= render partial: "lists/list", locals: { list: @list, user: current_user } %>
+        </div>
       </div>
     </div>
   </main>

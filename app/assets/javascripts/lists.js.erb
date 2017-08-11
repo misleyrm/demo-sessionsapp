@@ -4,27 +4,7 @@ $(document).on('turbolinks:load',function(){
   $('.edit_task').submitOnCheck();
   $('.modal-trigger').modal();
 
-  var $navItem = $(".navigationbar .nano-content>ul li");
 
-  $navItem.on('click', function(){
-    event.preventDefault();
-    if (!$(this).is("#ms-add")){
-        $(".navigationbar .nano-content>ul li.active").removeClass('active');
-        $(this).addClass('active');
-
-        var id = $('.navigationbar .nano-content>ul li.active a').attr('id');
-        $("#form_date").attr('action', '/lists/' + id);
-        var date = $('#form_date').val() ? $('#form_date').val(): new Date();
-
-        $.ajax({
-          complete:function(request){},
-          data:'date='+ date,
-          dataType:'script',
-          type:'get',
-          url: $('.navigationbar .nano-content>ul li.active a').attr('data-href')
-        })
-    }
-  });
 
   $(document).on("change", 'input#list_avatar', uploadAvatar);
   // CHANGE IMAGE IN USER NEW FILE UPLOAD

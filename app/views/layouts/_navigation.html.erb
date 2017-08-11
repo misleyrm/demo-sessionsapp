@@ -1,33 +1,33 @@
-<aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
   <div class="nano">
     <div class="nano-content">
-        <ul id="slide-out" class="side-nav fixed">
-            <li class="bar-user-info">
-               <%= link_to user_path(current_user) do %>
-                  <%= image_tag(current_user.avatar(:medium), class: 'circle responsive-img center valign profile-image',alt: current_user.first_name, title:current_user.first_name) %>
-                  <h3 class="bar-user-info-name"><%= current_user.first_name %></h3>
-                  <div class="bar-user-email"><%=current_user.email%></div>
-               <% end %>
-            </li>
-            <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: current_all_tasks,user: current_user}%>
-            <% current_created_lists.each do |list| %>
-              <% if (current_all_tasks.id != list.id)  %>
-                    <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: list, user: current_user}%>
+      <ul id="slide-out" class="side-nav fixed">
+          <li class="bar-user-info">
+             <%= link_to user_path(user) do %>
+                <%= image_tag(user.avatar(:medium), class: 'circle responsive-img center valign profile-image',alt: user.first_name, title:user.first_name) %>
+                <h3 class="bar-user-info-name"><%= user.first_name %></h3>
+                <div class="bar-user-email"><%= user.email%></div>
+             <% end %>
+          </li>
+          <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: current_all_tasks,user: user, active: current_list?(current_all_tasks.id, current_list.id)}%>
+          <% current_created_lists.each do |list| %>
+              <% if (current_all_tasks.id != list.id) %>
+                  <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: list, user: user, active: current_list?(list.id, current_list.id)}%>
               <% end %>
-            <% end %>
-            <li class="li-hover"></li>
-            <li class="bold" id="ms-add">
-                <%= link_to new_list_path, data: { behavior: 'modal' },class: "waves-effect waves-cyan ms-add-list" do%>
-                     Add List <i class="material-icons right ms-text-green">add_circle_outline</i>
-                <% end %>
-            </li>
-            <% if !current_collaboration_lists.empty? %>
-                  <li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>
-                  <% @current_collaboration_lists.each do |collection_list| %>
-                       <%= render partial: "lists/nav_list_name", layout: "lists/li_navigation", locals: {list: collection_list, user: current_user}%>
-                  <% end %>
+          <% end %>
+          <li class="li-hover"></li>
+          <li class="bold" id="ms-add">
+              <%= link_to new_list_path, data: { behavior: 'modal' },class: "waves-effect waves-cyan ms-add-list" do %>
+                   Add List <i class="material-icons right ms-text-green">add_circle_outline</i>
               <% end %>
-        </ul>
-     </div>
-   </div>
-</aside>
+          </li>
+          <% if !current_collaboration_lists.empty? %>
+              <li class="li-hover">
+                  <p class="ultra-small margin more-text">Collaboration lists</p>
+              </li>
+              <% current_collaboration_lists.each do |collection_list| %>
+                   <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: collection_list, user: user, active: current_list?(collection_list.id, current_list.id)} %>
+              <% end %>
+          <% end %>
+      </ul>
+    </div>
+  </div>

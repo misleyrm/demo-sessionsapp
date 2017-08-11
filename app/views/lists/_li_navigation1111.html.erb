@@ -1,4 +1,4 @@
-<li class="bold <%= current_list?(list.id)? 'active' : '' %>" data-name="<%=list.name %>" data-list-id="<%=list.id %>">
+<li class="bold <%= active ? 'active' : '' %>" data-name="<%=list.name %>" data-list-id="<%=list.id %>">
   <a id="<%= list.id %>" href="#" data-href= "<%=list_path(list) %>" data-remote="true">
       <%= yield %>
       <!-- <%= render partial: "lists/nav_list_name", locals: {list: list} %> -->
@@ -6,7 +6,7 @@
         <% if list.collaborations? %>
             <i class="material-icons bar-collaboration-icon">group</i>
         <% end %>
-        <span class="bar-number-task"><%=current_user.num_incompleted_tasks(list)%></span>
+        <span class="bar-number-task"><%=user.num_incompleted_tasks(list)%></span>
      </div>
   </a>
 </li>
