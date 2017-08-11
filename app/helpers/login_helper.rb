@@ -19,8 +19,9 @@ module LoginHelper
     return true if (current_user.id == id)
   end
 
-  def current_list?(id)
-    return true if (current_list.id == id)
+  def current_list?(id, currentId)
+
+    return true if (currentId == id)
   end
 
   def current_all_lists

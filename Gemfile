@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'activerecord-reset-pk-sequence'
 
-gem 'jquery-fileupload-rails'
+# gem 'jquery-fileupload-rails'
 
 # gem 'acts-as-taggable-on'
 

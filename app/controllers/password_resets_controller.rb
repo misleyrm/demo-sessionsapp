@@ -9,7 +9,6 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    byebug
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if (@user && @user.activated?)
       @user.create_reset_digest
