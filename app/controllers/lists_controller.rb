@@ -82,12 +82,14 @@ class ListsController < ApplicationController
   end
 
   def create
+    byebug
     @list = current_user.created_lists.build(list_params)
 
     if @list.save
       respond_to do |format|
           # @lists = current_user.created_lists.all
           # set_task_per_list
+          flash[:success] = "List was successfully created."
           format.html{ redirect_to @list}
           format.js
 
@@ -107,7 +109,7 @@ class ListsController < ApplicationController
      if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
            respond_to do |format|
             #  redirect_to root_path, notice: 'List was successfully updated.'
-             flash[:danger] = "List was successfully updated."
+             flash[:success] = "List was successfully updated."
              format.html {}
              format.js
            end
@@ -115,7 +117,7 @@ class ListsController < ApplicationController
     elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
             respond_to do |format|
               # redirect_to root_path, notice: 'List was successfully updated.'
-              flash[:danger] = "List was successfully updated."
+              flash[:success] = "List was successfully updated."
               format.html {}
               format.js
             end
