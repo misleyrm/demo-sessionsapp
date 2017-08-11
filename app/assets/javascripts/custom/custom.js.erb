@@ -9,16 +9,45 @@ jQuery.fn.submitOnCheck = function() {
 function handler(ev) {
     var target = $(ev.target);
     var elId = target.attr('id');
-
-       alert('The mouse was over'+ elId );
-
+    alert('The mouse was over'+ elId );
 };
+
+
+
+$(document).on('click','.navigationbar .nano-content>ul li a', {}, function(event){
+  // alert('click on list');
+  event.preventDefault();
+  var $this = $(this);
+  if (!$this.parent().is("#ms-add")){
+      $(".navigationbar .nano-content>ul li.active").removeClass('active');
+      $this.parent().addClass('active');
+
+      var id = $this.attr('id');
+      $("#form_date").attr('action', '/lists/' + id);
+      var date = $('#form_date').val() ? $('#form_date').val(): new Date();
+
+      $.ajax({
+        complete:function(request){
+           $('.tooltipped').tooltip({delay: 50});
+        },
+        data:'date='+ date,
+        dataType:'script',
+        type:'get',
+        url: $this.attr('data-href')
+      })
+  }
+});
 
 $(document).on('turbolinks:load',function(){
 
-  $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
-        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-        deadlineDatepicker($('input.deadline-datepicker'));
+    $("form#user-edit-avatar").submit(function(e){
+                 e.preventDefault(e);
+                //  alert('submit intercepted');
+             });
+
+    $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
+          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+          deadlineDatepicker($('input.deadline-datepicker'));
     });
 
     $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
@@ -112,6 +141,7 @@ $(document).on('turbolinks:load',function(){
         belowOrigin: true, // Displays dropdown below the button
         alignment: 'right' // Displays dropdown with edge aligned to the left of button
       });
+
   $(document).on("click", '.dropdown-button',function(e){
      e.preventDefault();
      var id = "#"+ $(this).data('activates');
@@ -320,7 +350,6 @@ function deadlineDatepicker(e){
       onClose: function(){
         var date = $(this).datepicker('getDate');
         if (date != null){
-          alert(date);
           $.ajax({
             complete:function(request){},
             data:'deadline='+ date,

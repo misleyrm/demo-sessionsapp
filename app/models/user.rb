@@ -56,8 +56,12 @@ class User < ApplicationRecord
 
   attr_writer :current_step
 
-    validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
-    validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
+  validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
+  validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
+
+  # after_destroy :broadcast_delete
+  after_commit :broadcast_update
+  # after_create :broadcast_save
 
     # Methods for set current user for access from model
     def self.current
@@ -150,6 +154,16 @@ class User < ApplicationRecord
 
 
   # Returns user's task
+  # Activates an account.
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activated_at, Time.zone.now)
+  end
+
+  # Sends activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
@@ -157,6 +171,7 @@ class User < ApplicationRecord
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
   end
+
   # Returns the hash digest of the given string.
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
@@ -209,17 +224,36 @@ class User < ApplicationRecord
     ApplicationController.helpers
   end
 
+  # Returns true if a password reset has expired.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
+  def update_activation_digest
+     self.activation_token = User.new_token
+     update_attribute(:activation_digest, User.digest(activation_token))
+   end
+
+  def create_activation_digest
+    self.activation_token  = User.new_token
+    self.activation_digest = User.digest(activation_token)
+  end
+
+  def broadcast_update
+    if (self.previous_changes.key?(:avatar_file_name) &&
+       self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
+       status = 'changeavatar'
+       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url, name: self.first_name
+    end
+  end
+
   private
 
   def downcase_email
     self.email = email.downcase
   end
 
-  def create_activation_digest
 
-    self.activation_token  = User.new_token
-    self.activation_digest = User.digest(activation_token)
-  end
 
 
 end

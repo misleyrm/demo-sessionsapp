@@ -30,6 +30,4 @@ class Invitation < ApplicationRecord
   def generate_token
     self.token = Digest::SHA1.hexdigest([self.list_id, Time.now, rand].join)
   end
-
-
 end

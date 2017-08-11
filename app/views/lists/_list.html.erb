@@ -1,4 +1,4 @@
-<div id="main_center" data-list-id = "<%= list.id%>">
+<div data-list-id = "<%= @list.id%>">
     <div class="center row">
       <div class="col s12">
         <% unless (list.all_tasks?) %>
@@ -16,8 +16,8 @@
                           <% end %>
                           <% if (current_user.owner?(list)) %>
                               <li class="chip circle ms-text-green ms-add">
-                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link', remote: true, data: {behavior: 'modal'} do%>
-                                <i class="material-icons add-user">add</i>
+                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", remote: true, data: {behavior: 'modal', tooltip: 'Invite a new people'} do%>
+                                    <i class="material-icons add-user">add</i>
                                 <% end %>
                               </li>
                           <% end %>

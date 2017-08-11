@@ -27,5 +27,12 @@ class List < ApplicationRecord
     Thread.current[:list] = list
   end
   # END Methods for set current list for access from model
+  def all_tasks_list?
+    self.all_tasks
+  end
+
+  def avatar?
+    !self.avatar.blank?
+  end
 
 end

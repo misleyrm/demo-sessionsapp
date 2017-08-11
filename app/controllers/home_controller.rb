@@ -16,4 +16,5 @@ class HomeController < ApplicationController
 
   def unregistered
   end
+  
 end

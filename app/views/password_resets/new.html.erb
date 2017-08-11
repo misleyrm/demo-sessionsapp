@@ -14,12 +14,12 @@
              <% end %>
              <% if flash[:info] %>
                   <%= content_tag :p, flash[:info] , class: "notice center-align" %>
-            <% else %>
+            <% end %>
                   <p class="center-align">To reset your password, enter the email address you use to sign in.</p>
                   <div class="form">
                     <%= render 'new_reset' %>
                   </div>
-            <% end %>
+          
           </div>
           <div class="padding-small col s12"></div>
           <div class="card-action col s12">

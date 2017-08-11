@@ -1,0 +1,42 @@
+$(document).on('turbolinks:load',function(){
+    $('.modal-trigger').modal();
+    $('select#user_role').on('change', function(){
+        var newSelect = $('select').val();
+        var userId = $(this).parents('.selected_role').attr('data');
+        $.ajax({
+          url: 'users/roleUpdate',
+          type: 'POST',
+          dataType: 'json',
+          data: {'user_id': userId, 'new_role': newSelect},
+          success: function(){
+          }
+      });
+  });
+
+  $(document).on("change", 'input#user_avatar', uploadAvatar);
+  // CHANGE IMAGE IN USER NEW FILE UPLOAD
+  $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
+  $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
+
+  $(document).on("click","a#btn-user-avatar-upload",function(){
+      // e.preventDefault();
+    var formData = new FormData(),
+      $input = $("#user_avatar");
+
+  	formData.append('user[avatar]', $input[0].files[0]);
+
+  	$.ajax({
+  	  url: $("form#user-edit-avatar").attr("action"),
+  	  data: formData,
+  	  cache: false,
+  	  contentType: false,
+  	  processData: false,
+  	  type: 'PUT',
+      success: function(response) {
+            // Materialize.toast('Avatar Changed', 4000);
+            // return response; // <- I tried that one as well
+        }
+  	})
+  })
+})
+// END

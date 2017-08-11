@@ -82,7 +82,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
       else
         $('#incomplete_tasks', $user).prepend data['html']
         $('.edit_task').submitOnCheck()
-        $('#list_user_' + data['user'] + ' .new_task #detail').val('');
+        $('#list_user_' + data['user'] + ' .new_task #task_detail').val('');
         if (data.num != '')
           $('.bar-number-task', $listNav).html data['num']
 

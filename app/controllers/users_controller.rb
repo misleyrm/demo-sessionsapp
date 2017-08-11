@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     if !@token.nil?
       @user.email = Invitation.find_by_token(@token).recipient_email
     end
-    render layout: "login"
+
   end
 
   # def set_task_per_user
@@ -79,23 +79,33 @@ class UsersController < ApplicationController
     # user_info[:password] = temp_password
     # user_info[:password_confirmation] = temp_password
     # @team = Team.find(session[:team_id])
-    @user = User.create(user_params)
-    @token = params[:invitation_token]
-    if @user.save
-      if !@token.nil?
-          list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
-          @user.collaboration_lists << list #add this user to the list as a collaborator
-      end
-      UserMailer.account_activation(@user).deliver_now
-      flash[:info] = "Please check your email to activate your account."
-      redirect_to login_path
+    if (@user = User.find_by_email(user_params[:email]))
+      flash[:danger] = "We found an account under that email. Please login or reset your password."
+      redirect_to password_resets_path
     else
-      render 'new', layout: "login"
+      @user = User.create(user_params)
+      @token = params[:invitation_token]
+      if @user.save
+        if !@token.nil?
+            list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
+            hasCollaborationsList = User.first.collaboration_lists.count > 0 ? true : false
+            @user.collaboration_lists.push(list)  #add this user to the list as a collaborator
+            html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": list}).squish
+            htmlCollaborationsList = ""
+            ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+        end
+        @user.send_activation_email
+        # UserMailer.account_activation(@user).deliver_now
+        flash[:info] = "Please check your email to activate your account."
+        redirect_to login_path
+      else
+        render 'new', layout: "login"
+      end
     end
-
   end
 
   def update
+
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     if @user.update_attributes(user_params)
       flash[:notice] = "Profile updated"
@@ -118,17 +128,21 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-     byebug
     if @user.update_attributes(user_params)
       flash[:notice] = "Avatar updated"
-
-      respond_to do |format|
-        format.html { }
-        format.json { render json: @user}
-        format.js
-      end
-
+      render :json => {:status => 'success',:image_url => @user.avatar.url}
+    else
+      render :json => {:status => 'fail'}
     end
+
+
+
+
+    # respond_to do |format|
+    #   format.html {render 'show', layout: "application" }
+    #   format.json { render json: @user}
+    #   format.js
+    # end
         # if (@user.current_step == "security") || (@user.current_step == "personal")
         #   if @user.update_attributes(user_params)
         #   end
@@ -155,9 +169,10 @@ class UsersController < ApplicationController
   end
 
   def resend_activation
-    byebug
     @user = User.find_by(email:params[:email])
     @user.activation_token = User.new_token
+    @user.create_activation_digest
+    @user.send_activation_email
     UserMailer.account_activation(@user).deliver_now
     flash[:info] = "Please check your email to activate your account."
     redirect_to login_url

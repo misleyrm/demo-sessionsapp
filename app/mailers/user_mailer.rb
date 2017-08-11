@@ -6,6 +6,11 @@ class UserMailer < ApplicationMailer
     mail to: user.email, subject: "Account activation"
   end
 
+  def resend_account_activation(user)
+    @user = user
+    mail to: user.email, subject: "Account activation"
+  end
+
   def team_user(user, temp_password)
     @temp_password = temp_password
     @user = user

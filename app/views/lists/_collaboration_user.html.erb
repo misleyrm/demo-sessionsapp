@@ -1,8 +1,8 @@
 <% if (!collaboration_user.blank?) %>
-  <li class="chip" style="background: none;" id="<%= collaboration_user.id%>">
-        <%= link_to  list_collaboration_user_path(current_list,collaboration_user), id:"#{collaboration_user.id}",remote: true do %>
+  <li class="chip" style="background: none;" id="<%= collaboration_user.id%>" data-chip-user-id= "<%= collaboration_user.id%>">
+        <%= link_to list_collaboration_user_path(current_list,collaboration_user),class: "tooltipped", id:"#{collaboration_user.id}",remote: true,:data => { :'tooltip'=>"Click to show tasks for #{collaboration_user.first_name}" }  do %>
             <% if !collaboration_user.avatar.nil? %>
-               <%= image_tag(collaboration_user.avatar(:medium), class: 'circle',alt: collaboration_user.first_name, title:collaboration_user.first_name) %>
+               <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>
             <% else %>
                <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
             <% end %>

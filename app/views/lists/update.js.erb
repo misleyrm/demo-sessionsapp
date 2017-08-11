@@ -1,0 +1,4 @@
+$('#ms-modal-dialog').modal('close');
+<% flash.each do |message_type, message| %>
+		Materialize.toast("<%= message %>", 4000);
+<% end %>
