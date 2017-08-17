@@ -23,4 +23,6 @@
     $('.edit_task').submitOnCheck();
 
     $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+    $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
+
     $('.tooltipped').tooltip({delay: 50});

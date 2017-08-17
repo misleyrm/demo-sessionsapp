@@ -9,7 +9,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
     # Called when there's incoming data on the websocket for this channel
     # alert(data.html);
     $pageContent = $('#page-content')
-    $listUsers = $('#main_center > div#list-users', $pageContent )
+    $listUsers = $('div#list-users', $pageContent )
     $contentUser = $('[data-user-id = "' + data.user + '"]', $listUsers)
     $contentUserAvatar = $('div.user-img> img', $contentUser)
 

@@ -23,7 +23,6 @@ class ListsController < ApplicationController
   end
 
   def search
-
     @collaborators = @list.collaboration_users
     respond_to do |format|
       format.html
@@ -105,27 +104,20 @@ class ListsController < ApplicationController
   end
 
   def update
-
-     if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
-           respond_to do |format|
-            #  redirect_to root_path, notice: 'List was successfully updated.'
-             flash[:success] = "List was successfully updated."
-             format.html {}
-             format.js
-           end
-
-    elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
-            respond_to do |format|
-              # redirect_to root_path, notice: 'List was successfully updated.'
+    respond_to do |format|
+      if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
+              #  redirect_to root_path, notice: 'List was successfully updated.'
               flash[:success] = "List was successfully updated."
-              format.html {}
-              format.js
-            end
-        else
-            flash[:danger] = "We can't update the list."
-            render :action => "edit"
-        end
-
+       elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
+                # redirect_to root_path, notice: 'List was successfully updated.'
+              flash[:success] = "List was successfully updated."
+       else
+              flash[:danger] = "We can't update the list."
+              render :action => "edit"
+       end
+       format.html
+       format.js
+    end
   end
 
   def destroy
