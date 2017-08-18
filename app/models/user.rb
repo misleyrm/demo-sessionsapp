@@ -18,15 +18,16 @@ class User < ApplicationRecord
   validates :avatar, presence: true
 
   # belongs_to :team
-  has_many :sessions, :dependent => :destroy
-  has_many :wips, :dependent => :destroy
-  has_many :completeds, :dependent => :destroy
+  # has_many :sessions, :dependent => :destroy
+  # has_many :wips, :dependent => :destroy
+  # has_many :completeds, :dependent => :destroy
   # has_many :blockers, dependent: :destroy
   enum role: [:master, :admin, :manager, :employee]
   after_initialize :set_default_role, :if => :new_record?
 
   attr_accessor :remember_token, :activation_token, :reset_token
   before_create :create_activation_digest
+
   after_create :create_all_tasks_list
 
 
@@ -38,6 +39,7 @@ class User < ApplicationRecord
                                     :message => "must be .png, .jpg or .jpeg or .gif files"
   validates_attachment_size :avatar, :less_than => 5.megabytes,
                                     :message => "must be smaller than 5 MB (megabytes)."
+                                    
   has_many :created_lists, class_name: "List", :dependent => :destroy
 
   has_many :collaborations, :dependent => :destroy
