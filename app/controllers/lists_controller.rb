@@ -72,7 +72,7 @@ class ListsController < ApplicationController
   end
 
   def new
-    @list = current_user.created_lists.new
+    @list = current_user.created_lists.build
     render layout: 'modal'
   end
 
@@ -83,23 +83,17 @@ class ListsController < ApplicationController
   def create
     byebug
     @list = current_user.created_lists.build(list_params)
-
-    if @list.save
-      respond_to do |format|
+    respond_to do |format|
+        if @list.save
           # @lists = current_user.created_lists.all
           # set_task_per_list
           flash[:success] = "List was successfully created."
-          format.html{ redirect_to @list}
-          format.js
-
+        else
+          flash[:danger] = "We can't create the list."
+          render :action => "new"
         end
-    # respond_to do |format|
-    #     # @lists = current_user.created_lists.all
-    #     # set_task_per_list
-    #     format.html{ redirect_to lists_url}
-    #     format.js
-    #
-    #   end
+        format.html
+        format.js
     end
   end
 

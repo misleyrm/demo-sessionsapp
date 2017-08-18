@@ -6,6 +6,9 @@ class List < ApplicationRecord
   validates_attachment_content_type :avatar, :content_type => /^image\/(png|gif|jpeg|jpg)/
 
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
+
+  # has_many :approved_comments, -> { where(approved: true) }, class_name: 'Comment'
+
   has_many :tasks, :dependent => :destroy
   has_many :users, through: :tasks, :dependent => :destroy
 

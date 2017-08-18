@@ -1,65 +1,64 @@
-    <%= form_for(@list, :remote => true) do |f| %>
-          <% if @list.errors.any? %>
-            <div id="error_explanation">
+
+<%= form_for([current_user, current_user.created_lists.build], :remote => true) do |f| %>
+      <% if @list.errors.any? %>
+          <div id="error_explanation">
               <h2><%= pluralize(@list.errors.count, "error") %> prohibited this todo_list from being saved:</h2>
               <ul>
-              <% @list.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
+                  <% @list.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                  <% end %>
               </ul>
-            </div>
-          <% end %>
-            <% if ((!@list.new_record?) && @list.all_tasks_list?) %>
-              <div class="valign-wrapper ms-avatar-all-task">
-                <i class="material-icons">list</i>
-              </div>
-            <% else %>
-              <div class="valign-wrapper ms-upload-avatar" style="<% if ((!@list.new_record?) && @list.avatar?) %> background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
-                    <%= f.file_field :avatar %>
-                    <label for="list_avatar">
-                      <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
-                          <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar
-                      </div>
-                    </label>
-              </div>
-            <% end %>
-
-            <div class="input-field">
-              <%= f.text_field :name ,id: "disabled", disabled: @list.all_tasks_list?%>
-              <%= f.label :name,class: (@list.new_record?)? '': 'active' %>
-              <div class="divider"></div>
-            </div>
-            <div class="input-field">
-              <%= f.text_area :description,class:'materialize-textarea' %>
-              <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
-            </div>
-            <div class="divider"></div>
-            <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
-      			  <div class="row">
-          				<div class="col s6">
-                      <div class="input-field center-align">
-                        <a class='waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white disabled'>Transfer Ownership</a>
-                      </div>
-          				</div>
-                  <div class="col s6">
-                    <div class="input-field center-align">
-                      <%= link_to 'Delete list', @list, :confirm => 'Are you sure?', :method => :delete, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true %>
-                    </div>
+          </div>
+      <% end %>
+      <% if ((!@list.new_record?) && @list.all_tasks_list?) %>
+          <div class="valign-wrapper ms-avatar-all-task">
+              <i class="material-icons">list</i>
+          </div>
+      <% else %>
+          <div class="valign-wrapper ms-upload-avatar" style="<% if ((!@list.new_record?) && @list.avatar?) %> background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
+                <%= f.file_field :avatar %>
+                <label for="list_avatar">
+                  <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
+                      <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar
                   </div>
-              </div>
+                </label>
+          </div>
+      <% end %>
 
-        		<% end %>
-
-            <div class="row">
+      <div class="input-field">
+        <%= f.text_field :name ,id: "disabled", disabled: @list.all_tasks_list?%>
+        <%= f.label :name,class: (@list.new_record?)? '': 'active' %>
+        <div class="divider"></div>
+      </div>
+      <div class="input-field">
+        <%= f.text_area :description,class:'materialize-textarea' %>
+        <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
+      </div>
+      <div class="divider"></div>
+      <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
+  			  <div class="row">
+      				<div class="col s6">
+                  <div class="input-field center-align">
+                    <a class='waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white disabled'>Transfer Ownership</a>
+                  </div>
+      				</div>
               <div class="col s6">
                 <div class="input-field center-align">
-                  <%= link_to 'Cancel', lists_path, class: 'waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12', remote: true, data: {behavior: 'modal-form'}  %>
+                  <%= link_to 'Delete list', @list, :confirm => 'Are you sure?', :method => :delete, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true %>
                 </div>
               </div>
-              <div class="col s6">
-                <div class="input-field center-align">
-                  <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12"><%= submit_tag (@list.new_record?)? 'Create': 'Save' %></a>
-                </div>
-              </div>
+          </div>
+      <% end %>
+      <div class="row">
+          <div class="col s6">
+            <div class="input-field center-align">
+              <%= link_to 'Cancel', lists_path, class: 'waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12', remote: true, data: {behavior: 'modal-form'}  %>
             </div>
-        <% end %>
+          </div>
+          <div class="col s6">
+            <div class="input-field center-align">
+              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12"><%= submit_tag (@list.new_record?)? 'Create': 'Save' %></a>
+            </div>
+          </div>
+        </div>
+<% end %>

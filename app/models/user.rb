@@ -39,14 +39,19 @@ class User < ApplicationRecord
                                     :message => "must be .png, .jpg or .jpeg or .gif files"
   validates_attachment_size :avatar, :less_than => 5.megabytes,
                                     :message => "must be smaller than 5 MB (megabytes)."
-                                    
+
   has_many :created_lists, class_name: "List", :dependent => :destroy
+
+  has_one :all_task, ->{ where(all_tasks: true)}, class_name: "List"
 
   has_many :collaborations, :dependent => :destroy
   has_many :collaboration_lists, through: :collaborations, :source => :list, :dependent => :destroy
 
   has_many :tasks, :dependent => :destroy
   has_many :lists, through: :tasks, :dependent => :destroy
+
+  has_many :completed_tasks, -> { where.not(completed_at: nil) }, class_name: "Task"
+  has_many :incompleted_tasks, -> { where(completed_at: nil) }, class_name: "Task"
 
   has_many :assigns_tasks, class_name: "Task", foreign_key: "assigner_id", :dependent => :destroy
 
@@ -124,33 +129,35 @@ class User < ApplicationRecord
 
 
   # Returns user's task
-  def completed_tasks(list,date)
+  # completed_tasks(list,date)
+  def completed_tasks_by_date(list,date)
 # helpers.is_today?(date)
     if (Date.today == date)
-      self.tasks.where(["list_id=? and completed_at IS NOT ? and DATE(completed_at) BETWEEN ? AND ?",list.id,nil, date - 1.day , date] ).order('completed_at')
+      self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at')
     else
-      self.tasks.where(["list_id=? and completed_at IS NOT ? and DATE(completed_at) =?",list.id,nil, date - 1.day] ).order('completed_at')
+      self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at')
     end
   end
 
-  def incompleted_tasks_past(list,date)
-    @incomplete_tasks_past= (Date.today == date)? incompleted_tasks(list) - incompleted_tasks_today(list,date) : nil
-  end
+  # def incompleted_tasks_past(list,date)
+  #   @incomplete_tasks_past= (Date.today == date)? incompleted_tasks_by_date(list) - incompleted_tasks_today(list,date) : nil
+  # end
 
   # def incompleted_tasks_today(list,date)
   #   incompleted_tasks(list).where(["DATE(created_at)=?", date]).order('created_at')
   # end
 
   def num_incompleted_tasks(list)
-    self.incompleted_tasks(list,Date.today).count
+    self.incompleted_tasks_by_date(list,Date.today).count
   end
 
-  def incompleted_tasks(list,date)
+  def incompleted_tasks_by_date(list,date)
     if (Date.today == date)
-      self.tasks.where(["list_id=? and completed_at IS ? ",list.id,nil]).order("created_at DESC")
+      self.incompleted_tasks.where(["list_id=? ",list.id]).order("created_at DESC")
     else
     # self.tasks.where(completed_at: nil).order("updated_at DESC")
-      self.tasks.where(["list_id=? and completed_at IS ? and DATE(created_at) <=? ",list.id,nil, date ]).order("created_at DESC")
+    # We should change for task created that day
+      self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order("created_at DESC")
     end
   end
 
