@@ -19,6 +19,8 @@ class List < ApplicationRecord
 
   after_commit :broadcast_update,on: [:update]
 
+  before_save :capitalize_name
+
   def collaborations?
     !self.collaborations.blank?
   end
@@ -78,5 +80,10 @@ class List < ApplicationRecord
      ListsController.render(partial: "lists/nav_list_name.html", locals: {"list": list}).squish
   end
 
+  private
+
+    def capitalize_name
+      self.name = name.capitalize
+    end
 
 end
