@@ -1,5 +1,5 @@
 
-<%= form_for([current_user, current_user.created_lists.build], :remote => true) do |f| %>
+<%= form_for(@list, :remote => true) do |f| %>
       <% if @list.errors.any? %>
           <div id="error_explanation">
               <h2><%= pluralize(@list.errors.count, "error") %> prohibited this todo_list from being saved:</h2>
@@ -57,7 +57,7 @@
           </div>
           <div class="col s6">
             <div class="input-field center-align">
-              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12"><%= submit_tag (@list.new_record?)? 'Create': 'Save' %></a>
+              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12"><%= (@list.new_record?)? 'Create': 'Save' %></a>
             </div>
           </div>
         </div>

@@ -13,8 +13,6 @@ module LoginHelper
     # session[:team_id] = user.team_id
   end
 
-
-
   def current_user?(id)
     return true if (current_user.id == id)
   end
