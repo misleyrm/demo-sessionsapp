@@ -58,26 +58,26 @@
             </div>
           </a>
           <div class="nav-main">
-            <div class="left">
-              <h1 class="logo">Sessions</h1>
-              <div class="divider"></div>
-              <div class="uppercase avatar-list" id="nav-list" data-topnavbar-list-id = "<%= current_list.id %>">
+            <ul class="left valign-wrapper">
+              <li class="logo">  <h1 class="logo">Sessions</h1></li>
+              <li><div class="divider"></div></li>
+              <li class="uppercase avatar-list" id="nav-list" data-topnavbar-list-id = "<%= current_list.id %>">
                   <%= render partial: "lists/nav_list_name", locals: {list: current_list} %>
-              </div>
-            </div>
-            <div class="right">
-                <div id="ms-link-listSetting" class="settings">
+              </li>
+            </ul>
+            <ul class="right valign-wrapper">
+                <li id="ms-link-listSetting" class="settings">
                    <%= render partial: 'lists/link_listSetting',  locals:{list: current_list}%>
-                </div>
-                <div id='application-date'>
+                </li>
+                <li id='application-date'>
                        <%= form_for current_list, method: :get,remote: true do |f| %>
                           <input type="hidden" name="date" id="form_date">
                           <input type="date" class="datepicker right-align">
                        <% end %>
-                 </div>
-              </div>
+                 </li>
+              </ul>
             </div>
-            <div id="ms-tabsSetting"></div>
+            
      </div>
   </nav>
 </div>

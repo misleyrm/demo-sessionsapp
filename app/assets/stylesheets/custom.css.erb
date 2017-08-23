@@ -363,6 +363,7 @@ i.small {
   background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
   height: 1px;
   margin: 15px 0 30px;
+  width: 1px;
 }
 
 .divider.no-active{
@@ -930,4 +931,69 @@ li.ms-deadline.active{
 
 .ms-avatar-ini.hidden{
    display: none;
+}
+
+/****************Error Alert*******************/
+.ms-alert{
+  padding: .75rem 0rem .75rem;
+  border: 1px solid rgba(111, 115, 126, 0.3);
+  background: #fff;
+  color: #848994;
+  border-left-width: 5px;
+  margin: 0 auto 1rem;
+  font-size: .9rem;
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+  border-radius: .25rem;
+  /* Safari 3-4, iOS 1-3.2, Android 1.6- */
+  -webkit-border-radius: .25rem;
+  /* Firefox 1-3.6 */
+  -moz-border-radius: .25rem;
+}
+
+.ms-alert.ms-alert_error {
+    border-left-color: #f23d5c;
+}
+
+
+/*********** Nav Main **************/
+.nav-main .left .divider{
+  height: 33.6px;
+  margin: 0px;
+  margin-left: 1.2rem;
+  vertical-align: middle;
+}
+
+.nav-main .left .chip{
+  margin-bottom: 0px;
+  vertical-align: middle;
+}
+
+#ms-user-nav-setting li.ms-user-email{
+  font-size: 14px;
+  color: #848a95;
+}
+
+#ms-user-nav-setting li.ms-user-email span{
+  letter-spacing: .02rem;
+  line-height: 60px;
+}
+
+#ms-user-nav-setting li.ms-user-email i{
+  line-height: 60px;
+  height: 60px;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+
+.ms-upload-avatar{
+  position: relative;
+}
+
+.ms-upload-avatar .ms-avatar-ini.show{
+  top: 50%;
+}
+
+.ms-upload-avatar input[type="file"]{
+  left: 0;
 }

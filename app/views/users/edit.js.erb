@@ -1,8 +1,11 @@
-if(!$('#ms-tabsSetting').length){
-    $('header .nav-wrapper').append('<div id="ms-tabsSetting"></div>');
+if(!$('#ms-user-nav-setting').length){
+    $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');   //<div id="ms-tabsSetting"></div>
 }
-$('#ms-tabsSetting').html('<%= j render partial: 'users/tabsSetting' %>');
+$('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
+$('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+
 $('body').addClass('expand-header');
+$('body.expand-header .nav-main ul.right').addClass('hide');
 $('nav a.button-collapse').css('display','block');
 $('.navigationbar ul#slide-out').css({transform:'translateX(-100%)'});
 $('#page-content').html('<%= j render "edit" %>');

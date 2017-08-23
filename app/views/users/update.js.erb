@@ -1,13 +1,16 @@
-if(!$('#ms-tabsSetting').length){
-    $('header .nav-wrapper').append('<div id="ms-tabsSetting"></div>');
+if(!$('#ms-user-nav-setting').length){
+    $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');
 }
-$('#ms-tabsSetting').html('<%= j render partial: 'users/tabsSetting' %>');
+
+$('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
+$('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+
 $('body').addClass('expand-header');
 $('nav a.button-collapse').css('display','block');
 $('.navigationbar ul#slide-out').css({transform:'translateX(-100%)'});
 $('#page-content').html('<%= j render 'users/edit' %>');
 $('ul.tabs').tabs();
-console.log("<%= @user.first_name%><i class='material-icons right'>arrow_drop_down</i>");
+
 $('a#dropdown-button-name').html("<%= @user.first_name%><i class='material-icons right'>arrow_drop_down</i>");
  Materialize.toast("<%= flash[:notice] %>", 4000); // 4000 is the duration of the toast
 // $('#ms-modal-applications').modal('open');

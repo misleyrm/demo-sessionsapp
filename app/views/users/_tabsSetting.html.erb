@@ -1,6 +1,14 @@
-
+<div id="ms-tabsSetting">
     <ul class="tabs ms-tabsSetting-titles" id="tabs_edit_user">
       <li class="tab col"><a href="#profile" class="active" data-remote="true" data-current-step = "personal">Personal</a></li>
       <li class="tab col"><a href="#security" data-remote="true" data-current-step = "security">Security</a></li>
       <!-- <li class="tab col"><a href="#invitation" data-remote="true" data-current-step = "security">Invitations</a></li> -->
     </ul>
+</div>
+<div class="right">
+  <ul>
+    <%= content_tag "li", class: "ms-user-email" do%>
+        <i class="material-icons left">&#xE554;</i><span class="left"><%= user.email%></span>
+    <% end%>
+  </ul>
+</div>
