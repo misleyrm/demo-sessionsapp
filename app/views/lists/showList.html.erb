@@ -8,7 +8,7 @@
       List Description: <%= (!@list.description.present?) ? "No Description" : @list.description%>
     </div>
     <div class="input-field">
-      List Owner: <%= unless @list.owner.nil? "#{@list.owner.first_name.capitalize} #{@list.owner.last_name.capitalize}"  end%>
+      List Owner: <% unless @list.owner.nil? %><%= "#{@list.owner.first_name.capitalize} #{@list.owner.last_name.capitalize}" %> <% end%>
     </div>
     <div class="divider"></div>
 	 <div class="row">
