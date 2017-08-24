@@ -15,7 +15,6 @@ function handler(ev) {
 
 
 $(document).on('click','.navigationbar .nano-content>ul li a', {}, function(event){
-  // alert('click on list');
   event.preventDefault();
   var $this = $(this);
   if (!$this.parent().is("#ms-add")){
@@ -42,7 +41,6 @@ $(document).on('turbolinks:load',function(){
 
     $("form#user-edit-avatar").submit(function(e){
                  e.preventDefault(e);
-                //  alert('submit intercepted');
              });
 
     $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
@@ -90,12 +88,15 @@ $(document).on('turbolinks:load',function(){
   });
 
   /***** Autocomplete with jQuery Autocomplete *********/
-
+  alert (userCreate.toString());
   $('#application-date .datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year
       closeOnSelect: true,
       hiddenName: true,
+      disable: [
+        { from: [0,0,0], to: userCreate.toString() }
+       ],
       onClose: function (){
         $('#form_date').val(this.get());
         console.log(this.$root.parent('form'));
