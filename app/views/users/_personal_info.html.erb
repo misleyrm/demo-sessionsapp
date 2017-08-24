@@ -1,14 +1,3 @@
-<% if @user.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-    <ul>
-    <% @user.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
-<% end %>
-
 <%= form_for(@user, url: 'users/updateAvatar', method: :patch, :html=>{id: "user-edit-avatar",remote: true, multipart: true, class: "edit-avatar"}) do |f| %>
     <%= f.hidden_field :current_step, :value => "avatar" %>
     <div class="valign-wrapper ms-upload-avatar left" style="<% if (!current_user.nil?) %>background-image: url('<%= current_user.avatar('thumb') %>');<% end %>">

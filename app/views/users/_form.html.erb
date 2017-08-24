@@ -1,5 +1,20 @@
 <%= form_for @user ,validate: true do |f| %>
+  <% if @user.errors.any? %>
     <div class="row">
+      <div class="col s12">
+        <div id="error_explanation" class="ms-alert ms-alert_error">
+          <!-- <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2> -->
+          <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+    <!-- <div class="row">
         <div class="col s12">
               <% if @user.errors.any? %>
                     <div id="error_explanation">
@@ -15,9 +30,10 @@
                   <%= content_tag :div, msg, :id => "flash#{name}" %>
               <% end %>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col s12">
+              <%= f.hidden_field :current_step, :value => "createAccount" %>
               <div class="valign-wrapper ms-upload-avatar">
                   <%= f.file_field :avatar %>
                   <label for="user_avatar">

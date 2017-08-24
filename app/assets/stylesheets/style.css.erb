@@ -23,8 +23,8 @@ nav .nav-main .left div.divider{
 }
 
 .nav-main #application-date {
-  border-left: 1px solid #444;
-  border-right: 1px solid #444;
+  border-left: 1px solid rgba(146, 146, 146, 0.27);
+  border-right: 1px solid rgba(146, 146, 146, 0.27);
   max-width: 180px;
   text-align: center;
   padding: 0 20px;
@@ -109,24 +109,42 @@ nav {
   margin: 0 22px 0 -12px;
 
 }
-.nav-main .avatar-list .chip i{
-    height: 40px!important;
-    width: 40px;
+.nav-main .avatar-list .chip i,
+.nav-main .avatar-list .chip span{
+    height: 50px!important;
+    width: 50px;
     margin: 0 22px 0 -12px;
     font-size: 30px;
-    line-height: 40px!important;
+    line-height: 50px!important;
     padding: 0;
 }
-.nav-main .avatar-list .chip i, .navigationbar .chip i, .chip i.add-user{
+.nav-main .avatar-list .chip i,
+.nav-main .avatar-list .chip span,
+.navigationbar .chip i,
+.chip i.add-user,
+.navigationbar .chip span{
   float: left;
   border-radius: 50%;
   background-color: #fff;
   text-align: center;
 }
 
-.nav-main .avatar-list .chip i, .navigationbar .chip i{
+.navigationbar .chip span{
+    font-size: 20px;
+  }
+
+.nav-main .avatar-list .chip span,
+.navigationbar .chip span{
+    text-transform: uppercase;
+    line-height: 33px;
+  }
+
+.nav-main .avatar-list .chip i,
+.nav-main .avatar-list .chip span,
+.navigationbar .chip i,
+.navigationbar .chip span{
   color: #7F7F7F;
-  border: 1px solid #7F7F7F;
+  border: 1px solid #C0BFBF;
 
 }
 
@@ -147,18 +165,24 @@ nav {
   width: 100%;
 }
 
-.nav-main .avatar-list .chip img, .navigationbar .chip img{
+.nav-main .avatar-list .chip img,
+.navigationbar .chip img{
   background: white;
   border: 1px solid #C0BFBF;
   /*padding: 5px;*/
 }
-.navigationbar .chip i, .chip i.add-user{
-  font-size: 22px;
+.navigationbar .chip i, .chip i.add-user,
+.navigationbar .chip span{
   height: 32px;
   width: 32px;
+}
+.navigationbar .chip i, .chip i.add-user{
+  font-size: 22px;
   line-height: 30px;
 }
-.navigationbar .chip i{
+
+.navigationbar .chip i,
+.navigationbar .chip span{
   margin: 0 8px 0 -12px!important;
 }
 
@@ -174,6 +198,8 @@ body header,
 body header nav,
 body header .navbar .navbar-fixed{
   height: 120px;
+  -webkit-transition: height .21s; /* Safari */
+   transition: height .21s;
 }
 body .navigationbar{
   top: 120px;
@@ -420,8 +446,9 @@ select{
         line-height: 90px!important;
     }
 
-    nav .nav-main .left{
+    nav .nav-main .left, nav .nav-main .right {
          line-height: 90px!important;
+         height: 90px;
      }
     .hamburger-menu>div {
         display: table;
@@ -466,8 +493,9 @@ select{
       line-height: 0px!important;
   }
 
-  nav .nav-main .left {
+  nav .nav-main .left, nav .nav-main .right {
        line-height: 60px!important;
+       height: 60px;
    }
 
   .hamburger-menu>div {
@@ -478,13 +506,17 @@ select{
     display: block;
     width: 40px;
     height: 40px;
-    margin-top: 10px;
+    /*margin-top: 10px;*/
   }
+
+
   .nav-main .avatar-list .chip{
     margin-bottom: 0px;
     margin-right: 0px;
     vertical-align: middle;
     padding:0;
+    line-height: 40px;
+    height: 40px;
   }
 
   #ms-login, #ms-reset-password {
@@ -570,7 +602,6 @@ select{
   }
 
   .nav-main h1.logo{
-    /*display: inline-block;*/
     width: 130px;
     text-indent: -1000px;
     background-image: url("<%= asset_path('sessions-main-logo.png')%>");
@@ -579,7 +610,6 @@ select{
     margin:0;
     height: 40px;
     vertical-align: middle;
-    margin-right: 20px;
   }
 
   .nav-main h1.logo ~.divider{
@@ -874,7 +904,7 @@ select{
     bottom: 0;
     width: 280px;
     font-size: 1rem;
-    z-index: 998;
+    z-index: 9;
     transform: translate3d(0,0,0);
 
   }
@@ -1589,9 +1619,15 @@ extra-small.notification-badge {
   text-indent: -99999px;
   opacity: 0;
 }
+.ms-upload-avatar label[for="list_avatar"]{
+  z-index: 1;
+}
+
+
+.ms-upload-avatar,
 .ms-upload-avatar label[for="user_avatar"],
 .ms-upload-avatar label[for="list_avatar"]{
-  font-size: .7rem;
+  font-size: .75rem;
   cursor: pointer;
   display: block;
   line-height: 13px;

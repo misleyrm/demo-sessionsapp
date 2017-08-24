@@ -6,13 +6,13 @@
     if($('#ms-user-edit').length){
       $('#ms-user-edit').remove();
     }
-    if($('#ms-tabsSetting').length){
-        $('#ms-tabsSetting').remove();
+    if($('#ms-user-nav-setting').length){    //#ms-tabsSetting
+        $('#ms-user-nav-setting').remove();   //#ms-tabsSetting
     }
     if ($('body').hasClass('expand-header')){
         $('body').removeClass('expand-header');
+        $('.nav-main ul.right').removeClass('hide');
     }
-    // console.log("<%= @list.id %>");
 
     $content.html("<%= j render partial: 'lists/list', locals: { list: @list, user: current_user } %>");
 
@@ -23,4 +23,7 @@
     $('.edit_task').submitOnCheck();
 
     $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+    $('.nav-main li.avatar-list').hasClass('avatar-user').removeClass('avatar-user');
+    $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
+
     $('.tooltipped').tooltip({delay: 50});

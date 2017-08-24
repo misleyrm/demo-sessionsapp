@@ -2,10 +2,10 @@ class ListsController < ApplicationController
 
   include LoginHelper
   include ApplicationHelper
-  before_action :require_logged_in
+  before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search]
+  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker]
 
   def index
     @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
@@ -23,7 +23,6 @@ class ListsController < ApplicationController
   end
 
   def search
-
     @collaborators = @list.collaboration_users
     respond_to do |format|
       format.html
@@ -59,6 +58,24 @@ class ListsController < ApplicationController
 
   end
 
+
+  def showList_blocker
+    # byebug
+    @user = User.find_by_email(params[:email].downcase)
+    unless current_user?(@user.id)
+      @collaborator = User.find(params[:mention_by])
+      respond_to do |format|
+        format.html {redirect_to root_path }
+        format.json { render json: @list }
+        format.js
+      end
+    else
+      flash[:danger] = "You need to login as #{params[:email]}."
+      redirect_to root_path
+    end
+
+  end
+
   def complete_users
     @collaboration_users = @list.collaboration_users
     @c_users = {}
@@ -73,7 +90,7 @@ class ListsController < ApplicationController
   end
 
   def new
-    @list = current_user.created_lists.new
+    @list = current_user.created_lists.build
     render layout: 'modal'
   end
 
@@ -82,50 +99,39 @@ class ListsController < ApplicationController
   end
 
   def create
-    byebug
     @list = current_user.created_lists.build(list_params)
-
-    if @list.save
-      respond_to do |format|
+    # respond_to do |format|
+        if @list.save
           # @lists = current_user.created_lists.all
           # set_task_per_list
           flash[:success] = "List was successfully created."
-          format.html{ redirect_to @list}
-          format.js
-
+          redirect_to root_path
+        else
+          flash[:danger] = "We can't create the list."
+          render :action => "new"
         end
-    # respond_to do |format|
-    #     # @lists = current_user.created_lists.all
-    #     # set_task_per_list
-    #     format.html{ redirect_to lists_url}
-    #     format.js
-    #
-    #   end
-    end
+        # format.html
+        # format.js
+    # end
   end
 
   def update
-
-     if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
-           respond_to do |format|
-            #  redirect_to root_path, notice: 'List was successfully updated.'
-             flash[:success] = "List was successfully updated."
-             format.html {}
-             format.js
-           end
-
-    elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
-            respond_to do |format|
-              # redirect_to root_path, notice: 'List was successfully updated.'
+    # respond_to do |format|
+      if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
+              #  redirect_to root_path, notice: 'List was successfully updated.'
               flash[:success] = "List was successfully updated."
-              format.html {}
-              format.js
-            end
-        else
-            flash[:danger] = "We can't update the list."
-            render :action => "edit"
-        end
-
+              redirect_to root_path
+       elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
+                # redirect_to root_path, notice: 'List was successfully updated.'
+              flash[:success] = "List was successfully updated."
+              redirect_to root_path
+       else
+              flash[:danger] = "We can't update the list."
+              render :action => "edit"
+       end
+      #  format.html
+      #  format.js
+    # end
   end
 
   def destroy

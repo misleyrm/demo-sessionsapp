@@ -359,10 +359,21 @@ i.small {
   clear: both;
 }
 
-.divider:not(.no-active){
-  background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
+.nav-main .divider{
   height: 1px;
-  margin: 15px 0 30px;
+  width: 1px;
+}
+
+.nav-main .divider,
+#main_center .divider:not(.no-active) {
+  background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
+
+}
+
+#main_center .divider:not(.no-active){
+  height: 1px;
+  margin: 15px -25px 30px;
+  width: 95%;
 }
 
 .divider.no-active{
@@ -471,19 +482,37 @@ a{
 
 
 /********* Modal *********/
-#ms-modal-dialog.modal {
+#ms-modal-dialog.modal,
+#ms-modal-confirm.modal {
   width:100%;
   max-height:100vh;
   top:0!important;
   height:100vh;
 }
-#ms-modal-dialog.modal .modal-close{
+
+#ms-modal-confirm.modal {
+  background-color: rgba(25, 25, 25, 0.5);
+}
+
+#ms-modal-dialog.modal .modal-close,
+#ms-modal-confirm.modal .modal-close.ms-close-x{
   position: relative;
   top: -25px;
   right: -64px;
   z-index: 999;
   padding: 0;
 }
+
+#ms-modal-confirm.modal .modal-close.ms-close-x{
+    padding-left: 1px;
+  }
+
+#ms-modal-confirm.modal .modal-content p{
+  font-size: 19px;
+  color: #90908f;
+  padding: 10px 0 20px;
+}
+
 .modal-action.modal-close.btn-flat:hover {
     background: none;
     box-shadow: none;
@@ -492,7 +521,9 @@ a{
     color: #55C2B9!important;
 }
 #ms-modal-dialog.modal .modal-close i,
-#ms-modal-dialog.modal .modal-content{
+#ms-modal-dialog.modal .modal-content,
+#ms-modal-confirm.modal .modal-content,
+#ms-modal-confirm.modal .modal-close.ms-close-x i {
     border: 1px solid #9e9e9e;
     background-color: #F6F6F9;
     border-radius: 4px;
@@ -500,25 +531,31 @@ a{
     -webkit-border-radius: 4px;
 }
 
-#ms-modal-dialog.modal .modal-close i{
+#ms-modal-dialog.modal .modal-close i,
+#ms-modal-confirm.modal .modal-close.ms-close-x i{
   font-size: 2rem;
   font-weight: 100;
   color: #9e9e9e;
   line-height: 2rem;
 }
 
+#ms-modal-confirm a.btn-large {
+    height: 35px;
+    line-height: 35px;
+}
 
 #ms-modal-dialog.modal input#detail{
   min-width: 600px;
 }
-#ms-modal-dialog.modal .modal-content{
+#ms-modal-dialog.modal .modal-content,
+#ms-modal-confirm.modal .modal-content{
   margin: 0 auto;
   min-width: 540px;
 
 }
 /********* End Modal *********/
 /********** User Img *********/
-.chip.user-img{
+#list-users .chip{
   position: relative;
   margin: 1.4rem 0rem 0 -5rem;
   display: inline-block;
@@ -526,7 +563,7 @@ a{
   border: 1px solid hsla(0, 0%, 89%, 0.94);
 }
 
-.chip.user-img img, .chip.user-img {
+#list-users .chip img, #list-users .chip {
    width: 46px;
    height: 46px;
    border-radius: 50%;
@@ -548,7 +585,7 @@ a{
     margin-top: 5px;
 }
 
-#list-users .chip.user-img::after {
+#list-users .chip ::after {
     text-decoration: none;
     font-family: "Material Icons";
     content: "\E061 ";
@@ -557,7 +594,7 @@ a{
     background-color: #fff;
     color: #77B44E;
     position: relative;
-    z-index: 999;
+    z-index: 1;
     border-radius: 50%;
     padding: 0;
     left: 25px;
@@ -657,7 +694,7 @@ textarea.materialize-textarea:focus.valid {
 }
 
 #complete_tasks div.task-detail::after{
-  content: "";
+  /*content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -666,7 +703,7 @@ textarea.materialize-textarea:focus.valid {
   border-top: 1px solid rgba(164, 166, 169, 0.3);
   z-index: -1;
   margin-left: 12px;
-  width: 120%;
+  width: 120%;*/
 }
 
 .show_blockers .blocker ul.action-menu {
@@ -890,3 +927,121 @@ li.ms-deadline.active{
 .nav-main .left{
    line-height: 60px;
 }
+
+.ms-avatar-ini{
+    position: absolute;
+    font-size: 70px;
+    text-align: center;
+    width: 98px;
+}
+
+.ms-avatar-ini.show{
+   display: block;
+}
+
+.ms-avatar-ini.hidden{
+   display: none;
+}
+
+/****************Error Alert*******************/
+.ms-alert{
+  padding: .75rem 0rem .75rem;
+  border: 1px solid rgba(111, 115, 126, 0.3);
+  background: #fff;
+  color: #848994;
+  border-left-width: 5px;
+  margin: 0 auto 1rem;
+  font-size: .9rem;
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+  border-radius: .25rem;
+  /* Safari 3-4, iOS 1-3.2, Android 1.6- */
+  -webkit-border-radius: .25rem;
+  /* Firefox 1-3.6 */
+  -moz-border-radius: .25rem;
+}
+
+.ms-alert.ms-alert_error {
+    border-left-color: #f23d5c;
+}
+
+
+/*********** Nav Main **************/
+.nav-main .left .divider{
+  height: 33.6px;
+  margin: 0px;
+  margin-left: 1.2rem;
+  vertical-align: middle;
+}
+
+.nav-main .left .chip{
+  margin-bottom: 0px;
+  vertical-align: middle;
+}
+
+#ms-user-nav-setting li.ms-user-email{
+  font-size: 14px;
+  color: #848a95;
+}
+
+#ms-user-nav-setting li.ms-user-email span{
+  letter-spacing: .02rem;
+  line-height: 60px;
+}
+
+#ms-user-nav-setting li.ms-user-email i{
+  line-height: 60px;
+  height: 60px;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+
+.ms-upload-avatar{
+  position: relative;
+}
+
+.ms-upload-avatar .ms-avatar-ini.show{
+  top: 50%;
+}
+
+.ms-upload-avatar input[type="file"]{
+  left: 0;
+}
+.show_blockers div.blocker label.truncate{
+  -webkit-transition: white-space 2s; /* Safari */
+  transition: white-space 2s;
+
+}
+
+.show_blockers div.blocker.active label.truncate {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: initial;
+
+}
+
+.show_blockers div.blocker label {
+    margin: 0rem 0 .3rem;
+}
+
+#complete_tasks .row{
+  margin-bottom: 10px;
+}
+
+#complete_tasks p.truncate:hover{
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: initial;
+}
+
+#complete_tasks p.truncate{
+  text-decoration: line-through;
+  -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
+  -moz-text-decoration-style: solid;
+}
+
+
+/*#complete_tasks div.task-detail:hover::after {
+  border: none;
+
+}*/

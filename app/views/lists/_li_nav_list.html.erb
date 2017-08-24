@@ -1,12 +1,5 @@
-
-<li class="bold <%= (list.id == listCurrent.id )? 'active' : '' %>" data-name="<%=list.name %>" data-list-id="<%=list.id %>">
+<li class="bold <%= (list.id == listCurrent.id )? 'active' : '' %>" data-name="<%=list.name %>" data-nav-list-id="<%=list.id %>">
   <a id="<%= list.id %>" href="#" data-href= "<%=list_path(list) %>" data-remote="true">
-		<!-- <div class="chip">
-			<% if list.avatar.exists? %>
-				<%= image_tag(list.avatar(:medium), class: 'circle', size: "50x50") %>
-			<% else %><i class="material-icons">list</i><% end %>
-			<%= list.name %>
-		</div> -->
       <%= render partial: "lists/nav_list_name", locals: {list: list} %>
       <div class="right">
         <% if list.collaborations? %>

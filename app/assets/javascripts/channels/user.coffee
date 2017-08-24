@@ -9,7 +9,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
     # Called when there's incoming data on the websocket for this channel
     # alert(data.html);
     $pageContent = $('#page-content')
-    $listUsers = $('#main_center > div#list-users', $pageContent )
+    $listUsers = $('div#list-users', $pageContent )
     $contentUser = $('[data-user-id = "' + data.user + '"]', $listUsers)
     $contentUserAvatar = $('div.user-img> img', $contentUser)
 
@@ -17,6 +17,10 @@ App.user = App.cable.subscriptions.create "UserChannel",
     $nano = $('.nano',$barUser)
     $barUserInfo = $('.nano-content>ul li.bar-user-info', $nano)
     $barUserAvatar = $('img', $barUserInfo)
+
+    $nav = $('[data-nav-id = "' + data.user + '"]')
+    $userNavShip = $('li[data-topnavbar-user-id = "' + data.user + '"]')
+    $chipList = $('div.chip> img', $userNavShip)
 
     $collaborationUsers = $('ul#collaboration-users')
     $liChip = $('[data-chip-user-id = "' + data.user + '"]', $collaborationUsers)
@@ -29,7 +33,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
         $barUserAvatar.attr('src',data.avatar )
         $contentUserAvatar.attr('src',data.avatar )
         $collaborationUserAvatar.attr('src',data.avatar )
-
+        $chipList.attr('src',data.avatar )
 
         # $('.edit_task').submitOnCheck()
         # deadlineDatepicker($('input.deadline-datepicker'));

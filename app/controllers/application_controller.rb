@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include LoginHelper
   include Pundit
+  # protect_from_forgery with: :exception
   protect_from_forgery with: :exception
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   before_action -> { flash.now[:notice] = flash[:notice].html_safe if flash[:html_safe] && flash[:notice] }
