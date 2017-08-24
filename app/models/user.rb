@@ -11,7 +11,7 @@ class User < ApplicationRecord
   uniqueness: { case_sensitive: false }
   has_secure_password
 
-  validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "security"  }
+  validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "security" ||  o.current_step == "createAccount" }
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   before_save :downcase_email

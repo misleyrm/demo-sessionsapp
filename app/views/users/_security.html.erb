@@ -1,5 +1,5 @@
 <%= form_for(@user, :remote => true) do |f| %>
-<div class="row">
+<div class="section ms-form">
   <%= f.hidden_field :current_step, :value => "security" %>
   <div class="input-field">
     <i class="material-icons prefix">lock_outline</i>
@@ -18,8 +18,8 @@
     <%= f.password_field :password_confirmation, class: 'form-control',id: 'password_reset_email icon_prefix' %>
   </div>
   <div class="input-field center-align">
-  <a class="waves-effect waves-light su-btn btn-flat submit"><%= submit_tag "Update"%></a>
+    <a class="waves-effect waves-light btn-large row submit"><%= submit_tag "Update"%></a>
   </div>
 </div>
-</div>
+
 <% end%>
