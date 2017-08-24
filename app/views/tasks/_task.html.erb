@@ -17,7 +17,9 @@
 
 <div id='task_<%= task.id%>' class="row	<%= (!task.completed?)? task.task_created : ''  %>" data-task-id = "<%= task.id%>">
 	<div class="col s6 task-detail">
-		<p id="<%= task.id%>"><%= "#{task.detail} #{task.completed_at}" %></p>
+    <%= content_tag "p", id: "#{task.id}",class: (!task.completed?) ? "" : "truncate" do %>
+			 <%= "#{task.detail} #{task.completed_at}" %>
+		<% end %>
 		<% if (!task.is_blocker?) && (!task.completed?) %>
 				<ul class="menu-information">
 						<% if (all_task?(task.list_id) ) %>
@@ -25,9 +27,7 @@
 						<% end %>
 						<!-- <li><p><%= "#{distance_of_time_in_words(task.updated_at, Time.now, include_seconds: true)} ago" %></p></li> -->
 						<li><p> created at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>
-						<%# if (task.deadline?) %>
-						  <li class="ms-deadline <%= (!task.deadline.nil?) ? 'active' : '' %>"><i class="material-icons md-18 md-red">&#xE858;</i><p id="alternate"><%= (!task.deadline.nil?) ? task.deadline.strftime('%a, %e %B') : '' %></p></li>
-						<%# end %>
+						<li class="ms-deadline <%= (!task.deadline.nil?) ? 'active' : '' %>"><i class="material-icons md-18 md-red">&#xE858;</i><p id="alternate"><%= (!task.deadline.nil?) ? task.deadline.strftime('%a, %e %B') : '' %></p></li>
 				</ul>
 		<% end%>
 	</div>

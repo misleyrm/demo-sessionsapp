@@ -18,6 +18,10 @@ App.user = App.cable.subscriptions.create "UserChannel",
     $barUserInfo = $('.nano-content>ul li.bar-user-info', $nano)
     $barUserAvatar = $('img', $barUserInfo)
 
+    $nav = $('[data-nav-id = "' + data.user + '"]')
+    $userNavShip = $('li[data-topnavbar-user-id = "' + data.user + '"]')
+    $chipList = $('div.chip> img', $userNavShip)
+
     $collaborationUsers = $('ul#collaboration-users')
     $liChip = $('[data-chip-user-id = "' + data.user + '"]', $collaborationUsers)
     $collaborationUserAvatar = $('a > img', $liChip )
@@ -29,7 +33,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
         $barUserAvatar.attr('src',data.avatar )
         $contentUserAvatar.attr('src',data.avatar )
         $collaborationUserAvatar.attr('src',data.avatar )
-
+        $chipList.attr('src',data.avatar )
 
         # $('.edit_task').submitOnCheck()
         # deadlineDatepicker($('input.deadline-datepicker'));

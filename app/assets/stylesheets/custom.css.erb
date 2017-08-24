@@ -359,11 +359,21 @@ i.small {
   clear: both;
 }
 
-.divider:not(.no-active){
-  background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
+.nav-main .divider{
   height: 1px;
-  margin: 15px 0 30px;
   width: 1px;
+}
+
+.nav-main .divider,
+#main_center .divider:not(.no-active) {
+  background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
+
+}
+
+#main_center .divider:not(.no-active){
+  height: 1px;
+  margin: 15px -25px 30px;
+  width: 95%;
 }
 
 .divider.no-active{
@@ -545,7 +555,7 @@ a{
 }
 /********* End Modal *********/
 /********** User Img *********/
-.chip.user-img{
+#list-users .chip{
   position: relative;
   margin: 1.4rem 0rem 0 -5rem;
   display: inline-block;
@@ -553,7 +563,7 @@ a{
   border: 1px solid hsla(0, 0%, 89%, 0.94);
 }
 
-.chip.user-img img, .chip.user-img {
+#list-users .chip img, #list-users .chip {
    width: 46px;
    height: 46px;
    border-radius: 50%;
@@ -575,7 +585,7 @@ a{
     margin-top: 5px;
 }
 
-#list-users .chip.user-img::after {
+#list-users .chip ::after {
     text-decoration: none;
     font-family: "Material Icons";
     content: "\E061 ";
@@ -684,7 +694,7 @@ textarea.materialize-textarea:focus.valid {
 }
 
 #complete_tasks div.task-detail::after{
-  content: "";
+  /*content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -693,7 +703,7 @@ textarea.materialize-textarea:focus.valid {
   border-top: 1px solid rgba(164, 166, 169, 0.3);
   z-index: -1;
   margin-left: 12px;
-  width: 120%;
+  width: 120%;*/
 }
 
 .show_blockers .blocker ul.action-menu {
@@ -1007,8 +1017,31 @@ li.ms-deadline.active{
     white-space: normal;
     overflow: hidden;
     text-overflow: initial;
+
 }
 
 .show_blockers div.blocker label {
     margin: 0rem 0 .3rem;
 }
+
+#complete_tasks .row{
+  margin-bottom: 10px;
+}
+
+#complete_tasks p.truncate:hover{
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: initial;
+}
+
+#complete_tasks p.truncate{
+  text-decoration: line-through;
+  -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
+  -moz-text-decoration-style: solid;
+}
+
+
+/*#complete_tasks div.task-detail:hover::after {
+  border: none;
+
+}*/

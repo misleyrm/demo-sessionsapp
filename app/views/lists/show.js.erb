@@ -23,6 +23,7 @@
     $('.edit_task').submitOnCheck();
 
     $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+    $('.nav-main li.avatar-list').hasClass('avatar-user').removeClass('avatar-user');
     $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
 
     $('.tooltipped').tooltip({delay: 50});
