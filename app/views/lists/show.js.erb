@@ -27,3 +27,9 @@
     $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
 
     $('.tooltipped').tooltip({delay: 50});
+
+    $('#application-date .datepicker').pickadate({
+        disable: [
+          { from: [0,0,0], to: gon.startDate }
+        ]
+      });

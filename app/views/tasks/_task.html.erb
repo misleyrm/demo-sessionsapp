@@ -1,20 +1,3 @@
-<!-- <p id="<%= task.id%>"><%= "#{task.detail} #{task.completed_at}" %></p>
-<% if (!task.is_blocker?) && (!task.completed?) %>
-	<ul class="menu-option menu-information">
-	<% if (all_task?(task.list_id) ) %>
-		<li><p><%= "#{task.list_belonging}"%></p></li>
-		<li>/</li>
-	<% end %>
-		<li><p><%= "#{distance_of_time_in_words(task.created_at, Time.now, include_seconds: true)} ago" %></p></li>
-		<li>/</li>
-		<li><p> created_at: <%= "#{task.created_at.strftime('%m:%d:%Y')} " %></p></li>
-		<% if (task.deadline?) %>
-			<li>/</li>
-		  <li><i class="material-icons md-18 md-red">&#xE858;</i><p><%= "#{task.deadline}" %></p></li>
-		<% end %>
-	</ul>
-<% end%> 44-->
-
 <div id='task_<%= task.id%>' class="row	<%= (!task.completed?)? task.task_created : ''  %>" data-task-id = "<%= task.id%>">
 	<div class="col s6 task-detail">
     <%= content_tag "p", id: "#{task.id}",class: (!task.completed?) ? "" : "truncate" do %>
@@ -25,7 +8,6 @@
 						<% if (all_task?(task.list_id) ) %>
 								<li><p><%= "#{task.list_belonging}"%></p></li>
 						<% end %>
-						<!-- <li><p><%= "#{distance_of_time_in_words(task.updated_at, Time.now, include_seconds: true)} ago" %></p></li> -->
 						<li><p> created at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>
 						<li class="ms-deadline <%= (!task.deadline.nil?) ? 'active' : '' %>"><i class="material-icons md-18 md-red">&#xE858;</i><p id="alternate"><%= (!task.deadline.nil?) ? task.deadline.strftime('%a, %e %B') : '' %></p></li>
 				</ul>
@@ -42,12 +24,10 @@
 					</li>
 					<li>
 						<% if !task.completed? %>
-							 <!-- <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id), remote: true do %> -->
 							 <div class="input-group">
 							     <input type="text" class="tooltipped deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>" data-position="top" data-delay="50" data-tooltip="Add deadline">
 									 <i class="i-btn-datepicker material-icons md-18 <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%> " id="btn-datepicker_<%= task.id%>" data-href = '<%= "#{ add_deadline_task_url(id: task.id)}"%>' data-href-delete-deadline = '<%= "#{ delete_deadline_task_url(id: task.id)}"%>'>&#xE858;</i>
 							</div>
-							 <!-- <% end %> -->
 						<% end %>
 					</li>
 					<li>
@@ -90,7 +70,6 @@
 					</li>
 					<li>
 						<% if !task.completed? %>
-							 <!-- task_t_blockers_path -->
 							 <i class="material-icons md-18 md-red" data-has-blockers="<%= !task.t_blockers.blank? %>" >warning</i>
 							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: 'link-blocker', remote: true, data: { behavior: 'modal' }  do %>
 									<i class="tooltipped material-icons md-18 md-<%= (!task.t_blockers.blank?) ? 'red' : 'dark md-inactive' %>" data-position="top" data-delay="50" data-tooltip="Add blocker">warning</i>
