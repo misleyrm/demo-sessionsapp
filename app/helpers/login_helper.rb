@@ -80,6 +80,7 @@ module LoginHelper
       session[:current_date] = (params[:date].present?) ? params[:date].to_date : session[:current_date]
     end
     @current_date = session[:current_date].to_date
+    
   end
 
   def today(date)
@@ -133,5 +134,13 @@ module LoginHelper
   def initials(id)
     @initials = User.find(id).first_name[0]
     @initials << User.find(id).last_name[0]
+  end
+
+  def startDate
+    userCreated = current_user.created_at
+    listCreated = current_list.created_at
+    date = (userCreated >= listCreated) ? listCreated : userCreated
+    arrayDate = [date.strftime("%Y").to_i,date.strftime("%m").to_i - 1 ,date.strftime("%d").to_i - 1]
+    return arrayDate
   end
 end

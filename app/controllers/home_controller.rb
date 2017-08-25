@@ -4,6 +4,10 @@ class HomeController < ApplicationController
 
   def dashboard
     @user = current_user
+    gon.current_user = @user
+    gon.current_list = current_list
+    gon.startDate = startDate
+    gon.current_date = current_date.to_date
     @all_tasks   = @user.tasks.where(:completed_at => nil).order('created_at')
     @lists = @user.created_lists.all.order('created_at')
     @collaboration_lists = @user.collaboration_lists.all
@@ -16,5 +20,6 @@ class HomeController < ApplicationController
 
   def unregistered
   end
-  
+
+
 end
