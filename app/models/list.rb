@@ -42,6 +42,15 @@ class List < ApplicationRecord
     !self.avatar.blank?
   end
 
+  def search_collaborators(id)
+    users = self.collaboration_users
+    array_owner = []
+    array_owner.push(self.owner)
+    collaborations = users + array_owner
+    current = [User.find(id)]
+    return collaborations - current
+  end
+
   def broadcast_update
 
     if !self.previous_changes.keys.nil?

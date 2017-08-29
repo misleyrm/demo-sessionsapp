@@ -8,4 +8,13 @@ class TaskMailer < ApplicationMailer
     mail to: email, subject: "Alert"
   end
 
+
+  def deadline(email, sender, task)
+    @user = User.find_by_email(email)
+    @sender = sender
+    @task = task
+    mail to: email, subject: "Deadline task"
+  end
+
+
 end

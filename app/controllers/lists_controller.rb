@@ -23,7 +23,8 @@ class ListsController < ApplicationController
   end
 
   def search
-    @collaborators = @list.collaboration_users
+    @collaborators = @list.search_collaborators(current_user.id)
+
     respond_to do |format|
       format.html
       format.json { @users = @collaborators.search(params[:term]) }
