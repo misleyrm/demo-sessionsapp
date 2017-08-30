@@ -11,6 +11,29 @@ $(document).on('turbolinks:load',function(){
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
+  $(document).on("click","a#btn-list-form-submit",function(e){
+    e.preventDefault();
+    var formData = new FormData(),
+      $input = $("#list_avatar");
+    if( $input[0].files.length != 0 ){
+      formData.append('list[avatar]', $input[0].files[0]);
+
+    }
+
+  	$.ajax({
+  	  url: $("form#list-new").attr("action"),
+  	  data: formData,
+  	  cache: false,
+  	  contentType: false,
+  	  processData: false,
+  	  type: 'POST',
+      success: function(response) {
+
+            // Materialize.toast('Avatar Changed', 4000);
+            // return response; // <- I tried that one as well
+        }
+  	})
+  })
 
 
 var app = window.app = {};
