@@ -48,6 +48,8 @@ gem 'pundit'
 
 gem 'figaro'
 
+gem 'gon'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use CoffeeScript for .coffee assets and views
