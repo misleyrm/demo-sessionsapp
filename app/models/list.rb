@@ -1,5 +1,5 @@
 class List < ApplicationRecord
-
+  validates :name, presence: true
   attr_accessor :num_incompleted_tasks
   has_attached_file :avatar,
   styles: { :medium => "200x200>", :thumb => "100x100>" }
@@ -40,6 +40,16 @@ class List < ApplicationRecord
 
   def avatar?
     !self.avatar.blank?
+  end
+
+  def search_collaborators(id)
+    users = self.collaboration_users
+
+    array_owner = []
+    array_owner.push(self.owner)
+    collaborations = users + array_owner
+    current = [User.find(id)]
+    return collaborations - current
   end
 
   def broadcast_update

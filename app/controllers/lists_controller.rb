@@ -23,10 +23,13 @@ class ListsController < ApplicationController
   end
 
   def search
-    @collaborators = @list.collaboration_users
+
+    # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
+
+    @result = @list.collaboration_users
     respond_to do |format|
       format.html
-      format.json { @users = @collaborators.search(params[:term]) }
+      format.json { @users = @result.search(params[:term]) }
       format.js
     end
   end
@@ -99,9 +102,12 @@ class ListsController < ApplicationController
   end
 
   def create
+    byebug
     @list = current_user.created_lists.build(list_params)
-    # respond_to do |format|
+    byebug
+    respond_to do |format|
         if @list.save
+          current_user.collaboration_lists.push(@list)
           # @lists = current_user.created_lists.all
           # set_task_per_list
           flash[:success] = "List was successfully created."
@@ -110,9 +116,9 @@ class ListsController < ApplicationController
           flash[:danger] = "We can't create the list."
           render :action => "new"
         end
-        # format.html
-        # format.js
-    # end
+         format.html
+         format.js
+     end
   end
 
   def update

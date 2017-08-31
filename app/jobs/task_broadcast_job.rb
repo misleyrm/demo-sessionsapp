@@ -11,7 +11,6 @@ class TaskBroadcastJob < ApplicationJob
   private
 
   def render_task(task,partial)
-
      TasksController.render(partial: "tasks/#{partial}", locals: {task: task}).squish
   end
 end

@@ -14,7 +14,7 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def add_deadline?
-    (user.owner?(record.try(:list)) || record.try(:user) == user) 
+    (user.owner?(record.try(:list)) || record.try(:user) == user)
  end
 
   def importanttask?
@@ -32,6 +32,11 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def changelist?
+      user.owner?(record.try(:list)) || record.try(:user) == user
+  end
+
+  def showTask?
+     byebug
       user.owner?(record.try(:list)) || record.try(:user) == user
   end
 

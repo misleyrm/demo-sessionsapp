@@ -81,10 +81,11 @@ class TasksController < ApplicationController
   end
 
   def add_deadline
-
     if (!params[:deadline].blank?) && (!params[:deadline].nil?) && (params[:deadline] != "null")
       authorize @task
       @task.update_attribute(:deadline, params[:deadline])
+      sender = current_user
+      TaskMailer.deadline(@task.user.email, sender, @task).deliver_now
       respond_to do |format|
         format.html { }
         format.js
@@ -142,6 +143,18 @@ class TasksController < ApplicationController
 
      respond_to do |format|
        format.html {  redirect_to current_list, notice: "Task changed" }
+       format.js
+     end
+
+   end
+
+   def showTask
+     authorize @task
+     gon.current_date = @task.created_at.to_date
+     @list = List.find(@task.list.id)
+     @date = @task.created_at
+     respond_to do |format|
+       format.html {  redirect_to @list}
        format.js
      end
 
