@@ -18,6 +18,7 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   after_commit :broadcast_update,on: [:update]
+  after_create :broadcast_save
 
   before_save :capitalize_name
 
@@ -86,8 +87,17 @@ class List < ApplicationRecord
     # end
   end
 
+  def broadcast_save
+      user = User.find(self.user_id)
+      ActionCable.server.broadcast 'list_channel', htmlLi: render_list_li(self,user), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
+   end
+
   def render_list_chip(list)
      ListsController.render(partial: "lists/nav_list_name.html", locals: {"list": list}).squish
+  end
+
+  def render_list_li(list,user)
+     ListsController.render(partial: "lists/nav_list_name",  layout: "layouts/li_navigation", locals: {"list": list, "user": user, "active": true}).squish
   end
 
   private

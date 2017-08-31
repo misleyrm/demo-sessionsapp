@@ -1,5 +1,5 @@
 <div class="chip">
-	<% if list.avatar.exists? %>
+	<% if !list.avatar_file_name.nil? %>
 		<%= image_tag(list.avatar(:medium), class: 'circle', size: "50x50") %>
 	<% else %>
 	    <% if (list.all_tasks_list?) %>

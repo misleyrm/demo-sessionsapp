@@ -1,6 +1,6 @@
 <%= form_for(@list, url: '/lists', method: :post, :html=>{id: "list-new",remote: true}) do |f| %>
       <%= content_tag "div", id: "error_message_list" do%>
-         <%= render :partial => 'layouts/error_message', :locals => {:model => @list} %>
+         <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
       <% if ((!@list.new_record?) && @list.all_tasks_list?) %>
           <div class="valign-wrapper ms-avatar-all-task">

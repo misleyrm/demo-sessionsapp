@@ -102,22 +102,26 @@ class ListsController < ApplicationController
   end
 
   def create
-    byebug
+
     @list = current_user.created_lists.build(list_params)
-    byebug
+
     respond_to do |format|
+        gon.list = @list
         if @list.save
-          current_user.collaboration_lists.push(@list)
+          # current_user.collaboration_lists.push(@list)
           # @lists = current_user.created_lists.all
           # set_task_per_list
           flash[:success] = "List was successfully created."
-          redirect_to root_path
+          # format.html  { redirect_to root_path }
+          format.json  { render :json => {:list => @list.id}}
+          format.js
         else
           flash[:danger] = "We can't create the list."
-          render :action => "new"
+          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+          # format.html
+          format.json { render :json => {:htmlerrors => @htmlerrors }}
+          format.js { render :action => "new" }
         end
-         format.html
-         format.js
      end
   end
 

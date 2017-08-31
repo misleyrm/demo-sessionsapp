@@ -14,11 +14,11 @@ function handler(ev) {
 
 
 
-$(document).on('click','.navigationbar .nano-content>ul li a', {}, function(event){
+$(document).on('click','ul.user-lists li a', {}, function(event){
   event.preventDefault();
   var $this = $(this);
   if (!$this.parent().is("#ms-add")){
-      $(".navigationbar .nano-content>ul li.active").removeClass('active');
+      $("ul.user-lists li.active").removeClass('active');
       $this.parent().addClass('active');
 
       var id = $this.attr('id');
@@ -43,7 +43,7 @@ $(document).on('turbolinks:load',function(){
                  e.preventDefault(e);
              });
 
-    $('ul.side-nav li a').on('ajax:complete', function(event, xhr, settings) {
+    $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
           deadlineDatepicker($('input.deadline-datepicker'));
     });

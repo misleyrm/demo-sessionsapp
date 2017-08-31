@@ -11,7 +11,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $collaboration_users = $('ul#collaboration-users', $list)
 
     $navUser = $('[data-nav-id = "' + data.user + '"]')
-    $ul = $('.nano .nano-content> ul', $navUser)
+    $ul = $('.nano .nano-content> ul#ulCollaboration', $navUser)
     $navleft = $('#left-sidebar-nav')
 
     switch data.status

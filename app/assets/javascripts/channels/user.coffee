@@ -15,7 +15,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
 
     $barUser = $('[data-nav-id = "' + data.user + '"]')
     $nano = $('.nano',$barUser)
-    $barUserInfo = $('.nano-content>ul li.bar-user-info', $nano)
+    $barUserInfo = $('ul#bar-user-informations li.bar-user-info', $nano)
     $barUserAvatar = $('img', $barUserInfo)
 
     $nav = $('[data-nav-id = "' + data.user + '"]')
