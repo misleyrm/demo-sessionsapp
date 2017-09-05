@@ -146,6 +146,7 @@ class ListsController < ApplicationController
 
   def destroy
     @list.destroy
+    @list = current_user.task
     List.reset_pk_sequence
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'List was successfully destroyed.' }

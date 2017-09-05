@@ -12,9 +12,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
     $list = $('[data-list-id = "' + data.id + '"]', $pageContent)
     $user = $('[data-user-id = "' + data.user + '"]', $list)
 
-    # if data.current_user_id                                       #(data.status == 'changelist') || (data.num != '')
     $nav = $('[data-nav-id = "' + data.user + '"]')
-    alert '[data-nav-id = "' + data.user + '"]'
     $listNav = $('[data-nav-list-id = "' + data.id + '"]')
     $listTopnavbar = $('[data-topnavbar-list-id = "' + data.id + '"]')
     $chipListTopnavbar =  $('.chip', $listTopnavbar)
@@ -27,6 +25,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
         $chipList.replaceWith data.htmlChip
         $chipListTopnavbar.replaceWith data.htmlChip
       when 'listCreated'
+        $("li.active", $ul).removeClass('active');
         $( data.htmlLi ).insertBefore $add
         $chipListTopnavbar.replaceWith data.htmlChip
           # $task.replaceWith data.html
