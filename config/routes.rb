@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     get '/logout' => 'login#destroy'
     get '/lists/:id/showList' => 'lists#showList', as: 'list_showList'
     get '/lists/:id/showList_blocker' => 'lists#showList_blocker', as: 'showList_blocker'
-
+    get '/task/:id/showTask' => 'tasks#showTask', as: 'showTask'
 
     # get 'sessions' => 'sessions#index'
     # get 'sessions/new' => 'sessions#new'

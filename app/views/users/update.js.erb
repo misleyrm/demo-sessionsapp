@@ -7,7 +7,7 @@ $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name',
 
 $('body').addClass('expand-header');
 $('nav a.button-collapse').css('display','block');
-$('.navigationbar ul#slide-out').css({transform:'translateX(-100%)'});
+$('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
 $('#page-content').html('<%= j render 'users/edit' %>');
 $('ul.tabs').tabs();
 

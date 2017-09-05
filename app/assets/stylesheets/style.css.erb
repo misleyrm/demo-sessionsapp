@@ -60,9 +60,9 @@ nav .button-collapse.hamburger-menu{
   left: 0;
 }
 
-nav ul a:hover {
+/*nav ul a:hover {
   background: none!important;
-}
+}*/
 
 nav .nav-wrapper .hamburger-menu i{
   display: inline-table;
@@ -231,11 +231,11 @@ header nav .nav-belt, header nav .nav-belt ul a{
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
- .side-nav li > a.ms-add-list > i.material-icons{
+ div.side-nav ul.user-lists li > a.ms-add-list > i.material-icons{
    color: #C0BFBF!important;
  }
 
- .side-nav li > a.ms-add-list:hover > i.material-icons{
+ div.side-nav ul.user-lists li > a.ms-add-list:hover > i.material-icons{
    color: #55C2BA!important;
  }
 
@@ -933,15 +933,31 @@ select{
     left: 0;
 }
 
-.navigationbar .nano-content>ul {
+.navigationbar .nano-content>div.side-nav {
       width: 100%;
       max-width: 280px;
 }
 
+.side-nav ul.user-lists li > a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.side-nav ul#bar-user-informations li > a:hover {
+    background: none!important;
+}
+
+.side-nav ul.user-lists li > a,
+.side-nav ul#bar-user-informations li > a {
+   padding: 0 1rem;
+}
+
+
+
 .navigationbar .nano-content>ul li .divider{
   margin: 0px;
 }
-.navigationbar ul>li.bar-user-info>a .bar-user-email, .user-info>a .bar-user-email{
+.navigationbar div.bar-user-email,
+.user-info>a .bar-user-email{
   font-size: .75rem;
 }
 .navigationbar .nano-content>ul li a .bar-user-email i,
@@ -985,23 +1001,33 @@ select{
 }
 
 
-.navigationbar ul>li.bar-user-info>a>img, .user-info>a>img{
-
+ul#bar-user-informations li.bar-user-info > a > img,
+.user-info>a>img{
     position: absolute;
     top: 1.73846rem;
     left: 15px;
-    width: 45px;
+    width: 43px;
+    height: 43px;
 }
 
-.navigationbar ul>li.bar-user-info>a h3.bar-user-info-name, .user-info>a h3.bar-user-info-name  {
+div.bar-user-email{
+  line-height: 1rem;
+}
 
+
+ h3.bar-user-info-name {
     font-weight: 700;
     font-size: 1rem;
     text-transform: capitalize;
-    line-height: 1.7rem;
+    line-height: 2rem;
     margin-top: 0!important;
     margin-bottom: 0!important;
 }
+
+ul#bar-user-informations li.bar-user-info a> div{
+    padding: 1.5rem 0;
+}
+
 
  .navigationbar span.bar-number-task{
    line-height: 32px;
@@ -1011,10 +1037,8 @@ select{
    margin-right: .3rem;
  }
 
-
-.navigationbar .nano-content>ul li a i.bar-collaboration-icon{
-
-    line-height: 30px;
+i.bar-collaboration-icon{
+    line-height: 3rem;
     margin-right: 0rem;
     font-size: 1.3rem!important;
     color: #C0BFBF !important;
@@ -1042,17 +1066,22 @@ select{
 .navigationbar .nano-content>ul li:not(:first-child){
   line-height:48px
 }
-.navigationbar .nano-content>ul li:first-child,
-.navigationbar .nano-content>ul li:first-child>a{
+
+.navigationbar ul#bar-user-informations li:first-child,
+.navigationbar ul#bar-user-informations li:first-child>a{
   height:90px
 }
-.navigationbar .nano-content>ul li:hover{
+
+.navigationbar .nano-content>ul.user-lists li:hover{
   background-color:rgba(0,0,0,0.04)}
-.navigationbar .nano-content>ul li.active{
+
+.navigationbar .nano-content>ul.user-lists li.active{
   background-color:rgba(0,0,0,0.04)}
-.navigationbar .nano-content>ul li a{
+
+.navigationbar .nano-content>ul.user-lists li a{
   font-size:14px;font-weight:400}
-.navigationbar .nano-content>ul li.user-details{
+
+/*.navigationbar .nano-content>ul li.user-details{
 
   background:url("../images/user-bg.jpg") no-repeat center center;
   -webkit-background-size:cover;
@@ -1061,31 +1090,42 @@ select{
   background-size:cover;
   margin-bottom:15px;
   padding:15px 0 0 15px
-}
+}*/
 
-.navigationbar .nano-content>ul li.user-details #profile-dropdown a{
-  padding:8px 15px}
-.navigationbar .nano-content>ul .profile-btn{
+/*.navigationbar .nano-content>ul li.user-details #profile-dropdown a{
+  padding:8px 15px}*/
+
+/*.navigationbar .nano-content>ul .profile-btn{
 
   margin:0;
   text-transform:capitalize;
   padding:0;
   color:#444!important;
-  /*text-shadow:1px 1px 1px #444;*/
-  font-size:15px}
+  font-size:15px}*/
 
 .navigationbar .nano-content>ul ul.collapsible-accordion{
   background-color:#fff}
 
 .navigationbar .nano-content>ul .collapsible-header{margin:0}
 
-.navigationbar .nano-content>ul li a i{
+.navigationbar .nano-content>ul.user-lists li a i{
   margin:0 15px 0;
 }
 
 .navigationbar .nano-content>ul .profile-btn i{
   position: absolute;
 }
+ul.user-lists li a.ms-add-list{
+    padding: 0 .5rem 0 3.3rem;
+    line-height: 52px;
+}
+ul.user-lists li a.ms-add-list i{
+  margin: 0 .5rem 0 0;
+  font-size: 30px;
+  line-height: 52px;
+}
+
+
 /********* Collection *************/
 .navigationbar .nano-content>ul li.collection-item.avatar{
   min-height: 24px!important;
@@ -1096,17 +1136,6 @@ select{
 
     border-bottom: none!important;
     padding:0!important;
-}
-
-
-.navigationbar .nano-content>ul li a.ms-add-list{
-    padding: 0 5px 0 50px;
-    line-height: 52px;
-}
-.navigationbar .nano-content>ul li a.ms-add-list i{
-  margin: 0 .5rem 0 0;
-  font-size: 30px;
-  line-height: 52px;
 }
 
 .caption{
@@ -1135,7 +1164,7 @@ select{
   overflow:hidden}
 #right-search .input-field{
   margin-top:0}
-#chat-out .collapsible-header{
+/*#chat-out .collapsible-header{
   background-color:transparent;
   border:none;
   line-height:45px;
@@ -1164,8 +1193,8 @@ select{
 #chat-out .recent-activity-list-text p{
   font-size:0.9rem;
   padding:0}
-.chat-close-collapse{padding:5px 15px 0 0}
-#breadcrumbs-wrapper{background:#f3f3f3}
+.chat-close-collapse{padding:5px 15px 0 0}*/
+/*#breadcrumbs-wrapper{background:#f3f3f3}
 h5.breadcrumbs-header{font-size:1.64rem;line-height:1.804rem;margin:1.5rem 0 0 0}
 .breadcrumbs{padding:0;margin:15px 0;list-style:none}
 .breadcrumbs>li{display:inline-block}
@@ -1186,7 +1215,7 @@ h5.breadcrumbs-header{font-size:1.64rem;line-height:1.804rem;margin:1.5rem 0 0 0
 .jsgrid-insert-row .select-wrapper .select-dropdown{display:none !important}
 #jsGrid-sorting{height:500px !important;overflow:scroll !important}
 #jsGrid-page{height:500px !important;overflow:scroll !important}
-#jsGrid-custom-row{height:500px !important;overflow:scroll !important}
+#jsGrid-custom-row{height:500px !important;overflow:scroll !important}*/
 .card{overflow:hidden}#card-stats .card-content{text-align:center}
 #card-stats .card-stats-title{font-size:1.2rem}
 #card-stats .card-stats-title i{font-size:1.2rem}
@@ -1255,10 +1284,10 @@ h5.breadcrumbs-header{font-size:1.64rem;line-height:1.804rem;margin:1.5rem 0 0 0
 a.button-collapse.top-nav{position:absolute;left:7.5%;top:0;float:none;margin-left:1.5rem;color:#fff;font-size:32px;z-index:2}
 .trending-bar-chart-wrapper{width:100%}.btn-move-up{position:relative;top:-28px;right:-18px;margin-right:10px !important}
 .flotchart-placeholder{width:100%;height:300px;font-size:13px;line-height:1.2em}
-#flotchart table{position:absolute;top:13px;right:17px;font-size:smaller;color:#545454;width:100px}
-#flotchart td{padding:5px}
+/*#flotchart table{position:absolute;top:13px;right:17px;font-size:smaller;color:#545454;width:100px}
+#flotchart td{padding:5px}*/
 th{padding:5px}
-.xchart-placeholder{width:90%;height:300px}
+/*.xchart-placeholder{width:90%;height:300px}*/
 .jqstooltip{border:none !important;box-sizing:content-box}
 .tooltip-class{overflow:hidden;color:#fff;height:20px;width:30px}
 #ct2-chart .ct-series.ct-series-a .ct-area{fill:#00bcd4}

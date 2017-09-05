@@ -1,44 +1,32 @@
-<%= form_for(@list) do |f| %>
-      <% if @list.errors.any? %>
-        <div class="row">
-          <div class="col s12">
-            <div id="error_explanation" class="ms-alert ms-alert_error">
-              <!-- <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2> -->
-              <ul>
-                 <% @list.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-                <% end %>
-              </ul>
-            </div>
-          </div>
-        </div>
+<%= form_for(@list, url: '/lists', method: :post, :html=>{id: "list-new",remote: true}) do |f| %>
+      <%= content_tag "div", id: "error_message_list" do%>
+         <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
-
       <% if ((!@list.new_record?) && @list.all_tasks_list?) %>
           <div class="valign-wrapper ms-avatar-all-task">
               <i class="material-icons">list</i>
           </div>
       <% else %>
           <div class="valign-wrapper ms-upload-avatar" style="<% if ((!@list.new_record?) && @list.avatar?) %> background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
-                <% if ((!@list.new_record?) && (!@list.avatar?)) %>
-                    <span class="ms-avatar-ini show"><%= @list.name[0]%></span>
-                <% end %>
                 <%= f.file_field :avatar %>
                 <label for="list_avatar">
+                  <% if ((!@list.new_record?) && (!@list.avatar?)) %>
+                      <span class="ms-avatar-ini show"><%= @list.name[0]%></span>
+                  <% end %>
                   <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
-                      <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar
+                      <i class="material-icons">camera_alt</i><%= (@list.new_record?)? "Upload": "Change" %> your Avatar
                   </div>
                 </label>
           </div>
       <% end %>
 
       <div class="input-field">
-        <%= f.text_field :name ,id: "disabled", disabled: @list.all_tasks_list?%>
+        <%= f.text_field :name ,id: "list_name", disabled: @list.all_tasks_list?%>
         <%= f.label :name,class: (@list.new_record?)? '': 'active' %>
         <div class="divider"></div>
       </div>
       <div class="input-field">
-        <%= f.text_area :description,class:'materialize-textarea' %>
+        <%= f.text_area :description,class:'materialize-textarea', id: 'list_description' %>
         <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
       </div>
       <div class="divider"></div>
@@ -64,7 +52,7 @@
           </div>
           <div class="col s6">
             <div class="input-field center-align">
-              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12"><%= (@list.new_record?)? 'Create': 'Save' %></a>
+              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= (@list.new_record?)? 'Create': 'Save' %></a>
             </div>
           </div>
         </div>

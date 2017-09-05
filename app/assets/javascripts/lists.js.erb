@@ -4,13 +4,51 @@ $(document).on('turbolinks:load',function(){
   $('.edit_task').submitOnCheck();
   $('.modal-trigger').modal();
 
-
-
   $(document).on("change", 'input#list_avatar', uploadAvatar);
   // CHANGE IMAGE IN USER NEW FILE UPLOAD
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
+  $(document).on("click","a#btn-list-form-submit",function(e){
+    e.preventDefault();
+    var formData = new FormData(),
+      $input = $("#list_avatar"),
+      $name = $("#list_name"),
+      $description = $("#list_description");
+    formData.append('list[name]', $name.val());
+    formData.append('list[description]', $description.val());
+
+    if( $input[0].files.length != 0 ){
+      formData.append('list[avatar]', $input[0].files[0]);
+    }
+
+  	$.ajax({
+  	  url: $("form#list-new").attr("action"),
+  	  data: formData,
+  	  cache: false,
+  	  contentType: false,
+      dataType:"json",
+  	  processData: false,
+  	  type: 'POST',
+      success: function(response){
+            //  alert(response);
+
+             if (typeof response.htmlerrors !== "undefined") {
+                $("#error_message_list").html(response.htmlerrors);
+             } else {
+                  var $ul = $("ul.user-lists");
+                  // $("li.active", $ul).removeClass('active');
+                 $.getScript("/lists/" + response.list , function() {
+                    // $("#error_message_list").html(response.htmlerrors);
+                 })
+                //  $("[data-nav-list-id='"+ response.list + "']").addClass('active');
+                 $('#ms-modal-dialog').modal('close');
+             }
+            // Materialize.toast('Avatar Changed', 4000);
+            // return response; // <- I tried that one as well
+        }
+  	})
+  })
 
 
 var app = window.app = {};
