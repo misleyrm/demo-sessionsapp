@@ -1,7 +1,8 @@
 class LoginController < ApplicationController
-
   include LoginHelper
+
   def new
+    gon.current_user = current_user
     @token = params[:invitation_token]
   end
 

@@ -1,6 +1,7 @@
 jQuery.fn.submitOnCheck = function() {
   this.find('input[type=submit]').remove();
   this.find('input[type=checkbox]').click(function() {
+    alert("inn");
     $(this).parent('form').submit();
   });
   return this;
@@ -88,7 +89,10 @@ $(document).on('turbolinks:load',function(){
   });
 
   /***** Autocomplete with jQuery Autocomplete *********/
-
+  var startDatepicker = [0,0,0];
+  if (gon.startDate !== null){
+    startDatepicker = gon.startDate;
+  }
   $('#application-date .datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year

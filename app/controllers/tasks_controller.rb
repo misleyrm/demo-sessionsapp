@@ -138,6 +138,16 @@ class TasksController < ApplicationController
 
    end
 
+   def incomplete
+     byebug
+     @task.update_attribute(:completed_at, nil)
+     respond_to do |format|
+       format.html {  redirect_to current_list, notice: "Task marked as incompleted" }
+       format.js
+     end
+
+   end
+
    def changelist
      @task.update_attribute(:list_id, params[:list_id])
 

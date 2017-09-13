@@ -8,5 +8,7 @@
 			  	<span><%= list.name[0]%></span>
 			<% end%>
 	<% end %>
-	<%= list.name %>
+	<%= content_tag "p" do %>
+	  <%= list.name%>
+	<% end %>
 </div>

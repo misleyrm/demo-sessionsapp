@@ -105,6 +105,7 @@ Rails.application.routes.draw do
         patch :add_deadline
         patch :delete_deadline
         patch :complete
+        patch :incomplete
         patch :changelist
         patch :importanttask
       end
