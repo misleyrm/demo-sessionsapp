@@ -56,9 +56,9 @@
 					</li>
 					<li>
 						<%# if !task.completed? %>
-								<%= form_for task, url: incomplete_task_path(:id => task.id, :list_id => task.list_id), remote: true do |f| %>
+								<%= form_for task, url:(!task.completed?) ? complete_task_path(:id => task.id, :list_id => task.list_id) : incomplete_task_path(:id => task.id, :list_id => task.list_id), remote: true do |f| %>
 								<%= check_box_tag "completed[#{task.id}]", "#{task.id}", true, :name => "task_id"  %>
-								<%= label_tag "completed_#{task.id}", "", class: "tooltipped", 'data-position' => "top", 'data-delay' => "50", 'data-tooltip' => "Mark task as incompleted"%>
+								<%= label_tag "completed_#{task.id}", "", class: "tooltipped", 'data-position' => "top", 'data-delay' => "50", 'data-tooltip' => "Mark task as #{(!task.completed?) ? 'completed' : 'incomplete'}"%>
 								<%= f.submit "Update" %>
 								<% end %>
 						<%# end %>
