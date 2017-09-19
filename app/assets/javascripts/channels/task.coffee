@@ -25,7 +25,6 @@ App.task = App.cable.subscriptions.create "TaskChannel",
       $task = $('[data-blocker-id = "' + data.id + '"]')
     else
       $task = $('[data-task-id = "' + data.id + '"]', $user)
-
     if $task.length > 0
       switch data.status
         when 'saved'
@@ -71,6 +70,13 @@ App.task = App.cable.subscriptions.create "TaskChannel",
           $('.tooltipped').tooltip({delay: 50})
           if ($('.divider', $user).hasClass('no-active'))
             $('.divider', $user).removeClass('no-active')
+          if (data.num != '')
+            $('.bar-number-task', $listNav).html data['num']
+          $('.edit_task').submitOnCheck()
+        when 'incomplete'
+          $("#task_"+ data.id + " #menu .tooltipped", $complete ).tooltip('remove')
+          $task.remove()
+          $('#incomplete_tasks', $user).prepend data['html']
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
           $('.edit_task').submitOnCheck()

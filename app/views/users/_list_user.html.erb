@@ -17,7 +17,7 @@
           <% end %>
         </div>
         <div class="divider <%= (user.completed_tasks_by_date(list,current_date).count == 0) ? 'no-active' : '' %>"></div>
-        <div class="tasks" id="complete_tasks">
+        <div class="tasks table-of-task" id="complete_tasks">
           <% for task in user.completed_tasks_by_date(list,current_date) %>
             <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task } %>
           <% end %>

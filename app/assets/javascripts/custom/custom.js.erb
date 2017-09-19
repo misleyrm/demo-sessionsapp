@@ -88,7 +88,10 @@ $(document).on('turbolinks:load',function(){
   });
 
   /***** Autocomplete with jQuery Autocomplete *********/
-
+  var startDatepicker = [0,0,0];
+  if (gon.startDate !== null){
+    startDatepicker = gon.startDate;
+  }
   $('#application-date .datepicker').pickadate({
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15, // Creates a dropdown of 15 years to control year

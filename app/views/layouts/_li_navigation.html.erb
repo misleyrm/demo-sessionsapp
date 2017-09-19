@@ -1,7 +1,6 @@
 <li class="bold <%= (active) ? 'active' : '' %>" data-name="<%=list.name %>" data-nav-list-id="<%=list.id %>">
   <a id="<%= list.id %>" href="#" data-href= "<%=list_path(list) %>" data-remote="true">
-      <!-- <%= yield %> -->
-      <%= render partial: "lists/nav_list_name", locals: {list: list} %>
+       <%= yield %>
       <div class="right">
         <% if list.collaborations? %>
             <i class="material-icons bar-collaboration-icon">group</i>

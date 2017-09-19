@@ -31,7 +31,6 @@ $(document).on('turbolinks:load',function(){
   	  processData: false,
   	  type: 'POST',
       success: function(response){
-            //  alert(response);
 
              if (typeof response.htmlerrors !== "undefined") {
                 $("#error_message_list").html(response.htmlerrors);
@@ -49,7 +48,6 @@ $(document).on('turbolinks:load',function(){
         }
   	})
   })
-
 
 var app = window.app = {};
 

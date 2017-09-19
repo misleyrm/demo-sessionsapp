@@ -92,8 +92,8 @@ class Task < ApplicationRecord
       num_list_change = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].last))
       ActionCable.server.broadcast 'task_channel', status: status, id: self.id, user: self.user_id, list_id: self.list_before, blocker: is_blocker?, list_change: self.list_id, num: num, num_list_change: num_list_change
    elsif (self.previous_changes.key?(:completed_at) &&
-       self.previous_changes[:completed_at].first != self.previous_changes[:completed_at].last) && (self.completed?)
-       status = 'completed'
+       self.previous_changes[:completed_at].first != self.previous_changes[:completed_at].last)
+       status = (self.completed?) ? 'completed' : 'incomplete'
        num = self.user.num_incompleted_tasks(self.list)
        ActionCable.server.broadcast "task_channel", { html: render_task(self,partial),user: self.user_id, id: self.id, status: status,list_id: self.list_id, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }
    elsif self.previous_changes.key?(:flag) &&
