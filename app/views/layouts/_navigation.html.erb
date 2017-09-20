@@ -3,7 +3,7 @@
       <div id="slide-out" class="side-nav fixed">
          <ul id="bar-user-informations">
            <li class="bar-user-info">
-              <%= link_to edit_user_path(user),remote: true do %> 
+              <%= link_to edit_user_path(user),remote: true do %>
                  <%= image_tag(user.avatar(:medium), class: 'circle responsive-img center valign profile-image',alt: user.first_name, title:user.first_name) %>
                  <div>
                      <h3 class="bar-user-info-name"><%= user.first_name %></h3>

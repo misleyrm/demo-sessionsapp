@@ -24,10 +24,10 @@ App.list = App.cable.subscriptions.create "ListChannel",
       when 'listUpdated'
         $chipList.replaceWith data.htmlChip
         $chipListTopnavbar.replaceWith data.htmlChip
-      when 'listCreated'
-        $("li.active", $ul).removeClass('active');
-        $( data.htmlLi ).insertBefore $add
-        $chipListTopnavbar.replaceWith data.htmlChip
+      # when 'listCreated'
+      #   $("li.active", $ul).removeClass('active');
+      #   $( data.htmlLi ).insertBefore $add
+      #   $chipListTopnavbar.replaceWith data.htmlChip
           # $task.replaceWith data.html
           # $('.edit_task').submitOnCheck()
           # deadlineDatepicker($('input.deadline-datepicker'));

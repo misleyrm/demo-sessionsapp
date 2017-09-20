@@ -198,6 +198,7 @@ div .card{
   -moz-box-shadow: 0 1px 0 0 #55C2B9;
   /* for Safari y Chrome*/
   -webkit-box-shadow: 0 1px 0 0 #55C2B9;
+
 }
 
 .container input:not([type]):focus:not([readonly]) + label,
@@ -466,14 +467,15 @@ a{
     width: 97%;
   }
 
-  .input-field textarea + label:not(.label-icon).active {
-      transform: translateY(0%);
+.input-field > textarea ~ label:not(.label-icon).active {
+      transform: translateY(0%)!important;
       /*text-transform: uppercase;*/
   }
 
   textarea.materialize-textarea:focus:not([readonly]) {
     border: 1px solid #55C2B9;
     box-shadow: 0 1px 0 0 #55C2B9;
+    width: 96.8%;
 }
 
 

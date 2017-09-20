@@ -18,7 +18,7 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   after_commit :broadcast_update,on: [:update]
-  after_create :broadcast_save
+  
 
   before_save :capitalize_name
 

@@ -9,7 +9,7 @@ $(document).on('turbolinks:load',function(){
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
-  $(document).on("click","a#btn-list-form-submit",function(e){
+  $(document).on("click","form.edit_list a#btn-list-form-submit",function(e){
     e.preventDefault();
     var formData = new FormData(),
       $input = $("#list_avatar"),
@@ -18,18 +18,20 @@ $(document).on('turbolinks:load',function(){
     formData.append('list[name]', $name.val());
     formData.append('list[description]', $description.val());
 
-    if( $input[0].files.length != 0 ){
-      formData.append('list[avatar]', $input[0].files[0]);
+    if ( $input.length != 0){
+      if( $input[0].files.length != 0 ){
+        formData.append('list[avatar]', $input[0].files[0]);
+      }
     }
-
+  // alert($("form#list-form").attr("action"));
   	$.ajax({
-  	  url: $("form#list-new").attr("action"),
+  	  url: $("form#list-form").attr("action"),
   	  data: formData,
   	  cache: false,
   	  contentType: false,
       dataType:"json",
   	  processData: false,
-  	  type: 'POST',
+  	  type: $("form#list-form").data("method"),
       success: function(response){
 
              if (typeof response.htmlerrors !== "undefined") {
@@ -42,6 +44,7 @@ $(document).on('turbolinks:load',function(){
                  })
                 //  $("[data-nav-list-id='"+ response.list + "']").addClass('active');
                  $('#ms-modal-dialog').modal('close');
+                 Materialize.toast(response.message, 4000);
              }
             // Materialize.toast('Avatar Changed', 4000);
             // return response; // <- I tried that one as well

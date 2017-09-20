@@ -2,6 +2,7 @@ class ListsController < ApplicationController
 
   include LoginHelper
   include ApplicationHelper
+  skip_before_action :verify_authenticity_token
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy]
@@ -23,9 +24,7 @@ class ListsController < ApplicationController
   end
 
   def search
-
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
-
     @result = @list.collaboration_users
     respond_to do |format|
       format.html
@@ -102,18 +101,11 @@ class ListsController < ApplicationController
   end
 
   def create
-
     @list = current_user.created_lists.build(list_params)
-
     respond_to do |format|
-        gon.list = @list
         if @list.save
-          # current_user.collaboration_lists.push(@list)
-          # @lists = current_user.created_lists.all
-          # set_task_per_list
           flash[:success] = "List was successfully created."
-          # format.html  { redirect_to root_path }
-          format.json  { render :json => {:list => @list.id}}
+          format.html{ redirect_to list_path(@list)}
           format.js
         else
           flash[:danger] = "We can't create the list."
@@ -126,28 +118,35 @@ class ListsController < ApplicationController
   end
 
   def update
-    # respond_to do |format|
+    respond_to do |format|
+      gon.list = @list
       if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
-              #  redirect_to root_path, notice: 'List was successfully updated.'
-              flash[:success] = "List was successfully updated."
-              redirect_to root_path
+               flash[:success] = "List was successfully updated."
+               format.html{ redirect_to root_path}
+               format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
+               format.js
        elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
-                # redirect_to root_path, notice: 'List was successfully updated.'
               flash[:success] = "List was successfully updated."
-              redirect_to root_path
+              format.html{ redirect_to root_path}
+              format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
+              format.js
        else
               flash[:danger] = "We can't update the list."
-              render :action => "edit"
+              @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+              format.json { render :json => {:htmlerrors => @htmlerrors }}
+              format.js {render :action => "edit"}
+
        end
-      #  format.html
-      #  format.js
-    # end
+    end
   end
 
   def destroy
     @list.destroy
-    @list = current_user.task
+    @list = current_user.all_task
     List.reset_pk_sequence
+    @_current_list = session[:list_id] = List.current = nil
+    session[:list_id] = @list.id
+    @_current_list =  @list
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'List was successfully destroyed.' }
       format.json { head :no_content }
