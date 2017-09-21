@@ -67,7 +67,7 @@ $(document).on('turbolinks:load',function(){
 
   deadlineDatepicker($('input.deadline-datepicker'));
 
-  var $inputor = $('#mentionsBlocker');
+  var $inputor = $('input#mentionsBlocker');
 
   $inputor.atwho({
     at: "@",
@@ -78,7 +78,7 @@ $(document).on('turbolinks:load',function(){
     callbacks: {
       remoteFilter: function(query, callback) {
         if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query}, function(data) {
+          $.getJSON("/lists/search", {term: query, id: "2"}, function(data) {
             callback(data)
           });
         }

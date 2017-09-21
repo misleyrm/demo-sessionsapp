@@ -16,7 +16,7 @@ class ListsController < ApplicationController
     # @date = current_date
     # @collaborators = @list.collaboration_users
     respond_to do |format|
-      format.html
+      format.html{redirect_to root_path}
       format.json
       format.js
     end
@@ -24,6 +24,7 @@ class ListsController < ApplicationController
   end
 
   def search
+
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
     @result = @list.collaboration_users
     respond_to do |format|
@@ -35,7 +36,7 @@ class ListsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html {redirect_to root_path }
+      format.html {redirect_to root_path}
       format.json { render json: @list }
       format.js
     end
@@ -102,19 +103,22 @@ class ListsController < ApplicationController
 
   def create
     @list = current_user.created_lists.build(list_params)
-    respond_to do |format|
+    # respond_to do |format|
         if @list.save
           flash[:success] = "List was successfully created."
-          format.html{ redirect_to list_path(@list)}
-          format.js
+          redirect_to list_path(@list)
+          # format.html{ redirect_to list_path(@list)}
+          # format.js
         else
           flash[:danger] = "We can't create the list."
           @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
           # format.html
-          format.json { render :json => {:htmlerrors => @htmlerrors }}
-          format.js { render :action => "new" }
+          respond_to do |format|
+            format.json { render :json => {:htmlerrors => @htmlerrors }}
+            format.js { render :action => "new" }
+           end
         end
-     end
+    #  end
   end
 
   def update
@@ -144,13 +148,16 @@ class ListsController < ApplicationController
     @list.destroy
     @list = current_user.all_task
     List.reset_pk_sequence
-    @_current_list = session[:list_id] = List.current = nil
-    session[:list_id] = @list.id
-    @_current_list =  @list
-    respond_to do |format|
-      format.html { redirect_to root_path, notice: 'List was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    # @_current_list = session[:list_id] = List.current = nil
+    # session[:list_id] = @list.id
+    # @_current_list =  @list
+    # set_current_list
+    redirect_to list_path(@list)
+    # respond_to do |format|
+    #   flash[:success] = "List was successfully destroyed."
+    #   format.html { redirect_to root_path }
+    #   format.js
+    # end
   end
 
   private
@@ -159,11 +166,11 @@ class ListsController < ApplicationController
       if params[:id].blank?
         @list = current_list
       else
-        set_current_list
         @list = List.find(params[:id])
         @_current_list = session[:list_id] = List.current = nil
         session[:list_id] = params[:id]
-        @_current_list =  @list
+        @_current_list = List.current = @list
+        set_current_list
       end
       # set_current_list
 
