@@ -1,6 +1,7 @@
 module LoginHelper
 
   def log_in(user)
+    byebug
     session[:user_id] = user.id
     cookies.signed[:id] = user.id
     all_task_list = current_user.all_task
@@ -18,7 +19,6 @@ module LoginHelper
   end
 
   def current_list?(id, currentId)
-
     return true if (currentId == id)
   end
 
@@ -55,6 +55,7 @@ module LoginHelper
   end
 
   def current_list
+
     if (!params[:id].blank?) && (params[:controller]=="lists") || (!params[:list_id].blank?)
       list_id  = (params[:list_id].present?) ? params[:list_id] : params[:id]
     else
@@ -63,7 +64,6 @@ module LoginHelper
      session[:list_id] = List.current = nil
      session[:list_id] = list_id
      @_current_list = List.find(list_id)
-
   end
 
   def current_team

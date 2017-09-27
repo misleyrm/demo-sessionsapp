@@ -14,7 +14,10 @@
 
 $(function() {
 
-  var $inputor = $('#mentionsBlocker');
+  var $inputor = $('#mentionsBlocker'),
+      listId = $inputor.data('list_id');
+  console.log(listId);
+
   $inputor.atwho({
     at: "@",
     displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
@@ -24,7 +27,7 @@ $(function() {
     callbacks: {
       remoteFilter: function(query, callback) {
         if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query}, function(data) {
+          $.getJSON("/lists/search", {term: query, id:listId}, function(data) {
             callback(data)
           });
         }
@@ -41,7 +44,9 @@ $('#create-blocker').submit(function(e){
 
 <% unless @task.blank? %>
     <% if @task.is_blocker?%>
+       console.log("Arrayofemails");
         $("#edit_task_<%= @task.id%>").submit(function(e){
+
           Arrayofemails(e);
         });
     <% end %>

@@ -27,6 +27,7 @@ class ListsController < ApplicationController
 
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
     @result = @list.collaboration_users
+
     respond_to do |format|
       format.html
       format.json { @users = @result.search(params[:term]) }
@@ -185,7 +186,6 @@ class ListsController < ApplicationController
       end
     end
 
-
     # def set_task_per_user
     #   d_today = get_current_date
     #   d_yesterday =  d_today - 1.day
@@ -198,9 +198,8 @@ class ListsController < ApplicationController
     #   # @incomplete_tasks = @tasks.where(["completed_at IS ? and DATE(created_at)=?",nil,d_today])
     #   @complete_tasks = @list.completed_tasks(@user).where('DATE(completed_at) BETWEEN ? AND ?' , d_yesterday , d_today ).order('completed_at')
     # end
-
-
     # Never trust parameters from the scary internet, only allow the white list through.
+
     def list_params
       params.require(:list).permit(:name, :description, :avatar, :date)
     end
