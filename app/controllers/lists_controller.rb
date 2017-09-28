@@ -27,10 +27,19 @@ class ListsController < ApplicationController
 
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
     @result = @list.collaboration_users
+    @users = @result.search(params[:term])
+        byebug
+    # owner = User.joins(:lists).where('lists.id' => @list.id).uniq
+    owner  =  User.where(:id => @list.user_id)
 
+    if current_user.id != @list.owner.id
+
+      ownerResult = owner.search(params[:term])
+
+    end
     respond_to do |format|
       format.html
-      format.json { @users = @result.search(params[:term]) }
+      format.json { @users }
       format.js
     end
   end
