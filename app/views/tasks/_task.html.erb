@@ -55,13 +55,13 @@
 						<% end %>
 					</li>
 					<li>
-						<% if !task.completed? %>
-								<%= form_for task, url: complete_task_path(:id => task.id, :list_id => task.list_id), remote: true do |f| %>
-								<%= check_box_tag "completed[#{task.id}]", "#{task.id}", true, :name => "task_id", disabled: task.completed?  %>
-								<%= label_tag "completed_#{task.id}", "", class: "tooltipped", 'data-position' => "top", 'data-delay' => "50", 'data-tooltip' => "Mark task as completed"%>
+						<%# if !task.completed? %>
+								<%= form_for task, url:(!task.completed?) ? complete_task_path(:id => task.id, :list_id => task.list_id) : incomplete_task_path(:id => task.id, :list_id => task.list_id), remote: true do |f| %>
+								<%= check_box_tag "completed[#{task.id}]", "#{task.id}", true, :name => "task_id"  %>
+								<%= label_tag "completed_#{task.id}", "", class: "tooltipped", 'data-position' => "top", 'data-delay' => "50", 'data-tooltip' => "Mark task as #{(!task.completed?) ? 'completed' : 'incomplete'}"%>
 								<%= f.submit "Update" %>
 								<% end %>
-						<% end %>
+						<%# end %>
 					</li>
 					<li>
 							<%= link_to task, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, remote: true do %>

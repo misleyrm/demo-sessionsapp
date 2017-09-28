@@ -16,7 +16,7 @@
                           <% end %>
                           <% if (current_user.owner?(list)) %>
                               <li class="chip circle ms-text-green ms-add">
-                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", remote: true, data: {behavior: 'modal', tooltip: 'Invite a new people'} do%>
+                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", remote: true, data: {behavior: 'modal', tooltip: 'Invite a new member'} do%>
                                     <i class="material-icons add-user">add</i>
                                 <% end %>
                               </li>

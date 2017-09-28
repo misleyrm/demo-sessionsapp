@@ -1,11 +1,13 @@
 class LoginController < ApplicationController
-
   include LoginHelper
+
   def new
+    gon.current_user = current_user
     @token = params[:invitation_token]
   end
 
   def create
+    byebug
       user = User.find_by_email(params[:session][:email].downcase)
       # If the user exists AND the password entered is correct.
       if user && user.authenticate(params[:session][:password]) && user.activated
@@ -26,6 +28,7 @@ class LoginController < ApplicationController
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
         redirect_to root_url
       elsif user && !user.activated
+        byebug
         redirect_to(
           new_password_reset_url,
           notice: %Q[Your account has not been activated yet. Check your email to activate account or click here to re-send #{view_context.link_to("activation", users_resend_activation_url(:email => user.email), :method => :post )}],

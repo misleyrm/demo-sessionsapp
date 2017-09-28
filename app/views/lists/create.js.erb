@@ -1,2 +1,12 @@
-$('#page-content').html("<%= j render @list %>");
-  Materialize.toast("<%= flash[:success] %>", 4000);
+$nav = $('[data-nav-id = "<%= current_user.id%>"]');
+$listNav = $('[data-nav-list-id = "<%= current_list.id %>"]');
+
+$ul = $('ul#ulCreated', $nav);
+$add = $("#ms-add", $ul);
+$('#main_center').html("<%= j render @list %>");
+
+$("li.active", $ul).removeClass('active');
+$add.prepend("<%= j render partial: 'lists/nav_list_name', layout: 'layouts/li_navigation', locals: {list: @list, user: current_user, active:'true'} %>");
+console.log(gon.current_user.id);
+$('#ms-modal-dialog').modal('close');
+Materialize.toast("<%= flash[:success] %>", 4000);

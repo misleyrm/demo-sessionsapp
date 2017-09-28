@@ -25,7 +25,6 @@ App.task = App.cable.subscriptions.create "TaskChannel",
       $task = $('[data-blocker-id = "' + data.id + '"]')
     else
       $task = $('[data-task-id = "' + data.id + '"]', $user)
-
     if $task.length > 0
       switch data.status
         when 'saved'
@@ -57,7 +56,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('ul.menu-information li.ms-deadline', $task).addClass('active')
             if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
               $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
-            $('p#alternate', $task).html(date)
+            $('p#alternate', $task).html(data.deadline)
         when 'changelist'
           $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
           $task.remove()
@@ -71,6 +70,13 @@ App.task = App.cable.subscriptions.create "TaskChannel",
           $('.tooltipped').tooltip({delay: 50})
           if ($('.divider', $user).hasClass('no-active'))
             $('.divider', $user).removeClass('no-active')
+          if (data.num != '')
+            $('.bar-number-task', $listNav).html data['num']
+          $('.edit_task').submitOnCheck()
+        when 'incomplete'
+          $("#task_"+ data.id + " #menu .tooltipped", $complete ).tooltip('remove')
+          $task.remove()
+          $('#incomplete_tasks', $user).prepend data['html']
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
           $('.edit_task').submitOnCheck()

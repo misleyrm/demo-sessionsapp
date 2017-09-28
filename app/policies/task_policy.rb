@@ -36,7 +36,6 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def showTask?
-     byebug
       user.owner?(record.try(:list)) || record.try(:user) == user
   end
 
