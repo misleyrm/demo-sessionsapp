@@ -79,6 +79,7 @@ class UsersController < ApplicationController
     # user_info[:password] = temp_password
     # user_info[:password_confirmation] = temp_password
     # @team = Team.find(session[:team_id])
+    
     if (@user = User.find_by_email(user_params[:email]))
       flash[:danger] = "We found an account under that email. Please login or reset your password."
       redirect_to password_resets_path

@@ -2,7 +2,7 @@
   <a id="<%= list.id %>" href="#" data-href= "<%=list_path(list) %>" data-remote="true">
        <%= yield %>
       <div class="right">
-        <% if list.collaborations? %>
+        <% if (list.collaborations?) && (list.collaboration_users.count!=0) %>
             <i class="material-icons bar-collaboration-icon">group</i>
         <% end %>
         <span class="bar-number-task"><%=user.num_incompleted_tasks(list)%></span>

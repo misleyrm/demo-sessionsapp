@@ -102,7 +102,7 @@ class Task < ApplicationRecord
    elsif self.previous_changes.key?(:deadline) &&
             self.previous_changes[:deadline].first != self.previous_changes[:deadline].last
         if (self.deadline?)
-          ActionCable.server.broadcast 'task_channel', status: 'deadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline
+          ActionCable.server.broadcast 'task_channel', status: 'deadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline.strftime('%a, %e %B')
         else
           ActionCable.server.broadcast 'task_channel', status: 'deletedeadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline
         end

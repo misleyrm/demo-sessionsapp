@@ -1,4 +1,8 @@
-<%= form_for(@list, url: '/lists', method: :post, :html=>{id: "list-new",remote: true}) do |f| %>
+
+<%= form_for(@list, url: (@list.new_record?)? "/lists" : "/lists/#{@list.id}", method: :post, :html=>{id: "list-new",remote: true}, :data => {new: (@list.new_record?)? "create" : "update"}) do |f| %>
+
+<!-- <%#= form_for(@list, url: (@list.new_record?) ? lists_path : list_path(@list) , method: :post, :html=>{id: "list-form"}, :data=> {method: (@list.new_record?)? 'POST' : 'PUT'},remote: true) do |f| %> -->
+
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
@@ -39,7 +43,7 @@
       				</div>
               <div class="col s6">
                 <div class="input-field center-align">
-                  <%= link_to 'Delete list', @list, :confirm => 'Are you sure?', :method => :delete, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true %>
+                  <%= link_to 'Delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true  %>
                 </div>
               </div>
           </div>
@@ -52,7 +56,7 @@
           </div>
           <div class="col s6">
             <div class="input-field center-align">
-              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= (@list.new_record?)? 'Create': 'Save' %></a>
+              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= (@list.new_record?)? ( f.submit "Create" ): 'Save' %></a>
             </div>
           </div>
         </div>

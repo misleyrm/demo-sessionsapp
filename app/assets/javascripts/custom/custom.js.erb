@@ -67,25 +67,6 @@ $(document).on('turbolinks:load',function(){
 
   deadlineDatepicker($('input.deadline-datepicker'));
 
-  var $inputor = $('#mentionsBlocker');
-
-  $inputor.atwho({
-    at: "@",
-    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
-    insertTpl: function(){
-       return '${atwho-at}[${email}]'
-    },
-    callbacks: {
-      remoteFilter: function(query, callback) {
-        if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query}, function(data) {
-            callback(data)
-          });
-        }
-      }
-  }
-
-  });
 
   /***** Autocomplete with jQuery Autocomplete *********/
   var startDatepicker = [0,0,0];

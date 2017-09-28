@@ -56,7 +56,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('ul.menu-information li.ms-deadline', $task).addClass('active')
             if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
               $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
-            $('p#alternate', $task).html(date)
+            $('p#alternate', $task).html(data.deadline)
         when 'changelist'
           $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
           $task.remove()
