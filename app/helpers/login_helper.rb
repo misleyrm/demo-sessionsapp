@@ -1,7 +1,7 @@
 module LoginHelper
 
   def log_in(user)
-    byebug
+  
     session[:user_id] = user.id
     cookies.signed[:id] = user.id
     all_task_list = current_user.all_task

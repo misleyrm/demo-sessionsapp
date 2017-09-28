@@ -18,12 +18,12 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   after_commit :broadcast_update,on: [:update]
-  
+
 
   before_save :capitalize_name
 
   def collaborations?
-    !self.collaborations.blank?
+    !self.collaborations.blank? 
   end
 
   # Methods for set current list for access from model
