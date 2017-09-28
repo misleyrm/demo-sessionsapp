@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     # user_info[:password] = temp_password
     # user_info[:password_confirmation] = temp_password
     # @team = Team.find(session[:team_id])
-    
+
     if (@user = User.find_by_email(user_params[:email]))
       flash[:danger] = "We found an account under that email. Please login or reset your password."
       redirect_to password_resets_path
@@ -97,7 +97,7 @@ class UsersController < ApplicationController
         end
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
-        flash[:info] = "Please check your email to activate your account."
+        flash[:danger] = "Please check your email to activate your account."
         redirect_to login_path
       else
         render 'new', layout: "login"
@@ -171,9 +171,15 @@ class UsersController < ApplicationController
 
   def resend_activation
     @user = User.find_by(email:params[:email])
-    @user.activation_token = User.new_token
-    @user.create_activation_digest
-    @user.send_activation_email
+
+    @user.update_activation_digest
+    # @user.send_activation_email
+    # flash[:info] = "Account not activated. You need to activate your account first."
+    # flash[:info] += " Check your email for the activation link."
+
+    # @user.activation_token = User.new_token
+    # @user.create_activation_digest
+    # @user.send_activation_email
     UserMailer.account_activation(@user).deliver_now
     flash[:info] = "Please check your email to activate your account."
     redirect_to login_url

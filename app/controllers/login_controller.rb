@@ -17,7 +17,7 @@ class LoginController < ApplicationController
         @invitation = Invitation.find_by_token(@token)
         if (!@token.nil?)&&(user.email==@invitation.recipient_email)
           @list = List.find(@invitation.list_id)
-          
+
           unless user.collaboration_lists.include?(@list)
              user.collaboration_lists.push(@list)  #add this user to the list as a collaborator         current_list,     collaboration_user
              html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list}).squish
@@ -28,12 +28,16 @@ class LoginController < ApplicationController
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
         redirect_to root_url
       elsif user && !user.activated
-
-        redirect_to(
-          new_password_reset_url,
-          notice: %Q[Your account has not been activated yet. Check your email to activate account or click here to re-send #{view_context.link_to("activation", users_resend_activation_url(:email => user.email), :method => :post )}],
-          flash: { html_safe: true }
-          )
+        @user.update_activation_digest
+        @user.send_activation_email
+        flash[:danger] = "Account not activated. You need to activate your account first."
+        flash[:danger] += " Check your email for the activation link."
+        render 'new'
+        # redirect_to(
+        #   new_password_reset_url,
+        #   notice: %Q[Your account has not been activated yet. Check your email to activate account or click here to re-send #{view_context.link_to("activation", users_resend_activation_url(:email => user.email), :method => :post )}],
+        #   flash: { html_safe: true }
+        #   )
 
       else
       # If user's login doesn't work, send them back to the login form.

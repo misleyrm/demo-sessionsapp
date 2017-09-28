@@ -18,8 +18,8 @@ class PasswordResetsController < ApplicationController
          # re-send activation email
          @user.update_activation_digest
          @user.send_activation_email
-         flash[:info] = "Account not activated. You need to activate your account first."
-         flash[:info] += " Check your email for the activation link."
+         flash[:danger] = "Account not activated. You need to activate your account first."
+         flash[:danger] += " Check your email for the activation link."
         #  redirect_to root_url
         render 'new'
     else
