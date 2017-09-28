@@ -51,8 +51,8 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('p#alternate', $task).html('')
         when 'deadline'
           if (data.deadline != "") || (data.deadline != "null")
-            d = new Date(data.deadline)
-            date = d.getShortDayWeek()+ ', ' + d.getDate() + ' ' + d.getShortMonth()
+            # d = new Date(data.deadline)
+            # date = d.getShortDayWeek()+ ', ' + d.getDate() + ' ' + d.getShortMonth()
             $('ul.menu-information li.ms-deadline', $task).addClass('active')
             if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
               $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
