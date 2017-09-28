@@ -28,8 +28,8 @@ class LoginController < ApplicationController
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)
         redirect_to root_url
       elsif user && !user.activated
-        @user.update_activation_digest
-        @user.send_activation_email
+        user.update_activation_digest
+        user.send_activation_email
         flash[:danger] = "Account not activated. You need to activate your account first."
         flash[:danger] += " Check your email for the activation link."
         render 'new'
