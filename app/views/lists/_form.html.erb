@@ -1,4 +1,4 @@
-<%= form_for(@list, url: '/lists', method: :post, :html=>{id: "list-new",remote: true}) do |f| %>
+<%= form_for(@list, url: (@list.new_record?)? "/lists" : "/lists/#{@list.id}", method: :post, :html=>{id: "list-new",remote: true}, :data => {new: (@list.new_record?)? "create" : "update"}) do |f| %>
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
