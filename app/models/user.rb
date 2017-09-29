@@ -133,9 +133,19 @@ class User < ApplicationRecord
   def completed_tasks_by_date(list,date)
 # helpers.is_today?(date)
     if (Date.today == date)
-      self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at')
+      if (list.id == self.all_task.id)
+        self.completed_tasks.where(["DATE(completed_at) BETWEEN ? AND ?", date - 1.day , date] ).order('completed_at')
+      else
+        self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at')
+      end
+
     else
-      self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at')
+      if (list.id == self.all_task.id)
+          self.completed_tasks.where(["DATE(completed_at) =?",date - 1.day] ).order('completed_at')
+      else
+          self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at')
+      end
+
     end
   end
 
@@ -153,11 +163,20 @@ class User < ApplicationRecord
 
   def incompleted_tasks_by_date(list,date)
     if (Date.today == date)
-      self.incompleted_tasks.where(["list_id=? ",list.id]).order("created_at DESC")
+      if (list.id == self.all_task.id)
+        self.incompleted_tasks.order("created_at DESC")
+      else
+        self.incompleted_tasks.where(["list_id=? ",list.id]).order("created_at DESC")
+      end
     else
     # self.tasks.where(completed_at: nil).order("updated_at DESC")
     # We should change for task created that day
-      self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order("created_at DESC")
+      if (list.id == self.all_task.id)
+        self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order("created_at DESC")
+      else
+        self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order("created_at DESC")
+      end
+
     end
   end
 
@@ -176,7 +195,7 @@ class User < ApplicationRecord
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
-  
+
     digest = send("#{attribute}_digest")
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)

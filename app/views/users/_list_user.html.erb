@@ -13,13 +13,13 @@
         </div>
         <div class="tasks table-of-task" id="incomplete_tasks">
           <% for task in user.incompleted_tasks_by_date(list,current_date) %>
-            <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task } %>
+            <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task, :list => list } %>
           <% end %>
         </div>
         <div class="divider <%= (user.completed_tasks_by_date(list,current_date).count == 0) ? 'no-active' : '' %>"></div>
         <div class="tasks table-of-task" id="complete_tasks">
           <% for task in user.completed_tasks_by_date(list,current_date) %>
-            <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task } %>
+            <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task,:list => list } %>
           <% end %>
         </div>
     </div>

@@ -5,7 +5,7 @@
 		<% end %>
 		<% if (!task.is_blocker?) && (!task.completed?) %>
 				<ul class="menu-information">
-						<% if (all_task?(task.list_id) ) %>
+						<% if (all_task?(list.id) ) %>
 								<li><p><%= "#{task.list_belonging}"%></p></li>
 						<% end %>
 						<li><p> created at: "<%= "#{task.created_at.strftime('%a, %e %B')} " %>."</p></li>

@@ -15,7 +15,9 @@
 $(function() {
 
   var $inputor = $('#mentionsBlocker'),
-      listId = $inputor.data('list_id');
+      listId = $inputor.data('list_id'),
+      userId = $inputor.data('user_id');
+
   console.log(listId);
 
   $inputor.atwho({
@@ -27,7 +29,7 @@ $(function() {
     callbacks: {
       remoteFilter: function(query, callback) {
         if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query, id:listId}, function(data) {
+          $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
             callback(data)
           });
         }
