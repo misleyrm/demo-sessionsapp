@@ -3,7 +3,7 @@
     background-color: #FFFFFF;
     margin: 0;
     display: none;
-    min-width: 120px; /* Changed this to accomodate content width */
+    min-width: 100px; /* Changed this to accomodate content width */
     max-height: auto;
   	margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
     overflow: hidden; /* Changed this from overflow-y:auto; to overflow:hidden; */
@@ -22,7 +22,14 @@
 }
 
 ul.dropdown-list li{
-  padding: 0px 20px;
+  padding: 0px;
+}
+
+ul.dropdown-list li> a{
+  line-height: 0px;
+  padding: 7px 20px;
+  //min-width: 120px;
+//  width: 120px;
 }
 
 ul.dropdown-list li:hover,
