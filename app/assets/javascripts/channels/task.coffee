@@ -9,12 +9,15 @@ App.task = App.cable.subscriptions.create "TaskChannel",
     # Called when there's incoming data on the websocket for this channel
     # alert(data.html);
     $pageContent = $('#page-content')
+    $mainCenter = $('#main_center')
+    $currentListMainCenter = $('#main_center > div ').data('list-id')
     $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
-    $user = $('[data-user-id = "' + data.user + '"]', $list)
+    $user = $('[data-user-id = "' + data.user + '"]', $pageContent)
 
-    # if data.current_user_id                                       #(data.status == 'changelist') || (data.num != '')
+    # if data.current_user_id           #(data.status == 'changelist') || (data.num != '')
     $nav = $('[data-nav-id = "' + data.user + '"]')
     $listNav = $('[data-nav-list-id = "' + data.list_id + '"]', $nav)
+    $listAllTaskNav = $('[data-nav-list-id = "' + data.list_all_task_id + '"]', $nav)
     $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
 
     $incomplete = $('#incomplete_tasks')
@@ -36,6 +39,9 @@ App.task = App.cable.subscriptions.create "TaskChannel",
         when 'deleted'
           $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
           $task.remove()
+          if (data.num != '')
+            $('.bar-number-task', $listNav).html data['num']
+            $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
           if (data.blocker) && (data.numBlockers == 0)
             $parentTask = $('[data-task-id = "' + data.parentTask + '"]', $user)
             $('#menu >ul.menu-option li a#link-blocker i', $parentTask).removeClass('md-red').addClass('md-dark md-inactive')
@@ -59,7 +65,11 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('p#alternate', $task).html(data.deadline)
         when 'changelist'
           $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
-          $task.remove()
+          if (data.list_all_task_id != $currentListMainCenter)
+            $task.remove()
+          else
+            $task.replaceWith data.html
+            $('.edit_task').submitOnCheck()
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
             $('.bar-number-task', $listChangeNav).html data['num_list_change']
@@ -72,6 +82,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('.divider', $user).removeClass('no-active')
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
+            $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
           $('.edit_task').submitOnCheck()
         when 'incomplete'
           $("#task_"+ data.id + " #menu .tooltipped", $complete ).tooltip('remove')
@@ -79,6 +90,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
           $('#incomplete_tasks', $user).prepend data['html']
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
+            $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
           $('.edit_task').submitOnCheck()
 
       $('.dropdown-button').dropdown()
@@ -101,6 +113,9 @@ App.task = App.cable.subscriptions.create "TaskChannel",
         $('#list_user_' + data['user'] + ' .new_task #task_detail').val('');
         if (data.num != '')
           $('.bar-number-task', $listNav).html data['num']
+          $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
+          console.log(data['numAllTask'])
+          console.log($listAllTaskNav)
 
   submit_task = () ->
   $('#new_task #detail').on 'keydown', (event) ->

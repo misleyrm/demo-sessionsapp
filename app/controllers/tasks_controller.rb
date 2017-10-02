@@ -7,6 +7,7 @@ class TasksController < ApplicationController
   # before_action :set_list, only: [:new, :create, :edit, :complete ], if: -> { params[:type].blank? }
   before_action :set_task,  if: -> { !params[:type].blank? || !params[:id].blank? }
   before_action :set_user, only: [:create, :index ]
+  before_action :set_current_list, only: [ :changelist, :complete, :incomplete ]
   before_action :saved_list, only: [:changelist, :update, :complete ]
   # respond_to :html, :js
   # before_action :set_current_user, only: [:changelist, :update, :complete ]                #if: -> { params[:assigner_id].present? || current_user !=  }
@@ -51,6 +52,7 @@ class TasksController < ApplicationController
        end
      else
        @task = current_list.tasks.build(task_params)
+       List.current = current_list
        if @task.save
           flash[:success] = "Task created"
        end
@@ -64,6 +66,7 @@ class TasksController < ApplicationController
 
   def update
     authorize @task
+     List.current = current_list
     if (@task.update_attributes!(task_params))
         if @task.is_blocker?
           tag_emails = params['tags_emails'].split(',')
@@ -148,6 +151,8 @@ class TasksController < ApplicationController
    end
 
    def changelist
+
+    #  List.current = List.find(params[:currentList])
      @task.update_attribute(:list_id, params[:list_id])
 
      respond_to do |format|
@@ -192,8 +197,9 @@ class TasksController < ApplicationController
 
      end
 
-     def set_current_user
-        # @task.current_user_id =  current_user.id
+     def set_current_list
+      # byebug
+        List.current = List.find(params[:currentList])
      end
 
      def task_params
