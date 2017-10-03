@@ -51,6 +51,13 @@ class LoginController < ApplicationController
       # session[:user_id] = nil
       # redirect_to '/login'
       log_out if logged_in?
-      redirect_to root_url
+      flash[:success] = 'Logged out successfully.'
+      redirect_to confirmation_page_url
     end
+
+    def confirmation
+
+    end
+
+
 end

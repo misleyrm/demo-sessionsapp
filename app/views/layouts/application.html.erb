@@ -19,7 +19,8 @@
 </head>
 <body id="stand-up">
     <%= yield %>
-    <%= include_gon() %>
+    <%= include_gon(:init => true) %>
+    <%= Gon::Base.render_data({}) %>
 </body>
 </html>
 

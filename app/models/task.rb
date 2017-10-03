@@ -135,8 +135,9 @@ class Task < ApplicationRecord
      partial = 'task'
      user = self.user
     end
-    
+
     local = (is_blocker?) ? "t_blocker" : "task"
+  
     # I added list to the render but I need to take the current list that I've been showing
     list = (is_blocker?) ? self.parent_task.list : self.list
     TasksController.render(partial: "tasks/#{partial}", locals: {"#{local}": task, "user": user, "list": list, "currentList": List.current }).squish

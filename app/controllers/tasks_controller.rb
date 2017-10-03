@@ -66,7 +66,8 @@ class TasksController < ApplicationController
 
   def update
     authorize @task
-     List.current = current_list
+    List.current = current_list
+    
     if (@task.update_attributes!(task_params))
         if @task.is_blocker?
           tag_emails = params['tags_emails'].split(',')

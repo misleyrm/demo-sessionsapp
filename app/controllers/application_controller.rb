@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
 
   def require_logged_in
     unless logged_in?
-        flash[:danger] = "Please log in."
+        flash[:danger] = "You need to sign in or sign up before continuing."
         redirect_to login_url
     end
     # redirect_to login_url, alert: "Not authorized" if current_user.nil?

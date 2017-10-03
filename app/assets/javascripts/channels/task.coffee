@@ -114,8 +114,6 @@ App.task = App.cable.subscriptions.create "TaskChannel",
         if (data.num != '')
           $('.bar-number-task', $listNav).html data['num']
           $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
-          console.log(data['numAllTask'])
-          console.log($listAllTaskNav)
 
   submit_task = () ->
   $('#new_task #detail').on 'keydown', (event) ->
