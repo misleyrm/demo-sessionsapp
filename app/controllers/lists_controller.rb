@@ -30,7 +30,7 @@ class ListsController < ApplicationController
     user = User.where('id'=> params[:userid])
     owner  =  User.where('id' => @list.user_id)
     @users_mention = @collaboration_users.search(params[:term]) + owner.search(params[:term]) -  user.search(params[:term])
-  
+
     @result = @users_mention
     # if user.id != @list.user_id
     #   owner  =  User.where('id' => @list.user_id)
@@ -48,8 +48,11 @@ class ListsController < ApplicationController
   end
 
   def show
+    if !params[:mention_by].blank?
+      @collaboration_users = User.find(params[:mention_by])
+    end
     respond_to do |format|
-      format.html {redirect_to root_path}
+      format.html {redirect_to root_path(:collaboration_users => @collaboration_users)}
       format.json { render json: @list }
       format.js
     end
