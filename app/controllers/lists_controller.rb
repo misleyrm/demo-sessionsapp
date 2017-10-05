@@ -49,7 +49,7 @@ class ListsController < ApplicationController
 
   def show
     if !params[:mention_by].blank?
-      @collaboration_users = User.find(params[:mention_by])
+      @collaboration_users = User.where(id: params[:mention_by])
     end
     respond_to do |format|
       format.html {redirect_to root_path(:collaboration_users => @collaboration_users)}

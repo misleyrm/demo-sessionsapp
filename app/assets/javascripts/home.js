@@ -15,6 +15,10 @@ $(document).on('turbolinks:load',function(){
        ],
       onClose: function (){
         $('#form_date').val(this.get());
+        var $activeCollaborators = $('#application-date input#active-collaborators');
+
+        $activeCollaborators.val(getActiveCollaborators()) ;
+
         // console.log(this.$root.parent('form'));
         // $.ajax({
         //   complete:function(request){},
@@ -36,3 +40,18 @@ $(document).on('turbolinks:load',function(){
       }
     });
   });
+
+
+function getActiveCollaborators(){
+  var $ulcollaboration_users = $('ul#collaboration-users'),
+      arrayActiveCorraborators = [];
+
+  $('li', $ulcollaboration_users).each(function( index ) {
+     if ($( this ).hasClass('active')) {
+      console.log($( this ));
+      console.log($( this ).attr('id'));
+        arrayActiveCorraborators.push($( this ).attr('id'));
+     }
+});
+  return arrayActiveCorraborators;
+}

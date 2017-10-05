@@ -13,8 +13,7 @@
         $('body').removeClass('expand-header');
         $('.nav-main ul.right').removeClass('hide');
     }
-console.log("hellooooooo");
-alert("OOOOOOOOOOO");
+
     $content.html("<%= j render partial: 'lists/list', locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>");
 
     $("#ms-link-listSetting").html("<%= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
