@@ -22,8 +22,12 @@ class List < ApplicationRecord
 
   before_save :capitalize_name
 
+  def owner_name
+    self.owner.name 
+  end
+
   def collaborations?
-    !self.collaborations.blank? 
+    !self.collaborations.blank?
   end
 
   # Methods for set current list for access from model

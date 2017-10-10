@@ -75,6 +75,12 @@ class User < ApplicationRecord
       Thread.current[:user]
     end
 
+    def name
+      @name = self.first_name
+      @name << " #{self.last_name}"
+    end
+
+
     def self.current=(user)
       Thread.current[:user] = user
     end

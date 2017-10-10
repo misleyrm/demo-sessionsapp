@@ -1,8 +1,4 @@
-
 <%= form_for(@list, url: (@list.new_record?)? "/lists" : "/lists/#{@list.id}", method: :post, :html=>{id: "list-new",remote: true}, :data => {new: (@list.new_record?)? "create" : "update"}) do |f| %>
-
-<!-- <%#= form_for(@list, url: (@list.new_record?) ? lists_path : list_path(@list) , method: :post, :html=>{id: "list-form"}, :data=> {method: (@list.new_record?)? 'POST' : 'PUT'},remote: true) do |f| %> -->
-
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
@@ -23,23 +19,59 @@
                 </label>
           </div>
       <% end %>
-
-      <div class="input-field">
-        <%= f.text_field :name ,id: "list_name", disabled: @list.all_tasks_list?%>
-        <%= f.label :name,class: (@list.new_record?)? '': 'active' %>
-        <div class="divider"></div>
+      <div class="row 000">
+          <div class="col s12">
+              <div class="input-field">
+                  <%= f.text_field :name ,id: "list_name", disabled: @list.all_tasks_list?%>
+                  <%= f.label :name,class: (@list.new_record?)? '': 'active' %>
+              </div>
+          </div>
+          <div class="divider col s12"></div>
+          <div class="col s12">
+              <div class="input-field">
+                  <%= f.text_area :description,class:'materialize-textarea', id: 'list_description' %>
+                  <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
+              </div>
+         </div>
+         <div class="divider col s12"></div>
+         <div class="col s12">
+              <div class="input-field">
+                <% if (@list.new_record?||@list.all_tasks_list?)||(!current_user.owner?(@list)) %>
+                    <%= text_field_tag 'owner', (!current_user.owner?(@list))? "#{@list.owner_name}" : "#{current_user.name} ",id: 'list_owner',  disabled: true %>
+                    <%= f.label :owner, :class => "active" %>
+                <% elsif %>
+                    <select>
+                        <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option>
+                        <% @list.collaboration_users.each do |collaborator_user| %>
+                           <option value="<%= collaborator_user.id %>" <%= (collaborator_user.owner?(@list))? "selected" : "" %>><%= collaborator_user.name %></option>
+                        <% end %>
+                    </select>
+                    <label class="uppercase">List Owner</label>
+                <% end %>
+              </div>
+          </div>
+          <div class="divider col s12"></div>
+          <% unless (@list.new_record?||@list.all_tasks_list?|| !has_collaborations?(@list)) %>
+      				<div class="col s12">
+                <label class="uppercase">Collaboration User</label>
+                <ul id="collaboration-users">
+                  <% if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
+                     <%= render partial: "lists/collaboration_user", locals: {collaboration_user: @list.owner, active_users: ""} %>
+                  <% end %>
+                  <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
+                     <%= render partial: "lists/collaboration_user", collection: @list.collaboration_users.where(['user_id != ?', current_user.id]), as: :collaboration_user, locals: { active_users: ""}%>
+                  <% end %>
+                </ul>  
+      				</div>
+        <% end %>
       </div>
-      <div class="input-field">
-        <%= f.text_area :description,class:'materialize-textarea', id: 'list_description' %>
-        <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
-      </div>
-      <div class="divider"></div>
+      <div class="divider col s12"></div>
       <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
   			  <div class="row">
       				<div class="col s6">
-                  <div class="input-field center-align">
+                  <!-- <div class="input-field center-align">
                     <a class='waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white disabled'>Transfer Ownership</a>
-                  </div>
+                  </div> -->
       				</div>
               <div class="col s6">
                 <div class="input-field center-align">

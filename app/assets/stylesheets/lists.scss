@@ -144,8 +144,12 @@ ul.dropdown-list li:active {
 
 .list-collaboration-users #collaboration-users li{
   // padding: 0px 4px 0px!important;
-  display: inline-block;
   float: left;
+}
+
+.list-collaboration-users ul li{
+  // padding: 0px 4px 0px!important;
+  display: inline-block;
 }
 
 .users-search input {
