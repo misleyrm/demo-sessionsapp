@@ -114,6 +114,8 @@ class ListsController < ApplicationController
   end
 
   def edit
+    invited_users = @list.invitations
+
     render layout: 'modal'
   end
 

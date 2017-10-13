@@ -1,0 +1,15 @@
+<% if (!invited_user.blank?) %>
+  <% active = "" %>
+  <% if (!active_users.blank?) %>
+      <% active = (active_users.include?(invited_user)) ? "active" : "" %>
+  <% end %>
+  <li class="chip <%= active %>" style="background: none;" id="<%= invited_user.id%>" data-chip-user-id= "<%= invited_user.id%>">
+        <%= link_to list_collaboration_user_path(current_list,invited_user), id:"#{invited_user.id}",remote: true  do %>
+            <% if !User.where().nil? %>
+               <%= image_tag(invited_user.avatar(:medium), class: 'circle') %>
+            <% else %>
+               <span class="user-initial circle"><%= initials(invited_user.id) %></span>
+          <% end %>
+        <% end %>
+    </li>
+<% end %>

@@ -5,7 +5,7 @@ class TaskMailer < ApplicationMailer
     @user = email
     @sender = sender
     @blocker = blocker
-    mail to: email, subject: "Alert"
+    mail to: email, subject: "Blocker Alert"
   end
 
 
