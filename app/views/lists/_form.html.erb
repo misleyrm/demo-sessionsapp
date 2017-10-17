@@ -52,28 +52,49 @@
           </div>
           <div class="divider col s12"></div>
           <% unless (@list.new_record?||@list.all_tasks_list?|| !has_collaborations?(@list)) %>
-      				<div class="col s12">
-                <p class="uppercase label">Invited Users</p>
-                <ul id="collaboration-users">
+              <div class="col s12">
+                <p class="uppercase label">Collaborators</p>
+                <ul class="collaboration-user-settings">
                   <% if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
-                     <%= render partial: "lists/invited_user", locals: {invited_user: @list.owner, active_users: ""} %>
+                     <%= render partial: "lists/collaboration_user_settings", locals: {collaboration_user: @list.owner} %>
                   <% end %>
                   <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                     <%= render partial: "lists/invited_user", collection: @list.invitations, as: :invited_user, locals: { active_users: @list.collaboration_users}%>
+                     <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user %>
                   <% end %>
                 </ul>
-      				</div>
+              </div>
+              <%# unless (@list.invitations.count>0) %>
+                  <div class="col s12">
+                    <p class="uppercase label">Invitations</p>
+                    <ul class="invitation-user-settings">
+                      <% if  @list.invitations.count > 0 %>
+                         <%= render partial: "lists/invited_user", collection: @list.invitations, as: :invited_user %>
+                      <% end %>
+                    </ul>
+                  </div>
+              <%# end %>
+      				<!-- <div class="col s12">
+                <p class="uppercase label">Invited Users</p>
+                <ul id="collaboration-users">
+                  <%# if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
+                     <%#= render partial: "lists/invited_user", locals: {invited_user: @list.owner, active_users: ""} %>
+                  <%# end %>
+                  <%# if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
+                     <%#= render partial: "lists/invited_user", collection: @list.invitations, as: :invited_user, locals: { active_users: @list.collaboration_users}%>
+                  <%# end %>
+                </ul>
+      				</div> -->
         <% end %>
       </div>
       <div class="divider col s12"></div>
       <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
   			  <div class="row">
-      				<div class="col s6">
+      				<!-- <div class="col s6"> -->
                   <!-- <div class="input-field center-align">
                     <a class='waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white disabled'>Transfer Ownership</a>
                   </div> -->
-      				</div>
-              <div class="col s6">
+      				<!-- </div> -->
+              <div class="col s12">
                 <div class="input-field center-align">
                   <%= link_to 'Delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true  %>
                 </div>

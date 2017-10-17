@@ -91,6 +91,52 @@ form.edit_list .select-wrapper input.select-dropdown{
   width: 32px;
 }
 
+.collaboration-user-settings li.chip > img{
+  border-radius: 50%;
+  border: 1px solid #6b6b6b;
+  background-color: #fff;
+  padding: 1px!important;
+  width: 40px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.collaboration-user-settings li.chip > img,
+.collaboration-user-settings li.chip > img ~ span {
+  display: block;
+  float: none;
+}
+
+.collaboration-user-settings li.chip {
+  display: inline-block;
+  height: 40px;
+  width: 60px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0;
+  line-height: 12px;
+  border-radius: 16px;
+  background-color: #e4e4e4;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+
+// .collaboration-user-settings li.chip > img {
+//     margin: 0 auto;
+//     width: 100%;
+//     border-radius: 50%;
+// }
+
+.collaboration-user-settings li.chip > img ~ span {
+    line-height: 10px;
+    font-size: 12px;
+    line-height: 12px;
+    font-size: 11px;
+    padding-top: 5px;
+}
+
 form.edit_list ul.dropdown-content li{
   min-height: 1rem;
   line-height: 1rem;
