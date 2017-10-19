@@ -13,7 +13,8 @@
 <%= javascript_tag do %>
 
 $(function() {
-
+ $('ul.tabs').tabs();
+  $('ul.tabs').tabs('select_tab', 'test1');
   var $inputor = $('#mentionsBlocker'),
       listId = $inputor.data('list_id'),
       userId = $inputor.data('user_id');

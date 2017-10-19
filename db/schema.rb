@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161217171241) do
+ActiveRecord::Schema.define(version: 20171019195508) do
 
   create_table "blockers", force: :cascade do |t|
     t.integer "session_id"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20161217171241) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "recipient_id"
+    t.boolean "active"
   end
 
   create_table "lists", force: :cascade do |t|

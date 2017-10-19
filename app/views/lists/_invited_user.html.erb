@@ -1,9 +1,7 @@
 <% if (!invited_user.blank?) %>
   <li class="" data-invitation-user-id= "<%= invited_user.id%>">
         <%#= link_to list_collaboration_user_path(current_list,invited_user), id:"#{invited_user.id}",remote: true  do %>
-
-               <span class=""><%= invited_user.recipient_email %></span>
-
+      <%= invited_user.recipient_email %>
         <%# end %>
     </li>
 <% end %>

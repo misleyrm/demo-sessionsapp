@@ -50,10 +50,15 @@
                 <% end %>
               </div>
           </div>
-          <div class="divider col s12"></div>
           <% unless (@list.new_record?||@list.all_tasks_list?|| !has_collaborations?(@list)) %>
+              <div class="divider col s12"></div>
               <div class="col s12">
-                <p class="uppercase label">Collaborators</p>
+                <ul class="tabs">
+                  <li class="tab col s6"><a href="#test1" class="uppercase label">Collaborators</a></li>
+                  <li class="tab col s6"><a href="#test2" class="uppercase label">Pending Invitations</a></li>
+                </ul>
+              </div>
+              <div id="test1" class="col s12">
                 <ul class="collaboration-user-settings">
                   <% if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
                      <%= render partial: "lists/collaboration_user_settings", locals: {collaboration_user: @list.owner} %>
@@ -63,28 +68,14 @@
                   <% end %>
                 </ul>
               </div>
-              <%# unless (@list.invitations.count>0) %>
-                  <div class="col s12">
-                    <p class="uppercase label">Invitations</p>
-                    <ul class="invitation-user-settings">
-                      <% if  @list.invitations.count > 0 %>
-                         <%= render partial: "lists/invited_user", collection: @list.invitations, as: :invited_user %>
-                      <% end %>
-                    </ul>
-                  </div>
-              <%# end %>
-      				<!-- <div class="col s12">
-                <p class="uppercase label">Invited Users</p>
-                <ul id="collaboration-users">
-                  <%# if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
-                     <%#= render partial: "lists/invited_user", locals: {invited_user: @list.owner, active_users: ""} %>
-                  <%# end %>
-                  <%# if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                     <%#= render partial: "lists/invited_user", collection: @list.invitations, as: :invited_user, locals: { active_users: @list.collaboration_users}%>
-                  <%# end %>
+              <div id="test2" class="col s12">
+                <ul class="invitation-user-settings">
+                  <% if  @list.invitations.count > 0 %>
+                     <%= render partial: "lists/invited_user", collection: @list.invitations, as: :invited_user %>
+                  <% end %>
                 </ul>
-      				</div> -->
-        <% end %>
+              </div>
+          <% end %>
       </div>
       <div class="divider col s12"></div>
       <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>

@@ -122,6 +122,14 @@ form.edit_list .select-wrapper input.select-dropdown{
   text-align: center;
 }
 
+.collaboration-user-settings, .invitation-user-settings{
+  padding: 20px;
+}
+
+.invitation-user-settings li{
+   padding: 10px 0 0;
+   font-size: 14px;
+}
 
 // .collaboration-user-settings li.chip > img {
 //     margin: 0 auto;
