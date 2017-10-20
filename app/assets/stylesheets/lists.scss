@@ -122,6 +122,11 @@ form.edit_list .select-wrapper input.select-dropdown{
   text-align: center;
 }
 
+.collaboration-user-settings{
+  min-height: 100px;
+}
+
+
 .collaboration-user-settings, .invitation-user-settings{
   padding: 20px;
 }
@@ -131,6 +136,46 @@ form.edit_list .select-wrapper input.select-dropdown{
    font-size: 14px;
 }
 
+.invitation-user-settings li p{
+  margin-right: 60px;
+  line-height: 20px;
+  margin-bottom: 0;
+}
+
+.invitation-user-settings li ul.menu-option{
+  width: 60px;
+  right: 0;
+  position: absolute;
+  top: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.invitation-user-settings li ul.menu-option i{
+  font-size: 20px;
+}
+
+.invitation-user-settings li ul.menu-option a:hover i.material-icons{
+  color: #55C2B9 !important;
+}
+ul.collaboration-user-settings li{
+  float: left;
+}
+
+ul.collaboration-user-settings li.more {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid;
+  text-align: center;
+  cursor: pointer;
+}
+
+ul.collaboration-user-settings li.more i{
+  padding: 7px 0;
+  text-align: center;
+}
 // .collaboration-user-settings li.chip > img {
 //     margin: 0 auto;
 //     width: 100%;
@@ -138,11 +183,11 @@ form.edit_list .select-wrapper input.select-dropdown{
 // }
 
 .collaboration-user-settings li.chip > img ~ span {
-    line-height: 10px;
-    font-size: 12px;
-    line-height: 12px;
-    font-size: 11px;
-    padding-top: 5px;
+  line-height: 10px;
+  font-size: 12px;
+  line-height: 12px;
+  font-size: 11px;
+  padding-top: 5px;
 }
 
 form.edit_list ul.dropdown-content li{
@@ -188,7 +233,7 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
 //   height: 3px;
 // }
 
-#collaboration-users .chip:before{
+#collaboration-users .chip:before {
   text-decoration: none;
   font-family: "Material Icons";
   content: "\E061 ";
@@ -206,10 +251,9 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
   transition: opacity .25s ease-in-out;
  -moz-transition: opacity .25s ease-in-out;
  -webkit-transition: opacity .25s ease-in-out;
-
 }
 
-#collaboration-users .chip.active:before{
+#collaboration-users .chip.active:before {
     opacity:1;
     transition: opacity .25s ease-in-out;
    -moz-transition: opacity .25s ease-in-out;
@@ -217,18 +261,18 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
 }
 
 .list-collaboration-users #collaboration-users li,
-ul.invited_users li{
+ul.invited_users li {
   // padding: 0px 4px 0px!important;
   float: left;
 }
 
 .list-collaboration-users ul li,
-ul.invited_users li{
+ul.invited_users li {
   // padding: 0px 4px 0px!important;
   display: inline-block;
 }
 
-p.label{
+p.label {
   font-size: 0.8rem;
   padding-top: 0.8rem;
 }

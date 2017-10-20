@@ -16,7 +16,8 @@
 }
 
 .tasks ul.menu-option >li,
-.tasks ul.menu-information >li{
+.tasks ul.menu-information >li,
+.invitation-user-settings ul.menu-option >li {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -29,7 +30,8 @@
 
 .permitted .tasks ul.menu-option >li a:hover .material-icons,
 .show_blockers ul.action-menu li a:hover i.material-icons,
-.permitted .tasks ul.menu-option >li i.i-btn-datepicker:hover{
+.permitted .tasks ul.menu-option >li i.i-btn-datepicker:hover,
+.invitation-user-settings ul.action-menu li a:hover i.material-icons{
   color: #55C2B9!important;
 }
 

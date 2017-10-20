@@ -2,7 +2,7 @@ class InvitationsController < ApplicationController
   layout "modal"
   before_action :require_logged_in
   before_action :set_list
-  before_action :set_invitation, only: [:show]
+  before_action :set_invitation, only: [:show, :destroy]
 
   def index
     @invitations = Invitation.all
@@ -18,9 +18,10 @@ class InvitationsController < ApplicationController
   end
 
   def create
+
     @invitation = Invitation.new(invitation_params)
     @invitation.sender_id = current_user.id
-    # respond_to do |format|
+    respond_to do |format|
         if @invitation.save
           if @invitation.recipient != nil
               @url = login_url()
@@ -39,15 +40,21 @@ class InvitationsController < ApplicationController
               @url = sign_up_url(:invitation_token => @invitation.token)
               InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite data to our mailer to deliver the email
             end
-
-          flash[:notice] = "Thank you, invitation sent."
+            # respond_to do |format|
+              flash[:notice] = "Thank you, invitation sent."
+              # flash[:danger] = "We can't create the list."
+              @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
+              format.json { render :json => {:htmlerrors => @htmlerrors }}
+              format.js { render :action => "new" }
+            #  end
           # render action: show, layout: "modal"
           # format.js
         else
-          #format.html { redirect_to new_list_invitation_url(@list), notice: "Thank you, we will notify when we are ready." }
-          # format.js
+          @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
+          format.json { render :json => {:htmlerrors => @htmlerrors }}
+          format.js { render :action => "new" }
         end
-          # end
+      end
     # end
   end
 
@@ -89,7 +96,8 @@ end
   def destroy
     @invitation.destroy
     respond_to do |format|
-      format.html { redirect_to invitations_url, notice: 'Invitation was successfully destroyed.' }
+      flash[:notice] = 'Invitation was successfully destroyed.'
+      format.html {   }
       format.json { head :no_content }
     end
   end

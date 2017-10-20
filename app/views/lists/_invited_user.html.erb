@@ -1,7 +1,16 @@
 <% if (!invited_user.blank?) %>
-  <li class="" data-invitation-user-id= "<%= invited_user.id%>">
+  <li class="list-item" data-invitation-user-email= "<%= invited_user.recipient_email %>">
         <%#= link_to list_collaboration_user_path(current_list,invited_user), id:"#{invited_user.id}",remote: true  do %>
-      <%= invited_user.recipient_email %>
+      <p><%= invited_user.recipient_email %></p>
         <%# end %>
+      <ul class="menu-option">
+        <li><i class="material-icons md-18 md-dark md-inactive tooltipped" data-tooltip="Re-send invitation">send</i></li>
+        <li>
+          <%= link_to list_invitation_path(@list,invited_user), method: :delete, data: {confirm: "Are you sure you want to delete it?"}, remote: true  do %>
+            <i class="material-icons md-18 md-dark md-inactive tooltipped" data-tooltip="Delete invitation">delete</i>
+          <% end %>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
     </li>
 <% end %>

@@ -8,13 +8,14 @@ class Invitation < ApplicationRecord
   # validate :recipient_is_not_registered
 
   before_create :generate_token
-  before_save :check_recipient_existence
+  # before_save :check_recipient_existence
 
   validate :disallow_self_invitation
 
    def disallow_self_invitation
+     check_recipient_existence
      if sender_id == recipient_id
-       errors.add(:recipient_id, 'cannot refer back to the sender')
+       errors.add(:danger, 'cannot refer back to the sender')
      end
    end
 
