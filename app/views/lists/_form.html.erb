@@ -66,17 +66,17 @@
                   <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
                      <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user %>
                   <% end %>
-                  <li class="more"><i class="material-icons">more_vert</i></li>
+                  <!-- <li class="more"><i class="material-icons">more_vert</i></li> -->
                 </ul>
                 <div class="clearfix"></div>
+                <% if (current_user.owner?(@list))%>
+                    <%= link_to "Invite a new member",new_list_invitation_path(@list),id: 'new_invitation_link',class:"tooltipped", remote: true, data: {behavior: 'modal', tooltip: 'Invite a new member'} %>
+                <% end %>
               </div>
               <div id="test2" class="col s12">
                 <ul class="invitation-user-settings">
                   <% if  @pending_invitations.count > 0 %>
                      <%= render partial: "lists/invited_user", collection: @pending_invitations, as: :invited_user %>
-                  <% end %>
-                  <% if (current_user.owner?(@list))%>
-                      <li><%= link_to "Invite a new member",new_list_invitation_path(@list),id: 'new_invitation_link',class:"tooltipped", remote: true, data: {behavior: 'modal', tooltip: 'Invite a new member'} %></li>
                   <% end %>
                 </ul>
               </div>
