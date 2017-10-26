@@ -1,4 +1,4 @@
-class TaskPolicy < ApplicationPolicy
+class ListPolicy < ApplicationPolicy
   # attr_reader :current_date
 
   def create?
@@ -6,6 +6,8 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def update?
+    byebug
+    user.owner?(record.try(:list)) || record.try(:user) == user
     #  if record.all_tasks_list?
     #    user.owner?(record.try(:list)) || record.try(:list).user == user
     #  else

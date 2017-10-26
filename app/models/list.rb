@@ -23,7 +23,7 @@ class List < ApplicationRecord
   before_save :capitalize_name
 
   def owner_name
-    self.owner.name 
+    self.owner.name
   end
 
   def collaborations?
@@ -59,7 +59,11 @@ class List < ApplicationRecord
 
   def broadcast_update
 
-    if !self.previous_changes.keys.nil?
+    if (self.previous_changes.key?(:user_id) &&
+       self.previous_changes[:user_id].first != self.previous_changes[:user_id].last)
+       user = User.find(self.user_id)
+       ActionCable.server.broadcast 'list_channel', htmlLi: render_list_li(self,user,false), htmlChip: render_list_chip(self), status: 'listUpdatedOwner', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, before_owner: self.previous_changes[:user_id].first
+    elsif !self.previous_changes.keys.nil?
       ActionCable.server.broadcast 'list_channel', htmlChip: render_list_chip(self), status: 'listUpdated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
     end
 
@@ -93,15 +97,15 @@ class List < ApplicationRecord
 
   def broadcast_save
       user = User.find(self.user_id)
-      ActionCable.server.broadcast 'list_channel', htmlLi: render_list_li(self,user), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
+      ActionCable.server.broadcast 'list_channel', htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
    end
 
   def render_list_chip(list)
-     ListsController.render(partial: "lists/nav_list_name.html", locals: {"list": list}).squish
+     ListsController.render(partial: "lists/nav_list_name", locals: {"list": list}).squish
   end
 
-  def render_list_li(list,user)
-     ListsController.render(partial: "lists/nav_list_name",  layout: "layouts/li_navigation", locals: {"list": list, "user": user, "active": true}).squish
+  def render_list_li(list,user,active)
+     ListsController.render(partial: "lists/nav_list_name",  layout: "layouts/li_navigation", locals: {"list": list, "user": user, "active": active}).squish
   end
 
   private

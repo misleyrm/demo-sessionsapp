@@ -139,26 +139,34 @@ class ListsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
+  
+    # respond_to do |format|
       gon.list = @list
-      if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
+      if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
+        if (@list.user_id!= params[:list_owner].to_i)
+          current_user.collaboration_lists << @list
+          User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
+          @list.user_id = params[:list_owner].to_i
+        end
+      end
+      saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
+
+      if saved
                flash[:success] = "List was successfully updated."
-               format.html{ redirect_to root_path}
-               format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-               format.js
-       elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
-              flash[:success] = "List was successfully updated."
-              format.html{ redirect_to root_path}
-              format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-              format.js
+              #  format.html{ redirect_to root_path}
+              #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
+              #  format.js
+              redirect_to list_path(@list)
        else
-              flash[:danger] = "We can't update the list."
-              @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-              format.json { render :json => {:htmlerrors => @htmlerrors }}
-              format.js {render :action => "edit"}
+         flash[:danger] = "We can't update the list."
+         @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+         respond_to do |format|
+           format.json { render :json => {:htmlerrors => @htmlerrors }}
+           format.js { render :action => "edit" }
+          end
 
        end
-    end
+    # end
   end
 
   def destroy

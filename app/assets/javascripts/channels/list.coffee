@@ -13,17 +13,21 @@ App.list = App.cable.subscriptions.create "ListChannel",
     $user = $('[data-user-id = "' + data.user + '"]', $list)
 
     $nav = $('[data-nav-id = "' + data.user + '"]')
-    $listNav = $('[data-nav-list-id = "' + data.id + '"]')
+    $listNav = $('[data-nav-list-id = "' + data.id + '"]', $nav)
     $listTopnavbar = $('[data-topnavbar-list-id = "' + data.id + '"]')
     $chipListTopnavbar =  $('.chip', $listTopnavbar)
     $chipList = $('.chip', $listNav)
     $ul = $('ul#ulCreated', $nav)
     $add = $("#ms-add", $ul)
+
     # if $task.length > 0
     switch data.status
       when 'listUpdated'
         $chipList.replaceWith data.htmlChip
         $chipListTopnavbar.replaceWith data.htmlChip
+      when 'listUpdatedOwner'
+        $listNav.remove()
+        $( data.htmlLi ).insertBefore $add
       # when 'listCreated'
       #   $("li.active", $ul).removeClass('active');
       #   $( data.htmlLi ).insertBefore $add

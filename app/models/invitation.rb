@@ -19,6 +19,10 @@ class Invitation < ApplicationRecord
      end
    end
 
+   def invitation_existence
+     !Invitation.where("recipient_email": self.recipient_email,"list_id": self.list_id).blank?
+   end
+
   private
 
   def check_recipient_existence

@@ -162,6 +162,16 @@ div .card{
     box-shadow: none!important;
 }
 
+.btn-floating.btn-my-medium {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+.btn-floating.btn-my-medium i{
+  font-size: 22px;
+}
+
 .z-depth-1-half,
 .btn:hover,
 .btn-large:hover,
@@ -361,13 +371,19 @@ i.small {
 
 .clearfix:before,
 .clearfix:after {
-  content: " ";
-  display: table;
-}
-
-.clearfix:after {
+  display: block;
+  content: "";
   clear: both;
 }
+
+
+.clearfix {
+    display: block;
+    content: "";
+    clear: both;
+
+}
+
 
 .nav-main .divider{
   height: 1px;

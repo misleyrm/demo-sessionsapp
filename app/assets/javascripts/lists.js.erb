@@ -9,48 +9,62 @@ $(document).on('turbolinks:load',function(){
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
-  $(document).on("click","form.edit_list a#btn-list-form-submit",function(e){
-    e.preventDefault();
-    var formData = new FormData(),
-      $input = $("#list_avatar"),
-      $name = $("#list_name"),
-      $description = $("#list_description");
-    formData.append('list[name]', $name.val());
-    formData.append('list[description]', $description.val());
-
-    if ( $input.length != 0){
-      if( $input[0].files.length != 0 ){
-        formData.append('list[avatar]', $input[0].files[0]);
-      }
-    }
-  // alert($("form#list-form").attr("action"));
-  	$.ajax({
-  	  url: $("form#list-form").attr("action"),
-  	  data: formData,
-  	  cache: false,
-  	  contentType: false,
-      dataType:"json",
-  	  processData: false,
-  	  type: $("form#list-form").data("method"),
-      success: function(response){
-
-             if (typeof response.htmlerrors !== "undefined") {
-                $("#error_message_list").html(response.htmlerrors);
-             } else {
-                  var $ul = $("ul.user-lists");
-                  // $("li.active", $ul).removeClass('active');
-                 $.getScript("/lists/" + response.list , function() {
-                    // $("#error_message_list").html(response.htmlerrors);
-                 })
-                //  $("[data-nav-list-id='"+ response.list + "']").addClass('active');
-                 $('#ms-modal-dialog').modal('close');
-                 Materialize.toast(response.message, 4000);
-             }
-            // Materialize.toast('Avatar Changed', 4000);
-            // return response; // <- I tried that one as well
-        }
-  	})
-  })
+  // $(document).on("click","form.edit_list a#btn-list-form-submit",function(e){
+  //   e.preventDefault();
+  //   alert("innnnnnnn");
+  //   var formData = new FormData(),
+  //     $input = $("#list_avatar"),
+  //     $select = $("#list_owner"),
+  //     $name = $("#list_name"),
+  //     $description = $("#list_description"),
+  //     $id = $("#list_id"),
+  //     $method = 'post';
+  //
+  //     alert($name.val());
+  //       alert($select.val());
+  //   formData.append('list[name]', $name.val());
+  //   formData.append('list[description]', $description.val());
+  //
+  //   if ($("form.edit_list").data("new") == "update") {
+  //     formData.append('list[id]', $id.val());
+  //     $method = 'put';
+  //   }
+  //   formData.append('owner', $select.val());
+  //
+  //
+  //   if ( $input.length != 0){
+  //     if( $input[0].files.length != 0 ){
+  //       formData.append('list[avatar]', $input[0].files[0]);
+  //     }
+  //   }
+  //    alert($("form.edit_list").attr("action"));
+  // 	$.ajax({
+  // 	  url: "/lists",
+  // 	  data:  JSON.stringify({ formData, _method: $method }),
+  // 	  cache: false,
+  // 	  contentType: false,
+  //     dataType:"json",
+  // 	  processData: false,
+  // 	  type: "POST",
+  //     success: function(response){
+  //             alert("success");
+  //            if (typeof response.htmlerrors !== "undefined") {
+  //               $("#error_message_list").html(response.htmlerrors);
+  //            } else {
+  //                 var $ul = $("ul.user-lists");
+  //                 // $("li.active", $ul).removeClass('active');
+  //                $.getScript("/lists/" + response.list , function() {
+  //                   // $("#error_message_list").html(response.htmlerrors);
+  //                })
+  //               //  $("[data-nav-list-id='"+ response.list + "']").addClass('active');
+  //                $('#ms-modal-dialog').modal('close');
+  //                Materialize.toast(response.message, 4000);
+  //            }
+  //           // Materialize.toast('Avatar Changed', 4000);
+  //           // return response; // <- I tried that one as well
+  //       }
+  // 	})
+  // })
 
 var app = window.app = {};
 

@@ -35,9 +35,13 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
         url: $this.attr('data-href')
       })
   }
+
 });
 
+
 $(document).on('turbolinks:load',function(){
+
+     $('ul.tabs').tabs();
 
     $("form#user-edit-avatar").submit(function(e){
                  e.preventDefault(e);
