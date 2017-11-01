@@ -8,6 +8,7 @@ class Invitation < ApplicationRecord
   # validate :recipient_is_not_registered
 
   before_create :generate_token
+  validate :existence_invitation
   # before_save :check_recipient_existence
 
   validate :disallow_self_invitation
@@ -19,8 +20,17 @@ class Invitation < ApplicationRecord
      end
    end
 
-   def invitation_existence
-     !Invitation.where("recipient_email": self.recipient_email,"list_id": self.list_id).blank?
+   def existence_invitation
+     invitation = Invitation.find_by(recipient_email: recipient_email,list_id: list_id)
+     if !invitation.nil?
+       if invitation.active
+          errors.add(:danger, 'this user is currently a collaborator user')
+        end
+     end
+   end
+
+   def update_token
+      self.token = generate_token
    end
 
   private

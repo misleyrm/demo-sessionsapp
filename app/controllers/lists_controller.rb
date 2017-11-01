@@ -49,7 +49,8 @@ class ListsController < ApplicationController
 
   def show
     if !params[:mention_by].blank?
-      @collaboration_users = User.where(id: params[:mention_by])
+      mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
+      @collaboration_users = User.where(id: mention_by)
     end
     respond_to do |format|
       format.html {redirect_to root_path(:collaboration_users => @collaboration_users)}
@@ -139,7 +140,7 @@ class ListsController < ApplicationController
   end
 
   def update
-  
+
     # respond_to do |format|
       gon.list = @list
       if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
