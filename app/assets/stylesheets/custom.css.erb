@@ -62,6 +62,7 @@ html{
  }
 body{
   /*background: url('<%= asset_path("hd-bg.png") %>');*/
+  font-family: 'ProximaNova-Light'!important;
   background-repeat: no-repeat;
   background-size: cover;
   color: #808080;
@@ -70,6 +71,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: lighter!important;
   color: #808080 !important;
   margin: 0.82rem 0 2rem;
+  font-family: 'ProximaNova-Light'!important;
+}
+
+p, span, label, input{
+  font-family: 'ProximaNova-Light'!important;
 }
 
 .signed_user {
@@ -468,7 +474,7 @@ a{
 
 /********* MODAL ********/
 
-.modal h2{
+.modal-title{
   font-size: 30px;
   color: #55C2B9!important;
 }
@@ -477,6 +483,13 @@ a{
   max-width: 470px;
   margin: 0 auto;
 
+}
+
+.modal-text{
+  line-height: 22px;
+  font-size: 18px;
+  color: #848994;
+  font-weight: 100;
 }
 
 .input-field label:not(.label-icon).active {
@@ -625,7 +638,7 @@ a{
 #ms-modal-dialog.modal .modal-content,
 #ms-modal-confirm.modal .modal-content{
   margin: 0 auto;
-  min-width: 540px;
+  max-width: 540px;
 
 }
 /********* End Modal *********/

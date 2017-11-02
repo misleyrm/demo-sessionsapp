@@ -1,3 +1,1 @@
-
-// $('#new_invitation').hide();
-// $('#new_invitation_link a').hide().after('<%= j render("form") %>');
+$("#error_message_invitation").html("<%= j render :partial => 'layouts/error_message', :locals => {:model => @invitation} %>");

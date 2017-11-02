@@ -15,6 +15,7 @@ class InvitationsController < ApplicationController
 
   def new
     @invitation = Invitation.new
+    render layout: 'modal'
     # render layout: 'modal'
   end
 
@@ -22,7 +23,7 @@ class InvitationsController < ApplicationController
           @invitation = Invitation.new(invitation_params)
           @invitation.sender_id = current_user.id
           # respond_to do |format|
-              if @invitation.save
+            if @invitation.save
                 if @invitation.recipient != nil
                     @url = login_url()
                     #send a notification email
@@ -35,7 +36,7 @@ class InvitationsController < ApplicationController
                        html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @invitation.recipient, "current_list": @list, "active_users": []}).squish
                        #  htmlCollaborationsList = ListsController.render(partial: "lists/li_nav_list", locals: { "list": @list, "user": current_user, "listCurrent": current_list}).squish
                        htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @invitation.recipient, active: false}).squish
-                       ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+                       ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
                     end
                   else
                     @url = sign_up_url(:invitation_token => @invitation.token)
@@ -43,24 +44,25 @@ class InvitationsController < ApplicationController
                   end
                   # respond_to do |format|
                     flash[:notice] = "Thank you, invitation sent."
+                    redirect_to list_path(@list)
                     # flash[:danger] = "We can't create the list."
-                    @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
-                    render :json => {:htmlerrors => @htmlerrors }
+                    # @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
+                    # render :json => {:htmlerrors => @htmlerrors }
                     # format.js { render :action => "new" }
                   #  end
                 # render action: show, layout: "modal"
                 # format.js
+
             else
-              byebug
-              respond_to do |format|
-              # flash[:notice] = "Thank you, invitation sent."
+
               @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
-              render :json => {:htmlerrors => @htmlerrors }
-              # format.js { render :action => "new" }
+              respond_to do |format|
+                format.json { render :json => {:htmlerrors => @htmlerrors }}
+                format.js { render :action => "new" }
+               end
             end
-            end
-            # end
-          # end
+
+
   end
 
   def resend_invitation
@@ -107,6 +109,7 @@ end
   # DELETE /invitations/1.json
   def destroy
     @invitation.destroy
+    ActionCable.server.broadcast 'invitation_channel', status: 'deleted', id: @invitation.id
     respond_to do |format|
       flash[:notice] = 'Invitation was successfully destroyed.'
       format.html {   }
