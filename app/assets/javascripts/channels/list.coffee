@@ -19,7 +19,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
     $chipList = $('.chip', $listNav)
     $ul = $('ul#ulCreated', $nav)
     $add = $("#ms-add", $ul)
-
+    $collUserSettings = $('ul#collaboration-user-settings')  # add to the modal form the list id, and look for the list to add user collaborators.
     # if $task.length > 0
     switch data.status
       when 'listUpdated'

@@ -79,7 +79,11 @@ Rails.application.routes.draw do
 
     resources :lists do
       resources :tasks, :name_prefix => "list_"
-      resources :invitations
+      resources :invitations do
+        member do
+          get :resend_invitation
+        end
+      end
       resources :collaboration_users, :controller => 'users', :defaults => {:type => 'collaborator'}
       get :search, :on => :collection
       member do

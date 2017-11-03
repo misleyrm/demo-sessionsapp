@@ -88,12 +88,23 @@ class UsersController < ApplicationController
       @token = params[:invitation_token]
       if @user.save
         if !@token.nil?
-            list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
-            hasCollaborationsList = User.first.collaboration_lists.count > 0 ? true : false
-            @user.collaboration_lists.push(list)  #add this user to the list as a collaborator
-            html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": list}).squish
-            htmlCollaborationsList = ""
-            ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+            @invitation = Invitation.find_by_token(@token)
+            @list = @invitation.list #find the list_id attached to the invitation
+
+            # hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
+            # @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+            # html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list}).squish
+            # htmlCollaborationsList = ""
+            # ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+            unless @user.collaboration_lists.include?(@list)
+               hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
+               @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+               @invitation.update_attributes(:active => true)
+               html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": []}).squish
+               collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user }).squish
+               htmlCollaborationsList = ""
+               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+            end
         end
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now

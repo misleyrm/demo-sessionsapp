@@ -4,7 +4,10 @@
       <p><%= invited_user.recipient_email %></p>
         <%# end %>
       <ul class="menu-option">
-        <li><i class="material-icons md-18 md-dark md-inactive tooltipped" data-tooltip="Re-send invitation">mail_outline</i></li>
+        <li><%= link_to resend_invitation_list_invitation_path(@list,invited_user), remote: true  do %>
+              <i class="material-icons md-18 md-dark md-inactive tooltipped" data-tooltip="Re-send invitation">mail_outline</i>
+            <% end %>
+        </li>
         <li>
           <%= link_to list_invitation_path(@list,invited_user), method: :delete, data: {confirm: "Are you sure you want to delete it?"}, remote: true  do %>
             <i class="material-icons md-18 md-dark md-inactive tooltipped" data-tooltip="Delete invitation">cancel</i>
