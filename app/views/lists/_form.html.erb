@@ -76,7 +76,7 @@
                 <% end %>
                 <!-- <li class="more"><i class="material-icons">more_vert</i></li> -->
                 <% if (current_user.owner?(@list))%>
-                   <li class="right">
+                   <li class="right ms-add">
                       <%= link_to new_list_invitation_path(@list),id: 'new_invitation_link',class:"btn-floating btn-my-medium",data: {behavior: 'modal', tooltip: 'Invite a new member',remote: true} do%>
                             <i class="material-icons md-18 md-dark md-inactive">add</i>
                       <% end %>
@@ -88,7 +88,7 @@
             <div id="test2" class="col s12">
               <ul class="invitation-user-settings">
                 <% if  @pending_invitations.count > 0 %>
-                   <%= render partial: "lists/invited_user", collection: @pending_invitations, as: :invited_user %>
+                   <%= render partial: "lists/invited_user", collection: @pending_invitations, as: :invited_user, locals: {"list": @list} %>
                 <% end %>
               </ul>
             </div>
