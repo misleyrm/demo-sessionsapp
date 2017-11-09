@@ -1,12 +1,13 @@
 <% if (!collaboration_user.blank?) %>
   <li class="chip" style="background: none;" data-collaboration-user-settings-id= "<%= collaboration_user.id%>">
-        <%#= link_to list_collaboration_user_path(current_list,collaboration_user),class: "tooltipped", id:"#{collaboration_user.id}",remote: true,:data => { :'tooltip'=>"Show tasks for #{collaboration_user.first_name}" }  do %>
-            <% if !collaboration_user.avatar.nil? %>
-               <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>
-            <% else %>
-               <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
-            <% end %>
-            <span><%= collaboration_user.first_name %></span>
-        <%# end %>
-    </li>
+    <a href="#!" class="my-close close waves-effect waves-green right" data-remote="true">
+      <i class="material-icons">close</i>
+    </a>
+    <% if !collaboration_user.avatar.nil? %>
+       <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>
+    <% else %>
+       <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
+    <% end %>
+    <span><%= collaboration_user.first_name %></span>
+  </li>
 <% end %>

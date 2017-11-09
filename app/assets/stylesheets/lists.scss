@@ -128,7 +128,7 @@ form.edit_list .select-wrapper input.select-dropdown{
 
 
 .collaboration-user-settings, .invitation-user-settings{
-  padding: 20px;
+  padding: 20px 0;
 }
 
 .invitation-user-settings li{
@@ -143,7 +143,7 @@ form.edit_list .select-wrapper input.select-dropdown{
 }
 
 .invitation-user-settings li ul.menu-option{
-  width: 60px;
+  // width: 60px;
   right: 0;
   position: absolute;
   top: 0;

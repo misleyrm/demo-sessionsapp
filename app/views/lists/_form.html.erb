@@ -58,40 +58,38 @@
 
       </div>
     <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
-          <div class="row">
-            <div class="col s12">
-              <ul class="tabs">
-                <li class="tab col s6 uppercase label"><a href="#test1" class="active">Collaborators</a></li>
-                <li class="tab col s6 uppercase label"><a href="#test2">Pending Invitations</a></li>
-                <div class="indicator" style="right: 223px; left: 0px;"></div>
+          <div class="row" >
+              <ul class="tabs my-tabs">
+                <li class="tab my-tab nav-link uppercase label"><a href="#collaborators" class="active">Collaborators</a></li>
+                <li class="tab my-tab nav-link uppercase label"><a href="#invitations">Pending Invitations</a></li>
               </ul>
-            </div>
-            <div id="test1" class="col s12">
-              <ul class="collaboration-user-settings">
-                <% if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
-                   <%= render partial: "lists/collaboration_user_settings", locals: {collaboration_user: @list.owner} %>
-                <% end %>
-                <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                   <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user %>
-                <% end %>
-                <!-- <li class="more"><i class="material-icons">more_vert</i></li> -->
-                <% if (current_user.owner?(@list))%>
-                   <li class="right ms-add">
-                      <%= link_to new_list_invitation_path(@list),id: 'new_invitation_link',class:"btn-floating btn-my-medium",data: {behavior: 'modal', tooltip: 'Invite a new member',remote: true} do%>
-                            <i class="material-icons md-18 md-dark md-inactive">add</i>
-                      <% end %>
-                    </li>
-                <% end %>
-              </ul>
-
-            </div>
-            <div id="test2" class="col s12">
-              <ul class="invitation-user-settings">
-                <% if  @pending_invitations.count > 0 %>
-                   <%= render partial: "lists/invited_user", collection: @pending_invitations, as: :invited_user, locals: {"list": @list} %>
-                <% end %>
-              </ul>
-            </div>
+              <div class="my-tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="collaborators">
+                  <ul class="collaboration-user-settings">
+                    <% if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
+                       <%= render partial: "lists/collaboration_user_settings", locals: {collaboration_user: @list.owner} %>
+                    <% end %>
+                    <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
+                       <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user %>
+                    <% end %>
+                    <!-- <li class="more"><i class="material-icons">more_vert</i></li> -->
+                    <% if (current_user.owner?(@list))%>
+                       <li class="right ms-add">
+                          <%= link_to new_list_invitation_path(@list),id: 'new_invitation_link',class:"btn-floating btn-my-medium",data: {behavior: 'modal', tooltip: 'Invite a new member',remote: true} do%>
+                                <i class="material-icons md-18 md-dark md-inactive">add</i>  <span>Invite</span>
+                          <% end %>
+                        </li>
+                    <% end %>
+                  </ul>
+                </div>
+                <div class="tab-pane fade show" id="invitations">
+                  <ul class="invitation-user-settings">
+                    <% if  @pending_invitations.count > 0 %>
+                       <%= render partial: "lists/invited_user", collection: @pending_invitations, as: :invited_user, locals: {"list": @list} %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
           </div>
           <div class="divider col s12"></div>
   			  <div class="row">
