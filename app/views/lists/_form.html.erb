@@ -70,7 +70,7 @@
                        <%= render partial: "lists/collaboration_user_settings", locals: {collaboration_user: @list.owner} %>
                     <% end %>
                     <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                       <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user %>
+                       <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user, :locals => {:list => @list}   %>
                     <% end %>
                     <!-- <li class="more"><i class="material-icons">more_vert</i></li> -->
                     <% if (current_user.owner?(@list))%>

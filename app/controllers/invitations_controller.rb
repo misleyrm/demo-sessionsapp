@@ -20,23 +20,23 @@ class InvitationsController < ApplicationController
   end
 
   def create
-     
           @invitation = Invitation.new(invitation_params)
           @invitation.sender_id = current_user.id
           # respond_to do |format|
             if @invitation.save
                 if @invitation.recipient != nil
                     @url = login_url()
+                    @user = @invitation.recipient
                     #send a notification email
                     InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
                     unless @invitation.recipient.collaboration_lists.include?(@list)
-                       hasCollaborationsList = @invitation.recipient.collaboration_lists.count > 0 ? true : false
-                       @invitation.recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+                       hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
+                       @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+                       collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user }).squish
+                       html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": []}).squish
                        @invitation.update_attributes(:active => true)
-                       collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @invitation.recipient }).squish
-                       html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @invitation.recipient, "current_list": @list, "active_users": []}).squish
-                       htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @invitation.recipient, active: false}).squish
-                       ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+                       htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @user, active: false}).squish
+                       ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @user.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
                     end
                   else
                     @url = sign_up_url(:invitation_token => @invitation.token)

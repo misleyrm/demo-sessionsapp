@@ -22,12 +22,9 @@ class Invitation < ApplicationRecord
 
    def existence_invitation
      invitation = Invitation.find_by(recipient_email: recipient_email,list_id: list_id)
+     #  collaborator = Collaboration.find_by(user_id: recipient_email,list_id: list_id)
      if !invitation.nil?
-       if invitation.active
-          errors.add(:danger, 'this user is currently a collaborator user')
-        else
-          errors.add(:notification, 'this user is currently invited. You can re-send this invitation at any time from list settings')
-        end
+        errors.add(:notification, 'this user is currently invited. You can re-send this invitation at any time from list settings') if !invitation.active
      end
    end
 
