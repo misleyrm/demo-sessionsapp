@@ -3,12 +3,13 @@ class UsersController < ApplicationController
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
   # helper_method :get_current_date
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy]
   # before_action :set_list,  if: -> { !params[:type].blank? }
   # before_action :set_task_per_user, only: [:show]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
-  before_action :set_current_list, if: -> { !params[:type].blank? }
+  before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  # before_action :set_collaboration, if: -> { !params[:type].blank? }
 
   def index
     # this_user = User.find(session[:user_id])
@@ -138,7 +139,6 @@ class UsersController < ApplicationController
         #   @user.update_attributes(:avatar => user_params[:avatar])
         # end
 
-
   end
 
   def updateAvatar
@@ -168,19 +168,33 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    authorize @current_user
-    @user.destroy
+    # byebug
+    # authorize @current_user
+    byebug
+    if (!params[:type].blank? &&  params[:type]=="collaborator")
+      byebug
+      @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
+      @collaboration.destroy
+      Collaboration.reset_pk_sequence
+      byebug
+      # @invitations = @list.invitations.where(recipient_email: @user.email)
+      # @invitations.delete_all
+      invitation.reset_pk_sequence
+      flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
+    else
+      @user.destroy
+      User.reset_pk_sequence
+      flash[:notice] = 'User was successfully destroyed.'
+    end
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
       format.js
-      User.reset_pk_sequence
     end
   end
 
-  def accept_invitation
+  # def accept_invitation
     # invitation.token if invitation
-  end
+  # end
 
   def resend_activation
     @user = User.find_by(email:params[:email])
@@ -217,7 +231,7 @@ class UsersController < ApplicationController
   end
 
   def set_list
-
+    @list = List.find(params[:list_id])
     # byebug
     # @list = List.find(params[:list_id])
     # if @list != List.current
