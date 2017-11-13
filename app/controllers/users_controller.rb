@@ -103,7 +103,7 @@ class UsersController < ApplicationController
                @invitation.update_attributes(:active => true)
                html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": []}).squish
                invitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
-               collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user }).squish
+               collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user, "list": @list }).squish
                htmlCollaborationsList = ""
                ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html,invitationSetting: invitationSetting, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end
@@ -168,18 +168,15 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    # byebug
-    # authorize @current_user
-    byebug
     if (!params[:type].blank? &&  params[:type]=="collaborator")
-      byebug
+
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
       @collaboration.destroy
       Collaboration.reset_pk_sequence
       byebug
-      # @invitations = @list.invitations.where(recipient_email: @user.email)
-      # @invitations.delete_all
-      invitation.reset_pk_sequence
+      @invitations = Invitation.find_by(recipient_email: @user.email,list_id: @list.id)
+      @invitations.destroy
+      Invitation.reset_pk_sequence
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy

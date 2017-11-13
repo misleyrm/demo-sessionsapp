@@ -8,7 +8,7 @@ class Invitation < ApplicationRecord
   # validate :recipient_is_not_registered
 
   before_create :generate_token
-  validate :existence_invitation
+  before_create :existence_invitation
   # before_save :check_recipient_existence
 
   validate :disallow_self_invitation
@@ -21,10 +21,17 @@ class Invitation < ApplicationRecord
    end
 
    def existence_invitation
+     byebug
      invitation = Invitation.find_by(recipient_email: recipient_email,list_id: list_id)
      #  collaborator = Collaboration.find_by(user_id: recipient_email,list_id: list_id)
      if !invitation.nil?
-        errors.add(:notification, 'this user is currently invited. You can re-send this invitation at any time from list settings') if !invitation.active
+        # if !invitation.active
+          errors.add(:notification, 'this user is currently invited.')
+        # else
+        #   recipient = User.find_by_email(recipient_email)
+        #   list = List.find(list_id)
+        #   errors.add(:notification, 'this user is currently a collaborator') if recipient.collaboration_lists.include?(list)
+        # end
      end
    end
 
