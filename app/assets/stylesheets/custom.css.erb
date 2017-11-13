@@ -646,6 +646,17 @@ a{
     right: 3px;
     top: -3px;
 }
+
+/********** Collaborator inactive **********/
+.chip{
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+.chip.ms-inactive{
+  opacity: .7;
+}
 /********* Modal *********/
 #ms-modal-dialog.modal,
 #ms-modal-confirm.modal {
