@@ -121,9 +121,9 @@ class User < ApplicationRecord
       end
     end
 
-  def set_default_role
-    self.role ||= :employee
-  end
+  # def set_default_role
+  #   self.role ||= :employee
+  # end
 
   def create_all_tasks_list
     self.created_lists << self.created_lists.create(name: "All Tasks", all_tasks: true)
@@ -272,6 +272,15 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
+  end
+
+  def active_collaborator?(list_id)
+
+    if self.invitations.find_by_list_id(list_id)
+      return self.invitations.find_by_list_id(list_id).active
+    else
+      return self.owner?(List.find(list_id)) ? true : false
+    end
   end
 
   def broadcast_update

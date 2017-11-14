@@ -105,7 +105,7 @@ class UsersController < ApplicationController
                invitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
                collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
                htmlCollaborationsList = ""
-               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html,invitationSetting: invitationSetting, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html,invitationSetting: invitationSetting, collaboratorSetting: collaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end
         end
         @user.send_activation_email

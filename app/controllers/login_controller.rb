@@ -19,9 +19,17 @@ class LoginController < ApplicationController
           @invitation.update_attributes(:active => true)
           unless user.collaboration_lists.include?(@list)
              user.collaboration_lists.push(@list)  #add this user to the list as a collaborator         current_list,     collaboration_user
-             html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list}).squish
-             ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: user.id, list_id: @list.id
           end
+          html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list}).squish
+          ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: user.id, list_id: @list.id
+
+          html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list, "active_users": []}).squish
+          # invitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
+          collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": user }).squish
+          htmlCollaborationsList = ""
+          ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html, collaboratorSetting: collaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+
+
         end
         log_in user
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)

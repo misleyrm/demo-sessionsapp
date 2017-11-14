@@ -44412,7 +44412,7 @@ module.exports = function (element) {
       $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent);
       $collaboration_users = $('ul#collaboration-users', $list);
       $navUser = $('[data-nav-id = "' + data.user + '"]');
-      $ul = $('.nano .nano-content> ul#ulCollaboration', $navUser);
+      $ul = $('.nano .nano-content> ul#ulCollaborationList', $navUser);
       $navleft = $('#left-sidebar-nav');
       switch (data.status) {
         case 'activated':
