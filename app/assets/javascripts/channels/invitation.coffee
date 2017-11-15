@@ -6,7 +6,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-
+    alert(data.existing_user_invite)
     $currentUserOwner = $('[data-current-user = "' + data.owner + '"]')
     $pageContentOwner = $('#page-content', $currentUserOwner)
     $listOwner = $('[data-list-id = "' + data.list_id + '"]', $pageContentOwner)
@@ -32,18 +32,19 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $ulInvitationUserSettings = $('ul.invitation-user-settings', $editList)
 
 
-
     switch data.status
       when 'created'
         if data.existing_user_invite
+          alert("in")
           $( data.html ).insertBefore $addCollaborationUserOwner
-          # $invitation.remove()
           $( data.collaboratorSetting ).insertBefore $addCollaborationUserSettingsOwner
         else
           $ulInvitationUserSettings.prepend data['invitationSetting']
       when 'activated'
+        alert(data.status)
         $navUser = $('[data-nav-id = "' + data.recipient + '"]')
         $ul = $('ul#ulCollaborationList', $navUser)
+        alert(data.html)
         $( data.html ).insertBefore $add
         $invitation.remove()
         $collaboratorUserOwner.removeClass("ms-inactive")

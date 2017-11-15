@@ -34,7 +34,7 @@ class InvitationsController < ApplicationController
                        @recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
 
                        collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {list: @list,"collaboration_user": @recipient }).squish
-                       html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @recipient, "current_list": @list, "active_users": []}).squish
+                       html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @recipient, "current_list": @list, "active_users": [],current_user: current_user}).squish
                       #  htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @recipient, active: false}).squish
                       # htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList,
                        ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, html: html, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @recipient.id, list_id: @list.id, owner: @list.owner.id, existing_user_invite: true
@@ -68,15 +68,22 @@ class InvitationsController < ApplicationController
   end
 
   def resend_invitation
-    byebug
     # @invitation = Invitation.find(id)
-    @url = sign_up_url(:invitation_token => @invitation.token)
-    InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite
-    flash[:notice] = "The invitation was resent."
-    respond_to do |format|
-      format.json { render :json => {:htmlerrors => @htmlerrors }}
-      format.js { }
+    if (@invitation.recipient != nil) || (User.find_by_email(@invitation.recipient_email))
+      @url = login_url(:invitation_token => @invitation.token)
+      # @recipient = @invitation.recipient
+      #send a notification email
+      InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
+    else
+      @url = sign_up_url(:invitation_token => @invitation.token)
+      InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite
+      flash[:notice] = "The invitation was re-sent."
+      respond_to do |format|
+        format.json { render :json => {:htmlerrors => @htmlerrors }}
+        format.js { }
+       end
      end
+
   end
 
   # def edit
@@ -154,7 +161,7 @@ end
 #                   unless @invitation.recipient.collaboration_lists.include?(@list)
 #                      hasCollaborationsList = @recipient.collaboration_lists.count > 0 ? true : false
 #                      @recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
-#                      collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @recipient }).squish
+#                      collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @recipient }).squish
 #                      html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @recipient, "current_list": @list, "active_users": []}).squish
 #                     #  @invitation.update_attributes(:active => true)
 #                      htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @recipient, active: false}).squish
