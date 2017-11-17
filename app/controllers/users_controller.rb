@@ -91,7 +91,6 @@ class UsersController < ApplicationController
         if !@token.nil?
             @invitation = Invitation.find_by_token(@token)
             @list = @invitation.list #find the list_id attached to the invitation
-
             # hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
             # @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
             # html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list}).squish
@@ -165,15 +164,14 @@ class UsersController < ApplicationController
   def destroy
     # byebug
     # authorize @current_user
-    byebug
-    if (!params[:type].blank? &&  params[:type]=="collaborator")
-      byebug
+    if (!params[:type].blank? && params[:type]=="collaborator")
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
       @collaboration.destroy
       Collaboration.reset_pk_sequence
       @invitations = @list.invitations.where(recipient_email: @user.email)
       @invitations.delete_all
       Invitation.reset_pk_sequence
+      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', id: @invitation.id, recipient: @user.id, list_id: @list.id
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy

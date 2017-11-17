@@ -23,9 +23,7 @@ class Invitation < ApplicationRecord
    def existence_invitation
      invitation = Invitation.find_by(recipient_email: recipient_email,list_id: list_id)
      #  collaborator = Collaboration.find_by(user_id: recipient_email,list_id: list_id)
-     byebug
      if (!invitation.nil? && self.new_record?)
-       byebug
         errors.add(:notification, 'this person has already been invited to your list.') if !self.active
         errors.add(:notification, 'this person has already been invited to your list.') if (self.active && User.find_by_email(recipient_email).collaboration_lists.include?(List.find(list_id)))
      end
