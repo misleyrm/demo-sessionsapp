@@ -13,4 +13,10 @@ $(document).on('turbolinks:load',function(){
         // $( this ).css("background-color","white");
       })
 
+    $("#incomplete_tasks").sortable({
+      update: function(e,ui){
+        console.log($(this).sortable('serialize'))
+      }
+    });
+
 });

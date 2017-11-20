@@ -190,7 +190,6 @@ class UsersController < ApplicationController
 
   def resend_activation
     @user = User.find_by(email:params[:email])
-
     @user.update_activation_digest
     # @user.send_activation_email
     # flash[:info] = "Account not activated. You need to activate your account first."
