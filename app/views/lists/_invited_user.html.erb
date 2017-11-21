@@ -1,5 +1,6 @@
 <% if (!invited_user.blank?) %>
-  <li class="list-item" data-invitation-user-email= "<%= invited_user.recipient_email %>" data-invitation-id="<%= invited_user.id %>">
+<%= content_tag :li, class: "list-item", data: {:'invitation-user-email' => "#{invited_user.recipient_email}", :'invitation-id'=>"#{invited_user.id}"} do%>
+  <!-- <li class="list-item" data-invitation-user-email= "<%= invited_user.recipient_email %>" data-invitation-id="<%= invited_user.id %>"> -->
         <%#= link_to list_collaboration_user_path(current_list,invited_user), id:"#{invited_user.id}",remote: true  do %>
       <p><%= invited_user.recipient_email %></p>
         <%# end %>
@@ -15,5 +16,6 @@
         </li>
       </ul>
       <div class="clearfix"></div>
-    </li>
+    <!-- </li> -->
+  <% end %>
 <% end %>

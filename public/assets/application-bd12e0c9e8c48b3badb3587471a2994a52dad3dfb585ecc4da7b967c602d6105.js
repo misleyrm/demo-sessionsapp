@@ -44358,7 +44358,7 @@ module.exports = function (element) {
       $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent);
       $collaboration_users = $('ul#collaboration-users', $list);
       $navUser = $('[data-nav-id = "' + data.user + '"]');
-      $ul = $('.nano .nano-content> ul#ulCollaboration', $navUser);
+      $ul = $('.nano .nano-content> ul#ulCollaborationList', $navUser);
       $navleft = $('#left-sidebar-nav');
       switch (data.status) {
         case 'activated':
@@ -44630,10 +44630,10 @@ $(document).on('turbolinks:load',function(){
 
 
 function getActiveCollaborators(){
-  var $ulcollaboration_users = $('ul#collaboration-users'),
+  var $ulCollaboration_users = $('ul#collaboration-users'),
       arrayActiveCorraborators = [];
 
-  $('li', $ulcollaboration_users).each(function( index ) {
+  $('li', $ulCollaboration_users).each(function( index ) {
      if ($( this ).hasClass('active')) {
       console.log($( this ));
       console.log($( this ).attr('id'));

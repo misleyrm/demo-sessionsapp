@@ -43,10 +43,10 @@ $(document).on('turbolinks:load',function(){
 
 
 function getActiveCollaborators(){
-  var $ulcollaboration_users = $('ul#collaboration-users'),
+  var $ulCollaboration_users = $('ul#collaboration-users'),
       arrayActiveCorraborators = [];
 
-  $('li', $ulcollaboration_users).each(function( index ) {
+  $('li', $ulCollaboration_users).each(function( index ) {
      if ($( this ).hasClass('active')) {
       console.log($( this ));
       console.log($( this ).attr('id'));

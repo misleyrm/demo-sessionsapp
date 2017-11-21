@@ -78,7 +78,11 @@ Rails.application.routes.draw do
     end
 
     resources :lists do
-      resources :tasks, :name_prefix => "list_"
+      resources :tasks, :name_prefix => "list_" do
+        collection do
+          patch :sort
+        end
+      end
       resources :invitations do
         member do
           get :resend_invitation

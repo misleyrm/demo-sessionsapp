@@ -646,6 +646,29 @@ a{
     right: 3px;
     top: -3px;
 }
+
+/********** Collaborator inactive **********/
+.chip img{
+  -webkit-filter: grayscale(0%);
+  -webkit-transition: .5s ease-in-out;
+  -moz-filter: grayscale(0%);
+  -moz-transition: .5s ease-in-out;
+  -o-filter: grayscale(0%);
+  -o-transition: .5s ease-in-out;
+  filter: grayscale(0%);
+}
+
+.chip.ms-inactive img{
+  transition: .5s ease-in-out;
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  filter: gray;
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+}
 /********* Modal *********/
 #ms-modal-dialog.modal,
 #ms-modal-confirm.modal {

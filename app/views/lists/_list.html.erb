@@ -8,10 +8,10 @@
                         <ul id="collaboration-users">
                           <% if has_collaborations?(list) %>
                               <% if (!current_user.owner?(list) && (!list.owner.nil?)) %>
-                                 <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: collaboration_users} %>
+                                 <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: collaboration_users, current_user: current_user} %>
                               <% end %>
                               <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', current_user.id]), as: :collaboration_user, locals: { active_users: collaboration_users}%>
+                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', current_user.id]), as: :collaboration_user, locals: { active_users: collaboration_users,current_user: current_user }%>
                               <% end %>
                           <% end %>
                           <% if (current_user.owner?(list)) %>

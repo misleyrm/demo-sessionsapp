@@ -15,21 +15,12 @@
   <style>
     <%= yield :stylesheets %>
   </style>
-
   <%= csrf_meta_tags %>
 
 </head>
-<body id="stand-up">
+<body id="stand-up" data-current-user= "<%= current_user.nil? ? '': current_user.id%>">
     <%= yield %>
     <%= include_gon(:init => true) %>
     <%= Gon::Base.render_data({}) %>
-
-      
 </body>
 </html>
-
-    <!-- Modal Structure -->
-    <!-- <div id="ms-modal-applications" class="modal ms-modal-main">
-      <div class="modal-content">
-      </div>
-    </div> -->

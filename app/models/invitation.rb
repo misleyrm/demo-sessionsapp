@@ -8,8 +8,13 @@ class Invitation < ApplicationRecord
   # validate :recipient_is_not_registered
 
   before_create :generate_token
+<<<<<<< HEAD
   before_create :existence_invitation
   # before_save :check_recipient_existence
+=======
+  validate :existence_invitation
+  before_save :check_recipient_existence
+>>>>>>> de72a482c67cc839359d587c2d9862d5000d2b6c
 
   validate :disallow_self_invitation
 
@@ -24,6 +29,7 @@ class Invitation < ApplicationRecord
      byebug
      invitation = Invitation.find_by(recipient_email: recipient_email,list_id: list_id)
      #  collaborator = Collaboration.find_by(user_id: recipient_email,list_id: list_id)
+<<<<<<< HEAD
      if !invitation.nil?
         # if !invitation.active
           errors.add(:notification, 'this user is currently invited.')
@@ -32,6 +38,11 @@ class Invitation < ApplicationRecord
         #   list = List.find(list_id)
         #   errors.add(:notification, 'this user is currently a collaborator') if recipient.collaboration_lists.include?(list)
         # end
+=======
+     if (!invitation.nil? && self.new_record?)
+        errors.add(:notification, 'this person has already been invited to your list.') if !self.active
+        errors.add(:notification, 'this person has already been invited to your list.') if (self.active && User.find_by_email(recipient_email).collaboration_lists.include?(List.find(list_id)))
+>>>>>>> de72a482c67cc839359d587c2d9862d5000d2b6c
      end
    end
 

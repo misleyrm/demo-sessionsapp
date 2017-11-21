@@ -91,7 +91,6 @@ class UsersController < ApplicationController
         if !@token.nil?
             @invitation = Invitation.find_by_token(@token)
             @list = @invitation.list #find the list_id attached to the invitation
-
             # hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
             # @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
             # html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list}).squish
@@ -101,11 +100,17 @@ class UsersController < ApplicationController
                hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
                @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                @invitation.update_attributes(:active => true)
-               html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": []}).squish
-               invitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
-               collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user, "list": @list }).squish
+# <<<<<<< HEAD
+#                html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": []}).squish
+#                invitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
+#                collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user, "list": @list }).squish
+# =======
+               htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": [],"current_user": current_user}).squish
+               htmlInvitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
+               htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
+
                htmlCollaborationsList = ""
-               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html,invitationSetting: invitationSetting, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end
         end
         @user.send_activation_email
@@ -149,9 +154,6 @@ class UsersController < ApplicationController
       render :json => {:status => 'fail'}
     end
 
-
-
-
     # respond_to do |format|
     #   format.html {render 'show', layout: "application" }
     #   format.json { render json: @user}
@@ -163,20 +165,31 @@ class UsersController < ApplicationController
         # else
         #   @user.update_attributes(:avatar => user_params[:avatar])
         # end
-
-
   end
 
   def destroy
-    if (!params[:type].blank? &&  params[:type]=="collaborator")
-
+# <<<<<<< HEAD
+#     if (!params[:type].blank? &&  params[:type]=="collaborator")
+#
+#       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
+#       @collaboration.destroy
+#       Collaboration.reset_pk_sequence
+#       byebug
+#       @invitations = Invitation.find_by(recipient_email: @user.email,list_id: @list.id)
+#       @invitations.destroy
+#       Invitation.reset_pk_sequence
+# =======
+    # byebug
+    # authorize @current_user
+    if (!params[:type].blank? && params[:type]=="collaborator")
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
       @collaboration.destroy
       Collaboration.reset_pk_sequence
-      byebug
-      @invitations = Invitation.find_by(recipient_email: @user.email,list_id: @list.id)
-      @invitations.destroy
+      @invitations = @list.invitations.where(recipient_email: @user.email)
+      @invitations.delete_all
       Invitation.reset_pk_sequence
+      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', id: @invitation.id, recipient: @user.id, list_id: @list.id
+# >>>>>>> de72a482c67cc839359d587c2d9862d5000d2b6c
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy
@@ -195,7 +208,6 @@ class UsersController < ApplicationController
 
   def resend_activation
     @user = User.find_by(email:params[:email])
-
     @user.update_activation_digest
     # @user.send_activation_email
     # flash[:info] = "Account not activated. You need to activate your account first."
