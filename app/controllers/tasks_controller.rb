@@ -67,7 +67,7 @@ class TasksController < ApplicationController
   def update
     authorize @task
     List.current = current_list
-    
+
     if (@task.update_attributes!(task_params))
         if @task.is_blocker?
           tag_emails = params['tags_emails'].split(',')
@@ -173,6 +173,14 @@ class TasksController < ApplicationController
        format.js
      end
 
+   end
+
+   def sort
+     params[:task].each_with_index do |id, index|
+      Task.where(id: id).update_all(position: index + 1)
+     end
+
+     head :ok
    end
 
    private

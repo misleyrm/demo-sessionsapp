@@ -79,9 +79,7 @@ Rails.application.routes.draw do
 
     resources :lists do
       resources :tasks, :name_prefix => "list_" do
-        collection do
-          patch :sort
-        end
+        put :sort, on: :collection
       end
       resources :invitations do
         member do

@@ -28,8 +28,6 @@ ul.dropdown-list li{
 ul.dropdown-list li> a{
   line-height: 0px;
   padding: 7px 20px;
-  //min-width: 120px;
-//  width: 120px;
 }
 
 ul.dropdown-list li:hover,
@@ -40,32 +38,11 @@ ul.dropdown-list li:active {
 #edit_option {
   float: left;
 }
-// .list-user-avatar{
-//   width: 46px;
-//   height: 46px;
-//   border: 2px solid #12AAED!important;
-//   background-color: #12AAED;
-//   text-align: center;
-//   display: table;
-// }
-// .list-user-avatar img{
-//   display: inline-table;
-//   vertical-align: middle;
-//   padding: 5px 0 0;
-// }
+
 #list h5 {
   margin: 1rem 0 1rem!important;
   font-size: 1.3rem!important;
 }
-// @media only screen and (min-width: 601px){
-// #stand-up nav.task-option,
-// #stand-up nav.task-option .nav-wrapper i,
-// #stand-up nav.task-option a.button-collapse,
-// #stand-up nav.task-option a.button-collapse i {
-//     height: 35px;
-//     line-height: 35px;
-// }
-// }
 
 form.edit_list .input-field{
   margin-top: 0rem;
@@ -176,11 +153,6 @@ ul.collaboration-user-settings li.more i{
   padding: 7px 0;
   text-align: center;
 }
-// .collaboration-user-settings li.chip > img {
-//     margin: 0 auto;
-//     width: 100%;
-//     border-radius: 50%;
-// }
 
 .collaboration-user-settings li.chip > img ~ span {
   line-height: 10px;
@@ -213,25 +185,13 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
 
 .list-collaboration-users .chip{
   background: none;
-  padding: 0 5px;
+  padding: 0 3px 0 0;
 }
 
 #collaboration-users a{
   position: relative;
   margin-left: -10px;
 }
-
-// #collaboration-users .chip.active a:after{
-//   text-decoration: none;
-//   content: '.';
-//   font-size: 46pt;
-//   color: red;
-//   position: absolute;
-//   top: -25px;
-//   left: -11px;
-//   padding: 0;
-//   height: 3px;
-// }
 
 #collaboration-users .chip:before {
   text-decoration: none;

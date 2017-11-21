@@ -734,12 +734,12 @@ a{
 }
 
 #ms-modal-dialog.modal input#detail{
-  min-width: 600px;
+  min-width: 100%;
 }
 #ms-modal-dialog.modal .modal-content,
 #ms-modal-confirm.modal .modal-content{
   margin: 0 auto;
-  max-width: 540px;
+  width: 540px;
 
 }
 /********* End Modal *********/
@@ -900,7 +900,6 @@ textarea.materialize-textarea:focus.valid {
     position: absolute;
     right: -52px;
     top: 0;
-    /*width: 50px;*/
     line-height: 20px;
     min-height: 16px;
 }
@@ -932,7 +931,6 @@ textarea.materialize-textarea:focus.valid {
 
 .show_blockers .blocker{
   position: relative;
-  /*height: 20px;*/
 }
 .no-permitted #my-add-task{
   display: none;
@@ -963,7 +961,6 @@ textarea.materialize-textarea:focus.valid {
   cursor: pointer;
   margin: 0!important;
   border: none!important;
-  /*width: 0px!important;*/
   position: absolute;
 }
 
@@ -1048,24 +1045,6 @@ li.ms-deadline.active{
   /* for Safari y Chrome*/
   -webkit-border-radius: 10px;
 }
-
-/*.material-tooltip::after {
-  content: " ";
-  width: 30px;
-	height: 30px;
-	background-color: #fff;
-  border-bottom: 1px solid #55C2B9;
-  display: inline-block;
-  -webkit-transform: rotate(50deg);
-  -moz-transform: rotate(50deg);
-  -o-transform: rotate(50deg);
-  -ms-transform: rotate(50deg);
-  transform: rotate(50deg);
-  position: absolute;
-  top: 100%;
-  left: 30%;
-
-}*/
 
 .material-tooltip span{
   font-size: .8rem;
@@ -1273,12 +1252,6 @@ button.close {
   -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
   -moz-text-decoration-style: solid;
 }
-
-
-/*#complete_tasks div.task-detail:hover::after {
-  border: none;
-
-}*/
 
 /************ LIST ***************/
 .list-item{

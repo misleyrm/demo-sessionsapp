@@ -28,6 +28,9 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
       $.ajax({
         complete:function(request){
            $('.tooltipped').tooltip({delay: 50});
+           $('div[id^="incomplete_tasks_"]').each(function (){
+             mySortable($(this));
+           })
         },
         data:'date='+ date,
         dataType:'script',
@@ -42,7 +45,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 $(document).on('turbolinks:load',function(){
 
   $(".close").onclick = function(){
-       alert("innn");
+
         // Get the parent of <span class="closebtn"> (<div class="alert">)
         var div = this.parentElement;
 
@@ -66,12 +69,18 @@ $(document).on('turbolinks:load',function(){
 
     $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+          $('div[id^="incomplete_tasks_"]').each(function (){
+            mySortable($(this));
+          })
           deadlineDatepicker($('input.deadline-datepicker'));
       });
 
     $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
           deadlineDatepicker($('input.deadline-datepicker'));
+          $('div[id^="incomplete_tasks_"]').each(function (){
+            mySortable($(this));
+          })
       });
 
     // $("input.update-avatar-submit").on('click', function(event) {
@@ -110,7 +119,7 @@ $(document).on('turbolinks:load',function(){
 
   // Close the dropdown menu if the user clicks outside of it
   window.onclick = function(event) {
-    console.log('window onclick');
+    // console.log('window onclick');
     if (!($(event.target).parent('.dropdown-button').size() > 0)) {
       var dropdowns = document.getElementsByClassName("dropdown-list");
       var i;
@@ -179,7 +188,7 @@ $(document).on('turbolinks:load',function(){
      })
 
       /* end modal*/
-      $(".sidebar-collapse").sideNav();
+     $(".sidebar-collapse").sideNav();
       // Initialize collapse button
      $(".button-collapse").sideNav();
 

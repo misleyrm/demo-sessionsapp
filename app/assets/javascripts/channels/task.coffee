@@ -20,8 +20,8 @@ App.task = App.cable.subscriptions.create "TaskChannel",
     $listAllTaskNav = $('[data-nav-list-id = "' + data.list_all_task_id + '"]', $nav)
     $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
 
-    $incomplete = $('#incomplete_tasks')
-    $complete = $('#complete_tasks')
+    $incomplete = $('#incomplete_tasks_' + data.user)
+    $complete = $('#complete_tasks' + data.user)
       # $numTask = $('.bar-number-task', $listNav)
     # $('#list_user_' + data['user'] + ' #incomplete_tasks')
     if data.blocker
@@ -76,7 +76,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
         when 'completed'
           $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
           $task.remove()
-          $('#complete_tasks', $user).prepend data['html']
+          $complete.prepend data['html']
           $('.tooltipped').tooltip({delay: 50})
           if ($('.divider', $user).hasClass('no-active'))
             $('.divider', $user).removeClass('no-active')
@@ -87,7 +87,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
         when 'incomplete'
           $("#task_"+ data.id + " #menu .tooltipped", $complete ).tooltip('remove')
           $task.remove()
-          $('#incomplete_tasks', $user).prepend data['html']
+          $incomplete.prepend data['html']
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
             $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
@@ -107,7 +107,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
           $('.edit_task').submitOnCheck()
 
       else
-        $('#incomplete_tasks', $user).prepend data['html']
+        $incomplete.prepend data['html']
         $('.tooltipped').tooltip({delay: 50})
         $('.edit_task').submitOnCheck()
         $('#list_user_' + data['user'] + ' .new_task #task_detail').val('');
