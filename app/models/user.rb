@@ -170,17 +170,16 @@ class User < ApplicationRecord
   def incompleted_tasks_by_date(list,date)
     if (Date.today == date)
       if (list.id == self.all_task.id)
-        self.incompleted_tasks.order("created_at DESC")
+        self.incompleted_tasks.order(:position)   #"created_at DESC"
       else
-        self.incompleted_tasks.where(["list_id=? ",list.id]).order("created_at DESC")
+        self.incompleted_tasks.where(["list_id=? ",list.id]).order(:position)  #order("created_at DESC")
       end
     else
-    # self.tasks.where(completed_at: nil).order("updated_at DESC")
     # We should change for task created that day
       if (list.id == self.all_task.id)
-        self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order("created_at DESC")
+        self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order(:position) #order("created_at DESC")
       else
-        self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order("created_at DESC")
+        self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order(:position)  #order("created_at DESC")
       end
 
     end

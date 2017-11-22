@@ -1,4 +1,4 @@
-<div id="list_user_<%= user.id%>" data-user-id = "<%= user.id%>">
+<div id="list_user_<%= user.id%>" data-user-id = "<%= user.id%>" class="col s12 m12 l12 xl9">
     <!-- <div class="chip user-img">
         <% if !user.avatar.nil? %>
            <%= image_tag(user.avatar(:medium), class: 'circle', alt: "#{user.first_name}", title:"#{user.first_name}") %>
@@ -11,13 +11,13 @@
         <div class="new-task">
           <%= render partial: 'tasks/form', :locals =>{ :user => user }   %>
         </div>
-        <div class="tasks table-of-task" id="incomplete_tasks" data-url="<%= sort_list_tasks_path(list)%>">
+        <div class="tasks table-of-task" id="incomplete_tasks_<%= user.id%>" data-url="<%= sort_list_tasks_path(list)%>">
           <% for task in user.incompleted_tasks_by_date(list,current_date) %>
             <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task, :list => list, :currentList => list} %>
           <% end %>
         </div>
         <div class="divider <%= (user.completed_tasks_by_date(list,current_date).count == 0) ? 'no-active' : '' %>"></div>
-        <div class="tasks table-of-task" id="complete_tasks">
+        <div class="tasks table-of-task" id="complete_tasks_<%= user.id%>">
           <% for task in user.completed_tasks_by_date(list,current_date) %>
             <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task,:list => list, :currentList => list } %>
           <% end %>

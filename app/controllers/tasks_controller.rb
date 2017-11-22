@@ -176,13 +176,11 @@ class TasksController < ApplicationController
    end
 
    def sort
-     byebug
-     params[:question].each_with_index do |id, index|
-       Task.where(id: id).update_all(position: index +1)
+     params[:task].each_with_index do |id, index|
+      Task.where(id: id).update_all(position: index + 1)
      end
 
-    Head :ok
-
+     head :ok
    end
 
    private
