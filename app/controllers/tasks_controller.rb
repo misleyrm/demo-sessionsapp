@@ -176,6 +176,9 @@ class TasksController < ApplicationController
    end
 
    def sort
+     @list = List.find(params[:list_id])
+     @tasks = Task.find(params[:task])
+     authorize @tasks.first
      params[:task].each_with_index do |id, index|
       Task.where(id: id).update_all(position: index + 1)
      end
@@ -217,6 +220,11 @@ class TasksController < ApplicationController
 
      def saved_list
        @task.list_before = @task.list_id
+     end
+
+     def user_not_authorized
+         flash[:alert] = "Access denied."
+        #  redirect_to (head: ok)
      end
 
 

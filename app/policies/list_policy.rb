@@ -1,23 +1,21 @@
 class ListPolicy < ApplicationPolicy
-  # attr_reader :current_date
+  attr_reader :user, :list
+
+  def initialize(user, list)
+     @user = user
+     @list = list
+  end
 
   def create?
       # user.owner?(record.try(:list)) || record.try(:user) == user
   end
 
   def update?
-    byebug
-    user.owner?(record.try(:list)) || record.try(:user) == user
-    #  if record.all_tasks_list?
-    #    user.owner?(record.try(:list)) || record.try(:list).user == user
-    #  else
-    #    user.owner?(record.try(:list)) || record.try(:user) == user
-    #  end
+    user.owner?(list)
   end
 
   def destroy?
-      # user.owner?(record.try(:list)) || record.try(:user) == user
+    user.owner?(list)
   end
-
 
 end

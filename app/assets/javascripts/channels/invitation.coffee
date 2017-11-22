@@ -25,6 +25,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $pageContent = $('#page-content')
     $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
     $listCollaborationUsers = $('.list-collaboration-users', $list)
+    $pageContentUser = $('[data-user-id = "' + data.recipient + '"]', $list)
 
     $collaboration_users = $('ul#collaboration-users', $list)
     $add = $('li.ms-add', $collaboration_users )
@@ -39,6 +40,9 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     # activated or collaboratorDeleted
     $navUser = $('[data-nav-id = "' + data.recipient + '"]')
     $ulCollaborationList = $('ul#ulCollaborationList', $navUser)
+    $ulCreatedList = $('ul#ulCreated', $navUser)
+    $addCreatedList = $('li.ms-add', $ulCreatedList)
+
     switch data.status
       when 'created'
         if data.existing_user_invite
@@ -64,13 +68,11 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
       when 'deleted'
         $invitation.remove()
       when 'collaboratorDeleted'
-        $collaboratorUserList = $('[data-chip-user-id= "'+data.recipient+'"]', $collaboration_users)
-        $collaboratorUser.remove()
+        $collaboratorUserList = $('[data-chip-user-id= "'+ data.recipient+'"]', $collaboration_users)
+        $collaboratorUserList.remove()
+        $pageContentUser.remove()
         # collaboration user in collaboration user in settings
-        $collaboratorUserSettingOwner = $('[data-collaboration-user-settings-id= "'+data.recipient+'"]', $ulCollaborationListUserSettings)
         $collaboratorUserSettingOwner.remove()
-        $collaboratorUser = $('[data-user-id= "'+data.recipient+'"]', $mainCenter)
-        $collaboratorUser.remove()
         $collaborationList = $('[data-nav-list-id= "'+data.list_id+'"]', $ulCollaborationList)
         $collaborationList.remove()
 
