@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+document.addEventListener("turbolinks:load", function(){
 
     // deadlineDatepicker();
 
@@ -15,8 +15,12 @@ $(document).on('turbolinks:load',function(){
 
     $("#incomplete_tasks").sortable({
       update: function(e,ui){
-        console.log($(this).sortable('serialize'))
+         $.ajax({
+           url: $(this).data("url"),
+           Type: "PATCH",
+            Data: $(this).sortable('serialize'),
+        })
       }
-    });
+    })
 
 });
