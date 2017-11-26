@@ -185,6 +185,10 @@ class UsersController < ApplicationController
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
       @collaboration.destroy
       Collaboration.reset_pk_sequence
+      @created_list = @user.created_lists.build(:name =>@list.name, :description => @list.description, :avatar => @list.avatar)
+      if @created_list.save
+        @created_list.tasks << @list.tasks.where(user_id:@user.id)
+      end
       @invitations = @list.invitations.where(recipient_email: @user.email)
       @invitations.delete_all
       Invitation.reset_pk_sequence
