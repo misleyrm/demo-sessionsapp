@@ -20,8 +20,6 @@ class InvitationsController < ApplicationController
   end
 
   def create
-# <<<<<<< HEAD
-# =======
           @invitation = Invitation.new(invitation_params)
           @invitation.sender_id = current_user.id
           # respond_to do |format|
@@ -58,49 +56,7 @@ class InvitationsController < ApplicationController
                   #  end
                 # render action: show, layout: "modal"
                 # format.js
-# >>>>>>> de72a482c67cc839359d587c2d9862d5000d2b6c
-    #
-    # @invitation = Invitation.new(invitation_params)
-    # @invitation.sender_id = current_user.id
-    # # respond_to do |format|
-    #   if @invitation.save
-    #       if @invitation.recipient != nil
-    #           @url = login_url()
-    #           @user = @invitation.recipient
-    #           #send a notification email
-    #           InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
-    #           unless @invitation.recipient.collaboration_lists.include?(@list)
-    #              hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
-    #              @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
-    #              @invitation.update_attributes(:active => true)
-    #              @invitation.save
-    #              collaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: { "collaboration_user": @user, "list": @list }).squish
-    #              html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": []}).squish
-    #              htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @user, active: false}).squish
-    #              ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, html: html, collaboratorSetting: collaboratorSetting, sender:@invitation.sender_id, recipient: @user.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
-    #           end
-    #         else
-    #           @url = sign_up_url(:invitation_token => @invitation.token)
-    #           InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite data to our mailer to deliver the email
-    #           invitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
-    #           ActionCable.server.broadcast 'invitation_channel', status: 'inactive',id: @invitation.id, invitationSetting: invitationSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id
-    #
-    #         end
-    #         # respond_to do |format|
-    #           flash[:notice] = "Thank you, invitation sent."
-    #           redirect_to list_path(@list)
-    #           # flash[:danger] = "We can't create the list."
-    #           # @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
-    #           # render :json => {:htmlerrors => @htmlerrors }
-    #           # format.js { render :action => "new" }
-    #         #  end
-    #   else
-    #
-    #     @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
-    #     respond_to do |format|
-    #       format.json { render :json => {:htmlerrors => @htmlerrors }}
-    #       format.js { render :action => "new" }
-    #      end
+
       end
   end
 

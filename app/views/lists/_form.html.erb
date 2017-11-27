@@ -67,11 +67,7 @@
                 <div class="tab-pane fade show active" id="collaborators">
                   <ul class="collaboration-user-settings">
                     <% if (!current_user.owner?(@list) && (!@list.owner.nil?)) %>
-<!-- <<<<<<< HEAD
-                       <%= render partial: "lists/collaboration_user_settings", locals: {:collaboration_user => @list.owner, :list => @list} %>
-======= -->
                        <%= render partial: "lists/collaboration_user_settings", locals: {list: @list,collaboration_user: @list.owner} %>
-<!-- >>>>>>> de72a482c67cc839359d587c2d9862d5000d2b6c -->
                     <% end %>
                     <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
                        <%= render partial: "lists/collaboration_user_settings", collection: @list.collaboration_users, as: :collaboration_user, :locals => {:list => @list}   %>

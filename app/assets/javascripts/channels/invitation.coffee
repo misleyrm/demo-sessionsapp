@@ -20,7 +20,6 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     # collaboration user in collaboration user list
     $collaboratorUserOwner = $('[data-chip-user-id= "'+data.recipient+'"]', $collaborationUsersOwner)
     # collaboration user in collaboration user in settings
-    $collaboratorUserSettingOwner = $('[data-collaboration-user-settings-id= "'+data.recipient+'"]', $ulCollaborationListUserSettings)
 
     $pageContent = $('#page-content')
     $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
@@ -34,6 +33,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $editList = $('[data-edit-list-id= "'+data.list_id+'"]')
     $ulCollaborationListUserSettings = $('.collaboration-user-settings', $editList)
     $addSettings = $('li.ms-add', $ulCollaborationListUserSettings )
+    $collaboratorUserSettingOwner = $('[data-collaboration-user-settings-id= "'+data.recipient+'"]', $ulCollaborationListUserSettings)
     # $ulInvitationUserSettings = $('ul.invitation-user-settings', $editList)
     $mainCenter = $('#main_center')
 
@@ -51,10 +51,9 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           # Add new user invited (existen)to the list of collaboration users for the list if owner is login in Settings
           $( data.htmlCollaboratorSetting ).insertBefore $addCollaborationUserSettingsOwner
           # Add new pending invitation to the list of pending users for the edit list if owner is login in Settings
-          $( data.htmlInvitationSetting ).insertBefore $ulInvitationUserSettings
-        else
+
           $ulInvitationUserSettings.prepend data['htmlInvitationSetting']
-      when 'activated'
+      when 'activated'  #revisar
         $invitation.remove()
         if $collaboratorUserOwner.length > 0
           $collaboratorUserOwner.removeClass("ms-inactive")
@@ -62,6 +61,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           $collaboration_users.append data.htmlCollaborationUser
         $collaboratorUserSettingOwner.removeClass("ms-inactive")
         if data.htmlCollaborationsList!= ""
+          alert(data.hasCollaborationsList)
           if data.hasCollaborationsList==false
             $ulCollaborationList.append '<li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>'
           $ulCollaborationList.append data.htmlCollaborationsList

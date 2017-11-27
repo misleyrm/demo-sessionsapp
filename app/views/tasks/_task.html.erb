@@ -1,6 +1,6 @@
 <% task_created = (!task.completed?) ? task.task_created : ''%>
 <%= content_tag :div, id: dom_id(task), class:"row #{task_created}", data: {"task-id"=> task.id} do%>
-	<div class="col s9 task-detail">
+	<div class="col s6 task-detail">
     <%= content_tag "p", id: "#{task.id}",class: (!task.completed?) ? "" : "truncate" do %>
 			 <%= "#{task.detail.force_encoding("UTF-8")} #{task.completed_at}" %>
 		<% end %>
