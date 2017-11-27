@@ -57,14 +57,7 @@ class InvitationsController < ApplicationController
                 # render action: show, layout: "modal"
                 # format.js
 
-            else
-
-              @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
-              respond_to do |format|
-                format.json { render :json => {:htmlerrors => @htmlerrors }}
-                format.js { render :action => "new" }
-               end
-            end
+      end
   end
 
   def resend_invitation

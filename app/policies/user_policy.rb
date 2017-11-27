@@ -28,7 +28,6 @@ class UserPolicy
   end
 
   def destroy?
-    byebug
       user.owner?(@list) || record.try(:user) == user
   end
 

@@ -7,7 +7,7 @@
         <% end %>
     </div> -->
     <%= render :partial => "users/user_img", :locals =>{ :user => user } %>
-    <div class="<%= permitted_user?(user.id) ? 'permitted' : 'no-permitted'%>">
+    <%= content_tag :div, class: permitted_user?(user.id) ? 'permitted' : 'no-permitted' do%>
         <div class="new-task">
           <%= render partial: 'tasks/form', :locals =>{ :user => user }   %>
         </div>
@@ -22,7 +22,7 @@
             <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task,:list => list, :currentList => list } %>
           <% end %>
         </div>
-    </div>
+    <% end%>
     <div class="divider50"></div>
 </div>
 

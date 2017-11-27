@@ -103,6 +103,7 @@ class UsersController < ApplicationController
                htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": [],"current_user": current_user}).squish
                htmlInvitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
                htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
+
                htmlCollaborationsList = ""
                ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end
@@ -175,7 +176,7 @@ class UsersController < ApplicationController
       @invitations = @list.invitations.where(recipient_email: @user.email)
       @invitations.delete_all
       Invitation.reset_pk_sequence
-      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', id: @invitation.id, recipient: @user.id, list_id: @list.id
+      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy

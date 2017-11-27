@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+document.addEventListener("turbolinks:load", function(){
 
     // deadlineDatepicker();
     $("i.i-btn-datepicker").on('click', function(){
@@ -11,6 +11,7 @@ $(document).on('turbolinks:load',function(){
       .mouseleave( function() {
         // $( this ).css("background-color","white");
       })
+
     $('div[id^="incomplete_tasks_"]').each(function (){
       mySortable($(this));
     })
