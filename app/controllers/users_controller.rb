@@ -189,9 +189,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # def accept_invitation
-    # invitation.token if invitation
-  # end
 
   def resend_activation
     @user = User.find_by(email:params[:email])
