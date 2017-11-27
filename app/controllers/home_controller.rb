@@ -12,6 +12,9 @@ class HomeController < ApplicationController
     @lists = @user.created_lists.all.order('created_at')
     @collaboration_lists = @user.collaboration_lists.all
     @list = current_list
+    if !params[:collaboration_users].blank?
+      @collaboration_users = User.where(id: params[:collaboration_users])
+    end
     # respond_to do |format|
     #     format.html { }
     #     format.js

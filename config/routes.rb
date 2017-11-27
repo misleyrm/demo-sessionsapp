@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get '/login' => 'login#new'
     post '/login' => 'login#create'
     get '/logout' => 'login#destroy'
+    get '/confirmation_page' => 'login#confirmation'
     get '/lists/:id/showList' => 'lists#showList', as: 'list_showList'
     get '/lists/:id/showList_blocker' => 'lists#showList_blocker', as: 'showList_blocker'
     get '/task/:id/showTask' => 'tasks#showTask', as: 'showTask'
@@ -77,8 +78,14 @@ Rails.application.routes.draw do
     end
 
     resources :lists do
-      resources :tasks, :name_prefix => "list_"
-      resources :invitations
+      resources :tasks, :name_prefix => "list_" do
+        put :sort, on: :collection
+      end
+      resources :invitations do
+        member do
+          get :resend_invitation
+        end
+      end
       resources :collaboration_users, :controller => 'users', :defaults => {:type => 'collaborator'}
       get :search, :on => :collection
       member do

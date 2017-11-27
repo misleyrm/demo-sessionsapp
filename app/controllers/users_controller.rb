@@ -3,12 +3,13 @@ class UsersController < ApplicationController
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
   # helper_method :get_current_date
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy]
   # before_action :set_list,  if: -> { !params[:type].blank? }
   # before_action :set_task_per_user, only: [:show]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
-  before_action :set_current_list, if: -> { !params[:type].blank? }
+  before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  # before_action :set_collaboration, if: -> { !params[:type].blank? }
 
   def index
     # this_user = User.find(session[:user_id])
@@ -79,7 +80,7 @@ class UsersController < ApplicationController
     # user_info[:password] = temp_password
     # user_info[:password_confirmation] = temp_password
     # @team = Team.find(session[:team_id])
-    
+
     if (@user = User.find_by_email(user_params[:email]))
       flash[:danger] = "We found an account under that email. Please login or reset your password."
       redirect_to password_resets_path
@@ -88,17 +89,29 @@ class UsersController < ApplicationController
       @token = params[:invitation_token]
       if @user.save
         if !@token.nil?
-            list = Invitation.find_by_token(@token).list #find the list_id attached to the invitation
-            hasCollaborationsList = User.first.collaboration_lists.count > 0 ? true : false
-            @user.collaboration_lists.push(list)  #add this user to the list as a collaborator
-            html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": list}).squish
-            htmlCollaborationsList = ""
-            ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+            @invitation = Invitation.find_by_token(@token)
+            @list = @invitation.list #find the list_id attached to the invitation
+            # hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
+            # @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+            # html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list}).squish
+            # htmlCollaborationsList = ""
+            # ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+            unless @user.collaboration_lists.include?(@list)
+               hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
+               @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+               @invitation.update_attributes(:active => true)
+               htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": [],"current_user": current_user}).squish
+               htmlInvitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
+               htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
+               htmlCollaborationsList = ""
+               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+            end
         end
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
-        flash[:info] = "Please check your email to activate your account."
-        redirect_to login_path
+        # Please check your email to activate your account.
+        flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+        redirect_to confirmation_page_path
       else
         render 'new', layout: "login"
       end
@@ -125,7 +138,6 @@ class UsersController < ApplicationController
         #   @user.update_attributes(:avatar => user_params[:avatar])
         # end
 
-
   end
 
   def updateAvatar
@@ -135,9 +147,6 @@ class UsersController < ApplicationController
     else
       render :json => {:status => 'fail'}
     end
-
-
-
 
     # respond_to do |format|
     #   format.html {render 'show', layout: "application" }
@@ -150,30 +159,49 @@ class UsersController < ApplicationController
         # else
         #   @user.update_attributes(:avatar => user_params[:avatar])
         # end
-
-
   end
 
   def destroy
-    authorize @current_user
-    @user.destroy
+    # byebug
+    # authorize @current_user
+    if (!params[:type].blank? && params[:type]=="collaborator")
+      @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
+      @collaboration.destroy
+      Collaboration.reset_pk_sequence
+      @created_list = @user.created_lists.build(:name =>@list.name, :description => @list.description, :avatar => @list.avatar)
+      if @created_list.save
+        @created_list.tasks << @list.tasks.where(user_id:@user.id)
+      end
+      @invitations = @list.invitations.where(recipient_email: @user.email)
+      @invitations.delete_all
+      Invitation.reset_pk_sequence
+      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', id: @invitation.id, recipient: @user.id, list_id: @list.id
+      flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
+    else
+      @user.destroy
+      User.reset_pk_sequence
+      flash[:notice] = 'User was successfully destroyed.'
+    end
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
       format.js
-      User.reset_pk_sequence
     end
   end
 
-  def accept_invitation
+  # def accept_invitation
     # invitation.token if invitation
-  end
+  # end
 
   def resend_activation
     @user = User.find_by(email:params[:email])
-    @user.activation_token = User.new_token
-    @user.create_activation_digest
-    @user.send_activation_email
+    @user.update_activation_digest
+    # @user.send_activation_email
+    # flash[:info] = "Account not activated. You need to activate your account first."
+    # flash[:info] += " Check your email for the activation link."
+
+    # @user.activation_token = User.new_token
+    # @user.create_activation_digest
+    # @user.send_activation_email
     UserMailer.account_activation(@user).deliver_now
     flash[:info] = "Please check your email to activate your account."
     redirect_to login_url
@@ -198,7 +226,7 @@ class UsersController < ApplicationController
   end
 
   def set_list
-
+    @list = List.find(params[:list_id])
     # byebug
     # @list = List.find(params[:list_id])
     # if @list != List.current

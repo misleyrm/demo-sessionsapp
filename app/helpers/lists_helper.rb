@@ -18,7 +18,8 @@ module ListsHelper
   end
 
   def all_task?(id)
-    List.find(id).name == 'All Tasks'
+    
+    List.find(id).all_tasks
   end
 
 end

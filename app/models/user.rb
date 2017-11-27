@@ -23,7 +23,7 @@ class User < ApplicationRecord
   # has_many :completeds, :dependent => :destroy
   # has_many :blockers, dependent: :destroy
   enum role: [:master, :admin, :manager, :employee]
-  after_initialize :set_default_role, :if => :new_record?
+  # after_initialize :set_default_role, :if => :new_record?
 
   attr_accessor :remember_token, :activation_token, :reset_token
   before_create :create_activation_digest
@@ -75,6 +75,12 @@ class User < ApplicationRecord
       Thread.current[:user]
     end
 
+    def name
+      @name = self.first_name
+      @name << " #{self.last_name}"
+    end
+
+
     def self.current=(user)
       Thread.current[:user] = user
     end
@@ -115,9 +121,9 @@ class User < ApplicationRecord
       end
     end
 
-  def set_default_role
-    self.role ||= :employee
-  end
+  # def set_default_role
+  #   self.role ||= :employee
+  # end
 
   def create_all_tasks_list
     self.created_lists << self.created_lists.create(name: "All Tasks", all_tasks: true)
@@ -133,9 +139,19 @@ class User < ApplicationRecord
   def completed_tasks_by_date(list,date)
 # helpers.is_today?(date)
     if (Date.today == date)
-      self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at')
+      if (list.id == self.all_task.id)
+        self.completed_tasks.where(["DATE(completed_at) BETWEEN ? AND ?", date - 1.day , date] ).order('completed_at')
+      else
+        self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at')
+      end
+
     else
-      self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at')
+      if (list.id == self.all_task.id)
+          self.completed_tasks.where(["DATE(completed_at) =?",date - 1.day] ).order('completed_at')
+      else
+          self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at')
+      end
+
     end
   end
 
@@ -153,11 +169,19 @@ class User < ApplicationRecord
 
   def incompleted_tasks_by_date(list,date)
     if (Date.today == date)
-      self.incompleted_tasks.where(["list_id=? ",list.id]).order("created_at DESC")
+      if (list.id == self.all_task.id)
+        self.incompleted_tasks.order(:position)   #"created_at DESC"
+      else
+        self.incompleted_tasks.where(["list_id=? ",list.id]).order(:position)  #order("created_at DESC")
+      end
     else
-    # self.tasks.where(completed_at: nil).order("updated_at DESC")
     # We should change for task created that day
-      self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order("created_at DESC")
+      if (list.id == self.all_task.id)
+        self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order(:position) #order("created_at DESC")
+      else
+        self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order(:position)  #order("created_at DESC")
+      end
+
     end
   end
 
@@ -176,7 +200,7 @@ class User < ApplicationRecord
 
   # Returns true if the given token matches the digest.
   def authenticated?(attribute, token)
-  
+
     digest = send("#{attribute}_digest")
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
@@ -247,6 +271,15 @@ class User < ApplicationRecord
   def create_activation_digest
     self.activation_token  = User.new_token
     self.activation_digest = User.digest(activation_token)
+  end
+
+  def active_collaborator?(list_id)
+
+    if self.invitations.find_by_list_id(list_id)
+      return self.invitations.find_by_list_id(list_id).active
+    else
+      return self.owner?(List.find(list_id)) ? true : false
+    end
   end
 
   def broadcast_update

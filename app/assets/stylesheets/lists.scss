@@ -3,7 +3,7 @@
     background-color: #FFFFFF;
     margin: 0;
     display: none;
-    min-width: 120px; /* Changed this to accomodate content width */
+    min-width: 100px; /* Changed this to accomodate content width */
     max-height: auto;
   	margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
     overflow: hidden; /* Changed this from overflow-y:auto; to overflow:hidden; */
@@ -22,7 +22,12 @@
 }
 
 ul.dropdown-list li{
-  padding: 0px 20px;
+  padding: 0px;
+}
+
+ul.dropdown-list li> a{
+  line-height: 0px;
+  padding: 7px 20px;
 }
 
 ul.dropdown-list li:hover,
@@ -33,45 +38,138 @@ ul.dropdown-list li:active {
 #edit_option {
   float: left;
 }
-// .list-user-avatar{
-//   width: 46px;
-//   height: 46px;
-//   border: 2px solid #12AAED!important;
-//   background-color: #12AAED;
-//   text-align: center;
-//   display: table;
-// }
-// .list-user-avatar img{
-//   display: inline-table;
-//   vertical-align: middle;
-//   padding: 5px 0 0;
-// }
+
 #list h5 {
   margin: 1rem 0 1rem!important;
   font-size: 1.3rem!important;
 }
-// @media only screen and (min-width: 601px){
-// #stand-up nav.task-option,
-// #stand-up nav.task-option .nav-wrapper i,
-// #stand-up nav.task-option a.button-collapse,
-// #stand-up nav.task-option a.button-collapse i {
-//     height: 35px;
-//     line-height: 35px;
-// }
-// }
+
+form.edit_list .input-field{
+  margin-top: 0rem;
+}
+
+form.edit_list .select-wrapper input.select-dropdown{
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+
 #application-date .datepicker{
   border-bottom: none;
 }
 .secondary-content {
     color: #9e9e9e!important;
 }
-#collaboration-users .chip a img{
+#collaboration-users .chip a img, .invited_user .chip a img{
   border-radius: 50%;
   border: 2px solid #C0BFBF;
   background-color: #C0BFBF;
   //padding: 5px!important;
   height: 32px;
   width: 32px;
+}
+
+.collaboration-user-settings li.chip > img{
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.26);
+  background-color: #fff;
+  padding: 1px!important;
+  width: 40px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.collaboration-user-settings li.chip > img,
+.collaboration-user-settings li.chip > img ~ span {
+  display: block;
+  float: none;
+}
+
+.collaboration-user-settings li.chip {
+  display: inline-block;
+  height: 40px;
+  width: 60px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0;
+  line-height: 12px;
+  border-radius: 16px;
+  background: none;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.collaboration-user-settings{
+  min-height: 100px;
+}
+
+
+.collaboration-user-settings, .invitation-user-settings{
+  padding: 20px 0;
+}
+
+.invitation-user-settings li{
+   padding: 10px 0 0;
+   font-size: 14px;
+}
+
+.invitation-user-settings li p{
+  margin-right: 60px;
+  line-height: 20px;
+  margin-bottom: 0;
+}
+
+.invitation-user-settings li ul.menu-option{
+  // width: 60px;
+  right: 0;
+  position: absolute;
+  top: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.invitation-user-settings li ul.menu-option i{
+  font-size: 18px;
+}
+
+.invitation-user-settings li ul.menu-option a:hover i.material-icons{
+  color: #55C2B9 !important;
+}
+ul.collaboration-user-settings li{
+  float: left;
+}
+
+ul.collaboration-user-settings li.more {
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid;
+  text-align: center;
+  cursor: pointer;
+}
+
+ul.collaboration-user-settings li.more i{
+  padding: 7px 0;
+  text-align: center;
+}
+
+.collaboration-user-settings li.chip > img ~ span {
+  line-height: 10px;
+  font-size: 12px;
+  line-height: 12px;
+  font-size: 11px;
+  padding-top: 5px;
+}
+
+form.edit_list ul.dropdown-content li{
+  min-height: 1rem;
+  line-height: 1rem;
+}
+
+form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > span{
+  line-height: 1rem;
+  padding: 12px 10px;
 }
 
 #collaboration-users .chip a:hover img,
@@ -87,7 +185,7 @@ ul.dropdown-list li:active {
 
 .list-collaboration-users .chip{
   background: none;
-  padding: 0 5px;
+  padding: 0 3px 0 0;
 }
 
 #collaboration-users a{
@@ -95,19 +193,7 @@ ul.dropdown-list li:active {
   margin-left: -10px;
 }
 
-// #collaboration-users .chip.active a:after{
-//   text-decoration: none;
-//   content: '.';
-//   font-size: 46pt;
-//   color: red;
-//   position: absolute;
-//   top: -25px;
-//   left: -11px;
-//   padding: 0;
-//   height: 3px;
-// }
-
-#collaboration-users .chip:before{
+#collaboration-users .chip:before {
   text-decoration: none;
   font-family: "Material Icons";
   content: "\E061 ";
@@ -125,20 +211,30 @@ ul.dropdown-list li:active {
   transition: opacity .25s ease-in-out;
  -moz-transition: opacity .25s ease-in-out;
  -webkit-transition: opacity .25s ease-in-out;
-
 }
 
-#collaboration-users .chip.active:before{
+#collaboration-users .chip.active:before {
     opacity:1;
     transition: opacity .25s ease-in-out;
    -moz-transition: opacity .25s ease-in-out;
    -webkit-transition: opacity .25s ease-in-out;
 }
 
-.list-collaboration-users #collaboration-users li{
+.list-collaboration-users #collaboration-users li,
+ul.invited_users li {
+  // padding: 0px 4px 0px!important;
+  float: left;
+}
+
+.list-collaboration-users ul li,
+ul.invited_users li {
   // padding: 0px 4px 0px!important;
   display: inline-block;
-  float: left;
+}
+
+p.label {
+  font-size: 0.8rem;
+  padding-top: 0.8rem;
 }
 
 .users-search input {

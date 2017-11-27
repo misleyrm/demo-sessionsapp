@@ -1,4 +1,4 @@
-json.array!(@users) do |user|
+json.array!(@result) do |user|
   json.id           user.id
   json.name         user.first_name
   json.last_name    user.last_name

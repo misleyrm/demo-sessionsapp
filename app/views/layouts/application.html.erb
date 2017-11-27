@@ -12,19 +12,15 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons", media: "all", "data-turbolinks-track" => "reload" %>
 
-  <style><%= yield :stylesheets %> </style>
-
+  <style>
+    <%= yield :stylesheets %>
+  </style>
   <%= csrf_meta_tags %>
 
 </head>
-<body id="stand-up">
+<body id="stand-up" data-current-user= "<%= current_user.nil? ? '': current_user.id%>">
     <%= yield %>
-    <%= include_gon() %>
+    <%= include_gon(:init => true) %>
+    <%= Gon::Base.render_data({}) %>
 </body>
 </html>
-
-    <!-- Modal Structure -->
-    <!-- <div id="ms-modal-applications" class="modal ms-modal-main">
-      <div class="modal-content">
-      </div>
-    </div> -->

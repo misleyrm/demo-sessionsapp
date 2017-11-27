@@ -1,7 +1,1 @@
  $('#ms-modal-dialog').modal("close");
-  <% if params[:type].present? %>
-    $('.table-of-task p#<%=@task.id%>').text("<%= @task.detail%>");
-    $('label[for="#blocker_<%= @task.id%>"]').text('<%= @task.detail%>');
- <% else %>
-    $('.table-of-task p#<%=@task.id%>').text("<%= @task.detail%>");
-  <% end %>

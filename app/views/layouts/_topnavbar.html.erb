@@ -72,6 +72,7 @@
                 <li id='application-date'>
                        <%= form_for current_list, method: :get,remote: true do |f| %>
                           <input type="hidden" name="date" id="form_date">
+                          <input type="hidden" name="mention_by" id="active-collaborators">
                           <input type="date" class="datepicker right-align">
                        <% end %>
                  </li>

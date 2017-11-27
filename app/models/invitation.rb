@@ -8,14 +8,29 @@ class Invitation < ApplicationRecord
   # validate :recipient_is_not_registered
 
   before_create :generate_token
+  validate :existence_invitation
   before_save :check_recipient_existence
 
   validate :disallow_self_invitation
 
    def disallow_self_invitation
+     check_recipient_existence
      if sender_id == recipient_id
-       errors.add(:recipient_id, 'cannot refer back to the sender')
+       errors.add(:danger, 'cannot refer back to the sender')
      end
+   end
+
+   def existence_invitation
+     invitation = Invitation.find_by(recipient_email: recipient_email,list_id: list_id)
+     #  collaborator = Collaboration.find_by(user_id: recipient_email,list_id: list_id)
+     if (!invitation.nil? && self.new_record?)
+        errors.add(:notification, 'this person has already been invited to your list.') if !self.active
+        errors.add(:notification, 'this person has already been invited to your list.') if (self.active && User.find_by_email(recipient_email).collaboration_lists.include?(List.find(list_id)))
+     end
+   end
+
+   def update_token
+      self.token = generate_token
    end
 
   private

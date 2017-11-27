@@ -1,10 +1,7 @@
-// Place all the styles related to the tasks controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
 #complete_tasks ul.menu-option form {
   font-size: 12px;
   color: #777;
-  // margin: 3px 0;
 }
 
 #complete_tasks ul.menu-option form label {
@@ -16,7 +13,8 @@
 }
 
 .tasks ul.menu-option >li,
-.tasks ul.menu-information >li{
+.tasks ul.menu-information >li,
+.invitation-user-settings ul.menu-option >li {
   display: inline-block;
   text-align: center;
   vertical-align: top;
@@ -29,7 +27,8 @@
 
 .permitted .tasks ul.menu-option >li a:hover .material-icons,
 .show_blockers ul.action-menu li a:hover i.material-icons,
-.permitted .tasks ul.menu-option >li i.i-btn-datepicker:hover{
+.permitted .tasks ul.menu-option >li i.i-btn-datepicker:hover,
+.invitation-user-settings ul.action-menu li a:hover i.material-icons{
   color: #55C2B9!important;
 }
 
@@ -67,19 +66,17 @@
 .tasks #menu{
   padding: 0;
 }
-// ul.menu-option > li:first-child {
-//   width: 41%;
-//   text-align: left;
-// }
-// #complete_tasks ul.menu-option #completed{
-//   display:none;
-// }
 
+.tasks .row{
+  margin-bottom: 17px;
+  padding: 3px 0px;
+}
 
-// #new_blocker:not(.active) {
-//   display: none;
-// }
-//
-// #new_blocker.active{
-//   display: block;
-// }
+.tasks .ui-sortable-handle:hover{
+  background-color: #f6f6f9;
+  cursor:all-scroll;
+}
+
+form.edit_task [type="checkbox"] + label {
+  height: 20px;
+}

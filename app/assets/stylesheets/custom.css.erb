@@ -62,6 +62,7 @@ html{
  }
 body{
   /*background: url('<%= asset_path("hd-bg.png") %>');*/
+  font-family: 'ProximaNova-Light'!important;
   background-repeat: no-repeat;
   background-size: cover;
   color: #808080;
@@ -70,6 +71,11 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: lighter!important;
   color: #808080 !important;
   margin: 0.82rem 0 2rem;
+  font-family: 'ProximaNova-Light'!important;
+}
+
+p, span, label, input{
+  font-family: 'ProximaNova-Light'!important;
 }
 
 .signed_user {
@@ -160,6 +166,16 @@ div .card{
 
 .btn, .btn-large, .btn-floating {
     box-shadow: none!important;
+}
+
+.btn-floating.btn-my-medium {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.26);
+}
+
+.btn-floating.btn-my-medium i{
+  font-size: 22px;
 }
 
 .z-depth-1-half,
@@ -296,6 +312,19 @@ i.small {
   padding-bottom: 20px;
 }
 
+.alert-warning{
+  padding: 10px 20px;
+  color: white;
+  text-align: center;
+}
+
+.ms-confirmation .alert-danger,
+.ms-confirmation .alert-notice,
+.ms-confirmation .alert-success{
+  font-size: 1.03em;
+  line-height: 1.4em;
+}
+
 /********* HELPER **********/
 .uppercase{
   text-transform: uppercase;
@@ -348,13 +377,19 @@ i.small {
 
 .clearfix:before,
 .clearfix:after {
-  content: " ";
-  display: table;
-}
-
-.clearfix:after {
+  display: block;
+  content: "";
   clear: both;
 }
+
+
+.clearfix {
+    display: block;
+    content: "";
+    clear: both;
+
+}
+
 
 .nav-main .divider{
   height: 1px;
@@ -432,16 +467,14 @@ a{
 
 .dropdown-list {
     border: 1px solid #b8b8b8;
-    min-width: 120px;
+    /*min-width: 120px;*/
     background: #fff;
     z-index: 999;
 }
-.dropdown-list li{
-  min-width: 120px;
-}
+
 /********* MODAL ********/
 
-.modal h2{
+.modal-title{
   font-size: 30px;
   color: #55C2B9!important;
 }
@@ -450,6 +483,13 @@ a{
   max-width: 470px;
   margin: 0 auto;
 
+}
+
+.modal-text{
+  line-height: 22px;
+  font-size: 18px;
+  color: #848994;
+  font-weight: 100;
 }
 
 .input-field label:not(.label-icon).active {
@@ -464,7 +504,7 @@ a{
     margin-top: 2.5rem;
     padding-left: 7px;
     padding-right: 7px;
-    width: 97%;
+    width: 96%;
   }
 
 .input-field > textarea ~ label:not(.label-icon).active {
@@ -475,10 +515,160 @@ a{
   textarea.materialize-textarea:focus:not([readonly]) {
     border: 1px solid #55C2B9;
     box-shadow: 0 1px 0 0 #55C2B9;
-    width: 96.8%;
+    width: 96.5%;
+}
+
+/******** TABS ************/
+
+.tabs {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 40px;
+    width: 100%;
+    background: none;
+    margin: 0 auto;
+    white-space: nowrap;
+}
+
+.tabs {
+    height: 30px;
+}
+
+.tabs .tab {
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.tabs.my-tabs .tab {
+    line-height: 30px;
+    height: 30px;
 }
 
 
+
+.tabs .tab a:hover, .tabs .tab a.active {
+    color: #808080;
+  }
+
+.tabs .indicator {
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+    background-color: #808080;
+    will-change: left, right;
+}
+
+.tabs .tab a {
+    color: rgba(132, 137, 148, 0.7);
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: color .28s ease;
+    text-align: left;
+}
+
+/*  NEW TABS*/
+.my-tabs {
+    /*border-bottom: 1px solid #ddd;*/
+    margin-bottom: -1px;
+}
+
+.my-tabs .my-tab a{
+    margin-bottom: -1px;
+    font-size: 0.8rem;
+}
+
+.nav-link a{
+    display: block;
+    padding: .5rem 1rem;
+}
+
+.my-tabs .nav-link a{
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    border-color: #ddd;
+    padding: 0 13px;
+}
+
+.my-tabs .nav-link a.active {
+  /*color: #495057;*/
+  background-color: #fff;
+  border-color: #ddd #ddd #fff;
+}
+
+.my-tab-content{
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-color: #ddd;
+    /*border-bottom-left-radius: 5px;*/
+    padding: 1rem;
+    /*border-bottom-right-radius: 5px;*/
+    margin-bottom: 5px;
+}
+
+.tabs.my-tabs .indicator{
+  display: none;
+}
+/*********** Button Delete ************/
+
+.chip .close.my-close,
+.chip .close.my-close i {
+  font-size: 22px;
+  line-height: 22px;
+  padding: 0;
+}
+
+.collaboration-user-settings .chip {
+  position: relative;
+}
+
+.collaboration-user-settings .chip .close.my-close {
+  opacity: 1;
+}
+
+
+.chip .close.my-close {
+    position: absolute;
+    z-index: 1;
+    border-radius: 50%;
+    padding: 0;
+    right: 3px;
+    top: -3px;
+}
+
+/********** Collaborator inactive **********/
+.chip img{
+  -webkit-filter: grayscale(0%);
+  -webkit-transition: .5s ease-in-out;
+  -moz-filter: grayscale(0%);
+  -moz-transition: .5s ease-in-out;
+  -o-filter: grayscale(0%);
+  -o-transition: .5s ease-in-out;
+  filter: grayscale(0%);
+}
+
+.chip.ms-inactive img{
+  transition: .5s ease-in-out;
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  filter: gray;
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  -o-filter: grayscale(100%);
+  -moz-filter: grayscale(100%);
+}
 /********* Modal *********/
 #ms-modal-dialog.modal,
 #ms-modal-confirm.modal {
@@ -544,12 +734,12 @@ a{
 }
 
 #ms-modal-dialog.modal input#detail{
-  min-width: 600px;
+  min-width: 100%;
 }
 #ms-modal-dialog.modal .modal-content,
 #ms-modal-confirm.modal .modal-content{
   margin: 0 auto;
-  min-width: 540px;
+  width: 540px;
 
 }
 /********* End Modal *********/
@@ -620,11 +810,11 @@ a{
   margin: 0.82rem 0 1rem;
   color: red!important;
 }
-
+/*
 #error_explanation ul{
   padding: 0 20px;
 
-}
+}*/
 #error_explanation ul li{
   line-height: 20px;
 
@@ -710,7 +900,6 @@ textarea.materialize-textarea:focus.valid {
     position: absolute;
     right: -52px;
     top: 0;
-    /*width: 50px;*/
     line-height: 20px;
     min-height: 16px;
 }
@@ -742,7 +931,6 @@ textarea.materialize-textarea:focus.valid {
 
 .show_blockers .blocker{
   position: relative;
-  /*height: 20px;*/
 }
 .no-permitted #my-add-task{
   display: none;
@@ -773,7 +961,6 @@ textarea.materialize-textarea:focus.valid {
   cursor: pointer;
   margin: 0!important;
   border: none!important;
-  /*width: 0px!important;*/
   position: absolute;
 }
 
@@ -859,24 +1046,6 @@ li.ms-deadline.active{
   -webkit-border-radius: 10px;
 }
 
-/*.material-tooltip::after {
-  content: " ";
-  width: 30px;
-	height: 30px;
-	background-color: #fff;
-  border-bottom: 1px solid #55C2B9;
-  display: inline-block;
-  -webkit-transform: rotate(50deg);
-  -moz-transform: rotate(50deg);
-  -o-transform: rotate(50deg);
-  -ms-transform: rotate(50deg);
-  transform: rotate(50deg);
-  position: absolute;
-  top: 100%;
-  left: 30%;
-
-}*/
-
 .material-tooltip span{
   font-size: .8rem;
   color: #7B7B7B;
@@ -944,7 +1113,7 @@ li.ms-deadline.active{
 
 /****************Error Alert*******************/
 .ms-alert{
-  padding: .75rem 0rem .75rem;
+  padding: .75rem 1.25rem;
   border: 1px solid rgba(111, 115, 126, 0.3);
   background: #fff;
   color: #848994;
@@ -957,12 +1126,57 @@ li.ms-deadline.active{
   -webkit-border-radius: .25rem;
   /* Firefox 1-3.6 */
   -moz-border-radius: .25rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity .15s linear;
+}
+
+.fade.show {
+    opacity: 1;
 }
 
 .ms-alert.ms-alert_error {
     border-left-color: #f23d5c;
 }
 
+.close span {
+    font-size: 1.8rem;
+}
+
+.alert-dismissible .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .6rem .6rem .6rem 1rem;
+    color: inherit;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+
+.close:focus, .close:hover {
+    color: #55c2b9;
+    text-decoration: none;
+    opacity: .75;
+}
+
+button.close {
+    padding: 0;
+    background: 0 0;
+    border: 0;
+    -webkit-appearance: none;
+}
 
 /*********** Nav Main **************/
 .nav-main .left .divider{
@@ -1039,8 +1253,7 @@ li.ms-deadline.active{
   -moz-text-decoration-style: solid;
 }
 
-
-/*#complete_tasks div.task-detail:hover::after {
-  border: none;
-
-}*/
+/************ LIST ***************/
+.list-item{
+  position: relative;
+}

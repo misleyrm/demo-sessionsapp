@@ -1,13 +1,12 @@
 <% if model.errors.any? %>
-  <div class="row">
-    <div class="col s12">
-      <div id="error_explanation" class="ms-alert ms-alert_error left-align">
+    <div id="error_explanation" class="ms-alert ms-alert_error left-align alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <ul>
            <% model.errors.full_messages.each do |message| %>
             <li><%= message %></li>
           <% end %>
         </ul>
-      </div>
     </div>
-  </div>
 <% end %>

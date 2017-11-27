@@ -1,0 +1,14 @@
+<% if (!collaboration_user.blank?) %>
+ <% msinactive =  !collaboration_user.active_collaborator?(list.id)? "ms-inactive" : "" %>
+ <%= content_tag :li, class: "chip #{msinactive}", id: "#{collaboration_user.id}", data: {:'collaboration-user-settings-id'=> "#{collaboration_user.id}"} do%>
+    <%= link_to list_collaboration_user_path(list, collaboration_user), method: :delete, class: "my-close close waves-effect waves-green right", data: {confirm: "Are you sure you want to delete it?"}, remote: true  do %>
+        <i class="material-icons">close</i>
+    <% end %>
+    <% if !collaboration_user.avatar.nil? %>
+       <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>
+    <% else %>
+       <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
+    <% end %>
+    <span><%= collaboration_user.first_name %></span>
+  <% end%>
+<% end %>

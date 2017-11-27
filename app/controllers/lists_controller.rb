@@ -26,18 +26,34 @@ class ListsController < ApplicationController
   def search
 
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
-    @result = @list.collaboration_users
+    @collaboration_users = @list.collaboration_users
+    user = User.where('id'=> params[:userid])
+    owner  =  User.where('id' => @list.user_id)
+    @users_mention = @collaboration_users.search(params[:term]) + owner.search(params[:term]) -  user.search(params[:term])
+
+    @result = @users_mention
+    # if user.id != @list.user_id
+    #   owner  =  User.where('id' => @list.user_id)
+    #   @users_mention = @collaboration_users.search(params[:term]) + owner.search(params[:term])
+    #   @result =  @users_mention
+    # else
+    #   @result = @collaboration_users.search(params[:term])
+    # end
 
     respond_to do |format|
       format.html
-      format.json { @users = @result.search(params[:term]) }
+      format.json { @result }
       format.js
     end
   end
 
   def show
+    if !params[:mention_by].blank?
+      mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
+      @collaboration_users = User.where(id: mention_by)
+    end
     respond_to do |format|
-      format.html {redirect_to root_path}
+      format.html {redirect_to root_path(:collaboration_users => @collaboration_users)}
       format.json { render json: @list }
       format.js
     end
@@ -99,6 +115,7 @@ class ListsController < ApplicationController
   end
 
   def edit
+    @pending_invitations = @list.invitations.where(["active!=?",true])
     render layout: 'modal'
   end
 
@@ -123,26 +140,34 @@ class ListsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
+
+    # respond_to do |format|
       gon.list = @list
-      if (@list.all_tasks_list?) && (@list.update_attributes(:description => list_params[:description]))
+      if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
+        if (@list.user_id!= params[:list_owner].to_i)
+          current_user.collaboration_lists << @list
+          User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
+          @list.user_id = params[:list_owner].to_i
+        end
+      end
+      saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
+
+      if saved
                flash[:success] = "List was successfully updated."
-               format.html{ redirect_to root_path}
-               format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-               format.js
-       elsif (!@list.all_tasks_list?) && (@list.update_attributes(list_params))
-              flash[:success] = "List was successfully updated."
-              format.html{ redirect_to root_path}
-              format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-              format.js
+              #  format.html{ redirect_to root_path}
+              #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
+              #  format.js
+              redirect_to list_path(@list)
        else
-              flash[:danger] = "We can't update the list."
-              @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-              format.json { render :json => {:htmlerrors => @htmlerrors }}
-              format.js {render :action => "edit"}
+         flash[:danger] = "We can't update the list."
+         @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+         respond_to do |format|
+           format.json { render :json => {:htmlerrors => @htmlerrors }}
+           format.js { render :action => "edit" }
+          end
 
        end
-    end
+    # end
   end
 
   def destroy

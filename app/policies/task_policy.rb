@@ -1,5 +1,13 @@
 class TaskPolicy < ApplicationPolicy
-  # attr_reader :current_date
+   attr_reader :user, :task
+
+  def initialize(user, task)
+     @user = user
+     @task = task
+    #  @list =  @task.list
+
+  end
+
 
   def create?
       user.owner?(record.try(:list)) || record.try(:user) == user
@@ -37,6 +45,10 @@ class TaskPolicy < ApplicationPolicy
 
   def showTask?
       user.owner?(record.try(:list)) || record.try(:user) == user
+  end
+
+  def sort?
+    user.owner?(task.list) || user == task.user
   end
 
 end

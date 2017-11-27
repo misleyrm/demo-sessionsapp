@@ -23,6 +23,8 @@ gem 'jquery-ui-rails'
 gem 'rails-ujs'
 # gem 'rails-jquery-autocomplete'
 
+gem 'acts_as_list'  #sorting and reordering a number of objects in a list
+
 gem 'bootstrap-validator-rails'
 # gem 'client_side_validations', github: 'DavyJonesLocker/client_side_validations'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

@@ -10,22 +10,22 @@ class PasswordResetsController < ApplicationController
 
   def create
     @user = User.find_by(email: params[:password_reset][:email].downcase)
-    if (@user && @user.activated?)
-      @user.create_reset_digest
-      @user.send_password_reset_email
-      redirect_to login_url, notice: "Email sent with password reset instructions."
-    elsif (!@user.activated?)
-         # re-send activation email
-         @user.update_activation_digest
-         @user.send_activation_email
-         flash[:info] = "Account not activated. You need to activate your account first."
-         flash[:info] += " Check your email for the activation link."
-        #  redirect_to root_url
-        render 'new'
+    if (@user)
+        if (@user.activated?)
+            @user.create_reset_digest
+            @user.send_password_reset_email
+            redirect_to login_url, notice: "Email sent with password reset instructions."
+        else
+             @user.update_activation_digest
+             @user.send_activation_email
+             flash[:danger] = "Account not activated. You need to activate your account first."
+             flash[:danger] += " Check your email for the activation link."
+             render 'new'
+        end
     else
       flash.now[:danger] = "Email address not found"
       render 'new'
-   end
+    end
   end
 
   def update

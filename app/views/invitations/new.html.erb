@@ -1,4 +1,4 @@
-<div class="col s12 l10 offset-l1">
+<!-- <div class="col s12 l10 offset-l1">
    <h2 class="center-align"><%= flash[:info]? 'Invitation sent!': 'Send Invitation'%></h2>
      <%= content_tag :div, flash[:notice] , class: "danger" %>
      <% if flash[:danger] %>
@@ -12,4 +12,19 @@
             <%= render 'form' %>
           </div>
     <% end %>
+</div> -->
+
+
+<div class="row">
+	<div class="col s12  center">
+			<h2 class="modal-title center-align">Send Invitation</h2>
+      <p class="center-align modal-text">To send an invitation, enter the email address for the person that you want to invite.</p>
+  </div>
+</div>
+<div class="row" id="new-list">
+	<div class="col s12  center">
+			<div class="form">
+				<%= render 'form' %>
+			</div>
+	</div>
 </div>

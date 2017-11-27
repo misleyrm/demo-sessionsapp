@@ -26,16 +26,18 @@
                     <% end %>
                 </li>
             </ul>
+            <ul id="ulCollaborationList" class="user-lists">
               <% if !user.collaboration_lists.empty? %>
-                 <ul id="ulCollaboration" class="user-lists">
                       <li class="li-hover">
                           <p class="ultra-small margin more-text">Collaboration lists</p>
                       </li>
                       <% user.collaboration_lists.each do |collection_list| %>
-                          <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: collection_list, user: user, active: current_list?(collection_list.id, current_list.id)} %>
+                         <% if user.active_collaborator?(collection_list.id) %>
+                            <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: collection_list, user: user, active: current_list?(collection_list.id, current_list.id)} %>
+                         <% end %>
                       <% end %>
-                  </ul>
               <% end %>
+            </ul>
         </div>
     </div>
   </div>

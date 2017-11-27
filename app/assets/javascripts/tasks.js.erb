@@ -1,7 +1,6 @@
 $(document).on('turbolinks:load',function(){
 
     // deadlineDatepicker();
-
     $("i.i-btn-datepicker").on('click', function(){
        $(this).siblings(".hidden-datepicker").focus();
     })
@@ -12,5 +11,23 @@ $(document).on('turbolinks:load',function(){
       .mouseleave( function() {
         // $( this ).css("background-color","white");
       })
+    $('div[id^="incomplete_tasks_"]').each(function (){
+      mySortable($(this));
+    })
 
 });
+
+function mySortable(elem){
+ if (elem.is(':visible')){
+  elem.sortable({
+    update: function(e,ui){
+      // send the updated order via ajax
+       $.ajax({
+           type: "PUT",
+           url: $(this).data("url"),
+           data: $(this).sortable('serialize'),
+       });
+    }
+  });
+  }
+}

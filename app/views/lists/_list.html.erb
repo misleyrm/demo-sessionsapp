@@ -1,4 +1,4 @@
-<div data-list-id = "<%= @list.id%>">
+<div data-list-id = "<%= list.id%>">
     <div class="center row">
       <div class="col s12">
         <% unless (list.all_tasks?) %>
@@ -8,15 +8,15 @@
                         <ul id="collaboration-users">
                           <% if has_collaborations?(list) %>
                               <% if (!current_user.owner?(list) && (!list.owner.nil?)) %>
-                                 <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner} %>
+                                 <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: collaboration_users, current_user: current_user} %>
                               <% end %>
                               <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', current_user.id]) %>
+                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', current_user.id]), as: :collaboration_user, locals: { active_users: collaboration_users,current_user: current_user }%>
                               <% end %>
                           <% end %>
                           <% if (current_user.owner?(list)) %>
                               <li class="chip circle ms-text-green ms-add">
-                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", remote: true, data: {behavior: 'modal', tooltip: 'Invite a new member'} do%>
+                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
                                     <i class="material-icons add-user">add</i>
                                 <% end %>
                               </li>
@@ -28,8 +28,14 @@
         <% end %>
       </div>
     </div>
-     <div id="list-users">
+     <div id="list-users" class="row">
           <%= render partial: "users/list_user", locals: {user: current_user, list: list} %>
+          <% if !collaboration_users.blank? %>
+              <%  collaboration_users.each do |collaboration_user| %>
+                  <%= render partial: "users/list_user", locals: {user: collaboration_user, list: list} %>
+              <% end%>
+          <% end %>
+
       </div>
       <!-- <div id="show_collaboration_users" class="col s12">
       </div> -->
