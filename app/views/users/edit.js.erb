@@ -18,4 +18,5 @@ function RenderSettingTabs(){
   $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
   $('#page-content').html('<%= j render "edit" %>');
   $('ul.tabs').tabs();
+  $('#change_email').collapsible();
 };
