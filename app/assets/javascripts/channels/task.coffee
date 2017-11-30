@@ -7,7 +7,6 @@ App.task = App.cable.subscriptions.create "TaskChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
-    # alert(data.html);
     $pageContent = $('#page-content')
     $mainCenter = $('#main_center')
     $currentListMainCenter = $('#main_center > div ').data('list-id')
