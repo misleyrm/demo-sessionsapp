@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
   # helper_method :get_current_date
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail]
   # before_action :set_list,  if: -> { !params[:type].blank? }
   # before_action :set_task_per_user, only: [:show]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
@@ -160,6 +160,18 @@ class UsersController < ApplicationController
         # else
         #   @user.update_attributes(:avatar => user_params[:avatar])
         # end
+  end
+
+
+  def updateEmail
+    if @user && @user.authenticate(params[:session][:password]) && @user.activated
+      if @user.update_attributes(user_params)
+        flash[:notice] = "Email updated"
+        render :json => {:status => 'success'}
+      else
+        render :json => {:status => 'fail'}
+      end
+    end
   end
 
   def destroy

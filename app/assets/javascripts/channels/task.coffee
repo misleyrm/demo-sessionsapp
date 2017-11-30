@@ -21,7 +21,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
     $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
 
     $incomplete = $('#incomplete_tasks_' + data.user)
-    $complete = $('#complete_tasks' + data.user)
+    $complete = $('#complete_tasks_' + data.user)
       # $numTask = $('.bar-number-task', $listNav)
     # $('#list_user_' + data['user'] + ' #incomplete_tasks')
     if data.blocker

@@ -39,4 +39,9 @@ class UserPolicy
     @logged_user.role == "master" || @logged_user.role == "admin" || @logged_user.role == "manager"
   end
 
+  def updateEmail?
+    #  byebug
+    #@logged_user.role == "master" || @logged_user.role == "admin" || @logged_user.role == "manager"
+  end
+
 end

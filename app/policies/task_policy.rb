@@ -10,41 +10,41 @@ class TaskPolicy < ApplicationPolicy
 
 
   def create?
-      user.owner?(record.try(:list)) || record.try(:user) == user
+      user.owner?(task.try(:list)) || task.try(:user) == user
   end
 
   def update?
-     if record.is_blocker?
-       user.owner?(record.try(:parent_task).list) || record.try(:parent_task).user == user
+     if task.is_blocker?
+       user.owner?(task.try(:parent_task).list) || task.try(:parent_task).user == user
      else
-       user.owner?(record.try(:list)) || record.try(:user) == user
+       user.owner?(task.try(:list)) || task.try(:user) == user
      end
   end
 
   def add_deadline?
-    (user.owner?(record.try(:list)) || record.try(:user) == user)
+    (user.owner?(task.try(:list)) || task.try(:user) == user)
  end
 
   def importanttask?
-     if !record.is_blocker?
-       user.owner?(record.try(:list)) || record.try(:user) == user
+     if !task.is_blocker?
+       user.owner?(task.try(:list)) || task.try(:user) == user
      end
   end
 
   def destroy?
-      user.owner?(record.try(:list)) || record.try(:user) == user
+      user.owner?(task.try(:list)) || task.try(:user) == user
   end
 
   def complete?
-      user.owner?(record.try(:list)) || record.try(:user) == user
+      user.owner?(task.try(:list)) || task.try(:user) == user
   end
 
   def changelist?
-      user.owner?(record.try(:list)) || record.try(:user) == user
+      user.owner?(task.try(:list)) || task.try(:user) == user
   end
 
   def showTask?
-      user.owner?(record.try(:list)) || record.try(:user) == user
+      user.owner?(task.try(:list)) || task.try(:user) == user
   end
 
   def sort?

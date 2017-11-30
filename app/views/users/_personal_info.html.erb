@@ -39,19 +39,23 @@
                 <p>Your email address is <span class="ms-strong"><%= @user.email%></span></p>
               </div>
               <div class="collapsible-body">
-                <div class="input-field">
-                  <%= text_field_tag 'new_email', nil, placeholder: 'New Email Address ' %>
-                  <%#= g.label :new_email, class:'active' %>
-                </div>
-                <div class="input-field">
-                  <%= text_field_tag 'new_email_confirmation', nil, placeholder: 'Confirmation of new Email address ' %>
-                </div>
-                <div class="input-field">
-                  <%= text_field_tag 'current_password', nil, placeholder: 'Current Password' %>
-                </div>
-                <div class="input-field left-align">
-                  <a class="waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white">Update Email</a>
-               </div>
+                <%= form_for(@user, url: updateEmail_user_path, method: :patch, :html=>{id: "",remote: true, multipart: true, class: ""}) do |e| %>
+                    <div class="input-field">
+                      <%= text_field_tag 'new_email', nil, placeholder: 'New Email Address ' %>
+                      <%#= g.label :new_email, class:'active' %>
+                    </div>
+                    <div class="input-field">
+                      <%= text_field_tag 'new_email_confirmation', nil, placeholder: 'Confirmation of new Email address ' %>
+                    </div>
+                    <div class="input-field">
+                      <%= password_field_tag 'current_password', nil, placeholder: 'Current Password' %>
+                    </div>
+                    <div class="input-field left-align">
+                        <%= link_to  updateEmail_user_path, data: { behavior: 'modal' },class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true, method: :patch do %>
+                             Update Email
+                        <% end %>
+                   </div>
+                  <% end%>
               </div>
             </li>
           </ul>
