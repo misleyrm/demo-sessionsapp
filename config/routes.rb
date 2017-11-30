@@ -41,10 +41,10 @@ Rails.application.routes.draw do
 
     # patch :sign_up '/sign_up/:invitation_token', :controller => 'users', :action => 'new'
 
-    post 'users/roleUpdate' => 'users#roleUpdate'
+    # post 'users/roleUpdate' => 'users#roleUpdate'
 
     # for ajax
-    put 'users/updateAvatar' => 'users#updateAvatar', as: :updateAvatar
+    # put 'users/updateAvatar' => 'users#updateAvatar', as: :updateAvatar
 
     post 'users/resend_activation' => 'users#resend_activation'
     # get 'lists/:id' => 'lists#complete_users'
@@ -74,6 +74,7 @@ Rails.application.routes.draw do
       resources :lists, :name_prefix => "user_"
       member do
         patch :updateAvatar
+        patch :updateEmail
       end
     end
 

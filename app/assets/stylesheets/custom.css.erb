@@ -368,7 +368,13 @@ i.small {
   display: block;
 }
 
-#complete_tasks{
+.ms-strong{
+  color: #848994;
+}
+
+/********** END HELPERS ***********/
+
+.complete_tasks{
   padding: 0 0 20px;
 }
 .input-field label {
@@ -550,7 +556,9 @@ a{
     height: 30px;
 }
 
-
+.ms-tabsSetting-titles.tabs{
+  height: 40px;
+}
 
 .tabs .tab a:hover, .tabs .tab a.active {
     color: #808080;
@@ -559,7 +567,7 @@ a{
 .tabs .indicator {
     position: absolute;
     bottom: 0;
-    height: 1px;
+    height: 2px;
     background-color: #808080;
     will-change: left, right;
 }
@@ -877,12 +885,12 @@ textarea.materialize-textarea:focus.valid {
   display: inline;
 }
 
-#complete_tasks div.task-detail{
+.complete_tasks div.task-detail{
   position: relative;
   color: #A4A6A9;
 }
 
-#complete_tasks div.task-detail::after{
+.complete_tasks div.task-detail::after{
   /*content: "";
   position: absolute;
   bottom: 0;
@@ -1237,17 +1245,17 @@ button.close {
     margin: 0rem 0 .3rem;
 }
 
-#complete_tasks .row{
+.complete_tasks.tasks .row{
   margin-bottom: 10px;
 }
 
-#complete_tasks p.truncate:hover{
+.complete_tasks p.truncate:hover{
   white-space: normal;
   overflow: hidden;
   text-overflow: initial;
 }
 
-#complete_tasks p.truncate{
+.complete_tasks p.truncate{
   text-decoration: line-through;
   -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
   -moz-text-decoration-style: solid;
@@ -1256,4 +1264,50 @@ button.close {
 /************ LIST ***************/
 .list-item{
   position: relative;
+}
+
+/*************** ACCORDION *****************/
+
+.collapsible.ms-accordion-section{
+  border: none;
+  box-shadow: none;
+}
+
+.ms-accordion-section .collapsible-header{
+  padding: 0;
+  background: none;
+  min-height: 2rem;
+  line-height: 2rem;
+  border-bottom: none;
+}
+
+.ms-accordion-section .material-icons.prefix{
+  font-size: 2rem;
+}
+
+.collapsible.ms-accordion-section i{
+  min-height: 2rem;
+  line-height: 2rem;
+  font-size: 2rem;
+}
+
+.collapsible.ms-accordion-section i.right{
+  margin-right: 0;
+  width: 1.5rem;
+}
+
+.collapsible.ms-accordion-section .collapsible-body{
+  padding: 1rem;
+}
+
+.collapsible.ms-accordion-section .collapsible-header p{
+  padding: 0 5px;
+}
+
+.ms-tabsSetting-content .ms-form .collapsible.ms-accordion-section input{
+    margin-bottom: 20px;
+}
+
+.ms-form .ms-accordion-section .su-btn.btn-flat.submit {
+    margin-top: 0;
 }

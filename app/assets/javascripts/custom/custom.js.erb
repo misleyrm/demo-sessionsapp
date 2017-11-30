@@ -44,6 +44,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 $(document).on('turbolinks:load',function(){
 
+  $('#change_email').collapsible();
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)
