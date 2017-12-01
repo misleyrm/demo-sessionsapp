@@ -164,6 +164,7 @@ class UsersController < ApplicationController
 
 
   def updateEmail
+    byebug
     if @user && @user.authenticate(params[:session][:password]) && @user.activated
       if @user.update_attributes(user_params)
         flash[:notice] = "Email updated"
@@ -248,7 +249,7 @@ class UsersController < ApplicationController
   end
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation, :role, :current_step)
+    params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation, :role, :current_step, :new_email, :new_email_confirmation, :current_password)
   end
   # Remembers a user in the database for use in persistent sessions.
   def remember

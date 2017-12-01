@@ -38,5 +38,78 @@ $(document).on('turbolinks:load',function(){
         }
   	})
   })
+
+  /* form for change email in user settings */
+
+  $('#new_user').validate({
+      debug: true,
+      rules: {
+      'user[avatar]': {required: true},
+      'user[first_name]': {required: true},
+      'user[last_name]': {required: true},
+      'user[email]': {required: true, email: true},
+      'user[password]': {required: true, minlength: 6},
+      'user[password_confirmation]': {required: true, equalTo: '#user_password'}
+      }
+      // console.log('in');
+    });
+
+    // jQuery('#search').click(submit_search);
+ // jQuery('#nestedform').find('input').keydown(keypressed);
+    $(document).on("click","a#btn-user-email-change",function(e){
+        e.preventDefault;
+      submit_email_change})
+
+    function submit_email_change(event) {
+      var formData = new FormData(),
+          $form_user_email_change = $("#user_email_change"),
+          $new_email = $("#user_new_email",$form_user_email_change),
+          $new_email_confirmation = $("#user_new_email_confirmation",$form_user_email_change),
+          $current_password = $("#user_current_password",$form_user_email_change);
+
+      formData.append('user[new_email]', $new_email.val());
+
+      // if (values[0]) {
+        do_submit(formData);
+      // } else {
+        // alert('No Item given');
+      // }
+      return false;
+    }
+
+    function keypressed(event) {
+      var charcode = (event.which) ? event.which : window.event.keyCode;
+      if (charcode == 13) {
+        return submit_email_change(event);
+      }
+      return true;
+    }
+
+    function do_submit(submit_values) {
+      // jQuery(submit_output).hide();
+      // var change_email = jQuery.post(
+      //   $("#user_email_change a").attr("src"), {
+      //     'user[]': submit_values
+      //   });
+
+      $.ajax({
+        url: $("#user_email_change a").data("src"),
+        data: submit_values,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'PUT',
+        success: function(response) {
+              // Materialize.toast('Avatar Changed', 4000);
+              // return response; // <- I tried that one as well
+          }
+      })
+      // change_email.done = function(data) {
+      //   // jQuery(submit_output).html(data.substr(0, data.length));
+      //   // jQuery(submit_output).show();
+      // };
+    }
+
+
 })
 // END

@@ -44,7 +44,6 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 $(document).on('turbolinks:load',function(){
 
-  $('#change_email').collapsible();
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)
@@ -234,6 +233,7 @@ $(document).on('turbolinks:load',function(){
             // console.log('in');
           });
 
+  
 
 
 }); /* end of $(document).on('turbolinks:load',function(){*/
@@ -428,3 +428,17 @@ function deadlineDatepicker(e){
 function toValidDate(datestring){
   return datestring.replace(/(\d{2})(\/)(\d{2})/, "$3$2$1");
 }
+
+
+$.fn.animateRotate = function(ini,angle, duration, easing, complete) {
+    var args = $.speed(duration, easing, complete);
+    var step = args.step;
+    return this.each(function(i, e) {
+        args.step = function(now) {
+            $.style(e, 'transform', 'rotate(' + now + 'deg)');
+            if (step) return step.apply(this, arguments);
+        };
+
+        $({deg: ini}).animate({deg: angle}, args);
+    });
+};

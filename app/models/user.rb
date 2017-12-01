@@ -25,7 +25,7 @@ class User < ApplicationRecord
   enum role: [:master, :admin, :manager, :employee]
   # after_initialize :set_default_role, :if => :new_record?
 
-  attr_accessor :remember_token, :activation_token, :reset_token
+  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password
   before_create :create_activation_digest
 
   after_create :create_all_tasks_list
@@ -61,7 +61,7 @@ class User < ApplicationRecord
   has_many :invitations, :class_name => "Invitation", :foreign_key => 'recipient_id', :dependent => :destroy
   has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id',  :dependent => :destroy
 
-  attr_writer :current_step
+  # attr_writer :current_step
 
   validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
   validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
