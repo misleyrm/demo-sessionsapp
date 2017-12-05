@@ -1273,7 +1273,33 @@ button.close {
 .list-item{
   position: relative;
 }
+/*************** FORM TITLE *****************/
+.ms-form-title .material-icons.prefix,
+.collapsible.ms-accordion-section i{
+  font-size: 1.6rem;
+}
 
+.ms-form-title i.material-icons.prefix,
+.collapsible.ms-accordion-section .ms-form-title i.material-icons{
+  min-height: 2rem;
+  line-height: 2rem;
+}
+
+.collapsible.ms-accordion-section .collapsible-header .ms-form-title i.material-icons.prefix,
+.ms-form-title i.material-icons.prefix{
+  /*width: 1rem;*/
+  text-align: center;
+  margin-right: .5rem;
+  display: block;
+  float: left;
+}
+
+.ms-form-title span{
+    line-height: 2.2rem;
+    letter-spacing: .6px;
+    color: #55c2b9;
+}
+/*************** END FORM TITLE *****************/
 /*************** ACCORDION *****************/
 
 .collapsible.ms-accordion-section{
@@ -1289,16 +1315,6 @@ button.close {
   border-bottom: none;
 }
 
-.ms-accordion-section .material-icons.prefix{
-  font-size: 2rem;
-}
-
-.collapsible.ms-accordion-section i{
-  min-height: 2rem;
-  line-height: 2rem;
-  font-size: 2rem;
-}
-
 .collapsible.ms-accordion-section i.right{
   margin-right: 0;
   width: 1.5rem;
@@ -1310,6 +1326,7 @@ button.close {
 
 .collapsible.ms-accordion-section .collapsible-header p{
   padding: 0 5px;
+  letter-spacing: .6px;
 }
 
 .ms-tabsSetting-content .ms-form .collapsible.ms-accordion-section input{

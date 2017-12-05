@@ -19,25 +19,32 @@
 <% end%>
 
 <div class="clearfix"></div>
-<%= form_for(@user, :html=>{:id=>"user_edit_pinfo", :multipart=> true, :remote => true}) do |g| %>
+  <div class="ms-form-title">
+      <i class="material-icons prefix">person_outline</i><span>PROFILE</span>
+    </div>
+  <%= form_for(@user, :html=>{:id=>"user_edit_pinfo", :multipart=> true, :remote => true}) do |g| %>
     <div class="section ms-form">
         <%= g.hidden_field :current_step, :value => "personal" %>
         <div class="input-field capitalize">
-          <i class="material-icons prefix">person_outline</i>
           <%= g.text_field :first_name %>
           <%= g.label :first_name, id: 'icon_prefix',class:'active' %>
         </div>
         <div class="input-field capitalize">
-          <i class="material-icons prefix">person_outline</i>
           <%= g.text_field :last_name %>
           <%= g.label :last_name, id: 'icon_prefix',class:'active' %>
         </div>
           <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="change_email">
             <li>
-              <div class="collapsible-header"><i class="material-icons prefix">email</i>E-MAIL<i class="material-icons right">keyboard_arrow_right</i>
-                <p>Your email address is <span class="ms-strong"><%= @user.email%></span></p>
+              <div class="collapsible-header">
+                <div class="ms-form-title"><i class="material-icons prefix">email</i><span>E-MAIL</span>
+                    <i class="material-icons right">keyboard_arrow_right</i>
+                </div>
+                <p>Your email address is <span class="ms-strong" id="current-user-email"><%= @user.email%></span></p>
               </div>
               <div class="collapsible-body" id="user_email_change">
+                    <div id="errors">
+                        <%= render partial: "shared/flash_messages", locals: {user: @user} %>
+                    </div>
                     <%= g.hidden_field :id, :value => @user.id %>
                     <div class="input-field">
                       <%= g.text_field :new_email, placeholder: 'New Email Address ' %>
@@ -49,7 +56,7 @@
                       <%= g.password_field :current_password, placeholder: 'Current Password' %>
                     </div>
                     <div class="input-field left-align">
-                        <%= link_to  "", data: { src: updateEmail_user_path },id: "btn-user-email-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true, method: :patch do %>
+                        <%= link_to  "", data: { src: updateEmail_user_path(current_user) },id: "btn-user-email-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true do %>
                              Update Email
                         <% end %>
                    </div>

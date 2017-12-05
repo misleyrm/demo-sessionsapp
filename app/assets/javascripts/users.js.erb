@@ -58,7 +58,9 @@ $(document).on('turbolinks:load',function(){
  // jQuery('#nestedform').find('input').keydown(keypressed);
     $(document).on("click","a#btn-user-email-change",function(e){
         e.preventDefault;
-      submit_email_change})
+        
+        submit_email_change(e);
+      })
 
     function submit_email_change(event) {
       var formData = new FormData(),
@@ -68,12 +70,10 @@ $(document).on('turbolinks:load',function(){
           $current_password = $("#user_current_password",$form_user_email_change);
 
       formData.append('user[new_email]', $new_email.val());
+      formData.append('user[new_email_confirmation]', $new_email_confirmation.val());
+      formData.append('user[current_password]', $current_password.val());
 
-      // if (values[0]) {
-        do_submit(formData);
-      // } else {
-        // alert('No Item given');
-      // }
+      do_submit(formData);
       return false;
     }
 
@@ -86,11 +86,6 @@ $(document).on('turbolinks:load',function(){
     }
 
     function do_submit(submit_values) {
-      // jQuery(submit_output).hide();
-      // var change_email = jQuery.post(
-      //   $("#user_email_change a").attr("src"), {
-      //     'user[]': submit_values
-      //   });
 
       $.ajax({
         url: $("#user_email_change a").data("src"),
@@ -98,16 +93,36 @@ $(document).on('turbolinks:load',function(){
         cache: false,
         contentType: false,
         processData: false,
-        type: 'PUT',
+        type: 'POST',
         success: function(response) {
-              // Materialize.toast('Avatar Changed', 4000);
-              // return response; // <- I tried that one as well
+                // Materialize.toast('Email Changed', 4000);
+          if (response.status=="success"){
+
+            var $ulChangeEmail = $("#change_email"),
+            $currentEmail = $('span#current-user-email',$ulChangeEmail),
+            $userSettingNav = $("ms-user-nav-setting"),
+            $emailSettingNav = $("li.ms-user-email >span", $userSettingNav),
+            $form_user_email_change = $("#user_email_change"),
+            $new_email = $("#user_new_email",$form_user_email_change),
+            $new_email_confirmation = $("#user_new_email_confirmation",$form_user_email_change),
+            $current_password = $("#user_current_password",$form_user_email_change);
+            $new_email.val('');
+            $new_email_confirmation.val('');
+            $current_password.val('');
+            $currentEmail.html(response.email);
+            $emailSettingNav.html(response.email);
+          }else{
+            console.log(response.status);
           }
+
+          },error: function(xhr){
+                    var errors = $.parseJSON(xhr.responseText).errors
+                    // do something with errors
+                    console.log($.parseJSON(xhr.responseText).status);
+                    console.log(errors);
+            }
       })
-      // change_email.done = function(data) {
-      //   // jQuery(submit_output).html(data.substr(0, data.length));
-      //   // jQuery(submit_output).show();
-      // };
+
     }
 
 

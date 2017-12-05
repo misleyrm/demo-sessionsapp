@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
   before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  before_action :validate_email_update, only: :updateEmail
   # before_action :set_collaboration, if: -> { !params[:type].blank? }
 
   def index
@@ -164,15 +165,18 @@ class UsersController < ApplicationController
 
 
   def updateEmail
-    byebug
-    if @user && @user.authenticate(params[:session][:password]) && @user.activated
-      if @user.update_attributes(user_params)
-        flash[:notice] = "Email updated"
-        render :json => {:status => 'success'}
-      else
-        render :json => {:status => 'fail'}
-      end
+    # if resource.email != params[:email] || params[:password].present?
+    if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+        if @user.update_attributes(:email => user_params[:new_email])
+          flash[:notice] = "Email updated"
+          render :json => {:status => 'success', :email => @user.email}
+        else
+          render :json => {:status => 'fail',  :errors => @user.errors.full_messages,:email => @user.email}
+        end
+    elsif !@user.authenticate(user_params[:current_password])
+        render :json => {:status => 'fail',  :errors => @user.errors.full_messages,:email => @user.email}
     end
+
   end
 
   def destroy
@@ -219,6 +223,9 @@ class UsersController < ApplicationController
   end
 
   private
+  def needs_password?(user, params)
+    user.email != params[:user][:email]
+  end
 
   def user_not_authorized
     flash[:alert] = "You are not cool enough to do this - go back from whence you came."
@@ -255,5 +262,43 @@ class UsersController < ApplicationController
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
+  end
+
+  def validate_email_update
+
+      @new_email = user_params[:new_email].to_s.downcase
+      @current_password = user_params[:current_password]
+
+      numberoferror = 0
+      if @new_email.blank?
+        flash[:alert] = 'Email cannot be blank'
+        @user.errors.add(:new_email,message: "Email cannot be blank")
+        numberoferror += 1
+        # return render json: { status: 'Email cannot be blank', :errors => @user.errors.full_messages }, status: :bad_request
+      end
+
+      if  @new_email == current_user.email
+        flash[:alert] = 'Current Email and New email cannot be the same'
+        @user.errors.add(:new_email,message: "Current Email and New email cannot be the same")
+        numberoferror += 1
+        # return render json: { status: 'Current Email and New email cannot be the same',:errors => @user.errors.full_messages }, status: :bad_request
+      end
+
+      if User.email_used?(@new_email)
+        flash[:alert] = 'Email is already in use.'
+        @user.errors.add(:new_email, message: "Email is already in use.")
+        numberoferror += 1
+        # return render json: { error: 'Email is already in use.',:errors => @user.errors.full_messages }, status: :unprocessable_entity
+      end
+
+      if @current_password.blank?
+        flash[:alert] = 'Password cannot be blank'
+        @user.errors.add(:password, message: "Password cannot be blank.")
+        numberoferror += 1
+      end
+
+      if numberoferror != 0
+        return render json: { status: 'invalid',:errors => @user.errors.full_messages }
+      end
   end
 end

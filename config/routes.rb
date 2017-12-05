@@ -74,7 +74,7 @@ Rails.application.routes.draw do
       resources :lists, :name_prefix => "user_"
       member do
         patch :updateAvatar
-        patch :updateEmail
+        post :updateEmail
       end
     end
 

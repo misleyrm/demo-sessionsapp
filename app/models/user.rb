@@ -14,6 +14,7 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "security" ||  o.current_step == "createAccount" }
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
+  validates_presence_of :current_password, :on => :updateEmail
   before_save :downcase_email
   validates :avatar, presence: true
 
@@ -290,10 +291,21 @@ class User < ApplicationRecord
     end
   end
 
+  def self.email_used?(email)
+    existing_user = find_by("email = ?", email)
+
+    if existing_user.present?
+      return true
+    # else
+    #   waiting_for_confirmation = find_by("unconfirmed_email = ?", email)
+    #   return waiting_for_confirmation.present? && waiting_for_confirmation.confirmation_token_valid?
+    end
+  end
+
   private
 
   def downcase_email
-    self.email = email.downcase
+    self.email = self.email.delete(' ').downcase
   end
 
 
