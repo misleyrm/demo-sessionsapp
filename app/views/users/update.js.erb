@@ -11,10 +11,9 @@ $('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
 $('#page-content').html('<%= j render 'users/edit' %>');
 $('ul.tabs').tabs();
 
+
+alert("<%= @user.first_name%>");
 $('a#dropdown-button-name').html("<%= @user.first_name%><i class='material-icons right'>arrow_drop_down</i>");
  Materialize.toast("<%= flash[:notice] %>", 4000); // 4000 is the duration of the toast
-// $('#ms-modal-applications').modal('open');
-// $('.side-nav').hide();
-// # <% if flash[:notice] %>
-// #    <div class="notice"><%= flash[:notice] %></div>
-// #  <% end %>
+
+console.log(gon.errors);

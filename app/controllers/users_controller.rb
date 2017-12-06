@@ -131,7 +131,8 @@ class UsersController < ApplicationController
         format.json { render json: @user}
         format.js {  render :action => "update" }
       end
-
+    else
+        gon.errors =  @user.errors.full_messages
     end
         # if (@user.current_step == "security") || (@user.current_step == "personal")
         #   if @user.update_attributes(user_params)
@@ -267,38 +268,45 @@ class UsersController < ApplicationController
   def validate_email_update
 
       @new_email = user_params[:new_email].to_s.downcase
+      @new_email_confirmation = user_params[:new_email_confirmation].to_s.downcase
       @current_password = user_params[:current_password]
 
       numberoferror = 0
       if @new_email.blank?
-        flash[:alert] = 'Email cannot be blank'
         @user.errors.add(:new_email,message: "Email cannot be blank")
         numberoferror += 1
-        # return render json: { status: 'Email cannot be blank', :errors => @user.errors.full_messages }, status: :bad_request
+      end
+
+      if @new_email_confirmation.blank?
+        @user.errors.add(:new_email_confirmation, message: "Confirmation Email cannot be blank")
+        numberoferror += 1
+      end
+
+      if (!@new_email.blank?) && (!@new_email_confirmation.blank?)
+        if @new_email != @new_email_confirmation
+          @user.errors.add(:new_email_confirmation, message: "Confirmation Email must be the same as the Email")
+          numberoferror += 1
+        end
       end
 
       if  @new_email == current_user.email
         flash[:alert] = 'Current Email and New email cannot be the same'
         @user.errors.add(:new_email,message: "Current Email and New email cannot be the same")
         numberoferror += 1
-        # return render json: { status: 'Current Email and New email cannot be the same',:errors => @user.errors.full_messages }, status: :bad_request
       end
 
       if User.email_used?(@new_email)
-        flash[:alert] = 'Email is already in use.'
         @user.errors.add(:new_email, message: "Email is already in use.")
         numberoferror += 1
-        # return render json: { error: 'Email is already in use.',:errors => @user.errors.full_messages }, status: :unprocessable_entity
       end
 
-      if @current_password.blank?
-        flash[:alert] = 'Password cannot be blank'
+      if @current_password.blank
         @user.errors.add(:password, message: "Password cannot be blank.")
         numberoferror += 1
       end
 
       if numberoferror != 0
-        return render json: { status: 'invalid',:errors => @user.errors.full_messages }
+        return render json: { status: 'invalid',:errors => @user.errors.messages }, status: :bad_request
       end
   end
 end

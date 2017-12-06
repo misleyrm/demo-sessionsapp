@@ -58,7 +58,7 @@ $(document).on('turbolinks:load',function(){
  // jQuery('#nestedform').find('input').keydown(keypressed);
     $(document).on("click","a#btn-user-email-change",function(e){
         e.preventDefault;
-        
+
         submit_email_change(e);
       })
 
@@ -111,20 +111,26 @@ $(document).on('turbolinks:load',function(){
             $current_password.val('');
             $currentEmail.html(response.email);
             $emailSettingNav.html(response.email);
-          }else{
-            console.log(response.status);
           }
 
           },error: function(xhr){
-                    var errors = $.parseJSON(xhr.responseText).errors
-                    // do something with errors
-                    console.log($.parseJSON(xhr.responseText).status);
-                    console.log(errors);
-            }
+
+            if ($("#error_explanation").length <= 0){
+                $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+                 } else {
+                    $("#error_explanation ul").html('');
+                  }
+            var $menssageError = $("#error_explanation ul"),
+                errors = $.parseJSON(xhr.responseText).errors,
+                message;
+  
+            jQuery.each( errors, function( i, val ) {
+                $menssageError.append ('<li>' + val[0].message + '</li>')
+              });
+
+          }
       })
 
     }
-
-
 })
 // END
