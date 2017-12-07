@@ -115,15 +115,14 @@ $(document).on('turbolinks:load',function(){
 
           },error: function(xhr){
 
-            if ($("#error_explanation").length <= 0){
-                $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
-                 } else {
-                    $("#error_explanation ul").html('');
-                  }
+            if ($("#error_explanation").length >0){
+                    $("#error_explanation").remove();
+                }
+            $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
             var $menssageError = $("#error_explanation ul"),
                 errors = $.parseJSON(xhr.responseText).errors,
                 message;
-  
+
             jQuery.each( errors, function( i, val ) {
                 $menssageError.append ('<li>' + val[0].message + '</li>')
               });

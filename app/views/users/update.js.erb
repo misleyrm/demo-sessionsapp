@@ -8,12 +8,33 @@ $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name',
 $('body').addClass('expand-header');
 $('nav a.button-collapse').css('display','block');
 $('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
-$('#page-content').html('<%= j render 'users/edit' %>');
-$('ul.tabs').tabs();
+
+if ($("#error_explanation").length > 0){
+       $("#error_explanation").remove();
+     }
 
 
-alert("<%= @user.first_name%>");
-$('a#dropdown-button-name').html("<%= @user.first_name%><i class='material-icons right'>arrow_drop_down</i>");
- Materialize.toast("<%= flash[:notice] %>", 4000); // 4000 is the duration of the toast
+ <% if @user.errors.blank?%>
+     $('a#dropdown-button-name').html("<%= @user.first_name%><i class='material-icons right'>arrow_drop_down</i>");
+     Materialize.toast("<%= flash[:notice] %>", 4000); // 4000 is the duration of the toast
+     $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
+<% else %>
+     $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
+ <% end %>
 
+ $('#change_email').collapsible({
+      onOpen: function(el) {
+          var $this = el,
+          $panel_headers = $this.find('div.collapsible-header'),
+          $arrow =   $panel_headers.find('i.material-icons.right');
+          $arrow.animateRotate(0,90, 250, "linear");
+       }, // Callback for Collapsible open
+      onClose: function(el) {
+        var $this = el,
+        $panel_headers = $this.find('div.collapsible-header'),
+        $arrow =   $panel_headers.find('i.material-icons.right');
+        $arrow.animateRotate(90,0, 250, "linear");
+       } // Callback for Collapsible close
+    });
+$('#change_email').collapsible('close', 0);
 console.log(gon.errors);

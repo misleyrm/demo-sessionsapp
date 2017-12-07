@@ -123,24 +123,16 @@ class UsersController < ApplicationController
   def update
 
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    if @user.update_attributes(user_params)
-      flash[:notice] = "Profile updated"
+
+      if @user.update_attributes(user_params)
+          flash[:notice] = "Profile updated"
+      end
 
       respond_to do |format|
         format.html { }
         format.json { render json: @user}
         format.js {  render :action => "update" }
       end
-    else
-        gon.errors =  @user.errors.full_messages
-    end
-        # if (@user.current_step == "security") || (@user.current_step == "personal")
-        #   if @user.update_attributes(user_params)
-        #   end
-        # else
-        #   @user.update_attributes(:avatar => user_params[:avatar])
-        # end
-
   end
 
   def updateAvatar
@@ -148,7 +140,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Avatar updated"
       render :json => {:status => 'success',:image_url => @user.avatar.url}
     else
-      render :json => {:status => 'fail'}
+      render :json => {:status => 'fail', :errors => @user.errors.full_messages,:email => @user.email}
     end
 
     # respond_to do |format|
@@ -300,7 +292,7 @@ class UsersController < ApplicationController
         numberoferror += 1
       end
 
-      if @current_password.blank
+      if @current_password.blank?
         @user.errors.add(:password, message: "Password cannot be blank.")
         numberoferror += 1
       end
