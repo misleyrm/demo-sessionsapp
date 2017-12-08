@@ -39,6 +39,10 @@ $(document).on('turbolinks:load',function(){
   	})
   })
 
+  $(document).on("click","#tabs_edit_user li.tab a",function(e){
+      e.preventDefault();
+      $("#error_explanation").remove();
+  });
   /* form for change email in user settings */
 
   $('#new_user').validate({
@@ -55,10 +59,9 @@ $(document).on('turbolinks:load',function(){
     });
 
     // jQuery('#search').click(submit_search);
- // jQuery('#nestedform').find('input').keydown(keypressed);
+    // jQuery('#nestedform').find('input').keydown(keypressed);
     $(document).on("click","a#btn-user-email-change",function(e){
         e.preventDefault;
-
         submit_email_change(e);
       })
 
@@ -127,9 +130,20 @@ $(document).on('turbolinks:load',function(){
                 $menssageError.append ('<li>' + val[0].message + '</li>')
               });
 
+
           }
       })
+        $('ul.tabs').tabs();
+
+
 
     }
 })
 // END
+function setCurrentStep(step){
+  alert (step);
+  if (step != ""){
+    $('.ms-tabsSetting-content').attr("data-current-step",step )
+  }
+
+}

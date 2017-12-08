@@ -1,25 +1,39 @@
 <%= form_for(@user, :remote => true) do |f| %>
-<div class="section ms-form">
+<%= content_tag "div", class:"section ms-form" do %>
   <%= f.hidden_field :current_step, :value => "security" %>
-  <div class="input-field">
-    <i class="material-icons prefix">lock_outline</i>
-    <%= f.label :current_password %>
-    <%= f.password_field :current_password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+  <div class="input-field row">
+      <i class="material-icons prefix">person_outline</i>
+      <%= f.text_field :name, id:"disabled icon_prefix", disabled: true %>
   </div>
-  <div class="input-field">
-    <%= hidden_field_tag :email, @user.email %>
-    <i class="material-icons prefix">lock_outline</i>
-    <%= f.label :password,  "Create new password"  %>
-    <%= f.password_field :password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+  <div class="input-field row">
+      <i class="material-icons prefix">email</i>
+      <%= f.email_field :email, id:"disabled icon_prefix", disabled: true %>
   </div>
-  <div class="input-field">
-    <i class="material-icons prefix">lock_outline</i>
-    <%= f.label :password_confirmation, "Confirm new password" %>
-    <%= f.password_field :password_confirmation, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+  <div class="input-field row">
+      <i class="material-icons prefix">lock_outline</i>
+      <%= f.label :current_password %>
+      <%= f.password_field :current_password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
   </div>
-  <div class="input-field center-align">
-    <a class="waves-effect waves-light btn-large row submit"><%= submit_tag "Update"%></a>
+  <div class="input-field row">
+      <%= hidden_field_tag :email, @user.email %>
+      <i class="material-icons prefix">lock_outline</i>
+      <%= f.label :password,  "Create new password"  %>
+      <%= f.password_field :password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
   </div>
-</div>
+  <div class="input-field row">
+      <i class="material-icons prefix">lock_outline</i>
+      <%= f.label :password_confirmation, "Confirm new password" %>
+      <%= f.password_field :password_confirmation, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+  </div>
 
+  <div class="input-field center-align row">
+      <a class="waves-effect waves-light btn-large row submit"><%= submit_tag "Update"%></a>
+  </div>
+  <div class="input-field row ms-remember-password">
+      <%= content_tag "span", class:"col s8" do %>
+          Can't remember your current password?
+      <% end%>
+      <%= link_to "Reset your Password", password_resets_url, class:"waves-effect waves-light su-btn btn-flat col s4 center", data: {"behavior" =>"modal" }%>
+  </div>
+<% end%>
 <% end%>

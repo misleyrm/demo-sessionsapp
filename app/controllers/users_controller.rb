@@ -121,21 +121,22 @@ class UsersController < ApplicationController
   end
 
   def update
-
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    gon.current_step = @user.current_step
+    if @user.update_attributes(user_params)
+        flash[:notice] = "Profile updated"
+    end
 
-      if @user.update_attributes(user_params)
-          flash[:notice] = "Profile updated"
-      end
-
-      respond_to do |format|
-        format.html { }
-        format.json { render json: @user}
-        format.js {  render :action => "update" }
-      end
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @user}
+      format.js {  render :action => "update" }
+    end
   end
 
   def updateAvatar
+    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    gon.current_step = @user.current_step
     if @user.update_attributes(user_params)
       flash[:notice] = "Avatar updated"
       render :json => {:status => 'success',:image_url => @user.avatar.url}
@@ -159,6 +160,8 @@ class UsersController < ApplicationController
 
   def updateEmail
     # if resource.email != params[:email] || params[:password].present?
+    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    gon.current_step = @user.current_step
     if @user && @user.authenticate(user_params[:current_password]) && @user.activated
         if @user.update_attributes(:email => user_params[:new_email])
           flash[:notice] = "Email updated"

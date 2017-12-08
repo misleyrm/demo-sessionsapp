@@ -1,6 +1,6 @@
 if(!$('#ms-user-nav-setting').length){
     $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');
-}
+};
 
 $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
 $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
@@ -18,9 +18,11 @@ if ($("#error_explanation").length > 0){
      $('a#dropdown-button-name').html("<%= @user.first_name%><i class='material-icons right'>arrow_drop_down</i>");
      Materialize.toast("<%= flash[:notice] %>", 4000); // 4000 is the duration of the toast
      $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
-<% else %>
+<% else%>
      $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
  <% end %>
+
+
 
  $('#change_email').collapsible({
       onOpen: function(el) {
@@ -37,4 +39,4 @@ if ($("#error_explanation").length > 0){
        } // Callback for Collapsible close
     });
 $('#change_email').collapsible('close', 0);
-console.log(gon.errors);
+$('ul.tabs').tabs();

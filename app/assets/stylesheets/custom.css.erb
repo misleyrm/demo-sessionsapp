@@ -1287,14 +1287,33 @@ button.close {
 }
 /*************** FORM TITLE *****************/
 .ms-form-title .material-icons.prefix,
-.collapsible.ms-accordion-section i{
+.collapsible.ms-accordion-section i,
+.ms-tabsSetting-content .section.ms-form i{
   font-size: 1.6rem;
+}
+
+.ms-tabsSetting-content .section.ms-form .input-field i.prefix{
+  line-height: 2.5rem;
 }
 
 .ms-form-title i.material-icons.prefix,
 .collapsible.ms-accordion-section .ms-form-title i.material-icons{
   min-height: 2rem;
   line-height: 2rem;
+}
+
+.ms-tabsSetting-content .ms-form .input-field .prefix ~ input,
+.ms-tabsSetting-content .ms-form .input-field .prefix ~ textarea{
+  padding-left: 2.5rem;
+}
+
+.ms-tabsSetting-content .ms-form  .input-field .prefix ~ label {
+    margin-left: 2.5rem;
+}
+
+
+.ms-tabsSetting-content .ms-form .row{
+  margin-bottom: 0;
 }
 
 .collapsible.ms-accordion-section .collapsible-header .ms-form-title i.material-icons.prefix,

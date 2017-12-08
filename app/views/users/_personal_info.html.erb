@@ -47,10 +47,10 @@
                     </div>
                     <%= g.hidden_field :id, :value => @user.id %>
                     <div class="input-field">
-                      <%= g.text_field :new_email, placeholder: 'New Email Address ' %>
+                      <%= g.email_field :new_email, placeholder: 'New Email Address ' %>
                     </div>
                     <div class="input-field">
-                      <%= g.text_field :new_email_confirmation, placeholder: 'Confirmation of new Email address ' %>
+                      <%= g.email_field :new_email_confirmation, placeholder: 'Confirmation of new Email address ' %>
                     </div>
                     <div class="input-field">
                       <%= g.password_field :current_password, placeholder: 'Current Password' %>
