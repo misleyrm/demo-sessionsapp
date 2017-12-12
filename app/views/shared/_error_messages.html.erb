@@ -1,8 +1,8 @@
 <% if object.errors.any? %>
     <div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible">
       <ul>
-         <% object.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+         <% object.errors.messages.each do |key,value| %>
+          <li><%= "#{key} #{value[0]} "%></li>
         <% end %>
       </ul>
     </div>

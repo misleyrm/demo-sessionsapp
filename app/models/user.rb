@@ -15,6 +15,7 @@ class User < ApplicationRecord
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
   validates_presence_of :current_password, :on => :updateEmail
+  validates_presence_of :current_password, :on => :updatePassword
   before_save :downcase_email
   validates :avatar, presence: true
 

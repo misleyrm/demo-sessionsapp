@@ -75,6 +75,7 @@ Rails.application.routes.draw do
       member do
         patch :updateAvatar
         post :updateEmail
+        post :updatePassword
       end
     end
 
