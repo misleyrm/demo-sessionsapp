@@ -78,8 +78,7 @@ class User < ApplicationRecord
     end
 
     def name
-      @name = self.first_name
-      @name << " #{self.last_name}"
+      @name = "#{self.first_name} #{self.last_name}"
     end
 
 
@@ -289,6 +288,15 @@ class User < ApplicationRecord
        self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
        status = 'changeavatar'
        ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url, name: self.first_name
+    elsif (self.previous_changes.key?(:email) &&
+          self.previous_changes[:email].first != self.previous_changes[:email].last)
+          status = 'changeemail'
+          ActionCable.server.broadcast 'user_channel', status: status, user: self.id, email: self.email
+    elsif (self.previous_changes.key?(:first_name) &&
+          self.previous_changes[:first_name].first != self.previous_changes[:first_name].last) || (self.previous_changes.key?(:last_name) &&
+          self.previous_changes[:last_name].first != self.previous_changes[:last_name].last)
+          status = 'changeprofile'
+          ActionCable.server.broadcast 'user_channel', status: status, user: self.id, name: self.name, first_name: self.first_name
     end
   end
 

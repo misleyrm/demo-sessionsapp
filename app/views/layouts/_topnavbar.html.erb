@@ -43,7 +43,7 @@
                        <i class="material-icons md-18 md-light">view_module</i></a> -->
                      </li>
                      <li>
-                       <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name"><%=current_user.first_name%><i class="material-icons right">arrow_drop_down</i></a>
+                       <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name"><span><%=current_user.first_name%></span><i class="material-icons right">arrow_drop_down</i></a>
                        <!-- Dropdown Structure -->
                        <ul id='dropdownUser' class='dropdown-content'>
                          <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>

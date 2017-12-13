@@ -1,30 +1,30 @@
-<%= form_for(@user, url: updatePassword_user_path(@user), :html=>{:id=>"user_edit_password", :multipart=> true, :remote => true, :method => "POST"}) do |f| %>
+<%= form_for(@user, url: updatePassword_user_path(@user), :html=>{:id=>"user_edit_password", :multipart=> true, :remote => true, :method => "POST"}) do |j| %>
   <!-- <input name="_method" type="hidden" value="patch" /> -->
 <%= content_tag "div", class:"section ms-form" do %>
-  <%= f.hidden_field :current_step, :value => "security" %>
+  <%= j.hidden_field :current_step, :value => "security" %>
   <div class="input-field row">
       <i class="material-icons prefix">person_outline</i>
-      <%= f.text_field :name, id:"disabled icon_prefix", disabled: true %>
+      <%= j.text_field :name, id:"disabled icon_prefix", disabled: true %>
   </div>
   <div class="input-field row">
       <i class="material-icons prefix">email</i>
-      <%= f.email_field :email, id:"disabled icon_prefix", disabled: true %>
+      <%= j.email_field :email, id:"disabled icon_prefix", disabled: true %>
   </div>
   <div class="input-field row">
       <i class="material-icons prefix">lock_outline</i>
-      <%= f.label :current_password %>
-      <%= f.password_field :current_password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+      <%= j.label :current_password %>
+      <%= j.password_field :current_password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
   </div>
   <div class="input-field row">
       <%= hidden_field_tag :email, @user.email %>
       <i class="material-icons prefix">lock_outline</i>
-      <%= f.label :password,  "Create new password"  %>
-      <%= f.password_field :password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+      <%= j.label :password,  "Create new password"  %>
+      <%= j.password_field :password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
   </div>
   <div class="input-field row">
       <i class="material-icons prefix">lock_outline</i>
-      <%= f.label :password_confirmation, "Confirm new password" %>
-      <%= f.password_field :password_confirmation, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+      <%= j.label :password_confirmation, "Confirm new password" %>
+      <%= j.password_field :password_confirmation, class: 'form-control',id: 'password_reset_email icon_prefix' %>
   </div>
 
   <div class="input-field center-align row">

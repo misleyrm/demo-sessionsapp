@@ -124,9 +124,9 @@ class UsersController < ApplicationController
   def update
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
-    if (@user.update_attributes(:first_name => user_params[:first_name]) && @user.update_attributes(:last_name => user_params[:last_name]))
+    if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
         flash[:notice] = "Profile updated"
-        render :edit => {:status => 'success'}
+        # render :nothing => true, :status => 'success', :content_type => 'text/html'
       else
         render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
       end
