@@ -14,7 +14,6 @@ if ($("#error_explanation").length > 0){
        $("#error_explanation").remove();
      }
 
-  console.log("<%= @user%>");
  <% if @user.errors.blank? %>
     console.log("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
      $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
@@ -22,8 +21,6 @@ if ($("#error_explanation").length > 0){
     console.log("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
      $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
  <% end %>
-
-
 
  $('#change_email').collapsible({
       onOpen: function(el) {
@@ -39,5 +36,6 @@ if ($("#error_explanation").length > 0){
         $arrow.animateRotate(90,0, 250, "linear");
        } // Callback for Collapsible close
     });
+    
 $('#change_email').collapsible('close', 0);
 $('ul.tabs').tabs();

@@ -9,13 +9,17 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    byebug
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if (@user)
         if (@user.activated?)
             @user.create_reset_digest
             @user.send_password_reset_email
-            redirect_to login_url, notice: "Email sent with password reset instructions."
+            flash[:notice] = "Email sent with password reset instructions."
+            if logged_in?
+               render :json => {:status => 'success'}
+            else
+               redirect_to login_url
+            end
         else
              @user.update_activation_digest
              @user.send_activation_email

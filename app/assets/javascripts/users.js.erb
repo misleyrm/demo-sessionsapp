@@ -18,26 +18,61 @@ $(document).on('turbolinks:load',function(){
   $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
 
+
+  /*************** CHANGE AVATAR *************/
+
   $(document).on("click","a#btn-user-avatar-upload",function(){
       // e.preventDefault();
     var formData = new FormData(),
-      $input = $("#user_avatar");
+      $input = $("#user_avatar"),
+      element = $(this);
+
 
   	formData.append('user[avatar]', $input[0].files[0]);
 
   	$.ajax({
-  	  url: $("form#user-edit-avatar").attr("action"),
+  	  url: element.parents("#user-edit-avatar").attr("action"),
   	  data: formData,
   	  cache: false,
   	  contentType: false,
   	  processData: false,
-  	  type: 'PUT',
+  	  type: 'POST',
       success: function(response) {
-            // Materialize.toast('Avatar Changed', 4000);
+          //  Materialize.toast('Avatar Changed', 4000);
             // return response; // <- I tried that one as well
+            element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
         }
   	})
   })
+
+ /*************** END CHANGE AVATAR *************/
+
+ /*************** RESET PASSWORD *************/
+
+  $(document).on("click","a#user_reset_pass_setting",function(e){
+    e.preventDefault();
+    // alert($(this).attr("href"));
+  	$.ajax({
+  	  url: $(this).attr("href"),
+  	  data: {},
+  	  cache: false,
+  	  contentType: false,
+  	  processData: false,
+  	  type: 'POST',
+      success: function(response) {
+        if ($("#error_explanation").length >0){
+                $("#error_explanation").remove();
+            }
+        $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
+        var $menssageError = $("#error_explanation ul");
+
+        $menssageError.append ('<li>Email sent with password reset instructions.</li>');
+
+        }
+  	})
+  })
+
+  /*************** END RESET PASSWORD *************/
 
   $(document).on("click","#tabs_edit_user li.tab a",function(e){
       e.preventDefault();
@@ -60,6 +95,9 @@ $(document).on('turbolinks:load',function(){
 
     // jQuery('#search').click(submit_search);
     // jQuery('#nestedform').find('input').keydown(keypressed);
+
+     /*************** CHANGE EMAIL *************/
+
     $(document).on("click","a#btn-user-email-change",function(e){
         e.preventDefault;
         submit_email_change(e);
@@ -145,13 +183,13 @@ $(document).on('turbolinks:load',function(){
       })
         $('ul.tabs').tabs();
 
-
-
     }
+
+     /*************** END CHANGE EMAIL *************/
 })
 // END
 function setCurrentStep(step){
-  alert (step);
+
   if (step != ""){
     $('.ms-tabsSetting-content').attr("data-current-step",step )
   }

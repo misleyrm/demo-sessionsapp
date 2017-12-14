@@ -1,7 +1,7 @@
 module LoginHelper
 
   def log_in(user)
-  
+
     session[:user_id] = user.id
     cookies.signed[:id] = user.id
     all_task_list = current_user.all_task
@@ -106,6 +106,7 @@ module LoginHelper
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
+  
   # Returns true if the user is logged in, false otherwise.
   def logged_in?
     !current_user.nil?
