@@ -27,6 +27,10 @@ App.user = App.cable.subscriptions.create "UserChannel",
     $collaborationUserAvatar = $('a > img', $liChip )
     $name = '' + data.name + ' changed avatar'
 
+    $body = $('[data-current-user="' + data.user + '"]')
+    $userEmail = $('li.ms-user-email span', $body)
+    $userEditPassword = $('form#user_edit_password .ms-form', $body)
+
     switch data.status
       when 'changeavatar'
         Materialize.toast($name, 4000);
@@ -34,6 +38,19 @@ App.user = App.cable.subscriptions.create "UserChannel",
         $contentUserAvatar.attr('src',data.avatar )
         $collaborationUserAvatar.attr('src',data.avatar )
         $chipList.attr('src',data.avatar )
+      when 'changeemail'
+        $userEmail.html(data.email)
+        $inputEmail = $('input[name="user[email]"]', $userEditPassword)
+        $inputEmail.val(data.email)
+      when 'changeprofile'
+        $inputName = $('input[name="user[name]"]', $userEditPassword)
+        $inputName.val(data.name)
+        $('a#dropdown-button-name span',$body).html(data.first_name)
+        console.log(data.first_name)
+        # $barUserAvatar.attr('src',data.avatar )
+        # $contentUserAvatar.attr('src',data.avatar )
+        # $collaborationUserAvatar.attr('src',data.avatar )
+        # $chipList.attr('src',data.avatar )
 
         # $('.edit_task').submitOnCheck()
         # deadlineDatepicker($('input.deadline-datepicker'));

@@ -248,7 +248,9 @@ nav {
   box-shadow: none;
   /*//  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);*/
 }
-/* TABS FOR USER SETTING*/
+
+
+/********** TABS FOR USER SETTING *********/
 .nav-main .right:after{
    content: "";
    clear: both;
@@ -1794,10 +1796,13 @@ extra-small.notification-badge {
 #ms-login .input-field label,
 #ms-reset-password .input-field label,
 #ms-user-new .input-field label,
-.ms-form .input-field label{
+.ms-form .input-field label,
+.ms-form .input-field input:not([type]):disabled{
   font-size: 1.11rem;
   letter-spacing: .6px;
   }
+
+
 
 #ms-login .input-field label:not(.label-icon).active,
 #ms-reset-password .input-field label:not(.label-icon).active,
@@ -1830,6 +1835,7 @@ extra-small.notification-badge {
 }
 .ms-tabsSetting-content .ms-form input{
   margin-bottom: 26px;
+  letter-spacing: .6px;
 }
 .ms-form .input-field .prefix ~ input, .ms-form .input-field .prefix ~ textarea {
     padding-left: 3rem;
@@ -1869,6 +1875,23 @@ extra-small.notification-badge {
     min-height: 90px;
   }
 }
+
+/*******STYLE FOR PASSWORD CHANGE IN USER SETTINGS******/
+
+.ms-tabsSetting-content .ms-remember-password span{
+  line-height: 38px;
+}
+
+.ms-tabsSetting-content .ms-remember-password span{
+  font-weight: 38px;
+}
+
+.ms-tabsSetting-content .ms-remember-password span,
+.ms-tabsSetting-content .ms-remember-password a{
+  font-size: 11.46px;
+}
+
+
 /* STYLE FOR AVATAR FORM IN USER */
 
 #ms-tabsSetting{
@@ -1879,6 +1902,7 @@ extra-small.notification-badge {
   max-width: 450px;
   padding: 75px 0;
 }
+
 #ms-tabsSetting ul.tabs{
   background: none;
 }

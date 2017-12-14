@@ -372,6 +372,19 @@ i.small {
   color: #848994;
 }
 
+
+.rotated {
+    -webkit-transform: rotate(90deg);  /* Chrome, Safari 3.1+ */
+    -moz-transform: rotate(90deg);  /* Firefox 3.5-15 */
+    -ms-transform: rotate(90deg);  /* IE 9 */
+    -o-transform: rotate(90deg);  /* Opera 10.50-12.00 */
+    transform: rotate(90deg);  /* Firefox 16+, IE 10+, Opera 12.10+ */
+}
+
+.disable-links {
+    pointer-events: none;
+}
+
 /********** END HELPERS ***********/
 
 .complete_tasks{
@@ -1151,6 +1164,18 @@ li.ms-deadline.active{
     border-left-color: #f23d5c;
 }
 
+.ms-alert.ms-alert_notice {
+    border-left-color: #55c2b9;
+}
+
+.ms-alert.ms-alert_alert {
+    border-left-color: #ffeeba;
+}
+
+.ms-alert.ms-alert_info {
+    border-left-color: #bee5eb;
+}
+
 .close span {
     font-size: 1.8rem;
 }
@@ -1265,7 +1290,81 @@ button.close {
 .list-item{
   position: relative;
 }
+/*************** FORM TITLE *****************/
+.ms-form-title .material-icons.prefix,
+.collapsible.ms-accordion-section i,
+.ms-tabsSetting-content .section.ms-form i{
+  font-size: 1.6rem;
+}
 
+.ms-tabsSetting-content .section.ms-form .input-field i.prefix{
+  line-height: 2.5rem;
+}
+
+.ms-form-title i.material-icons.prefix,
+.collapsible.ms-accordion-section .ms-form-title i.material-icons{
+  min-height: 2rem;
+  line-height: 2rem;
+}
+
+.ms-tabsSetting-content .ms-form .input-field .prefix ~ input,
+.ms-tabsSetting-content .ms-form .input-field .prefix ~ textarea{
+  padding-left: 2.5rem;
+}
+
+.ms-tabsSetting-content .ms-form  .input-field .prefix ~ label {
+    margin-left: 2.5rem;
+}
+
+
+.ms-tabsSetting-content .ms-form .row{
+  margin-bottom: 0;
+}
+
+.ms-tabsSetting-content .input-field label:not(active),
+.ms-tabsSetting-content .input-field input:not([type]),
+.ms-tabsSetting-content .input-field input[type=text],
+.ms-tabsSetting-content .input-field input[type=password],
+.ms-tabsSetting-content .input-field input[type=email],
+.ms-tabsSetting-content .input-field input[type=time],
+.ms-tabsSetting-content .input-field input[type=date],
+.ms-tabsSetting-content .input-field input[type=datetime],
+.ms-tabsSetting-content .input-field input[type=datetime-local],
+.ms-tabsSetting-content .input-field input[type=tel],
+.ms-tabsSetting-content .input-field input[type=number],
+.ms-tabsSetting-content .input-field input[type=search],
+.ms-tabsSetting-content .input-field textarea.materialize-textarea{
+  font-size: 18px;
+  color: #848994;
+}
+
+.ms-tabsSetting-content .input-field label.active{
+  font-size: 12px;
+  color: #56c2bb;
+}
+
+.collapsible.ms-accordion-section .collapsible-header .ms-form-title i.material-icons.prefix,
+.ms-form-title i.material-icons.prefix{
+  /*width: 1rem;*/
+  text-align: center;
+  margin-right: .5rem;
+  display: block;
+  float: left;
+}
+
+
+
+.ms-remember-password.row{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.ms-form-title span{
+    line-height: 2.2rem;
+    letter-spacing: .6px;
+    color: #55c2b9;
+}
+/*************** END FORM TITLE *****************/
 /*************** ACCORDION *****************/
 
 .collapsible.ms-accordion-section{
@@ -1281,16 +1380,6 @@ button.close {
   border-bottom: none;
 }
 
-.ms-accordion-section .material-icons.prefix{
-  font-size: 2rem;
-}
-
-.collapsible.ms-accordion-section i{
-  min-height: 2rem;
-  line-height: 2rem;
-  font-size: 2rem;
-}
-
 .collapsible.ms-accordion-section i.right{
   margin-right: 0;
   width: 1.5rem;
@@ -1302,6 +1391,7 @@ button.close {
 
 .collapsible.ms-accordion-section .collapsible-header p{
   padding: 0 5px;
+  letter-spacing: .6px;
 }
 
 .ms-tabsSetting-content .ms-form .collapsible.ms-accordion-section input{

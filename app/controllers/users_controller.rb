@@ -3,12 +3,14 @@ class UsersController < ApplicationController
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
   # helper_method :get_current_date
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword]
   # before_action :set_list,  if: -> { !params[:type].blank? }
   # before_action :set_task_per_user, only: [:show]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
   before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  before_action :validate_email_update, only: :updateEmail
+  before_action :validate_password_update, only: :updatePassword
   # before_action :set_collaboration, if: -> { !params[:type].blank? }
 
   def index
@@ -120,58 +122,68 @@ class UsersController < ApplicationController
   end
 
   def update
-
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    if @user.update_attributes(user_params)
-      flash[:notice] = "Profile updated"
-
-      respond_to do |format|
-        format.html { }
-        format.json { render json: @user}
-        format.js {  render :action => "update" }
+    gon.current_step = @user.current_step
+    if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
+        flash[:notice] = "Profile updated"
+        # render :nothing => true, :status => 'success', :content_type => 'text/html'
+      else
+        render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
       end
 
-    end
-        # if (@user.current_step == "security") || (@user.current_step == "personal")
-        #   if @user.update_attributes(user_params)
-        #   end
-        # else
-        #   @user.update_attributes(:avatar => user_params[:avatar])
-        # end
-
+    # respond_to do |format|
+    #   format.html { }
+    #   format.json { render json: @user}
+    #   format.js {  render :action => "update" }
+    # end
   end
 
   def updateAvatar
-    if @user.update_attributes(user_params)
+    byebug
+
+    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    gon.current_step = @user.current_step
+    if @user.update_attributes(:avatar =>user_params[:avatar])
       flash[:notice] = "Avatar updated"
       render :json => {:status => 'success',:image_url => @user.avatar.url}
     else
-      render :json => {:status => 'fail'}
+      render :json => {:status => 'fail', :errors => @user.errors.full_messages,:email => @user.email}
     end
-
-    # respond_to do |format|
-    #   format.html {render 'show', layout: "application" }
-    #   format.json { render json: @user}
-    #   format.js
-    # end
-        # if (@user.current_step == "security") || (@user.current_step == "personal")
-        #   if @user.update_attributes(user_params)
-        #   end
-        # else
-        #   @user.update_attributes(:avatar => user_params[:avatar])
-        # end
   end
 
 
   def updateEmail
-    if @user && @user.authenticate(params[:session][:password]) && @user.activated
-      if @user.update_attributes(user_params)
-        flash[:notice] = "Email updated"
-        render :json => {:status => 'success'}
-      else
-        render :json => {:status => 'fail'}
-      end
+    # if resource.email != params[:email] || params[:password].present?
+    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    gon.current_step = @user.current_step
+    if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+        if @user.update_attributes(:email => user_params[:new_email])
+          flash[:notice] = "Email updated"
+          render :json => {:status => 'success', :email => @user.email}
+        else
+          render :edit => {:status => 'fail',  :errors => @user.errors.full_messages,:email => @user.email}
+        end
+    elsif !@user.authenticate(user_params[:current_password])
+        render :edit => {:status => 'fail',  :errors => @user.errors.full_messages,:email => @user.email}
     end
+
+  end
+
+  def updatePassword
+    # if resource.email != params[:email] || params[:password].present?
+    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    gon.current_step = @user.current_step
+    if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+        if @user.update_attributes(:password => user_params[:new_password])
+          flash[:notice] = "Password updated"
+          render :json => {:status => 'success', :email => @user.email}
+        else
+          render :json => {:status => 'fail',  :errors => @user.errors.full_messages}
+        end
+    elsif !@user.authenticate(user_params[:current_password])
+        render :json => {:status => 'fail',  :errors => @user.errors.full_messages}
+    end
+
   end
 
   def destroy
@@ -218,6 +230,9 @@ class UsersController < ApplicationController
   end
 
   private
+  def needs_password?(user, params)
+    user.email != params[:user][:email]
+  end
 
   def user_not_authorized
     flash[:alert] = "You are not cool enough to do this - go back from whence you came."
@@ -248,11 +263,97 @@ class UsersController < ApplicationController
   end
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation, :role, :current_step)
+    params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation, :role, :current_step, :new_email, :new_email_confirmation, :current_password)
   end
   # Remembers a user in the database for use in persistent sessions.
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
+  end
+
+  def validate_email_update
+
+      @new_email = user_params[:new_email].to_s.downcase
+      @new_email_confirmation = user_params[:new_email_confirmation].to_s.downcase
+      @current_password = user_params[:current_password]
+
+      numberoferror = 0
+      if @new_email.blank?
+        @user.errors.add(:new_email,message: "Email cannot be blank")
+        numberoferror += 1
+      end
+
+      if @new_email_confirmation.blank?
+        @user.errors.add(:new_email_confirmation, message: "Confirmation Email cannot be blank")
+        numberoferror += 1
+      end
+
+      if (!@new_email.blank?) && (!@new_email_confirmation.blank?)
+        if @new_email != @new_email_confirmation
+          @user.errors.add(:new_email_confirmation, message: "Confirmation Email must be the same as the Email")
+          numberoferror += 1
+        end
+      end
+
+      if  @new_email == current_user.email
+        flash[:alert] = 'Current Email and New email cannot be the same'
+        @user.errors.add(:new_email,message: "Current Email and New email cannot be the same")
+        numberoferror += 1
+      end
+
+      if User.email_used?(@new_email)
+        @user.errors.add(:new_email, message: "Email is already in use.")
+        numberoferror += 1
+      end
+
+      if @current_password.blank?
+        @user.errors.add(:password, message: "Password cannot be blank.")
+        numberoferror += 1
+      end
+
+      if numberoferror != 0
+        return render json: { status: 'invalid',:errors => @user.errors.messages }, status: :bad_request
+      end
+  end
+
+
+  def validate_password_update
+
+      @new_password_reset_url = user_params[:new_password].to_s.downcase
+      @new_password_confirmation = user_params[:new_password_confirmation].to_s.downcase
+      @current_password = user_params[:current_password]
+
+      numberoferror = 0
+      if @new_password.blank?
+        @user.errors.add(:new_password, "cannot be blank")
+        numberoferror += 1
+      end
+
+      if @new_password_confirmation.blank?
+        @user.errors.add(:new_password_confirmation,"cannot be blank")
+        numberoferror += 1
+      end
+
+      if (!@new_password.blank?) && (!@new_password_confirmation.blank?)
+        if @new_password != @new_password_confirmation
+          @user.errors.add(:new_password_confirmation, "must be the same as the password")
+          numberoferror += 1
+        end
+      end
+
+      if  @new_password == current_user.password
+        # flash[:alert] = 'Current password and New password cannot be the same'
+        @user.errors.add(:new_password,"and current password cannot be the same")
+        numberoferror += 1
+      end
+
+      if @current_password.blank?
+        @user.errors.add(:password, "cannot be blank.")
+        numberoferror += 1
+      end
+
+      if numberoferror != 0
+        return render edit: { status: 'invalid',:errors => @user.errors.full_messages }, status: :bad_request
+      end
   end
 end

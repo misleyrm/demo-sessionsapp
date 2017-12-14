@@ -1,25 +1,12 @@
-<div class="ms-tabsSetting-content">
-  <% if @user.errors.any? %>
-    <div class="row">
-      <div class="col s12">
-        <div id="error_explanation" class="ms-alert ms-alert_error">
-          <!-- <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2> -->
-          <ul>
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-          </ul>
-        </div>
-      </div>
-    </div>
-  <% end %>
+<%= content_tag "div", class: "ms-tabsSetting-content" do %>
+  <%= render :partial => 'shared/error_messages', :locals => {:object => @user} %>
     <!-- <%= hidden_field_tag :authenticity_token, form_authenticity_token %> -->
-  <div id="profile">
+  <%= content_tag "div", id:"profile" do %>
     <%= render 'users/personal_info'%>
-  </div>
-  <div id="security" class="ms-tabsSetting-content">
+  <% end %>
+  <%= content_tag "div", id:"security" do %>
     <%= render 'users/security'%>
-  </div>
-  <div id="invitations" class="ms-tabsSetting-content">
-  </div>
-</div>
+  <% end %>
+  <%= content_tag "div", id:"invitations" do %>
+  <% end%>
+<% end%>

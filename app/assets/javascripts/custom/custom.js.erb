@@ -44,7 +44,6 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 $(document).on('turbolinks:load',function(){
 
-  $('#change_email').collapsible();
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)
@@ -236,6 +235,7 @@ $(document).on('turbolinks:load',function(){
 
 
 
+
 }); /* end of $(document).on('turbolinks:load',function(){*/
 
 
@@ -276,7 +276,9 @@ function uploadAvatar(){
   var element = $(this);
 
   // If no files were selected, or no FileReader support, return
-  if ( !files.length || !window.FileReader ) return;
+  if ( !files.length || !window.FileReader ) {
+    element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+    return} ;
 
   // Only proceed if the selected file is an image
   if ( /^image/.test( files[0].type ) ) {
@@ -291,6 +293,8 @@ function uploadAvatar(){
           element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
           element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
           element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
+          element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
+
       }
   }
 }
@@ -428,3 +432,17 @@ function deadlineDatepicker(e){
 function toValidDate(datestring){
   return datestring.replace(/(\d{2})(\/)(\d{2})/, "$3$2$1");
 }
+
+
+$.fn.animateRotate = function(ini,angle, duration, easing, complete) {
+    var args = $.speed(duration, easing, complete);
+    var step = args.step;
+    return this.each(function(i, e) {
+        args.step = function(now) {
+            $.style(e, 'transform', 'rotate(' + now + 'deg)');
+            if (step) return step.apply(this, arguments);
+        };
+
+        $({deg: ini}).animate({deg: angle}, args);
+    });
+};

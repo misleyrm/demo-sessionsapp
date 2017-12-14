@@ -14,6 +14,8 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "security" ||  o.current_step == "createAccount" }
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
+  validates_presence_of :current_password, :on => :updateEmail
+  validates_presence_of :current_password, :on => :updatePassword
   before_save :downcase_email
   validates :avatar, presence: true
 
@@ -25,7 +27,7 @@ class User < ApplicationRecord
   enum role: [:master, :admin, :manager, :employee]
   # after_initialize :set_default_role, :if => :new_record?
 
-  attr_accessor :remember_token, :activation_token, :reset_token
+  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password
   before_create :create_activation_digest
 
   after_create :create_all_tasks_list
@@ -61,7 +63,7 @@ class User < ApplicationRecord
   has_many :invitations, :class_name => "Invitation", :foreign_key => 'recipient_id', :dependent => :destroy
   has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id',  :dependent => :destroy
 
-  attr_writer :current_step
+  # attr_writer :current_step
 
   validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
   validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
@@ -76,8 +78,7 @@ class User < ApplicationRecord
     end
 
     def name
-      @name = self.first_name
-      @name << " #{self.last_name}"
+      @name = "#{self.first_name} #{self.last_name}"
     end
 
 
@@ -287,13 +288,33 @@ class User < ApplicationRecord
        self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
        status = 'changeavatar'
        ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url, name: self.first_name
+    elsif (self.previous_changes.key?(:email) &&
+          self.previous_changes[:email].first != self.previous_changes[:email].last)
+          status = 'changeemail'
+          ActionCable.server.broadcast 'user_channel', status: status, user: self.id, email: self.email
+    elsif (self.previous_changes.key?(:first_name) &&
+          self.previous_changes[:first_name].first != self.previous_changes[:first_name].last) || (self.previous_changes.key?(:last_name) &&
+          self.previous_changes[:last_name].first != self.previous_changes[:last_name].last)
+          status = 'changeprofile'
+          ActionCable.server.broadcast 'user_channel', status: status, user: self.id, name: self.name, first_name: self.first_name
+    end
+  end
+
+  def self.email_used?(email)
+    existing_user = find_by("email = ?", email)
+
+    if existing_user.present?
+      return true
+    # else
+    #   waiting_for_confirmation = find_by("unconfirmed_email = ?", email)
+    #   return waiting_for_confirmation.present? && waiting_for_confirmation.confirmation_token_valid?
     end
   end
 
   private
 
   def downcase_email
-    self.email = email.downcase
+    self.email = self.email.delete(' ').downcase
   end
 
 

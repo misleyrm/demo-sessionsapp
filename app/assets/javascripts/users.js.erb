@@ -18,25 +18,180 @@ $(document).on('turbolinks:load',function(){
   $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
 
+
+  /*************** CHANGE AVATAR *************/
+
   $(document).on("click","a#btn-user-avatar-upload",function(){
       // e.preventDefault();
     var formData = new FormData(),
-      $input = $("#user_avatar");
+      $input = $("#user_avatar"),
+      element = $(this);
+
 
   	formData.append('user[avatar]', $input[0].files[0]);
 
   	$.ajax({
-  	  url: $("form#user-edit-avatar").attr("action"),
+  	  url: element.parents("#user-edit-avatar").attr("action"),
   	  data: formData,
   	  cache: false,
   	  contentType: false,
   	  processData: false,
-  	  type: 'PUT',
+  	  type: 'POST',
       success: function(response) {
-            // Materialize.toast('Avatar Changed', 4000);
+          //  Materialize.toast('Avatar Changed', 4000);
             // return response; // <- I tried that one as well
+            element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
         }
   	})
   })
+
+ /*************** END CHANGE AVATAR *************/
+
+ /*************** RESET PASSWORD *************/
+
+  $(document).on("click","a#user_reset_pass_setting",function(e){
+    e.preventDefault();
+    // alert($(this).attr("href"));
+  	$.ajax({
+  	  url: $(this).attr("href"),
+  	  data: {},
+  	  cache: false,
+  	  contentType: false,
+  	  processData: false,
+  	  type: 'POST',
+      success: function(response) {
+        if ($("#error_explanation").length >0){
+                $("#error_explanation").remove();
+            }
+        $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
+        var $menssageError = $("#error_explanation ul");
+
+        $menssageError.append ('<li>Email sent with password reset instructions.</li>');
+
+        }
+  	})
+  })
+
+  /*************** END RESET PASSWORD *************/
+
+  $(document).on("click","#tabs_edit_user li.tab a",function(e){
+      e.preventDefault();
+      $("#error_explanation").remove();
+  });
+  /* form for change email in user settings */
+
+  $('#new_user').validate({
+      debug: true,
+      rules: {
+      'user[avatar]': {required: true},
+      'user[first_name]': {required: true},
+      'user[last_name]': {required: true},
+      'user[email]': {required: true, email: true},
+      'user[password]': {required: true, minlength: 6},
+      'user[password_confirmation]': {required: true, equalTo: '#user_password'}
+      }
+      // console.log('in');
+    });
+
+    // jQuery('#search').click(submit_search);
+    // jQuery('#nestedform').find('input').keydown(keypressed);
+
+     /*************** CHANGE EMAIL *************/
+
+    $(document).on("click","a#btn-user-email-change",function(e){
+        e.preventDefault;
+        submit_email_change(e);
+      })
+
+    function submit_email_change(event) {
+      var formData = new FormData(),
+          $form_user_email_change = $("#user_email_change"),
+          $new_email = $("#user_new_email",$form_user_email_change),
+          $new_email_confirmation = $("#user_new_email_confirmation",$form_user_email_change),
+          $current_password = $("#user_current_password",$form_user_email_change);
+
+      formData.append('user[new_email]', $new_email.val());
+      formData.append('user[new_email_confirmation]', $new_email_confirmation.val());
+      formData.append('user[current_password]', $current_password.val());
+
+      do_submit(formData);
+      return false;
+    }
+
+    function keypressed(event) {
+      var charcode = (event.which) ? event.which : window.event.keyCode;
+      if (charcode == 13) {
+        return submit_email_change(event);
+      }
+      return true;
+    }
+
+    function do_submit(submit_values) {
+
+      $.ajax({
+        url: $("#user_email_change a").data("src"),
+        data: submit_values,
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'POST',
+        success: function(response) {
+                // Materialize.toast('Email Changed', 4000);
+          if (response.status=="success"){
+
+            var $ulChangeEmail = $("#change_email"),
+            $currentEmail = $('span#current-user-email',$ulChangeEmail),
+            $userSettingNav = $("ms-user-nav-setting"),
+            $emailSettingNav = $("li.ms-user-email >span", $userSettingNav),
+            $form_user_email_change = $("#user_email_change"),
+            $new_email = $("#user_new_email",$form_user_email_change),
+            $new_email_confirmation = $("#user_new_email_confirmation",$form_user_email_change),
+            $current_password = $("#user_current_password",$form_user_email_change);
+            $new_email.val('');
+            $new_email_confirmation.val('');
+            $current_password.val('');
+            $currentEmail.html(response.email);
+            $emailSettingNav.html(response.email);
+
+            if ($("#error_explanation").length >0){
+                    $("#error_explanation").remove();
+                }
+            $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
+            var $menssageError = $("#error_explanation ul"),
+                message;
+
+                $menssageError.append ('<li>Your email was updated</li>');
+
+          }
+
+          },error: function(xhr){
+
+            if ($("#error_explanation").length >0){
+                    $("#error_explanation").remove();
+                }
+            $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+            var $menssageError = $("#error_explanation ul"),
+                errors = $.parseJSON(xhr.responseText).errors,
+                message;
+
+            jQuery.each( errors, function( i, val ) {
+                $menssageError.append ('<li>' + val[0].message + '</li>')
+              });
+
+
+          }
+      })
+        $('ul.tabs').tabs();
+
+    }
+
+     /*************** END CHANGE EMAIL *************/
 })
 // END
+function setCurrentStep(step){
+
+  if (step != ""){
+    $('.ms-tabsSetting-content').attr("data-current-step",step )
+  }
+
+}

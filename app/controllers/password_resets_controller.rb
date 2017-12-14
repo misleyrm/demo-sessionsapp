@@ -14,7 +14,12 @@ class PasswordResetsController < ApplicationController
         if (@user.activated?)
             @user.create_reset_digest
             @user.send_password_reset_email
-            redirect_to login_url, notice: "Email sent with password reset instructions."
+            flash[:notice] = "Email sent with password reset instructions."
+            if logged_in?
+               render :json => {:status => 'success'}
+            else
+               redirect_to login_url
+            end
         else
              @user.update_activation_digest
              @user.send_activation_email
@@ -40,41 +45,6 @@ class PasswordResetsController < ApplicationController
       render 'edit'
     end
   end
-
-  # Mine Update
-  # def update
-  #   if password_blank?
-  #     @user.errors.add(:password, "can't be empty")
-  #     flash.now[:danger] = "Password can't be blank"
-  #     render 'edit'
-  #   elsif @user.update_attributes(user_params)
-  #     log_in @user
-  #     flash[:success] = "Password has been reset."
-  #     redirect_to lists_path
-  #   end
-  # end
-
-  # Mine Create
-  # def create
-  #   @user = User.find_by(email: params[:password_reset][:email].downcase)
-  #   if (@user && @user.activated?)
-  #     @user.create_reset_digest
-  #     @user.send_password_reset_email
-  #     flash[:info] = "Email sent with password reset instructions."
-  #     render 'new'
-    # elsif @user
-    #   byebug
-    #   redirect_to(
-    #   new_password_reset_url,
-    #   notice: %Q[ Your account is not activated, click here to re-send #{view_context.link_to("activation", users_resend_activation_url(:email => @user.email), :method => :post )}.],
-    #   flash: { html_safe: true }
-    #   )
-  #   else
-  #     flash.now[:danger] = "Email address not found"
-  #     render 'new'
-  #
-  #   end
-  # end
 
   def edit
   end
