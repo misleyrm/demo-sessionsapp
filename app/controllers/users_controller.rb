@@ -139,7 +139,6 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-    byebug
 
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
