@@ -17,6 +17,8 @@ class LoginController < ApplicationController
         if (!@token.nil?)&&(user.email==@invitation.recipient_email)
           @list = List.find(@invitation.list_id)
           @invitation.update_attributes(:active => true)
+          @collaboration = Collaboration.find_by(list_id: @list.id,user_id: user.id)
+          @collaboration.update_attributes(:collaboration_date => Time.now)
           hasCollaborationsList = user.collaboration_lists.count > 0 ? true : false
           unless user.collaboration_lists.include?(@list)
              user.collaboration_lists.push(@list)  #add this user to the list as a collaborator

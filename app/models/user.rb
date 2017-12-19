@@ -275,12 +275,17 @@ class User < ApplicationRecord
   end
 
   def active_collaborator?(list_id)
+    if self.owner?(List.find(list_id))
+      return true
+    elsif (collaboration = Collaboration.find_by(list_id: list_id, user_id: self.id))
+      return collaboration.collaboration_date.nil? ? false : true
 
-    if self.invitations.find_by_list_id(list_id)
-      return self.invitations.find_by_list_id(list_id).active
-    else
-      return self.owner?(List.find(list_id)) ? true : false
     end
+    # if (invitation = self.invitations.find_by_list_id(list_id))
+    #   return invitation.active
+    # else
+    #   return self.owner?(List.find(list_id)) ? true : false
+    # end
   end
 
   def broadcast_update
