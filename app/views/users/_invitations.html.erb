@@ -5,16 +5,14 @@
       <li class="tab my-tab nav-link label"><a href="#accepted-invitations">Accepted Invitations</a></li>
     </ul>
     <div class="my-tab-content" id="">
-      <div class="tab-pane fade show active row" id="pending-invitations">
-        <div class="row">
-          <div class="col s6">
-            <span>List Name</span>
-          </div>
-          <div class="col s6">
-            <span>List Name</span>
-          </div>
-          <i class="material-icons right">keyboard_arrow_right</i>
-        </div>
+      <div class="tab-pane fade show active" id="pending-invitations">
+        <%= content_tag :ul, class:"collapsible ms-accordion-section ms-border-top-bottom", data:{collapsible:"accordion"} do%>
+          <% if !@pending_invitations.blank? %>
+              <%  @pending_invitations.each do |pending_invitation| %>
+                  <%= render partial: "users/pending_invitation", locals: {pending_invitation: pending_invitation} %>
+              <% end%>
+          <% end%>
+        <% end%>
       </div>
       <div class="tab-pane fade show" id="accepted-invitations">
         <ul class="invitation-user-settings">

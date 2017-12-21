@@ -1,0 +1,19 @@
+<!-- Pending Invitation (user)  -->
+<%= content_tag :li, id:"pending_invitation_#{pending_invitation.id}", class:"ms-pending-invitation row" do%>
+    <div class="collapsible-header list_avatar_name">
+        <%= render partial: "lists/nav_list_name", locals: {list: pending_invitation.list} %>
+        <div class="right">
+          <span>Invited Apr 25th<br/>By Santiago</span>
+          <i class="material-icons ms-open-button">keyboard_arrow_right</i>
+        </div>
+    </div>
+    <div class="collapsible-body" id="user_email_change">
+        <%= render partial: "shared/flash_messages", locals: {invitation: pending_invitation} %>
+        <%= hidden_field_tag :id, :value => pending_invitation.id %>
+        <div class="input-field left-align">
+            <%= link_to  "", data: { src: updateEmail_user_path(current_user) },id: "btn-user-email-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true do %>
+                 Accept Invitation
+            <% end %>
+        </div>
+    </div>
+<% end%>

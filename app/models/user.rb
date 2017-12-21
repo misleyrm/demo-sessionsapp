@@ -288,6 +288,10 @@ class User < ApplicationRecord
     # end
   end
 
+  def pending_invitations
+    self.invitations.where("active":false)
+  end
+
   def broadcast_update
     if (self.previous_changes.key?(:avatar_file_name) &&
        self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)

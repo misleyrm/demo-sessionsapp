@@ -66,6 +66,7 @@ class UsersController < ApplicationController
   def edit
     # authorize @user
     @user = User.find(params[:id])
+    @pending_invitations = @user.pending_invitations
     respond_to do |format|
       format.html { }
       format.json { render json: @user}
