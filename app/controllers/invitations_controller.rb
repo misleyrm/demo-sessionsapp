@@ -3,10 +3,10 @@ class InvitationsController < ApplicationController
   # include InvitationsHelper
   before_action :require_logged_in
   before_action :set_list
-  before_action :set_invitation, only: [:show, :destroy, :resend_invitation]
+  before_action :set_invitation, only: [:show, :destroy, :resend_invitation, :update]
 
   def index
-    @invitations = Invitation.all
+    @invitations = Invitation.all.sort_by(&:created_at)
   end
 
   def show
@@ -37,7 +37,8 @@ class InvitationsController < ApplicationController
                        htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @recipient, "current_list": @list, "active_users": [],current_user: current_user}).squish
                       #  htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @recipient, active: false}).squish
                       # htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList,
-                       ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlCollaboratorSetting: htmlCollaboratorSetting, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @recipient.id, list_id: @list.id, owner: @list.owner.id, existing_user_invite: true
+                       htmlUserPendingInvitation = UsersController.render(partial: "users/pending_invitation", locals: {pending_invitation: @invitation}).squish
+                       ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlCollaboratorSetting: htmlCollaboratorSetting, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @recipient.id, list_id: @list.id, owner: @list.owner.id, existing_user_invite: true, htmlUserPendingInvitation: htmlUserPendingInvitation
                     end
                   else
                     @url = sign_up_url(:invitation_token => @invitation.token)
@@ -59,6 +60,36 @@ class InvitationsController < ApplicationController
 
       end
   end
+
+  def update
+
+    @user = current_user
+    @token = params[:invitation_token]
+    if (!@token.nil?) && (@user == @invitation.recipient)
+        # @list = List.find(@invitation.list_id)
+        @invitation.update_attributes(:active => true)
+        @collaboration = Collaboration.find_by(list_id: @list.id,user_id: @user.id)
+        @collaboration.update_attributes(:collaboration_date => Time.now)
+        hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
+        unless @user.collaboration_lists.include?(@list)
+           @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
+        end
+        htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list,"active_users": [], "current_user": @user}).squish
+        htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
+        htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @user, active: false}).squish
+        htmlUserAcceptedInvitation = UsersController.render(partial: "users/accepted_invitation", locals: {accepted_invitation: @invitation}).squish
+        ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
+        respond_to do |format|
+          @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
+          flash[:notice] = "The invitation accepted."
+          format.json { render :json => {:htmlerrors => @htmlerrors  }}
+          format.js { }
+         end
+
+    end
+
+  end
+
 
   def resend_invitation
     # @invitation = Invitation.find(id)

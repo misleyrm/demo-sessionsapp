@@ -1387,33 +1387,48 @@ ul.ms-accordion-section.ms-border-top-bottom li:last-child{
 }
 /***********************************/
 /**************** PENDING INVITATIONS *******************/
-li.ms-pending-invitation{
+li.ms-pending-invitation,
+li.ms-accepted-invitation{
    padding: 5px 0;
 }
 
-li.ms-pending-invitation .collapsible-header i.ms-open-button{
+li.ms-pending-invitation .collapsible-header i.ms-open-button,
+li.ms-accepted-invitation .collapsible-header i.ms-open-button{
   line-height: 35px;
   margin-right: 0;
 }
 
-li.ms-pending-invitation .collapsible-body{
+li.ms-pending-invitation .collapsible-body,
+li.ms-accepted-invitation .collapsible-body{
   border: none;
 }
 
-li.ms-pending-invitation.row{
+li.ms-pending-invitation.row,
+li.ms-accepted-invitation.row{
   margin-bottom: 0;
   margin-left: 0;
   margin-right: 0;
 }
 .collapsible-header.list_avatar_name .right span{
-  font-size: 10px;
+  font-size: 12px;
   line-height: 18px;
   position: relative;
   float: left;
   text-align: right;
+  color: #a7a4a4;
+  letter-spacing: .5px;
 
 }
 
+
+.ms-pending-invitation .su-btn.btn-medium:not(.btn-floating),
+.ms-accepted-invitation .su-btn.btn-medium:not(.btn-floating){
+  font-size: 14px;
+  color: #90908f;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 1.5rem;
+}
 
 /***************** END PENDING INVITATION ******************/
 /*************** ACCORDION *****************/
@@ -1424,7 +1439,7 @@ li.ms-pending-invitation.row{
 }
 
 .ms-accordion-section .collapsible-header{
-  padding: 0;
+  padding: 5px 0;
   background: none;
   min-height: 2rem;
   line-height: 2rem;
@@ -1443,6 +1458,7 @@ li.ms-pending-invitation.row{
 .collapsible.ms-accordion-section .collapsible-header p{
   padding: 0 5px;
   letter-spacing: .6px;
+  font-size: 15px;
 }
 
 .ms-tabsSetting-content .ms-form .collapsible.ms-accordion-section input{

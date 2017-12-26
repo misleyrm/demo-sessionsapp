@@ -289,7 +289,11 @@ class User < ApplicationRecord
   end
 
   def pending_invitations
-    self.invitations.where("active":false)
+    self.invitations.where("active":false).order('sent_at DESC')
+  end
+
+  def accepted_invitations
+    self.invitations.where("active":true).order('updated_at DESC')
   end
 
   def broadcast_update

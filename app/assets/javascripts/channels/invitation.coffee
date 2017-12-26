@@ -42,7 +42,10 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $ulCollaborationList = $('ul#ulCollaborationList', $navUser)
     $ulCreatedList = $('ul#ulCreated', $navUser)
     $addCreatedList = $('li.ms-add', $ulCreatedList)
-
+    $body = $('[data-current-user= "'+data.recipient+'"]')
+    $userPendingInvitation = $('#pending-invitations ul',$body)
+    $userAcceptedInvitation = $('#accepted-invitations ul',$body)
+    $pending_invitation = $('[data-pending-invitation-id= "' + data.id + '"]')
     switch data.status
       when 'created'
         if data.existing_user_invite
@@ -51,17 +54,19 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           # Add new user invited (existen)to the list of collaboration users for the list if owner is login in Settings
           $( data.htmlCollaboratorSetting ).insertBefore $addCollaborationUserSettingsOwner
           # Add new pending invitation to the list of pending users for the edit list if owner is login in Settings
-
           $ulInvitationUserSettings.prepend data['htmlInvitationSetting']
+          # Add new invitation to the list of user pending invitations in user Settings
+          $userPendingInvitation.prepend data['htmlUserPendingInvitation']
       when 'activated'  #revisar
         $invitation.remove()
+        $pending_invitation.remove()
+        $userAcceptedInvitation.prepend data['htmlUserAcceptedInvitation']
         if $collaboratorUserOwner.length > 0
           $collaboratorUserOwner.removeClass("ms-inactive")
         else
           $collaboration_users.append data.htmlCollaborationUser
         $collaboratorUserSettingOwner.removeClass("ms-inactive")
         if data.htmlCollaborationsList!= ""
-          alert(data.hasCollaborationsList)
           if data.hasCollaborationsList==false
             $ulCollaborationList.append '<li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>'
           $ulCollaborationList.append data.htmlCollaborationsList

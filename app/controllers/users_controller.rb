@@ -67,6 +67,7 @@ class UsersController < ApplicationController
     # authorize @user
     @user = User.find(params[:id])
     @pending_invitations = @user.pending_invitations
+    @accepted_invitations = @user.accepted_invitations
     respond_to do |format|
       format.html { }
       format.json { render json: @user}
