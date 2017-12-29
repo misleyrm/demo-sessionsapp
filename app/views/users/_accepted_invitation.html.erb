@@ -1,11 +1,11 @@
 <!-- Accepted Invitation (user)  -->
-<%= content_tag :li, id:"accepted_invitation_#{accepted_invitation.id}", class:"ms-accepted-invitation row", data:{"accepted-invitation-id":accepted_invitation.id } do%>
+<%= content_tag :li, id:"accepted_invitation_#{accepted_invitation.id}", class:"ms-accepted-invitation row", data:{"accepted-invitation-id": accepted_invitation.id } do%>
     <div class="collapsible-header list_avatar_name">
         <%= render partial: "lists/nav_list_name", locals: {list: accepted_invitation.list} %>
         <div class="right">
           <%= content_tag(:span) do%>
              <%= "Joined #{accepted_invitation.sent_at.strftime("%b #{accepted_invitation.sent_at.day.ordinalize}")}"%></br>
-             <%= "Invited by Santiago"%>
+             <%= "Invited by #{accepted_invitation.list.owner.first_name}"%>
           <% end%>
           <!-- <span>Invited Apr 25th<br/>By Santiago</span> -->
           <!-- <i class="material-icons ms-open-button">keyboard_arrow_right</i> -->

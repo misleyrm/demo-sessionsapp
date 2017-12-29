@@ -43,9 +43,10 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $ulCreatedList = $('ul#ulCreated', $navUser)
     $addCreatedList = $('li.ms-add', $ulCreatedList)
     $body = $('[data-current-user= "'+data.recipient+'"]')
-    $userPendingInvitation = $('#pending-invitations ul',$body)
-    $userAcceptedInvitation = $('#accepted-invitations ul',$body)
-    $pending_invitation = $('[data-pending-invitation-id= "' + data.id + '"]')
+    $userPendingInvitations = $('#pending-invitations ul',$body)
+    $userAcceptedInvitations = $('#accepted-invitations ul',$body)
+    $pending_invitation = $('[data-pending-invitation-id= "' + data.id + '"]', $userPendingInvitations)
+    $accepted_invitation = $('[data-accepted-invitation-id= "' + data.id + '"]', $userAcceptedInvitations)
     switch data.status
       when 'created'
         if data.existing_user_invite
@@ -56,11 +57,11 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           # Add new pending invitation to the list of pending users for the edit list if owner is login in Settings
           $ulInvitationUserSettings.prepend data['htmlInvitationSetting']
           # Add new invitation to the list of user pending invitations in user Settings
-          $userPendingInvitation.prepend data['htmlUserPendingInvitation']
+          $userPendingInvitations.prepend data['htmlUserPendingInvitation']
       when 'activated'  #revisar
         $invitation.remove()
         $pending_invitation.remove()
-        $userAcceptedInvitation.prepend data['htmlUserAcceptedInvitation']
+        $userAcceptedInvitations.prepend data['htmlUserAcceptedInvitation']
         if $collaboratorUserOwner.length > 0
           $collaboratorUserOwner.removeClass("ms-inactive")
         else
@@ -76,6 +77,8 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
         $collaboratorUserList = $('[data-chip-user-id= "'+ data.recipient+'"]', $collaboration_users)
         $collaboratorUserList.remove()
         $pageContentUser.remove()
+        $accepted_invitation.remove()
+        $pending_invitation.remove()
         # collaboration user in collaboration user in settings
         $collaboratorUserSettingOwner.remove()
         $collaborationList = $('[data-nav-list-id= "'+data.list_id+'"]', $ulCollaborationList)
