@@ -66,6 +66,8 @@ class UsersController < ApplicationController
   def edit
     # authorize @user
     @user = User.find(params[:id])
+    @pending_invitations = @user.pending_invitations
+    @accepted_invitations = @user.accepted_invitations
     respond_to do |format|
       format.html { }
       format.json { render json: @user}
@@ -186,7 +188,6 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    # byebug
     # authorize @current_user
     if (!params[:type].blank? && params[:type]=="collaborator")
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
@@ -197,9 +198,10 @@ class UsersController < ApplicationController
         @created_list.tasks << @list.tasks.where(user_id:@user.id)
       end
       @invitations = @list.invitations.where(recipient_email: @user.email)
+      @invitation = Invitation.find_by(recipient_email: @user.email, list_id: @list.id)
       @invitations.delete_all
       Invitation.reset_pk_sequence
-      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id
+      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id, id: @invitation.id
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy

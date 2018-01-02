@@ -146,6 +146,8 @@ class ListsController < ApplicationController
       if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
         if (@list.user_id!= params[:list_owner].to_i)
           current_user.collaboration_lists << @list
+          @collaboration = Collaboration.find_by(list_id:@list.id, user_id: current_user.id)
+          @collaboration.update_attributes(:collaboration_date => Time.now)
           User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
           @list.user_id = params[:list_owner].to_i
         end

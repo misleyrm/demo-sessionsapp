@@ -1,0 +1,22 @@
+<!-- Pending Invitation (user)  -->
+<%= content_tag :li, id:"pending_invitation_#{pending_invitation.id}", class:"ms-pending-invitation row", data:{"pending-invitation-id":pending_invitation.id } do%>
+    <div class="collapsible-header list_avatar_name">
+        <%= render partial: "lists/nav_list_name", locals: {list: pending_invitation.list} %>
+        <div class="right">
+          <%= content_tag(:span) do%>
+             <%= "Invited #{pending_invitation.sent_at.strftime("%b #{pending_invitation.sent_at.day.ordinalize}")}"%></br>
+             <%= "By Santiago"%>
+          <% end%>
+          <!-- <span>Invited Apr 25th<br/>By Santiago</span> -->
+          <i class="material-icons ms-open-button">keyboard_arrow_right</i>
+        </div>
+    </div>
+    <div class="collapsible-body" id="user_accept_invitation">
+        <%= render partial: "shared/flash_messages", locals: {invitation: pending_invitation} %>
+        <%= hidden_field_tag :id, :value => pending_invitation.id %>
+        <div class="input-field left-align">
+            <%= link_to "Accept Invitation", list_invitation_path(:invitation_token => pending_invitation.token, :list_id=> pending_invitation.list_id, :id=>pending_invitation.id ),class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true, :method=> :put %>
+
+        </div>
+    </div>
+<% end%>

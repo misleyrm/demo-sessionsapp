@@ -92,7 +92,9 @@ nav {
     line-height: 100px;
 }
 
-.avatar-list .chip,.navigationbar .chip{
+.avatar-list .chip,
+.navigationbar .chip,
+.list_avatar_name .chip{
   background: none;
   font-weight: 100;
 }
@@ -122,24 +124,34 @@ nav {
 .nav-main .avatar-list .chip span,
 .navigationbar .chip i,
 .chip i.add-user,
-.navigationbar .chip span{
+.navigationbar .chip span,
+.list_avatar_name .chip span,
+.list_avatar_name .chip i{
   float: left;
   border-radius: 50%;
   background-color: #fff;
   text-align: center;
 }
 
+.list_avatar_name .chip {
+  margin-bottom: 0;
+}
+
+
 .navigationbar .chip p,
+.list_avatar_name .chip p,
 .nav-main .avatar-list .chip p{
   display: inline-block;
 }
 
-.navigationbar .chip span{
+.navigationbar .chip span,
+.list_avatar_name .chip span{
     font-size: 20px;
   }
 
 .nav-main .avatar-list .chip span,
-.navigationbar .chip span{
+.navigationbar .chip span,
+.list_avatar_name .chip span{
     text-transform: uppercase;
     line-height: 33px;
   }
@@ -147,7 +159,9 @@ nav {
 .nav-main .avatar-list .chip i,
 .nav-main .avatar-list .chip span,
 .navigationbar .chip i,
-.navigationbar .chip span{
+.navigationbar .chip span,
+.list_avatar_name .chip i,
+.list_avatar_name .chip span{
   color: #7F7F7F;
   border: 1px solid #C0BFBF;
 
@@ -171,23 +185,32 @@ nav {
 }
 
 .nav-main .avatar-list .chip img,
-.navigationbar .chip img{
+.navigationbar .chip img,
+.list_avatar_name .chip img{
   background: white;
   border: 1px solid #C0BFBF;
   /*padding: 5px;*/
 }
-.navigationbar .chip i, .chip i.add-user,
-.navigationbar .chip span{
+.navigationbar .chip i,
+.chip i.add-user,
+.navigationbar .chip span,
+.list_avatar_name .chip span,
+.list_avatar_name .chip i{
   height: 32px;
   width: 32px;
 }
-.navigationbar .chip i, .chip i.add-user{
+
+.navigationbar .chip i,
+.chip i.add-user,
+.list_avatar_name .chip i{
   font-size: 22px;
   line-height: 30px;
 }
 
 .navigationbar .chip i,
-.navigationbar .chip span{
+.navigationbar .chip span,
+.list_avatar_name .chip span,
+.list_avatar_name .chip i{
   margin: 0 8px 0 -12px!important;
 }
 

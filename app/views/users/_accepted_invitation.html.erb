@@ -1,0 +1,22 @@
+<!-- Accepted Invitation (user)  -->
+<%= content_tag :li, id:"accepted_invitation_#{accepted_invitation.id}", class:"ms-accepted-invitation row", data:{"accepted-invitation-id": accepted_invitation.id } do%>
+    <div class="collapsible-header list_avatar_name">
+        <%= render partial: "lists/nav_list_name", locals: {list: accepted_invitation.list} %>
+        <div class="right">
+          <%= content_tag(:span) do%>
+             <%= "Joined #{accepted_invitation.sent_at.strftime("%b #{accepted_invitation.sent_at.day.ordinalize}")}"%></br>
+             <%= "Invited by #{accepted_invitation.list.owner.first_name}"%>
+          <% end%>
+          <!-- <span>Invited Apr 25th<br/>By Santiago</span> -->
+          <!-- <i class="material-icons ms-open-button">keyboard_arrow_right</i> -->
+        </div>
+    </div>
+    <div class="collapsible-body" id="user_accept_invitation">
+        <%= render partial: "shared/flash_messages", locals: {invitation: accepted_invitation} %>
+        <%= hidden_field_tag :id, :value => accepted_invitation.id %>
+        <!-- <div class="input-field left-align">
+            <%= link_to "Accept Invitation", list_invitation_path(:invitation_token => accepted_invitation.token, :list_id=> accepted_invitation.list_id, :id=>accepted_invitation.id ),class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true, :method=> :put %>
+
+        </div> -->
+    </div>
+<% end%>

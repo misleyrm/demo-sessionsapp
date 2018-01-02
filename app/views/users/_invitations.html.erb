@@ -1,0 +1,28 @@
+<!-- Invitations  -->
+<div class="" >
+    <ul class="tabs my-tabs">
+      <li class="tab my-tab nav-link label"><a href="#pending-invitations" class="active">Pending Invitations</a></li>
+      <li class="tab my-tab nav-link label"><a href="#accepted-invitations">Accepted Invitations</a></li>
+    </ul>
+    <div class="my-tab-content" id="">
+      <div class="error_message"></div>
+      <div class="tab-pane fade show active" id="pending-invitations">
+        <%= content_tag :ul, class:"collapsible ms-accordion-section ms-border-top-bottom", data:{collapsible:"accordion"} do%>
+          <% if !@pending_invitations.blank? %>
+              <%  @pending_invitations.each do |pending_invitation| %>
+                  <%= render partial: "users/pending_invitation", locals: {pending_invitation: pending_invitation} %>
+              <% end%>
+          <% end%>
+        <% end%>
+      </div>
+      <div class="tab-pane fade show" id="accepted-invitations">
+        <%= content_tag :ul, class:"collapsible ms-accordion-section ms-border-top-bottom", data:{collapsible:"accordion"} do%>
+          <% if !@accepted_invitations.blank? %>
+              <%  @accepted_invitations.each do |accepted_invitation| %>
+                  <%= render partial: "users/accepted_invitation", locals: {accepted_invitation: accepted_invitation} %>
+              <% end%>
+          <% end%>
+        <% end%>
+      </div>
+    </div>
+</div>

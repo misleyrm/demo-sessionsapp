@@ -8,10 +8,10 @@ class Invitation < ApplicationRecord
   # validate :recipient_is_not_registered
 
   before_create :generate_token
-  validate :existence_invitation
-  before_save :check_recipient_existence
-
   validate :disallow_self_invitation
+  validate :existence_invitation
+  before_save :disallow_self_invitation
+
 
    def disallow_self_invitation
      check_recipient_existence
