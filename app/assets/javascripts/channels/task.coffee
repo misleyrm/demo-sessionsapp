@@ -19,8 +19,8 @@ App.task = App.cable.subscriptions.create "TaskChannel",
     $listAllTaskNav = $('[data-nav-list-id = "' + data.list_all_task_id + '"]', $nav)
     $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
 
-    $incomplete = $('#incomplete_tasks_' + data.user)
-    $complete = $('#complete_tasks_' + data.user)
+    $incomplete = $('#incomplete_tasks_' + data.user )
+    $divCompleted = $('#complete_tasks_' + data.user)
       # $numTask = $('.bar-number-task', $listNav)
     # $('#list_user_' + data['user'] + ' #incomplete_tasks')
     if data.blocker
@@ -75,7 +75,11 @@ App.task = App.cable.subscriptions.create "TaskChannel",
         when 'completed'
           $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
           $task.remove()
-          $complete.prepend data['html']
+          if ($('[data-date = "0"]', $divCompleted).length == 0)
+            $divCompleted.prepend '<div class="line-behind" data-date="0">Today</div>'
+          $insertCompleted = $('[data-date = "0"]', $divCompleted)
+          $( data['html'] ).insertAfter $insertCompleted
+          # $insertCompleted.insertAfter data['html']
           $('.tooltipped').tooltip({delay: 50})
           if ($('.divider', $user).hasClass('no-active'))
             $('.divider', $user).removeClass('no-active')
@@ -84,9 +88,12 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
           $('.edit_task').submitOnCheck()
         when 'incomplete'
-          $("#task_"+ data.id + " #menu .tooltipped", $complete ).tooltip('remove')
+          $("#task_"+ data.id + " #menu .tooltipped", $divCompleted ).tooltip('remove')
           $task.remove()
           $incomplete.prepend data['html']
+          $lineDate = $('[data-date = "'+ data.num_date+'"]', $divCompleted)
+          if ((data['num_completed_tasks_date'] == 0) && ($lineDate.length != 0))
+            $lineDate.remove()
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
             $('.bar-number-task', $listAllTaskNav).html data['numAllTask']

@@ -39,6 +39,42 @@
               </div>
          </div>
          <div class="divider col s12"></div>
+         <!-- Change Ownership -->
+
+          <!-- new -->
+          <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="change_ownership">
+            <li>
+              <div class="collapsible-header">
+                <div class="ms-form-title"><span>Transfer Ownership</span>
+                    <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                </div>
+                <p><i class="material-icons">warning</i>Trasfer ownership of this account to another user.</p>
+              </div>
+              <div class="collapsible-body" id="user_email_change">
+                    <div id="errors">
+                        <%= render partial: "shared/flash_messages", locals: {list: @list} %>
+                    </div>
+                    <%= f.hidden_field :id, :value => @list.id %>
+                    <div class="input-field">
+                      <select name="list_owner" id="list_owner">
+                          <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option>
+                          <% @list.collaboration_users.each do |collaborator_user| %>
+                             <option value="<%= collaborator_user.id %>" <%= (collaborator_user.owner?(@list))? "selected" : "" %>><%= collaborator_user.name %></option>
+                          <% end %>
+                      </select>
+                    </div>
+                    <div class="input-field">
+                      <%= password_field_tag 'current_password', placeholder: 'Current Password' %>
+                    </div>
+                    <div class="input-field left-align">
+                        <%= link_to  "", data: { src: "updateOwnership_list_path(@list)" },id: "btn-user-email-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true do %>
+                             Transfer Ownership
+                        <% end %>
+                   </div>
+              </div>
+            </li>
+          </ul>
+          <!-- end new -->
          <div class="col s12">
               <div class="input-field">
                 <% if (@list.new_record?||@list.all_tasks_list?)||(!current_user.owner?(@list)) %>
@@ -55,6 +91,7 @@
                 <% end %>
               </div>
           </div>
+          <!-- End of Change Ownership -->
 
       </div>
     <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>

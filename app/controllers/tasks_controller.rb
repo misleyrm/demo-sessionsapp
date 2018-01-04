@@ -136,7 +136,8 @@ class TasksController < ApplicationController
    def complete
      @task.update_attribute(:completed_at, Time.now)
      respond_to do |format|
-       format.html {  redirect_to current_list, notice: "Task completed" }
+       flash[:notice] = "Task completed"
+       format.json { head :no_content } #{  redirect_to current_list, notice: "Task completed" }
        format.js
      end
 
@@ -145,7 +146,8 @@ class TasksController < ApplicationController
    def incomplete
      @task.update_attribute(:completed_at, nil)
      respond_to do |format|
-       format.html {  redirect_to current_list, notice: "Task marked as incompleted" }
+       flash[:notice] = "Task marked as incompleted"
+       format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
        format.js
      end
 

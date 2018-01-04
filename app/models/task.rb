@@ -105,9 +105,18 @@ class Task < ApplicationRecord
       ActionCable.server.broadcast 'task_channel', html: render_task(self,partial), status: status, id: self.id, user: self.user_id, list_id: self.list_before, list_name: self.list.name, blocker: is_blocker?, list_change: self.list_id, num: num, num_list_change: num_list_change, numAllTask: numAllTask, list_all_task_id: all_task_id
    elsif (self.previous_changes.key?(:completed_at) &&
        self.previous_changes[:completed_at].first != self.previous_changes[:completed_at].last)
-       status = (self.completed?) ? 'completed' : 'incomplete'
+      #  status = (self.completed?) ? 'completed' : 'incomplete'
        num = self.user.num_incompleted_tasks(self.list)
-       ActionCable.server.broadcast "task_channel", { html: render_task(self,partial),user: self.user_id, id: self.id, status: status,list_id: self.list_id, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num, numAllTask: numAllTask, list_all_task_id: all_task_id  }
+       if (self.completed?)
+         status = 'completed'
+         num_completed_tasks_date = self.user.num_completed_tasks_by_date(self.list, self.completed_at.to_date)
+         date = 0
+       else
+         status ='incomplete'
+         num_completed_tasks_date = self.user.num_completed_tasks_by_date(self.list, self.previous_changes[:completed_at].first.to_date)
+         num_date = (Date.today.to_date - self.previous_changes[:completed_at].first.to_date).to_i
+       end
+       ActionCable.server.broadcast "task_channel", { html: render_task(self,partial),user: self.user_id, id: self.id, status: status,list_id: self.list_id, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num, numAllTask: numAllTask, list_all_task_id: all_task_id, num_completed_tasks_date: num_completed_tasks_date, num_date: num_date  }
    elsif self.previous_changes.key?(:flag) &&
           self.previous_changes[:flag].first != self.previous_changes[:flag].last
        ActionCable.server.broadcast 'task_channel', status: 'important', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,important: self.flag, numAllTask: numAllTask, list_all_task_id: all_task_id
@@ -137,7 +146,7 @@ class Task < ApplicationRecord
     end
 
     local = (is_blocker?) ? "t_blocker" : "task"
-  
+
     # I added list to the render but I need to take the current list that I've been showing
     list = (is_blocker?) ? self.parent_task.list : self.list
     TasksController.render(partial: "tasks/#{partial}", locals: {"#{local}": task, "user": user, "list": list, "currentList": List.current }).squish

@@ -1,0 +1,9 @@
+<% 5.times do |i| %>
+  <% date = current_date - i.days %>
+  <% if !user.completed_tasks_by_date(list,date).blank? %>
+    <%= render :partial => "shared/line_behind_date", :locals =>{ :date => date, :i => i } %>
+    <% for task in user.completed_tasks_by_date(list,date) %>
+      <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task,:list => list, :currentList => list } %>
+    <% end %>
+  <% end %>
+<% end %>
