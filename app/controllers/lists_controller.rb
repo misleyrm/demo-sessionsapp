@@ -5,8 +5,8 @@ class ListsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership]
+  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership]
 
   def index
     @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
@@ -143,15 +143,15 @@ class ListsController < ApplicationController
 
     # respond_to do |format|
       gon.list = @list
-      if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
-        if (@list.user_id!= params[:list_owner].to_i)
-          current_user.collaboration_lists << @list
-          @collaboration = Collaboration.find_by(list_id:@list.id, user_id: current_user.id)
-          @collaboration.update_attributes(:collaboration_date => Time.now)
-          User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
-          @list.user_id = params[:list_owner].to_i
-        end
-      end
+      # if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
+      #   if (@list.user_id!= params[:list_owner].to_i)
+      #     current_user.collaboration_lists << @list
+      #     @collaboration = Collaboration.find_by(list_id:@list.id, user_id: current_user.id)
+      #     @collaboration.update_attributes(:collaboration_date => Time.now)
+      #     User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
+      #     @list.user_id = params[:list_owner].to_i
+      #   end
+      # end
       saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
 
       if saved
@@ -170,6 +170,29 @@ class ListsController < ApplicationController
 
        end
     # end
+  end
+
+  def updateOwnership
+    byebug
+    if @user && @user.authenticate(params[:current_password]) && @user.activated
+      if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
+        if (@list.user_id!= params[:list_owner].to_i)
+          @user.collaboration_lists << @list
+          @collaboration = Collaboration.find_by(list_id: @list.id, user_id: current_user.id)
+          @collaboration.update_attributes(:collaboration_date => Time.now)
+          User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
+          @list.user_id = params[:list_owner].to_i
+          flash[:notice] = "Ownership updated"
+          render :json => {:status => 'success', :owner => @list.user_id}
+        end
+      else
+          render :edit => {:status => 'fail',  :errors => @list.errors.full_messages,:owner => @list.user_id}
+        end
+    elsif !current_user.authenticate(user_params[:current_password])
+        render :edit => {:status => 'fail',  :errors => @user.errors.full_messages,:owner => @list.user_id}
+    end
+
+byebug
   end
 
   def destroy

@@ -19,18 +19,5 @@ function RenderSettingTabs(){
   $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
   $('#page-content').html('<%= j render "edit" %>');
   $('ul.tabs').tabs();
-  $('.ms-accordion-section').collapsible({
-      onOpen: function(el) {
-          var $this = el,
-          $panel_headers = $this.find('div.collapsible-header'),
-          $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-          $arrow.animateRotate(0,90, 250, "linear");
-       }, // Callback for Collapsible open
-      onClose: function(el) {
-        var $this = el,
-        $panel_headers = $this.find('div.collapsible-header'),
-        $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-        $arrow.animateRotate(90,0, 250, "linear");
-       } // Callback for Collapsible close
-    });
+  msCollapsible("ms-accordion-section");
 };

@@ -39,50 +39,63 @@
               </div>
          </div>
          <div class="divider col s12"></div>
-         <!-- Change Ownership -->
+      </div>
+      <!-- Change Ownership -->
 
           <!-- new -->
           <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="change_ownership">
             <li>
               <div class="collapsible-header">
-                <div class="ms-form-title"><span>Transfer Ownership</span>
+                <div class="ms-form-title"><span class="uppercase">Transfer Ownership</span>
                     <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
                 </div>
-                <p><i class="material-icons">warning</i>Trasfer ownership of this account to another user.</p>
+                <p class="details"><i class="material-icons prefix">warning</i><span>Trasfer ownership of this account to another user.</span></p>
               </div>
-              <div class="collapsible-body" id="user_email_change">
+              <div class="collapsible-body" id="user_ownership_change">
                     <div id="errors">
                         <%= render partial: "shared/flash_messages", locals: {list: @list} %>
                     </div>
                     <%= f.hidden_field :id, :value => @list.id %>
+                    <p class="red">You will no longer be able to manage this list setting.</p>
                     <div class="input-field">
-                      <select name="list_owner" id="list_owner">
+                      <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
                           <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option>
                           <% @list.collaboration_users.each do |collaborator_user| %>
                              <option value="<%= collaborator_user.id %>" <%= (collaborator_user.owner?(@list))? "selected" : "" %>><%= collaborator_user.name %></option>
                           <% end %>
                       </select>
                     </div>
-                    <div class="input-field">
-                      <%= password_field_tag 'current_password', placeholder: 'Current Password' %>
+                    <div class="input-field ms-explanation">
+                      <%= password_field_tag(:current_password, "", placeholder: "Current Password", :options => {:autocomplete => 'off'}) %>
+                      <span>Enter your password to confirm that you want to transfer list ownership.</span>
                     </div>
-                    <div class="input-field left-align">
-                        <%= link_to  "", data: { src: "updateOwnership_list_path(@list)" },id: "btn-user-email-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat submit white", remote: true do %>
-                             Transfer Ownership
-                        <% end %>
-                   </div>
+                    <div class="row ms-button">
+                        <div class="col s6 left">
+                          <div class="input-field center-align">
+                             <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
+                          </div>
+                        </div>
+                        <div class="col s6 right">
+                          <div class="input-field center-align">
+                            <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12", remote: true do %>
+                                 Transfer Ownership
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
               </div>
             </li>
           </ul>
+          <div class="divider col s12"></div>
           <!-- end new -->
-         <div class="col s12">
+         <!-- <div class="col s12">
               <div class="input-field">
                 <% if (@list.new_record?||@list.all_tasks_list?)||(!current_user.owner?(@list)) %>
-                    <%= text_field_tag 'owner', (!current_user.owner?(@list))? "#{@list.owner_name}" : "#{current_user.name} ",id: 'list_owner',  disabled: true %>
+                    <%= text_field_tag 'owner', (!current_user.owner?(@list))? "#{@list.owner_name}" : "#{current_user.name} ",id: 'list_owner1',  disabled: true %>
                     <%= f.label :owner, :class => "active" %>
                 <% elsif %>
                     <p class="uppercase label">List Owner</p>
-                    <select name="list_owner" id="list_owner">
+                    <select name="list_owner" id="list_owner2">
                         <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option>
                         <% @list.collaboration_users.each do |collaborator_user| %>
                            <option value="<%= collaborator_user.id %>" <%= (collaborator_user.owner?(@list))? "selected" : "" %>><%= collaborator_user.name %></option>
@@ -90,10 +103,10 @@
                     </select>
                 <% end %>
               </div>
-          </div>
+          </div> -->
           <!-- End of Change Ownership -->
 
-      </div>
+
     <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
           <div class="row" >
               <ul class="tabs my-tabs">
@@ -144,8 +157,8 @@
       <% end %>
       <div class="row">
           <div class="col s6">
-            <div class="input-field center-align">
-              <%= link_to 'Cancel', lists_path, class: 'waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12', remote: true, data: {behavior: 'modal-form'}  %>
+            <div class="input-field center-align">  <!--$('#modal1').modal('close');-->
+              <a href="#!" class="modal-action waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12" >Cancel</a>
             </div>
           </div>
           <div class="col s6">

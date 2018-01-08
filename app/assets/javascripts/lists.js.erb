@@ -9,6 +9,96 @@ $(document).on('turbolinks:load',function(){
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
+  //  change ownership
+    $(document).on("click","a#btn-list-ownership-change",function(e){
+        e.preventDefault;
+
+        submit_ownership_change(e)
+      })
+
+      function submit_ownership_change(event) {
+        var formData = new FormData(),
+            $form_user_ownership_change = $("#user_ownership_change"),
+            $new_owner = $("#list_owner",$form_user_ownership_change),
+            $current_password = $("#current_password",$form_user_ownership_change);
+
+        formData.append('list_owner', $new_owner.val());
+        formData.append('current_password', $current_password.val());
+        console.log($current_password.val());
+        do_submit(formData);
+        return false;
+      }
+
+          function keypressed(event) {
+            var charcode = (event.which) ? event.which : window.event.keyCode;
+            if (charcode == 13) {
+              return submit_ownership_change(event);
+            }
+            return true;
+          }
+
+          function do_submit(submit_values) {
+            console.log($("#btn-list-ownership-change").data("src"));
+            $.ajax({
+              url: $("#btn-list-ownership-change").data("src"),
+              data: submit_values,
+              cache: false,
+              contentType: false,
+              processData: false,
+              type: 'POST',
+              success: function(response) {
+                      // Materialize.toast('Email Changed', 4000);
+                // if (response.status=="success"){
+
+                  // var $ulChangeEmail = $("#change_email"),
+                  // $currentEmail = $('span#current-user-email',$ulChangeEmail),
+                  // $userSettingNav = $("ms-user-nav-setting"),
+                  // $emailSettingNav = $("li.ms-user-email >span", $userSettingNav),
+                  // $form_user_email_change = $("#user_email_change"),
+                  // $new_email = $("#user_new_email",$form_user_email_change),
+                  // $new_email_confirmation = $("#user_new_email_confirmation",$form_user_email_change),
+                  // $current_password = $("#user_current_password",$form_user_email_change);
+                  // $new_email.val('');
+                  // $new_email_confirmation.val('');
+                  // $current_password.val('');
+                  // $currentEmail.html(response.email);
+                  // $emailSettingNav.html(response.email);
+                  //
+                  // if ($("#error_explanation").length >0){
+                  //         $("#error_explanation").remove();
+                  //     }
+                  // $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
+                  // var $menssageError = $("#error_explanation ul"),
+                  //     message;
+                  //
+                  //     $menssageError.append ('<li>Your email was updated</li>');
+
+                // }
+
+                },error: function(xhr){
+
+                  // if ($("#error_explanation").length >0){
+                  //         $("#error_explanation").remove();
+                  //     }
+                  // $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+                  // var $menssageError = $("#error_explanation ul"),
+                  //     errors = $.parseJSON(xhr.responseText).errors,
+                  //     message;
+                  //
+                  // jQuery.each( errors, function( i, val ) {
+                  //     $menssageError.append ('<li>' + val[0].message + '</li>')
+                  //   });
+
+
+                }
+            })
+
+
+          }
+// end change ownership
+
+
+
   // $(document).on("click","form.edit_list a#btn-list-form-submit",function(e){
   //   e.preventDefault();
   //   alert("innnnnnnn");
