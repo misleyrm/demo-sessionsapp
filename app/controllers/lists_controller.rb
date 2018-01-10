@@ -155,11 +155,11 @@ class ListsController < ApplicationController
       saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
 
       if saved
-               flash[:success] = "List was successfully updated."
-              #  format.html{ redirect_to root_path}
-              #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-              #  format.js
-              redirect_to list_path(@list)
+          flash[:success] = "List was successfully updated."
+          #  format.html{ redirect_to root_path}
+          #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
+          #  format.js
+          redirect_to list_path(@list)
        else
          flash[:danger] = "We can't update the list."
          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
@@ -178,31 +178,30 @@ class ListsController < ApplicationController
       if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
         if (@list.user_id!= params[:list_owner].to_i)
           @user.collaboration_lists << @list
+          # @user.created_lists.delete(@list)
           @collaboration = Collaboration.find_by(list_id: @list.id, user_id: current_user.id)
           @collaboration.update_attributes(:collaboration_date => Time.now)
+          byebug
           User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
-          @list.user_id = params[:list_owner].to_i
+          # @list.user_id = params[:list_owner].to_i
+          byebug
+          @list.update_attribute(user_id: params[:list_owner].to_i)
           flash[:notice] = "Ownership updated"
           render :json => {:status => 'success', :owner => @list.user_id}
         end
       else
           render :edit => {:status => 'fail',  :errors => @list.errors.full_messages,:owner => @list.user_id}
         end
-    elsif !current_user.authenticate(user_params[:current_password])
+    elsif !current_user.authenticate(params[:current_password])
         render :edit => {:status => 'fail',  :errors => @user.errors.full_messages,:owner => @list.user_id}
     end
 
-byebug
   end
 
   def destroy
     @list.destroy
     @list = current_user.all_task
     List.reset_pk_sequence
-    # @_current_list = session[:list_id] = List.current = nil
-    # session[:list_id] = @list.id
-    # @_current_list =  @list
-    # set_current_list
     redirect_to list_path(@list)
     # respond_to do |format|
     #   flash[:success] = "List was successfully destroyed."

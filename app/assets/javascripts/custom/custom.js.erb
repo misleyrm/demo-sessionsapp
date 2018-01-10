@@ -249,7 +249,17 @@ $(document).on('turbolinks:load',function(){
        $("#list_owner").val($("#list_owner option:first").val());
  });
 
-   // END CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
+
+ // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+ 
+ $(document).on("keyup","#change_ownership_password",function(){
+     if ($(this).val().length !=0)
+        $("#btn-list-ownership-change").removeClass("disabled");
+     else
+       $("#btn-list-ownership-change").addClass("disabled");
+    })
+
+   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
 
 // Functions
 

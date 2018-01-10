@@ -1,5 +1,6 @@
 <%= form_for(@list, url: (@list.new_record?) ? "/lists" : list_url(@list), method: :post, :html=>{id: "list-new",remote: true}, :data => {new: (@list.new_record?)? "create" : "update"}) do |f| %>
       <%= hidden_field_tag 'id', @list.id%>
+      <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <input type='hidden' name='_method' value="<%=(@list.new_record?) ? "post" : "put"%>">
       <%= content_tag "div", id: "flash_message" do%>
         <%= render 'shared/flash_messages' if !flash.empty? %>
@@ -56,17 +57,19 @@
                         <%= render partial: "shared/flash_messages", locals: {list: @list} %>
                     </div>
                     <%= f.hidden_field :id, :value => @list.id %>
-                    <p class="red">You will no longer be able to manage this list setting.</p>
+                    <p class="md-red">You will no longer be able to manage this list setting.</p>
                     <div class="input-field">
                       <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
                           <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option>
                           <% @list.collaboration_users.each do |collaborator_user| %>
-                             <option value="<%= collaborator_user.id %>" <%= (collaborator_user.owner?(@list))? "selected" : "" %>><%= collaborator_user.name %></option>
+                             <% if collaborator_user.active_collaborator?(@list.id) %>
+                                <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>
+                              <% end %>
                           <% end %>
                       </select>
                     </div>
                     <div class="input-field ms-explanation">
-                      <%= password_field_tag(:current_password, "", placeholder: "Current Password", :options => {:autocomplete => 'off'}) %>
+                      <%= password_field_tag(:current_password, "", placeholder: "Current Password",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
                       <span>Enter your password to confirm that you want to transfer list ownership.</span>
                     </div>
                     <div class="row ms-button">
@@ -77,7 +80,7 @@
                         </div>
                         <div class="col s6 right">
                           <div class="input-field center-align">
-                            <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12", remote: true do %>
+                            <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 disabled", remote: true do %>
                                  Transfer Ownership
                             <% end %>
                           </div>

@@ -12,7 +12,6 @@ $(document).on('turbolinks:load',function(){
   //  change ownership
     $(document).on("click","a#btn-list-ownership-change",function(e){
         e.preventDefault;
-
         submit_ownership_change(e)
       })
 
@@ -20,11 +19,11 @@ $(document).on('turbolinks:load',function(){
         var formData = new FormData(),
             $form_user_ownership_change = $("#user_ownership_change"),
             $new_owner = $("#list_owner",$form_user_ownership_change),
-            $current_password = $("#current_password",$form_user_ownership_change);
+            $current_password = $("#change_ownership_password",$form_user_ownership_change);
 
         formData.append('list_owner', $new_owner.val());
+        // alert($current_password.val());
         formData.append('current_password', $current_password.val());
-        console.log($current_password.val());
         do_submit(formData);
         return false;
       }
@@ -38,7 +37,7 @@ $(document).on('turbolinks:load',function(){
           }
 
           function do_submit(submit_values) {
-            console.log($("#btn-list-ownership-change").data("src"));
+
             $.ajax({
               url: $("#btn-list-ownership-change").data("src"),
               data: submit_values,
@@ -48,7 +47,7 @@ $(document).on('turbolinks:load',function(){
               type: 'POST',
               success: function(response) {
                       // Materialize.toast('Email Changed', 4000);
-                // if (response.status=="success"){
+                if (response.status=="success"){
 
                   // var $ulChangeEmail = $("#change_email"),
                   // $currentEmail = $('span#current-user-email',$ulChangeEmail),
@@ -64,16 +63,16 @@ $(document).on('turbolinks:load',function(){
                   // $currentEmail.html(response.email);
                   // $emailSettingNav.html(response.email);
                   //
-                  // if ($("#error_explanation").length >0){
-                  //         $("#error_explanation").remove();
-                  //     }
-                  // $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
-                  // var $menssageError = $("#error_explanation ul"),
-                  //     message;
-                  //
-                  //     $menssageError.append ('<li>Your email was updated</li>');
+                  if ($("#error_explanation").length >0){
+                          $("#error_explanation").remove();
+                      }
+                  $("#list-new").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
+                  var $menssageError = $("#error_explanation ul"),
+                      message;
 
-                // }
+                      $menssageError.append ('<li>Your changes were saved</li>');
+
+                }
 
                 },error: function(xhr){
 
