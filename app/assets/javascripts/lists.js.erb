@@ -69,24 +69,27 @@ $(document).on('turbolinks:load',function(){
                   $("#list-new").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
                   var $menssageError = $("#error_explanation ul"),
                       message;
-
+                      alert("success");
                       $menssageError.append ('<li>Your changes were saved</li>');
 
                 }
 
                 },error: function(xhr){
-
-                  // if ($("#error_explanation").length >0){
-                  //         $("#error_explanation").remove();
+                      alert("error");
+                  // if ($("#error_message_list").length >0){
+                  //         $("#error_message_list").remove();
                   //     }
-                  // $(".ms-tabsSetting-content").prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
-                  // var $menssageError = $("#error_explanation ul"),
-                  //     errors = $.parseJSON(xhr.responseText).errors,
-                  //     message;
-                  //
-                  // jQuery.each( errors, function( i, val ) {
-                  //     $menssageError.append ('<li>' + val[0].message + '</li>')
-                  //   });
+                    var $menssage = $("#user_ownership_change errors");
+                    // $menssage.html('<%#= j render partial: "shared/flash_messages", locals: {list: @list} %>');
+                    // $("#error_message_list").html('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+                    var errors = $.parseJSON(xhr.responseText).errors,
+                      message;
+                        console.log(errors.parse());
+                    jQuery.each( errors, function( i, val ) {
+
+                        console.log(val[0].message);
+                        $menssage.append ('<li>' + val[0].message + '</li>')
+                      });
 
 
                 }

@@ -18,4 +18,9 @@ class ListPolicy < ApplicationPolicy
     user.owner?(list)
   end
 
+  def updateOwnership?
+    user.owner?(list) && !list.all_tasks_list?
+  end
+
+
 end

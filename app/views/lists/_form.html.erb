@@ -41,8 +41,8 @@
          </div>
          <div class="divider col s12"></div>
       </div>
+      <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
       <!-- Change Ownership -->
-
           <!-- new -->
           <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="change_ownership">
             <li>
@@ -89,6 +89,7 @@
               </div>
             </li>
           </ul>
+          <!-- End Change Ownership -->
           <div class="divider col s12"></div>
           <!-- end new -->
          <!-- <div class="col s12">
@@ -108,9 +109,6 @@
               </div>
           </div> -->
           <!-- End of Change Ownership -->
-
-
-    <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
           <div class="row" >
               <ul class="tabs my-tabs">
                 <li class="tab my-tab nav-link uppercase label"><a href="#collaborators" class="active">Collaborators</a></li>
