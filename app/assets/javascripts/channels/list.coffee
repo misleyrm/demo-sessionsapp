@@ -19,6 +19,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
     $chipList = $('.chip', $listNav)
     $ul = $('ul#ulCreated', $nav)
     $add = $("#ms-add", $ul)
+    $collaborationLists = $("#ulCollaborationList")
     $collUserSettings = $('ul#collaboration-user-settings')  # add to the modal form the list id, and look for the list to add user collaborators.
     # if $task.length > 0
     switch data.status
@@ -26,8 +27,16 @@ App.list = App.cable.subscriptions.create "ListChannel",
         $chipList.replaceWith data.htmlChip
         $chipListTopnavbar.replaceWith data.htmlChip
       when 'listUpdatedOwner'
-        $listNav.remove()
+        $beforeOwner = $('[data-nav-id = "' + data.before_owner + '"]')
+        $createdListBeforeOwner = $('ul#ulCreated', $beforeOwner)
+        $listNavBeforeOwner = $('[data-nav-list-id = "' + data.id + '"]', $createdListBeforeOwner)
+        $listNavBeforeOwner.remove()
+        $collaborationListsBeforeOwner = $("#ulCollaborationList", $beforeOwner)
+        if  ($('[data-nav-list-id = "' + data.id + '"]', $collaborationListsBeforeOwner).lenght = 0 )
+          $collaborationListsBeforeOwner.append data.htmlLi
         $( data.htmlLi ).insertBefore $add
+        $listNav.remove()
+        # $( data.htmlLi ).insertBefore $add
       # when 'listCreated'
       #   $("li.active", $ul).removeClass('active');
       #   $( data.htmlLi ).insertBefore $add

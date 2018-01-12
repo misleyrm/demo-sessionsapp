@@ -46,56 +46,28 @@ $(document).on('turbolinks:load',function(){
               processData: false,
               type: 'POST',
               success: function(response) {
-                      // Materialize.toast('Email Changed', 4000);
+
                 if (response.status=="success"){
-
-                  // var $ulChangeEmail = $("#change_email"),
-                  // $currentEmail = $('span#current-user-email',$ulChangeEmail),
-                  // $userSettingNav = $("ms-user-nav-setting"),
-                  // $emailSettingNav = $("li.ms-user-email >span", $userSettingNav),
-                  // $form_user_email_change = $("#user_email_change"),
-                  // $new_email = $("#user_new_email",$form_user_email_change),
-                  // $new_email_confirmation = $("#user_new_email_confirmation",$form_user_email_change),
-                  // $current_password = $("#user_current_password",$form_user_email_change);
-                  // $new_email.val('');
-                  // $new_email_confirmation.val('');
-                  // $current_password.val('');
-                  // $currentEmail.html(response.email);
-                  // $emailSettingNav.html(response.email);
-                  //
-                  if ($("#error_explanation").length >0){
-                          $("#error_explanation").remove();
-                      }
-                  $("#list-new").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
-                  var $menssageError = $("#error_explanation ul"),
-                      message;
-                      alert("success");
-                      $menssageError.append ('<li>Your changes were saved</li>');
-
+                  Materialize.toast('Your changes were saved', 4000);
+                  var $current_password = $("#change_ownership_password");
+                  $current_password.val('');
+                  $('#change_ownership').collapsible('close', 0);
                 }
-
                 },error: function(xhr){
-                      alert("error");
-                  // if ($("#error_message_list").length >0){
-                  //         $("#error_message_list").remove();
-                  //     }
-                    var $menssage = $("#user_ownership_change errors");
-                    // $menssage.html('<%#= j render partial: "shared/flash_messages", locals: {list: @list} %>');
-                    // $("#error_message_list").html('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
-                    var errors = $.parseJSON(xhr.responseText).errors,
-                      message;
-                        console.log(errors.parse());
+
+                    if ($("#change_ownership .collapsible-body .ms-alert").length >0){
+                        $("#change_ownership .collapsible-body .ms-alert").remove();
+                      }
+                    var $collapsibleBody = $("#change_ownership .collapsible-body");
+                    $collapsibleBody.prepend('<div class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+                    var $divError = $(".ms-alert ul", $collapsibleBody),
+                        errors = $.parseJSON(xhr.responseText).errors;
+
                     jQuery.each( errors, function( i, val ) {
-
-                        console.log(val[0].message);
-                        $menssage.append ('<li>' + val[0].message + '</li>')
+                        $divError.append ('<li>' + val[0].message + '</li>')
                       });
-
-
                 }
             })
-
-
           }
 // end change ownership
 

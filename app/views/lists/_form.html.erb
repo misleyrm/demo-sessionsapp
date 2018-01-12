@@ -60,7 +60,8 @@
                     <p class="md-red">You will no longer be able to manage this list setting.</p>
                     <div class="input-field">
                       <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
-                          <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option>
+                          <option value="" disabled selected>Select new owner</option>
+                          <!-- <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option> -->
                           <% @list.collaboration_users.each do |collaborator_user| %>
                              <% if collaborator_user.active_collaborator?(@list.id) %>
                                 <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>

@@ -48,7 +48,7 @@ class List < ApplicationRecord
   end
 
   def active_collaborators
-    # active collaborators users 
+    # active collaborators users
     # byebug
     # # active_collaborators = self.collaborations.joins(:user).where.not(collaborations: {collaboration_date: nil})
     # active_collaborators = self.collaboration_users.joins(:collaborator).where.not(collaborations: {collaboration_date: nil})

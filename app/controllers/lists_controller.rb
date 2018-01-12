@@ -7,7 +7,7 @@ class ListsController < ApplicationController
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership]
   before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership]
-  before_action :validate_ownership_update, only: :updateOwnership
+  before_action :validate_ownership_update, only: [:updateOwnership]
 
   def index
     @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
@@ -175,36 +175,20 @@ class ListsController < ApplicationController
 
   def updateOwnership
     authorize @list
-    if @user && @user.authenticate(params[:current_password]) && @user.activated && (!params[:list_owner].blank?)
-          if (@list.user_id!= params[:list_owner].to_i)
-              @new_owner = User.find(params[:list_owner].to_i)
-              @new_owner.collaboration_lists.delete(@list)
-              if @invitation = @new_owner.invitations.find_by(list_id: @list.id)
-                @invitation.delete
-              end
-              @list.owner = @new_owner
-              @list.save
-              @user.collaboration_lists << @list
-              @collaboration = Collaboration.find_by(list_id: @list.id, user_id: @user.id)
-              @collaboration.update_attributes(:collaboration_date => Time.now)
-              flash[:notice] = "Ownership updated"
-              redirect_to list_path(@list)
-              # render :showList => {:status => 'success', :owner => @list.user_id}
-          end
 
-    elsif (!current_user.authenticate(params[:current_password]))
-        respond_to do |format|
-          flash[:danger] = 'Password incorrect.'
-          format.js { render 'edit', :layout => 'modal' }
-          format.json
-        end
-    else
-          respond_to do |format|
-            flash[:danger] = 'Hubo un error al crear el follow up'
-            format.html { redirect_to root_path }
-          end
-          # render :edit => {:status => 'fail',  :errors => @user.errors.full_messages,:owner => @list.user_id}
+    @new_owner = User.find(params[:list_owner].to_i)
+    @new_owner.collaboration_lists.delete(@list)
+    if @invitation = @new_owner.invitations.find_by(list_id: @list.id)
+      @invitation.delete
     end
+    @list.owner = @new_owner
+    @list.save
+    @user.collaboration_lists << @list
+    @collaboration = Collaboration.find_by(list_id: @list.id, user_id: @user.id)
+    @collaboration.update_attributes(:collaboration_date => Time.now)
+    flash[:notice] = "Ownership updated"
+    redirect_to list_path(@list)
+    # render :showList => {:status => 'success', :owner => @list.user_id}
 
   end
 
@@ -247,18 +231,18 @@ class ListsController < ApplicationController
 
 
     def validate_ownership_update
-        @new_owner_id = params[:list_owner]
+        user = current_user
+        @new_owner_id = params[:list_owner].to_i
         @current_password = params[:current_password]
 
         numberoferror = 0
         if @new_owner_id.blank?
-          @list.errors.add(:new_list_owner,message: "New Owner cannot be blank")
+          @list.errors.add(:new_list_owner,message: "New Owner cannot be blank.")
           numberoferror += 1
         end
 
         if  @new_owner_id == current_user.id
-          flash[:alert] = 'Current Owner and New owner cannot be the same'
-          @list.errors.add(:new_email,message: "Current Owner and New owner cannot be the same")
+          @list.errors.add(:new_email,message: "Current Owner and New owner cannot be the same.")
           numberoferror += 1
         end
 
@@ -267,14 +251,17 @@ class ListsController < ApplicationController
           numberoferror += 1
         end
 
-        if current_user.authenticate(@current_password)
-          @list.errors.add(:password,message: "Password incorrect")
+        if !user.authenticate(@current_password)
+          @list.errors.add(:password, message: "Password incorrect.")
           numberoferror += 1
-
         end
-        
+
         if numberoferror != 0
-          return render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request
+          respond_to do |format|
+            format.json { render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request}
+            format.js { render :action => "edit" }
+           end
+          # return render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request
         end
     end
 
