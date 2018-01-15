@@ -5,8 +5,9 @@ class ListsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership]
+  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership]
+  before_action :validate_ownership_update, only: [:updateOwnership]
 
   def index
     @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
@@ -143,23 +144,23 @@ class ListsController < ApplicationController
 
     # respond_to do |format|
       gon.list = @list
-      if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
-        if (@list.user_id!= params[:list_owner].to_i)
-          current_user.collaboration_lists << @list
-          @collaboration = Collaboration.find_by(list_id:@list.id, user_id: current_user.id)
-          @collaboration.update_attributes(:collaboration_date => Time.now)
-          User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
-          @list.user_id = params[:list_owner].to_i
-        end
-      end
+      # if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
+      #   if (@list.user_id!= params[:list_owner].to_i)
+      #     current_user.collaboration_lists << @list
+      #     @collaboration = Collaboration.find_by(list_id:@list.id, user_id: current_user.id)
+      #     @collaboration.update_attributes(:collaboration_date => Time.now)
+      #     User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
+      #     @list.user_id = params[:list_owner].to_i
+      #   end
+      # end
       saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
 
       if saved
-               flash[:success] = "List was successfully updated."
-              #  format.html{ redirect_to root_path}
-              #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-              #  format.js
-              redirect_to list_path(@list)
+          flash[:success] = "List was successfully updated."
+          #  format.html{ redirect_to root_path}
+          #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
+          #  format.js
+          redirect_to list_path(@list)
        else
          flash[:danger] = "We can't update the list."
          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
@@ -172,14 +173,29 @@ class ListsController < ApplicationController
     # end
   end
 
+  def updateOwnership
+    authorize @list
+
+    @new_owner = User.find(params[:list_owner].to_i)
+    @new_owner.collaboration_lists.delete(@list)
+    if @invitation = @new_owner.invitations.find_by(list_id: @list.id)
+      @invitation.delete
+    end
+    @list.owner = @new_owner
+    @list.save
+    @user.collaboration_lists << @list
+    @collaboration = Collaboration.find_by(list_id: @list.id, user_id: @user.id)
+    @collaboration.update_attributes(:collaboration_date => Time.now)
+    flash[:notice] = "Ownership updated"
+    redirect_to list_path(@list)
+    # render :showList => {:status => 'success', :owner => @list.user_id}
+
+  end
+
   def destroy
     @list.destroy
     @list = current_user.all_task
     List.reset_pk_sequence
-    # @_current_list = session[:list_id] = List.current = nil
-    # session[:list_id] = @list.id
-    # @_current_list =  @list
-    # set_current_list
     redirect_to list_path(@list)
     # respond_to do |format|
     #   flash[:success] = "List was successfully destroyed."
@@ -211,6 +227,42 @@ class ListsController < ApplicationController
       else
         @user = User.find(params[:user_id])
       end
+    end
+
+
+    def validate_ownership_update
+        user = current_user
+        @new_owner_id = params[:list_owner].to_i
+        @current_password = params[:current_password]
+
+        numberoferror = 0
+        if @new_owner_id.blank?
+          @list.errors.add(:new_list_owner,message: "New Owner cannot be blank.")
+          numberoferror += 1
+        end
+
+        if  @new_owner_id == current_user.id
+          @list.errors.add(:new_email,message: "Current Owner and New owner cannot be the same.")
+          numberoferror += 1
+        end
+
+        if @current_password.blank?
+          @list.errors.add(:password, message: "Password cannot be blank.")
+          numberoferror += 1
+        end
+
+        if !user.authenticate(@current_password)
+          @list.errors.add(:password, message: "Password incorrect.")
+          numberoferror += 1
+        end
+
+        if numberoferror != 0
+          respond_to do |format|
+            format.json { render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request}
+            format.js { render :action => "edit" }
+           end
+          # return render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request
+        end
     end
 
     # def set_task_per_user

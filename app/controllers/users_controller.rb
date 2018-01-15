@@ -197,6 +197,7 @@ class UsersController < ApplicationController
       if @created_list.save
         @created_list.tasks << @list.tasks.where(user_id:@user.id)
       end
+
       @invitations = @list.invitations.where(recipient_email: @user.email)
       @invitation = Invitation.find_by(recipient_email: @user.email, list_id: @list.id)
       @invitations.delete_all

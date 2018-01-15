@@ -2,7 +2,7 @@
   <div id="ms-modal-dialog" class="modal">
     <div class="valign-wrapper" style="height:100%">
       <div class="modal-content">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right" data-remote="true">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right" >
   				<i class="material-icons">close</i>
   			</a>
          <%= yield %>
@@ -14,12 +14,10 @@
 
 $(function() {
  $('ul.tabs').tabs();
-
+  msCollapsible("ms-accordion-section");
   var $inputor = $('#mentionsBlocker'),
       listId = $inputor.data('list_id'),
       userId = $inputor.data('user_id');
-
-  console.log(listId);
 
   $inputor.atwho({
     at: "@",

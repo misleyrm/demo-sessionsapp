@@ -141,16 +141,20 @@ class User < ApplicationRecord
 # helpers.is_today?(date)
     if (Date.today == date)
       if (list.id == self.all_task.id)
-        self.completed_tasks.where(["DATE(completed_at) BETWEEN ? AND ?", date - 1.day , date] ).order('completed_at')
+        self.completed_tasks.where(["DATE(completed_at)=?", date] ).order('completed_at')
+        # self.completed_tasks.where(["DATE(completed_at) BETWEEN ? AND ?", date - 1.day , date] ).order('completed_at')
       else
-        self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at')
+        self.completed_tasks.where(["list_id=? and DATE(completed_at)=?",list.id, date] ).order('completed_at DESC')
+        # self.completed_tasks.where(["list_id=? and DATE(completed_at) BETWEEN ? AND ?",list.id, date - 1.day , date] ).order('completed_at DESC')
       end
 
     else
       if (list.id == self.all_task.id)
-          self.completed_tasks.where(["DATE(completed_at) =?",date - 1.day] ).order('completed_at')
+          self.completed_tasks.where(["DATE(completed_at) =?",date] ).order('completed_at DESC')
+          # self.completed_tasks.where(["DATE(completed_at) =?",date - 1.day] ).order('completed_at DESC')
       else
-          self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at')
+          self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date] ).order('completed_at DESC')
+          # self.completed_tasks.where(["list_id=? and DATE(completed_at) =?",list.id, date - 1.day] ).order('completed_at DESC')
       end
 
     end
@@ -163,27 +167,33 @@ class User < ApplicationRecord
   # def incompleted_tasks_today(list,date)
   #   incompleted_tasks(list).where(["DATE(created_at)=?", date]).order('created_at')
   # end
+  def num_completed_tasks_by_date(list,date)
+    self.completed_tasks_by_date(list,date).count
+  end
 
   def num_incompleted_tasks(list)
     self.incompleted_tasks_by_date(list,Date.today).count
   end
 
-  def incompleted_tasks_by_date(list,date)
-    if (Date.today == date)
-      if (list.id == self.all_task.id)
-        self.incompleted_tasks.order(:position)   #"created_at DESC"
-      else
-        self.incompleted_tasks.where(["list_id=? ",list.id]).order(:position)  #order("created_at DESC")
-      end
-    else
-    # We should change for task created that day
-      if (list.id == self.all_task.id)
-        self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order(:position) #order("created_at DESC")
-      else
-        self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order(:position)  #order("created_at DESC")
-      end
 
-    end
+  def incompleted_tasks_by_date(list,date)
+    order = list.all_tasks? ? "created_at DESC" : ":position"
+
+    if (Date.today == date)
+        if (list.id == self.all_task.id)
+          (list.all_tasks?)? self.incompleted_tasks.order("created_at DESC") : self.incompleted_tasks.order(:position)   #"created_at DESC"
+        else
+          (list.all_tasks?)? self.incompleted_tasks.where(["list_id=? ",list.id]).order("created_at DESC") : self.incompleted_tasks.where(["list_id=? ",list.id]).order(:position)  #order("created_at DESC")
+        end
+    else
+      # We should change for task created that day
+        if (list.id == self.all_task.id)
+          (list.all_tasks?)? self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order("created_at DESC") : self.incompleted_tasks.where(["DATE(created_at) <=? ",date ]).order(:position) #order("created_at DESC")
+        else
+          (list.all_tasks?)? self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order(:position) : self.incompleted_tasks.where(["list_id=? and DATE(created_at) <=? ",list.id, date ]).order("created_at DESC")  #order("created_at DESC")
+        end
+
+      end
   end
 
 

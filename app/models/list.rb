@@ -47,6 +47,17 @@ class List < ApplicationRecord
     !self.avatar.blank?
   end
 
+  def active_collaborators
+    # active collaborators users
+    # byebug
+    # # active_collaborators = self.collaborations.joins(:user).where.not(collaborations: {collaboration_date: nil})
+    # active_collaborators = self.collaboration_users.joins(:collaborator).where.not(collaborations: {collaboration_date: nil})
+    #
+    # active_collaborators.each do |collaborator_user|
+    #   byebug
+    # end
+  end
+
   def search_collaborators(id)
     users = self.collaboration_users
 

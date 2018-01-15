@@ -238,6 +238,28 @@ $(document).on('turbolinks:load',function(){
 
 }); /* end of $(document).on('turbolinks:load',function(){*/
 
+  // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
+  $(document).on("click", "#user_ownership_change a.btn-cancel", function() {
+       var $select = $(this).closest('form').find('select');
+       var value= $select.data("list-owner");
+       $(this).closest('form').find("input[type=password], current_password").val("");
+       $select.find('option[value="'+value+'"]').prop('selected', true);
+       $select.material_select();
+       $(this).parents($('.collapsible')).collapsible('close', 0);
+       $("#list_owner").val($("#list_owner option:first").val());
+ });
+
+
+ // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+ 
+ $(document).on("keyup","#change_ownership_password",function(){
+     if ($(this).val().length !=0)
+        $("#btn-list-ownership-change").removeClass("disabled");
+     else
+       $("#btn-list-ownership-change").addClass("disabled");
+    })
+
+   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
 
 // Functions
 
@@ -442,7 +464,24 @@ $.fn.animateRotate = function(ini,angle, duration, easing, complete) {
             $.style(e, 'transform', 'rotate(' + now + 'deg)');
             if (step) return step.apply(this, arguments);
         };
-
         $({deg: ini}).animate({deg: angle}, args);
     });
 };
+
+function msCollapsible(clase){
+  $('.'+ clase).collapsible({
+      onOpen: function(el) {
+          var $this = el,
+          $panel_headers = $this.find('div.collapsible-header'),
+          $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+          $arrow.animateRotate(0,90, 250, "linear");
+       }, // Callback for Collapsible open
+      onClose: function(el) {
+        var $this = el,
+        $panel_headers = $this.find('div.collapsible-header'),
+        $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+        $arrow.animateRotate(90,0, 250, "linear");
+       } // Callback for Collapsible close
+    });
+
+}

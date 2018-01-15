@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       member do
         patch :num_incompleted_tasks
         get :complete_users
+        post :updateOwnership
       end
     end
 
