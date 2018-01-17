@@ -714,7 +714,7 @@ a{
   filter: grayscale(0%);
 }
 
-.chip.ms-inactive img{
+.chip.ms-inactive img, .ms-inactive img {
   transition: .5s ease-in-out;
   -webkit-transition: .5s ease-in-out;
   -moz-transition: .5s ease-in-out;
@@ -1491,11 +1491,20 @@ li.ms-accepted-invitation.row{
 
 
 .ms-pending-invitation .su-btn.btn-medium:not(.btn-floating),
-.ms-accepted-invitation .su-btn.btn-medium:not(.btn-floating){
+.ms-accepted-invitation .su-btn.btn-medium:not(.btn-floating),
+.su-btn.btn-short:not(.btn-floating){
   font-size: 14px;
   color: #90908f;
   height: 30px;
   line-height: 30px;
+  padding: 0 1.5rem;
+}
+
+.su-btn.btn-short:not(.btn-floating){
+  font-size: .6rem;
+  color: #90908f;
+  height: 20px;
+  line-height: 20px;
   padding: 0 1.5rem;
 }
 
@@ -1529,7 +1538,7 @@ li.ms-accepted-invitation.row{
 }
 
 .collapsible.ms-accordion-section .collapsible-body{
-  padding: 1rem;
+  padding: 1rem 1rem 0;
 }
 
 .collapsible.ms-accordion-section .collapsible-header p{

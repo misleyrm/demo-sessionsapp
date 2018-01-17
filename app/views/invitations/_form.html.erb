@@ -1,4 +1,3 @@
-
 <%= form_for([@list, @invitation],:remote => true) do |f| %>
   <%= f.hidden_field :list_id, :value => @list.id %>
   <%= content_tag "div", id: "error_message_invitation" do%>
@@ -17,8 +16,7 @@
           <%= link_to 'Cancel', lists_path, class: 'waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12', remote: true, data: {behavior: 'modal-form'}  %>
       </div>
       <div class="col s6 input-field center-align">
-          <a class="waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white"><%= f.submit "Invite"%></a>
+          <a class="waves-effect waves-light btn-medium submit lowercase su-btn btn-flat col s12 white disabled" id= "invitation_submit"><%= f.submit "Invite",  options = {disabled: true}%></a>
       </div>
   </div>
-
 <% end %>

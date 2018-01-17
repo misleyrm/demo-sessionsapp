@@ -1,10 +1,11 @@
 class Invitation < ApplicationRecord
   # attr_accessor :sender_id, :list_id, :recipient_email, :token, :sent_at
-
+  include ActiveModel::Validations
   belongs_to :list
   belongs_to :sender, :class_name => 'User'
   belongs_to :recipient, :class_name => 'User'
   validates_presence_of :recipient_email
+  validates :recipient_email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
   # validate :recipient_is_not_registered
 
   before_create :generate_token

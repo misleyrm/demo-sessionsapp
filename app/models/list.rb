@@ -58,6 +58,10 @@ class List < ApplicationRecord
     # end
   end
 
+  def pending_invitation
+    self.invitations.where(["active!=?",true]).order('sent_at DESC')
+  end
+
   def search_collaborators(id)
     users = self.collaboration_users
 

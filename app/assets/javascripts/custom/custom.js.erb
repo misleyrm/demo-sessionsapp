@@ -250,8 +250,8 @@ $(document).on('turbolinks:load',function(){
  });
 
 
- // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
- 
+ // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
+
  $(document).on("keyup","#change_ownership_password",function(){
      if ($(this).val().length !=0)
         $("#btn-list-ownership-change").removeClass("disabled");
@@ -259,7 +259,23 @@ $(document).on('turbolinks:load',function(){
        $("#btn-list-ownership-change").addClass("disabled");
     })
 
-   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+ // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+
+ // CHANGE BUTTON TO ACTIVE WHEN EMAIL IS NOT EMPTY INVITATION
+   $(document).on("keyup","#recipient_email",function(){
+      var $invitationSubmit = $("#invitation_submit");
+       $("#error_message_invitation").html("");
+       if ($(this).val().length !=0){
+         $invitationSubmit.removeClass("disabled");
+         $('input[type="submit"]', $invitationSubmit).attr("disabled", false);
+       } else {
+         $invitationSubmit.addClass("disabled");
+         $('input[type="submit"]', $invitationSubmit).attr("disabled", true);
+       }
+      })
+
+     // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+
 
 // Functions
 

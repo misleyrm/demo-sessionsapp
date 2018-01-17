@@ -105,7 +105,7 @@ class UsersController < ApplicationController
                @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                @invitation.update_attributes(:active => true)
                htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": [],"current_user": current_user}).squish
-               htmlInvitationSetting = ListsController.render(partial: "lists/invited_user", locals: { "invited_user": @invitation, "list": @list }).squish
+               htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
                htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
 
                htmlCollaborationsList = ""
