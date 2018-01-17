@@ -29,11 +29,11 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $collaboration_users = $('ul#collaboration-users', $list)
     $add = $('li.ms-add', $collaboration_users )
 
-    $invitation = $('[data-invitation-id= "' + data.id + '"]')
+    $listPendingInvitation = $('[data-list-pending-invitation-id= "' + data.id + '"]')
     $editList = $('[data-edit-list-id= "'+data.list_id+'"]')
-    $ulCollaborationListUserSettings = $('.collaboration-user-settings', $editList)
+    $ulCollaborationListUserSettings = $('#ms-list-settings-collection', $editList)
     $addSettings = $('li.ms-add', $ulCollaborationListUserSettings )
-    $collaboratorUserSettingOwner = $('[data-collaboration-user-settings-id= "'+data.recipient+'"]', $ulCollaborationListUserSettings)
+    $collaboratorUserSettingOwner = $('[data-list-member-id= "'+data.recipient+'"]', $ulCollaborationListUserSettings)
     # $ulInvitationUserSettings = $('ul.invitation-user-settings', $editList)
     $mainCenter = $('#main_center')
 
@@ -59,7 +59,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           # Add new invitation to the list of user pending invitations in user Settings
           $userPendingInvitations.prepend data['htmlUserPendingInvitation']
       when 'activated'  #revisar
-        $invitation.remove()
+        $listPendingInvitation.remove()
         $pending_invitation.remove()
         $userAcceptedInvitations.prepend data['htmlUserAcceptedInvitation']
         if $collaboratorUserOwner.length > 0
@@ -72,7 +72,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
             $ulCollaborationList.append '<li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>'
           $ulCollaborationList.append data.htmlCollaborationsList
       when 'deleted'
-        $invitation.remove()
+        $listPendingInvitation.remove()
       when 'collaboratorDeleted'
         $collaboratorUserList = $('[data-chip-user-id= "'+ data.recipient+'"]', $collaboration_users)
         $collaboratorUserList.remove()

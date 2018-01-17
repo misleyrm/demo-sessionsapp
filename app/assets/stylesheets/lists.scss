@@ -324,3 +324,75 @@ p.label {
 #users-search-results ul li.ui-menu-item:hover{
   background: #ddd;
 }
+
+// LIST SETTINGS
+
+// list of remember
+.list-settings-collection{
+  border-left: none;
+  border-right: none;
+}
+
+.list-settings-collection.collection .collection-item{
+  padding: 10px 0;
+  line-height: 1rem;
+  letter-spacing: .25px;
+}
+
+.list-settings-collection .collection-item.avatar .circle{
+  width: 30px;
+  height: 30px;
+  left: 0;
+}
+
+.collection.list-settings-collection .collection-item.avatar .title,
+.collection.list-settings-collection .collection-item .title{
+  font-size: .8rem;
+  color: #333333;
+}
+
+.collection.list-settings-collection .collection-item.avatar p,
+.collection.list-settings-collection .collection-item .secondary-content span{
+  color: #848994;
+  font-size: .6rem;
+  line-height: 10px;
+}
+
+.list-settings-collection.collection .collection-item.avatar{
+  padding-left: 39px;
+  min-height: 37px;
+}
+
+// END LIST OF MEMBERS
+// list of pending invitations
+
+#invitations .collapsible-header i.ms-open-button{
+  float: right;
+  margin-right: 0;
+  font-size: 1.7rem;
+  font-weight: 100;
+  line-height: 2.2rem;
+}
+
+#invitations .list-settings-collection.collection .collection-item{
+  padding: 0;
+}
+
+#invitations .collapsible-header{
+  border: none;
+  min-height: 2rem;
+  line-height: 2rem;
+  padding: 0 .5rem 0 .2rem;
+}
+
+.collection .collection-item.active {
+  background: none;
+}
+
+.row #list_manage_invitation .col{
+      padding: 0 0.2rem 0 0;
+}
+
+#list_manage_invitation.collapsible-body{
+  padding: .6rem 0 2rem;
+}

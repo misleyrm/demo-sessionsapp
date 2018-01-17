@@ -116,7 +116,7 @@ class ListsController < ApplicationController
   end
 
   def edit
-    @pending_invitations = @list.invitations.where(["active!=?",true])
+    @pending_invitations = @list.pending_invitation
     render layout: 'modal'
   end
 
