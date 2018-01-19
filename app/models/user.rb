@@ -42,6 +42,7 @@ class User < ApplicationRecord
   validates_attachment_size :avatar, :less_than => 5.megabytes,
                                     :message => "must be smaller than 5 MB (megabytes)."
 
+  has_many :notifications, foreign_key: :recipient_id
   has_many :created_lists, class_name: "List", :dependent => :destroy
 
   has_one :all_task, ->{ where(all_tasks: true)}, class_name: "List"
