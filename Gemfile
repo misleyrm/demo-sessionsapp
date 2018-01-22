@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 ruby "2.3.0"
 
-gem "paperclip"
+gem "paperclip", "~> 5.0.0"
 # Amazon web services
-gem 'aws-sdk', '~> 2'
+gem 'aws-sdk', '~> 2' 
 
 gem 'rails-erd'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
