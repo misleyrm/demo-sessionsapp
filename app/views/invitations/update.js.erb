@@ -1,2 +1,4 @@
-$(".error_message").html("<%= j render :partial => 'layouts/error_message', :locals => {:model => @invitation} %>");
-Materialize.toast("<%= flash[:notice] %>", 4000);
+$(document).on('turbolinks:load',function(){
+  $(".error_message").html("<%= j render :partial => 'layouts/error_message', :locals => {:model => @invitation} %>");
+  Materialize.toast("<%= flash[:notice] %>", 4000);
+})

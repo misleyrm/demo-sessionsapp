@@ -1,3 +1,5 @@
 // Materialize.toast('<%=flash[:notice]%>', 4000);
 // Materialize.toast('<%=flash[:danger]%>', 4000);
-$("#error_message_invitation").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @invitation} %>");
+$(document).on('turbolinks:load',function(){
+  $("#error_message_invitation").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @invitation} %>");
+})

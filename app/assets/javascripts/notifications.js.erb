@@ -14,11 +14,10 @@ function Notifications(){
 function handleSuccess(data){
   var items = $.map( data, function( notification, i ) {
     var actor = notification.actor;
-    return  "<li>" +
-             "<a href='#!' class='grey-text text-darken-2'><i class='mdi-action-add-shopping-cart'>"+notification.partial+"</i> "+notification.actorName+" "+notification.action+" " +notification.notifiable.type+"</a>" +
-             "<time class='media-meta time' datetime='"+notification.time+"'>"+ $.timeago(new Date(notification.time));+"</time>" +
-            "</li>";
-
+    return  "<li class='collection-item avatar'>"+ notification.actorAvatar +
+               "<span class='title'>"+notification.actorName+" "+notification.action+" " +notification.notifiable.type+"</span>"+
+               "<p>"+ $.timeago(new Date(notification.created_at));+"</p>"+
+             "</li>";
   });
 
   $("[data-behavior='unread-count']").text(items.length);

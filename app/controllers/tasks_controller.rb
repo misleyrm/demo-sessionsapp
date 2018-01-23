@@ -55,12 +55,13 @@ class TasksController < ApplicationController
        @task = current_list.tasks.build(task_params)
        List.current = current_list
        if @task.save
-         (current_list.collaboration_users.uniq - [current_user]).each do |user|
-             Notification.create(recipient:user, actor:current_user, action:"created",notifiable: @task)
-          end
-          flash[:success] = "Task created"
+         if !(current_list.all_tasks_list?)
+           (current_list.collaboration_users.uniq + [current_list.owner] - [current_user]).each do |user|
+               Notification.create(recipient:user, actor:current_user, action:"created a new",notifiable: @task)
+            end
+         end
+         flash[:success] = "Task created"
        end
-
      end
     #  respond_to do |format|
     #    format.html{ redirect_to @list, :locals => {:task => @task}}

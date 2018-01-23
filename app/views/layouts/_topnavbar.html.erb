@@ -5,27 +5,26 @@
           <div class="nav-belt hide-on-small-only">
               <ul class="nav-belt-left">
                  <li><%= link_to "List", root_path %></li>
-                 <!-- <li>Guest Users</li> -->
               </ul>
               <ul class="right hide-on-small-only nav-setting">
                   <li>
-                      <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior='notifications'>
+                      <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior="notifications" data-hover="false">
                          <i class="material-icons md-18 md-light">notifications<extra-small class="notification-badge" data-behavior='unread-count'></sextra-small></i>
                       </a>
-                     <ul class="dropdown-content" style="min-width:250px" id="notifications-dropdown" data-behavior="notification-items">
+                     <ul class="dropdown-content collection" id="notifications-dropdown" data-behavior="notification-items">
                      </ul>
-                     </li>
-                     <li><!-- <a href="#">
-                       <i class="material-icons md-18 md-light">view_module</i></a> -->
-                     </li>
-                     <li>
-                       <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name"><span><%=current_user.first_name%></span><i class="material-icons right">arrow_drop_down</i></a>
-                       <!-- Dropdown Structure -->
-                       <ul id='dropdownUser' class='dropdown-content'>
-                         <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
-                         <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
-                       </ul>
-                     </li>
+                   </li>
+                   <li>
+                     <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name" data-hover="false">
+                       <span><%=current_user.first_name%></span>
+                       <i class="material-icons right">arrow_drop_down</i>
+                     </a>
+                     <!-- Dropdown Structure -->
+                     <ul id='dropdownUser' class='dropdown-content'>
+                       <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
+                       <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
+                     </ul>
+                   </li>
                  </ul>
           </div>
           <a href="#" data-activates="slide-out" class="button-collapse sidebar-collapse btn-medium waves-light hamburger-menu">

@@ -1,3 +1,4 @@
+$(document).on('turbolinks:load',function(){
     var $form =  $('#application-date form');
     var $content = $('#page-content #main_center');
     if($('#new-list').length){
@@ -33,3 +34,4 @@
           { from: [0,0,0], to: gon.startDate }
         ]
       });
+})
