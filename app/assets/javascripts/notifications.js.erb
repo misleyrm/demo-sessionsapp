@@ -1,0 +1,24 @@
+document.addEventListener("turbolinks:load", function(){
+   var $notification = $('[data-behavior="notifications"]');
+
+   if ($notification.length > 0){
+      setup();
+      console.log($notification.length);
+
+   }
+
+
+})
+
+function setup(){
+  $.ajax({
+    url:  "/notifications.json",
+    dataType: "JSON",
+    method: "GET",
+    success: function(response) {
+        //  Materialize.toast('Avatar Changed', 4000);
+          // return response; // <- I tried that one as well
+          console.log(response);
+      }
+  })
+}

@@ -13,6 +13,6 @@ class NotificationsController < ApplicationController
   private
     def set_notifications
       @notifications = Notification.where(recipient: current_user).unread
-      render json: {success: true}
+      # render json: {success: true}
     end
 end
