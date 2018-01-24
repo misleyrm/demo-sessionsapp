@@ -1,24 +1,34 @@
-document.addEventListener("turbolinks:load", function(){
-   var $notification = $('[data-behavior="notifications"]');
 
-   if ($notification.length > 0){
-      setup();
-      console.log($notification.length);
+function Notifications(){
+  this.notifications = $("[data-behavior='notifications']"),
+  this.setup = function(){
+    if (this.notifications.length >0) {
+      $.ajax({
+        url: "/notifications.json",
+        dataType: "JSON",
+        method: "GET",
+        success: handleSuccess
+      })
+    }
+  }
+}
+function handleSuccess(data){
+  var items = $.map( data, function( notification, i ) {
+    var actor = notification.actor;
+    return  "<li>" +
+             "<a href='#!' class='grey-text text-darken-2'><i class='mdi-action-add-shopping-cart'>"+notification.notifiable.avatar+"</i> "+notification.actorName+" "+notification.action+" " +notification.notifiable.type+"</a>" +
+             "<time class='media-meta time' datetime='"+notification.time+"'>"+ $.timeago(new Date(notification.created_at));+"</time>" +
+            "</li>";
 
-   }
+  });
 
+  $("[data-behavior='unread-count']").text(items.length);
+  $("[data-behavior='notification-items']").html(items)
+}
+
+$(document).on('turbolinks:load',function(){
+  var notifications = new Notifications;
+  notifications.setup();
+  $("time.time").timeago();
 
 })
-
-function setup(){
-  $.ajax({
-    url:  "/notifications.json",
-    dataType: "JSON",
-    method: "GET",
-    success: function(response) {
-        //  Materialize.toast('Avatar Changed', 4000);
-          // return response; // <- I tried that one as well
-          console.log(response);
-      }
-  })
-}

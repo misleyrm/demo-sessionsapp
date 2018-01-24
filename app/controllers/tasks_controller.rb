@@ -47,7 +47,7 @@ class TasksController < ApplicationController
          tag_emails.each do |email|
              sender = current_user
              TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now
-             Notification.create(recipient:User.find_by_email(email), actor:current_user, action:"mention in blocker",notifiable: @t_blocker)
+             Notification.create(recipient:User.find_by_email(email), actor:current_user, action:"mention you in",notifiable: @t_blocker)
           end
           flash[:success] = "Blocker created"
        end
@@ -56,7 +56,7 @@ class TasksController < ApplicationController
        List.current = current_list
        if @task.save
          (current_list.collaboration_users.uniq - [current_user]).each do |user|
-             Notification.create(recipient:user, actor:current_user, action:"task created",notifiable: @task)
+             Notification.create(recipient:user, actor:current_user, action:"created",notifiable: @task)
           end
           flash[:success] = "Task created"
        end

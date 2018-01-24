@@ -12,7 +12,6 @@ class NotificationsController < ApplicationController
 
   private
     def set_notifications
-      @notifications = Notification.where(recipient: current_user).unread
-      # render json: {success: true}
+      @notifications = Notification.where(recipient: current_user).unread.order('created_at DESC')
     end
 end
