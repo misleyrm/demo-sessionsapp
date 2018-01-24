@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+// $(document).on('turbolinks:load',function(){
   if(!$('#ms-tabsSetting').length){
       $('header .nav-wrapper').append('<div id="ms-tabsSetting"></div>');
   }
@@ -8,4 +8,4 @@ $(document).on('turbolinks:load',function(){
   $('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
   $('#page-content').html('<%= j render 'users/edit' %>');
   $('ul.tabs').tabs();
-})
+// })

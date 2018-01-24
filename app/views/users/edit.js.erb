@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+// $(document).on('turbolinks:load',function(){
   if(!$('#ms-user-nav-setting').length){
       $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');   //<div id="ms-tabsSetting"></div>
   }
@@ -14,7 +14,7 @@ $(document).on('turbolinks:load',function(){
 
   // $('#ms-modal-applications').modal('open');
   // $('.side-nav').hide();
-})
+// })
 
 function RenderSettingTabs(){
   $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');

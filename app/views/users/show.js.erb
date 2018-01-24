@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+// $(document).on('turbolinks:load',function(){
    <% if params[:type].present? %>
       var $list = $('[data-list-id = "<%= @list.id %>"]');
       var $listUsers = $('#list-users',$list);
@@ -27,4 +27,4 @@ $(document).on('turbolinks:load',function(){
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
        }
    <% end %>
-})  
+// })  

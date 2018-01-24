@@ -3,7 +3,7 @@ ruby "2.3.0"
 
 gem "paperclip", "~> 5.0.0"
 # Amazon web services
-gem 'aws-sdk', '~> 2' 
+gem 'aws-sdk', '~> 2'
 
 gem 'rails-erd'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -44,13 +44,13 @@ gem 'simple_form'
 
 gem 'rails_autolink'
 
-gem 'perfect-scrollbar-rails'
-
 gem 'pundit'
 
 gem 'figaro'
 
 gem 'gon'
+
+gem 'scrollbar-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

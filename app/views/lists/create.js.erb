@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+// $(document).on('turbolinks:load',function(){
   $nav = $('[data-nav-id = "<%= current_user.id%>"]');
   $listNav = $('[data-nav-list-id = "<%= current_list.id %>"]');
 
@@ -11,4 +11,4 @@ $(document).on('turbolinks:load',function(){
   console.log(gon.current_user.id);
   $('#ms-modal-dialog').modal('close');
   Materialize.toast("<%= flash[:success] %>", 4000);
-})
+// })
