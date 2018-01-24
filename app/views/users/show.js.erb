@@ -1,5 +1,4 @@
-
-   <% if params[:type].present? %>
+ <% if params[:type].present? %>
       var $list = $('[data-list-id = "<%= @list.id %>"]');
       var $listUsers = $('#list-users',$list);
       var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
@@ -14,13 +13,13 @@
           $('input[id="task_user_id"]',$user).val("<%= @user.id %>");
           $('.tooltipped').tooltip({delay: 50});
           // dropdown-button
-          $('.dropdown-button2').dropdown({
-              inDuration: 300,
-              outDuration: 225,
-              hover: false, // Activate on hover
-              belowOrigin: true, // Displays dropdown below the button
-              alignment: 'right' // Displays dropdown with edge aligned to the left of button
-            });
+          // $('.dropdown-button2').dropdown({
+          //     inDuration: 300,
+          //     outDuration: 225,
+          //     hover: false, // Activate on hover
+          //     belowOrigin: true, // Displays dropdown below the button
+          //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
+          //   });
 
           $('.edit_task').submitOnCheck();
           deadlineDatepicker($('input.deadline-datepicker'));

@@ -1,11 +1,10 @@
+  if ($("#error_explanation").length > 0){
+         $("#error_explanation").remove();
+       }
+   <% if @user.errors.blank?%>
+       $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
+  <% else%>
+       $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
+   <% end %>
 
-if ($("#error_explanation").length > 0){
-       $("#error_explanation").remove();
-     }
- <% if @user.errors.blank?%>
-     $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
-<% else%>
-     $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
- <% end %>
-
-$('ul.tabs').tabs();
+  $('ul.tabs').tabs();

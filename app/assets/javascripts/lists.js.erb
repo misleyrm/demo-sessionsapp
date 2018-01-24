@@ -1,74 +1,74 @@
 $(document).on('turbolinks:load',function(){
-  $('.dropdown-button').dropdown();
+  // $('.dropdown-button').dropdown();
   $(".button-collapse").sideNav();
   $('.edit_task').submitOnCheck();
   $('.modal-trigger').modal();
-
+})
   $(document).on("change", 'input#list_avatar', uploadAvatar);
   // CHANGE IMAGE IN USER NEW FILE UPLOAD
   $(document).on("mouseout", 'label[for="list_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="list_avatar"]', mouseOverAvatar);
 
   //  change ownership
-    $(document).on("click","a#btn-list-ownership-change",function(e){
-        e.preventDefault;
-        submit_ownership_change(e)
-      })
+  $(document).on("click","a#btn-list-ownership-change",function(e){
+      e.preventDefault;
+      submit_ownership_change(e)
+  })
 
-      function submit_ownership_change(event) {
-        var formData = new FormData(),
-            $form_user_ownership_change = $("#user_ownership_change"),
-            $new_owner = $("#list_owner",$form_user_ownership_change),
-            $current_password = $("#change_ownership_password",$form_user_ownership_change);
+  function submit_ownership_change(event) {
+    var formData = new FormData(),
+        $form_user_ownership_change = $("#user_ownership_change"),
+        $new_owner = $("#list_owner",$form_user_ownership_change),
+        $current_password = $("#change_ownership_password",$form_user_ownership_change);
 
-        formData.append('list_owner', $new_owner.val());
-        // alert($current_password.val());
-        formData.append('current_password', $current_password.val());
-        do_submit(formData);
-        return false;
-      }
+    formData.append('list_owner', $new_owner.val());
+    // alert($current_password.val());
+    formData.append('current_password', $current_password.val());
+    do_submit(formData);
+    return false;
+  }
 
-          function keypressed(event) {
-            var charcode = (event.which) ? event.which : window.event.keyCode;
-            if (charcode == 13) {
-              return submit_ownership_change(event);
-            }
-            return true;
-          }
+  function keypressed(event) {
+    var charcode = (event.which) ? event.which : window.event.keyCode;
+    if (charcode == 13) {
+      return submit_ownership_change(event);
+    }
+    return true;
+  }
 
-          function do_submit(submit_values) {
+  function do_submit(submit_values) {
 
-            $.ajax({
-              url: $("#btn-list-ownership-change").data("src"),
-              data: submit_values,
-              cache: false,
-              contentType: false,
-              processData: false,
-              type: 'POST',
-              success: function(response) {
+    $.ajax({
+      url: $("#btn-list-ownership-change").data("src"),
+      data: submit_values,
+      cache: false,
+      contentType: false,
+      processData: false,
+      type: 'POST',
+      success: function(response) {
 
-                if (response.status=="success"){
-                  Materialize.toast('Your changes were saved', 4000);
-                  var $current_password = $("#change_ownership_password");
-                  $current_password.val('');
-                  $('#change_ownership').collapsible('close', 0);
-                }
-                },error: function(xhr){
+        if (response.status=="success"){
+          Materialize.toast('Your changes were saved', 4000);
+          var $current_password = $("#change_ownership_password");
+          $current_password.val('');
+          $('#change_ownership').collapsible('close', 0);
+        }
+        },error: function(xhr){
 
-                    if ($("#change_ownership .collapsible-body .ms-alert").length >0){
-                        $("#change_ownership .collapsible-body .ms-alert").remove();
-                      }
-                    var $collapsibleBody = $("#change_ownership .collapsible-body");
-                    $collapsibleBody.prepend('<div class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
-                    var $divError = $(".ms-alert ul", $collapsibleBody),
-                        errors = $.parseJSON(xhr.responseText).errors;
+            if ($("#change_ownership .collapsible-body .ms-alert").length >0){
+                $("#change_ownership .collapsible-body .ms-alert").remove();
+              }
+            var $collapsibleBody = $("#change_ownership .collapsible-body");
+            $collapsibleBody.prepend('<div class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+            var $divError = $(".ms-alert ul", $collapsibleBody),
+                errors = $.parseJSON(xhr.responseText).errors;
 
-                    jQuery.each( errors, function( i, val ) {
-                        $divError.append ('<li>' + val[0].message + '</li>')
-                      });
-                }
-            })
-          }
+            jQuery.each( errors, function( i, val ) {
+                $divError.append ('<li>' + val[0].message + '</li>')
+              });
+        }
+    })
+  }
 // end change ownership
 
 
@@ -212,4 +212,3 @@ function extractLast(term) {
 //
 // };
 /***** END Autocomplete with jQuery Autocomplete *********/
-})

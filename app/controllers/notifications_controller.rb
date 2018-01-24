@@ -12,6 +12,6 @@ class NotificationsController < ApplicationController
 
   private
     def set_notifications
-      @notifications = Notification.where(recipient: current_user).unread.order('created_at DESC')
+      @notifications = Notification.where(recipient: current_user).unread
     end
 end

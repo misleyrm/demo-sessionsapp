@@ -1,19 +1,15 @@
-if(!$('#ms-user-nav-setting').length){
-    $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');   //<div id="ms-tabsSetting"></div>
-}
-$('body').addClass('expand-header');
-$('body.expand-header .nav-main ul.right').addClass('hide');
-$('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
-$('.nav-main li.avatar-list').addClass('avatar-user');
-$('.nav-main li.avatar-user').attr('data-topnavbar-user-id', "<%= @user.id %>" );
-setTimeout(RenderSettingTabs, 200);
+  if(!$('#ms-user-nav-setting').length){
+      $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');   //<div id="ms-tabsSetting"></div>
+  }
+  $('body').addClass('expand-header');
+  $('body.expand-header .nav-main ul.right').addClass('hide');
+  $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+  $('.nav-main li.avatar-list').addClass('avatar-user');
+  $('.nav-main li.avatar-user').attr('data-topnavbar-user-id', "<%= @user.id %>" );
+  setTimeout(RenderSettingTabs, 200);
 
-$('nav a.button-collapse').css('display','block');
-$('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
-
-// $('#ms-modal-applications').modal('open');
-// $('.side-nav').hide();
-
+  $('nav a.button-collapse').css('display','block');
+  $('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
 
 function RenderSettingTabs(){
   $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');

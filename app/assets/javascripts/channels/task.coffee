@@ -99,7 +99,6 @@ App.task = App.cable.subscriptions.create "TaskChannel",
             $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
           $('.edit_task').submitOnCheck()
 
-      $('.dropdown-button').dropdown()
       deadlineDatepicker($('input.deadline-datepicker',$list ))
     else
       if data.blocker
