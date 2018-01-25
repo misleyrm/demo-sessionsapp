@@ -92,34 +92,59 @@ nav {
     line-height: 100px;
 }
 
+
+.chip{
+  line-height: inherit;
+  margin-bottom: 0;
+  margin-right: 0;
+}
 .avatar-list .chip,
 .navigationbar .chip,
 .list_avatar_name .chip{
   background: none;
   font-weight: 100;
+  display: table;
+  height: 100%;
 }
+
+.chip > img,
+.chip > p,
+.chip > span,
+.chip > i,
+nav .chip > i{
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.chip > img,
+.chip > p{
+  line-height: inherit!important;
+}
+
+.nav-main .avatar-list .chip >i{
+  line-height: 2.5rem;
+  font-size: 1.6rem;
+}
+
 .nav-main .avatar-list .chip{
-  font-size: 25px;
   text-transform: capitalize;
-  line-height: 50px;
-  height: 50px;
+  /*line-height: 80px;*/
+  height: 100%;
   color: #fff;
+  display: table;
+  font-size: 20px;
+  position: relative;
 }
-.nav-main .avatar-list .chip img{
-  height: 50px;
-  width: 50px;
+.nav-main .avatar-list >.chip >img,
+.nav-main .avatar-list >.chip >i,
+.nav-main .avatar-list >.chip >span{
+  height: 42px;
+  width: 42px;
   margin: 0 22px 0 -12px;
 
 }
-.nav-main .avatar-list .chip i,
-.nav-main .avatar-list .chip span{
-    height: 50px!important;
-    width: 50px;
-    margin: 0 22px 0 -12px;
-    font-size: 30px;
-    line-height: 50px!important;
-    padding: 0;
-}
+
 .nav-main .avatar-list .chip i,
 .nav-main .avatar-list .chip span,
 .navigationbar .chip i,
@@ -127,22 +152,21 @@ nav {
 .navigationbar .chip span,
 .list_avatar_name .chip span,
 .list_avatar_name .chip i{
-  float: left;
   border-radius: 50%;
   background-color: #fff;
   text-align: center;
 }
 
-.list_avatar_name .chip {
+.navigationbar > .chip > img {
+  height: 30px;
+  width: 30px;
+
+}
+
+/*.list_avatar_name .chip {
   margin-bottom: 0;
-}
+}*/
 
-
-.navigationbar .chip p,
-.list_avatar_name .chip p,
-.nav-main .avatar-list .chip p{
-  display: inline-block;
-}
 
 .navigationbar .chip span,
 .list_avatar_name .chip span{
@@ -153,7 +177,7 @@ nav {
 .navigationbar .chip span,
 .list_avatar_name .chip span{
     text-transform: uppercase;
-    line-height: 33px;
+    line-height: 30px;
   }
 
 .nav-main .avatar-list .chip i,
@@ -196,15 +220,15 @@ nav {
 .navigationbar .chip span,
 .list_avatar_name .chip span,
 .list_avatar_name .chip i{
-  height: 32px;
-  width: 32px;
+  height: 30px;
+  width: 30px;
 }
 
 .navigationbar .chip i,
 .chip i.add-user,
 .list_avatar_name .chip i{
-  font-size: 22px;
-  line-height: 30px;
+  font-size: 20px;
+  line-height: 28px;
 }
 
 .navigationbar .chip i,
@@ -461,34 +485,32 @@ select{
   .container {
     width: 85%;
     }
-    .navbar-fixed {
-        height: 110px;
-    }
-   nav .nav-main {
-        height: 90px!important;
-        line-height: 90px!important;
+  .navbar-fixed {
+      height: 110px;
+  }
+   nav .nav-main,
+   nav .nav-main .left,
+   nav .nav-main .right {
+      height: 80px!important;
+      line-height: 80px!important;
     }
 
-    nav .nav-main .left, nav .nav-main .right {
-         line-height: 90px!important;
-         height: 90px;
-     }
     .hamburger-menu>div {
         display: table;
-        line-height: 90px;
+        line-height: 80px;
     }
     #ms-tabsSetting {
       padding-left: 160px;
     }
     nav {
-        height: 140px;
-        line-height: 140px;
+        height: 130px;
+        line-height: 130px;
     }
     header, header nav{
-        min-height: 140px;
+        min-height: 130px;
     }
     body .navigationbar {
-      top: 140px;
+      top: 130px;
 }
 
   }
@@ -999,10 +1021,11 @@ select{
     top: 140px;
     left: 0;
     bottom: 0;
-    width: 280px;
+    width: 260px;
     font-size: 1rem;
     z-index: 9;
     transform: translate3d(0,0,0);
+    height: auto;
 
   }
 

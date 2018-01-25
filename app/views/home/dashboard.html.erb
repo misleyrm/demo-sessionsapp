@@ -12,7 +12,8 @@
       </button>
       <strong>Holy guacamole!</strong> You should check in on some of those fields below.
     </div> -->
-    <div  id="content"  class="<% if current_user.nil? %>toggled<% end %> container">
+    <%= content_tag "div",id: "content", class: "container" do%>
+
       <div id="page-content">
         <%= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
         <aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
@@ -22,8 +23,10 @@
             <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
+    <% end%>
   </main>
+
   <!-- Footer -->
   <%= render 'layouts/footer' %>
   <!-- Modal Structure -->

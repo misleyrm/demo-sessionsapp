@@ -327,6 +327,13 @@ i.small {
 }
 
 /********* HELPER **********/
+.material-icons.md-8rem {
+    font-size: .8rem;
+}
+
+.material-icons.md-1rem {
+    font-size: 1rem;
+}
 .uppercase{
   text-transform: uppercase;
 }
@@ -962,97 +969,6 @@ textarea.materialize-textarea:focus.valid {
     box-shadow: 0 1px 0 0 #55C2B9;
 }
 
-.menu-information li:not(:first-child):before {
-  content: "/";
-  padding: 0 5px 0 0px;
-}
-
-.menu-information li.ms-deadline:not(.active):before {
-  opacity: 0;
-}
-
-.menu-information li.ms-deadline.active:before {
-  opacity: 1;
-}
-
-.menu-information li > p{
-  display: inline;
-}
-
-.complete_tasks div.task-detail{
-  position: relative;
-  color: #A4A6A9;
-}
-
-.complete_tasks div.task-detail::after{
-  /*content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0.5em;
-  border-top: 1px solid rgba(164, 166, 169, 0.3);
-  z-index: -1;
-  margin-left: 12px;
-  width: 120%;*/
-}
-
-.show_blockers .blocker ul.action-menu {
-    display: inline;
-    position: absolute;
-    right: -52px;
-    top: 0;
-    line-height: 20px;
-    min-height: 16px;
-}
-
-.permitted .show_blockers .blocker:hover{
-  background-color: rgba(185, 185, 185, 0.07);
-}
-
-.show_blockers div.blocker:not(.active) ul.action-menu {
-  opacity: 0;
-}
-
-.show_blockers div.blocker.active ul.action-menu {
-  -webkit-transition: opacity .05s linear,visibility .05s linear;
-  -moz-transition: opacity .05s linear,visibility .05s linear;
-  transition: opacity .05s linear,visibility .05s linear;
-
-}
-.show_blockers ul.action-menu li {
-    display: inline-table;
-    float: left;
-    padding: 0 5px;
-  }
-
-.show_blockers ul.action-menu li i,
-.show_blockers a.blocker_detail{
-  line-height: 20px;
-}
-
-.show_blockers .blocker{
-  position: relative;
-}
-.no-permitted #my-add-task{
-  display: none;
-}
-
-.no-permitted ul.menu-option > li a,
-.no-permitted ul.menu-option > li form,
-.no-permitted ul.menu-option > li div.input-group{
-  pointer-events: none;
-  cursor: not-allowed;
-  display: none;
-}
-.no-permitted ul.menu-option > li a{
-  pointer-events: none;
-}
-
-.permitted ul.menu-option > li i[data-has-blockers],
-.no-permitted ul.menu-option > li i[data-has-blockers='false']{
-  display: none;
-}
 
 /***** HIDDEN DATEPICKER ******/
 .hidden-datepicker{
@@ -1333,38 +1249,6 @@ button.close {
 
 .ms-upload-avatar input[type="file"]{
   left: 0;
-}
-.show_blockers div.blocker label.truncate{
-  -webkit-transition: white-space 2s; /* Safari */
-  transition: white-space 2s;
-
-}
-
-.show_blockers div.blocker.active label.truncate {
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: initial;
-
-}
-
-.show_blockers div.blocker label {
-    margin: 0rem 0 .3rem;
-}
-
-.complete_tasks.tasks .row{
-  margin-bottom: 0px;
-}
-
-.complete_tasks p.truncate:hover{
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: initial;
-}
-
-.complete_tasks p.truncate{
-  text-decoration: line-through;
-  -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
-  -moz-text-decoration-style: solid;
 }
 
 /************ LIST ***************/
