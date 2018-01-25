@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load',function(){
+// $(document).on('turbolinks:load',function(){
     var $form =  $('#application-date form');
     var $content = $('#page-content #main_center');
     if($('#new-list').length){
@@ -40,4 +40,4 @@ $(document).on('turbolinks:load',function(){
     $('.edit_task').submitOnCheck();
     deadlineDatepicker($('input.deadline-datepicker'));
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-  })
+  // })

@@ -11,7 +11,21 @@
                       <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior="notifications" data-hover="false">
                          <i class="material-icons md-18 md-light">notifications<extra-small class="notification-badge" data-behavior='unread-count'></sextra-small></i>
                       </a>
-                     <ul class="dropdown-content collection" id="notifications-dropdown" data-behavior="notification-items">
+                     <ul class="dropdown-content animated fadeIn" id="notifications-dropdown">
+                       <li class= "total"><span class="ultra-small">
+                               You have <strong data-behavior= 'unread-count'>3</strong> new notifications.
+                               <a href="javascript:;" class="right ultra-small" data-behavior='notifications-markasread'>Mark all as Read</a>
+                           </span>
+                       </li>
+                       <li class="list">
+                           <ul class="collection list-unstyled dropdown-menu-scrollbar" data-behavior="notification-items" id="style-2">
+                           </ul>
+                       </li>
+                       <li class="external">
+                            <a href="javascript:;">
+                                <span class="right-align">Read All Notifications</span>
+                            </a>
+                        </li>
                      </ul>
                    </li>
                    <li>

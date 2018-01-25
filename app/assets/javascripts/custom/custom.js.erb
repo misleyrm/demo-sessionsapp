@@ -1,6 +1,7 @@
 jQuery.fn.submitOnCheck = function() {
   this.find('input[type=submit]').remove();
   this.find('input[type=checkbox]').click(function() {
+    console.log("hhdhdhhd");
     $(this).parent('form').submit();
   });
   return this;
@@ -21,6 +22,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
       $this.parent().addClass('active');
 
       var id = $this.attr('id');
+
 
       $("#form_date").attr('action', '/lists/' + id);
       var date = $('#form_date').val() ? $('#form_date').val(): new Date();
@@ -43,7 +45,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 
 $(document).on('turbolinks:load',function(){
-
+  $('.edit_task').submitOnCheck();
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)

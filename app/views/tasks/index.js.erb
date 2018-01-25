@@ -1,7 +1,8 @@
+
     $blockers = $('#blockers_task<%= @task.id%>');
     $show_blocker = $('#show_blockers_<%= @task.id%>');
     $new_blocker = $('#new_blocker_<%= @task.id%>');
     $show_blocker.slideToggle( 500, "easeOutSine",function(){
-     $blockers .html('<%= j render partial: "tasks/t_blocker", collection: @blockers %>');
-     $new_blocker.html('<%= j render "tasks/formBlocker" %>')
+       $blockers .html('<%= j render partial: "tasks/t_blocker", collection: @blockers %>');
+       $new_blocker.html('<%= j render "tasks/formBlocker" %>')
     });

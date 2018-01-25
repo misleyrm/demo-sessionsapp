@@ -1,4 +1,6 @@
+
  <% if params[:type].present? %>
+
       var $list = $('[data-list-id = "<%= @list.id %>"]');
       var $listUsers = $('#list-users',$list);
       var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
