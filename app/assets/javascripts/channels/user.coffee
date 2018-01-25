@@ -33,7 +33,7 @@ App.user = App.cable.subscriptions.create "UserChannel",
 
     switch data.status
       when 'changeavatar'
-        Materialize.toast($name, 4000);
+        # Materialize.toast($name, 4000);
         $barUserAvatar.attr('src',data.avatar )
         $contentUserAvatar.attr('src',data.avatar )
         $collaborationUserAvatar.attr('src',data.avatar )

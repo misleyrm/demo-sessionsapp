@@ -738,13 +738,13 @@ a{
   padding: 0;
 }
 
-.collaboration-user-settings .chip {
+/*.collaboration-user-settings .chip {
   position: relative;
 }
 
 .collaboration-user-settings .chip .close.my-close {
   opacity: 1;
-}
+}*/
 
 
 .chip .close.my-close {
@@ -853,12 +853,16 @@ a{
 }
 /********* End Modal *********/
 /********** User Img *********/
-#list-users .chip{
+#list-users .chip.user-img{
+  margin: 1rem 3rem 0 0;
+  border: 1px solid hsla(0, 0%, 89%, 0.94);
+}
+
+#list-users .ms-user-tasks,
+#list-users .chip.user-img{
   position: relative;
-  margin: 1.4rem 0rem 0 -5rem;
   display: inline-block;
   float: left;
-  border: 1px solid hsla(0, 0%, 89%, 0.94);
 }
 
 #list-users .chip img, #list-users .chip {

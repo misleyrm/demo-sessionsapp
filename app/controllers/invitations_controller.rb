@@ -44,7 +44,7 @@ class InvitationsController < ApplicationController
                   @url = sign_up_url(:invitation_token => @invitation.token)
                   InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite data to our mailer to deliver the email
                   htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
-                  ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, existing_user_invite: false
+                  ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id,owner: @list.owner.id, existing_user_invite: false
 
                 end
                 # respond_to do |format|
@@ -108,27 +108,28 @@ class InvitationsController < ApplicationController
       # @recipient = @invitation.recipient
       #send a notification email
       InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
+      flash[:notice] = "The invitation was re-sent."
     else
       @url = sign_up_url(:invitation_token => @invitation.token)
       InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite
       flash[:notice] = "The invitation was re-sent."
-      respond_to do |format|
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js { }
-       end
      end
-
+     respond_to do |format|
+       format.json { render :json => {:htmlerrors => @htmlerrors }}
+       format.js { }
+      end
   end
 
   # DELETE /invitations/1
   # DELETE /invitations/1.json
   def destroy
+
     @invitation.destroy
     if (@invitation.recipient != nil) && (!@invitation.active)
       @collaboration = Collaboration.find_by(user_id: @invitation.recipient.id, list_id: @invitation.list_id)
       @collaboration.destroy
     end
-    ActionCable.server.broadcast 'invitation_channel', status: 'deleted', id: @invitation.id
+    ActionCable.server.broadcast 'invitation_channel', status: 'deleted', id: @invitation.id, list_id: @invitation.list_id,recipient: @invitation.recipient_id, owner: @list.owner.id
     respond_to do |format|
       flash[:notice] = 'Invitation was successfully destroyed.'
       format.html {   }
