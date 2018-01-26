@@ -83,7 +83,7 @@
 
 .tasks .row{
   margin-bottom: 17px;
-  padding: 3px 0px;
+  padding: 0px;
 }
 
 .tasks .ui-sortable-handle:hover{
@@ -117,18 +117,6 @@ form.edit_task [type="checkbox"] + label {
   color: #A4A6A9;
 }
 
-.complete_tasks div.task-detail::after{
-  /*content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0.5em;
-  border-top: 1px solid rgba(164, 166, 169, 0.3);
-  z-index: -1;
-  margin-left: 12px;
-  width: 120%;*/
-}
 
 .show_blockers .blocker ul.action-menu {
     display: inline;
@@ -140,11 +128,15 @@ form.edit_task [type="checkbox"] + label {
 }
 
 .permitted .show_blockers .blocker:hover{
-  background-color: rgba(185, 185, 185, 0.07);
+  //background-color: rgba(185, 185, 185, 0.07);
 }
 
 .show_blockers div.blocker:not(.active) ul.action-menu {
   opacity: 0;
+}
+
+.show_blockers {
+  padding-top: .5rem;
 }
 
 .show_blockers div.blocker.active ul.action-menu {
