@@ -16,6 +16,8 @@ class Task < ApplicationRecord
   after_commit :broadcast_update,on: [:update]
   after_create :broadcast_save
 
+  validates_presence_of :detail, :on => :create
+
   def completed?
     !completed_at.blank?
   end

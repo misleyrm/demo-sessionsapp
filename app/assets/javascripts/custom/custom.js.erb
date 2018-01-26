@@ -239,13 +239,16 @@ $(document).on('turbolinks:load',function(){
         })
     });
   // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
-  $(document).on("click", "#user_ownership_change a.btn-cancel", function() {
-       var $select = $(this).closest('form').find('select');
-       var value= $select.data("list-owner");
+  $(document).on("click", "#user_ownership_change a.btn-cancel", function(){
+       var $select = $(this).closest('form').find('select'),
+            value = $select.data("list-owner"),
+            $collapsible = $(this).parents($('.collapsible'));
+
        $(this).closest('form').find("input[type=password], current_password").val("");
        $select.find('option[value="'+value+'"]').prop('selected', true);
        $select.material_select();
-       $(this).parents($('.collapsible')).collapsible('close', 0);
+       $collapsible.collapsible('close', 0);
+       collapsibleClose($collapsible);
        $("#list_owner").val($("#list_owner option:first").val());
  });
 
@@ -492,12 +495,14 @@ function msCollapsible(clase){
           $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
           $arrow.animateRotate(0,90, 250, "linear");
        }, // Callback for Collapsible open
-      onClose: function(el) {
-        var $this = el,
-        $panel_headers = $this.find('div.collapsible-header'),
-        $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-        $arrow.animateRotate(90,0, 250, "linear");
-       } // Callback for Collapsible close
+      onClose: collapsibleClose
     });
 
+}
+
+function collapsibleClose(e){
+  var $this = e,
+  $panel_headers = $this.find('div.collapsible-header'),
+  $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+  $arrow.animateRotate(90,0, 250, "linear");
 }

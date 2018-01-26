@@ -1,4 +1,4 @@
-<div id="my-add-task" class="row">
+<div id="my-add-task">
 		<%= form_for([current_list, current_list.tasks.build], :remote => true) do |f| %>
 			<div class="input-field left">
 				<% if !user.nil? %>

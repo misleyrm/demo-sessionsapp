@@ -39,6 +39,11 @@
   top: 0;
 }
 
+.table-of-task > .row{
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .table-of-task [type="checkbox"]:checked+label:before {
   width: 8px;
   height: 18px;

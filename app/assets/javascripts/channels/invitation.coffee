@@ -14,9 +14,6 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $addCollaborationUserOwner = $('li.ms-add', $collaborationUsersOwner )
 
     $editListOwner = $('[data-edit-list-id= "'+data.list_id+'"]', $currentUserOwner)
-    $ulCollaborationListUserSettings = $('.collaboration-user-settings', $editListOwner)
-    $addCollaborationUserSettingsOwner = $('li.ms-add', $ulCollaborationListUserSettings )
-    $ulInvitationUserSettings = $('ul.invitation-user-settings', $editListOwner)
     # collaboration user in collaboration user list
     $collaboratorUserOwner = $('[data-chip-user-id= "'+data.recipient+'"]', $collaborationUsersOwner)
     # collaboration user in collaboration user in settings
@@ -25,16 +22,12 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
     $listCollaborationUsers = $('.list-collaboration-users', $list)
     $pageContentUser = $('[data-user-id = "' + data.recipient + '"]', $list)
-
     $collaboration_users = $('ul#collaboration-users', $list)
-    $add = $('li.ms-add', $collaboration_users )
 
-    $listPendingInvitation = $('[data-list-pending-invitation-id= "' + data.id + '"]')
+    # list settings
     $editList = $('[data-edit-list-id= "'+data.list_id+'"]')
-    $ulCollaborationListUserSettings = $('#ms-list-settings-collection', $editList)
-    $addSettings = $('li.ms-add', $ulCollaborationListUserSettings )
-    $collaboratorUserSettingOwner = $('[data-list-member-id= "'+data.recipient+'"]', $ulCollaborationListUserSettings)
-    # $ulInvitationUserSettings = $('ul.invitation-user-settings', $editList)
+    $listPendingInvitation = $('[data-list-pending-invitation-id= "' + data.id + '"]', $editList)
+    $collaboratorUserSettingOwner = $('[data-list-member-id= "'+data.recipient+'"]', $editList)
     $mainCenter = $('#main_center')
 
     # activated or collaboratorDeleted
@@ -47,15 +40,17 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $userAcceptedInvitations = $('#accepted-invitations ul',$body)
     $pending_invitation = $('[data-pending-invitation-id= "' + data.id + '"]', $userPendingInvitations)
     $accepted_invitation = $('[data-accepted-invitation-id= "' + data.id + '"]', $userAcceptedInvitations)
+    $addMemberToSettingsListOwner = $('#members >ul', $editListOwner)
+    $addInvitationToSettingsListOwner = $('#invitations >ul', $editListOwner)
     switch data.status
       when 'created'
+        # Add new pending invitation to the list of pending users for the edit list if owner is login in Settings
+        $addInvitationToSettingsListOwner.prepend data['htmlInvitationSetting']
         if data.existing_user_invite
           # Add new  user invited (existen) to the list of collaboration users for the list if owner is login
           $( data.htmlCollaborationUser ).insertBefore $addCollaborationUserOwner
           # Add new user invited (existen)to the list of collaboration users for the list if owner is login in Settings
-          $( data.htmlCollaboratorSetting ).insertBefore $addCollaborationUserSettingsOwner
-          # Add new pending invitation to the list of pending users for the edit list if owner is login in Settings
-          $ulInvitationUserSettings.prepend data['htmlInvitationSetting']
+          $addMemberToSettingsListOwner.prepend data['htmlCollaboratorSetting']
           # Add new invitation to the list of user pending invitations in user Settings
           $userPendingInvitations.prepend data['htmlUserPendingInvitation']
       when 'activated'  #revisar
@@ -72,13 +67,16 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
             $ulCollaborationList.append '<li class="li-hover"><p class="ultra-small margin more-text">Collaboration lists</p></li>'
           $ulCollaborationList.append data.htmlCollaborationsList
       when 'deleted'
+        $collaboratorUserSettingOwner.remove()
         $listPendingInvitation.remove()
+        $pending_invitation.remove()
       when 'collaboratorDeleted'
         $collaboratorUserList = $('[data-chip-user-id= "'+ data.recipient+'"]', $collaboration_users)
         $collaboratorUserList.remove()
         $pageContentUser.remove()
         $accepted_invitation.remove()
         $pending_invitation.remove()
+        $listPendingInvitation.remove()
         # collaboration user in collaboration user in settings
         $collaboratorUserSettingOwner.remove()
         $collaborationList = $('[data-nav-list-id= "'+data.list_id+'"]', $ulCollaborationList)
