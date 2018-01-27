@@ -2,20 +2,27 @@ body{
   background-color:#f9f9f9;
   overflow: hidden;
 }
-article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+article, aside, details, figcaption, figure, footer, header, hgroup, #main, menu, nav, section, summary {
   display: block;
 }
-html body .wrapper main {
+/*html body .wrapper #main {
   min-height: calc(100vh - 64px);
   height: calc(100vh - 64px);
   overflow: scroll;
-}
-main {
+}*/
+/*main {
   flex: 1 0 auto;
-}
-main{
-  position: relative;
-  padding-left: 280px;
+}*/
+#main{
+  padding-left: 260px;
+  -webkit-transition: .3s ease all;
+  -o-transition: .3s ease all;
+  -moz-transition: .3s ease all;
+  transition: .3s ease all;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  min-height: calc(100% - 100px);
 }
 nav .nav-main .left h1.logo,
 nav .nav-main .left div.divider{
@@ -178,7 +185,16 @@ nav .chip > i{
 .list_avatar_name .chip span{
     text-transform: uppercase;
     line-height: 30px;
-  }
+}
+
+.navigationbar .chip span,
+.list_avatar_name .chip span {
+    line-height: 30px;
+}
+
+.nav-main .avatar-list .chip span {
+    line-height: 42px;
+}
 
 .nav-main .avatar-list .chip i,
 .nav-main .avatar-list .chip span,
@@ -353,327 +369,6 @@ select{
   display:inline-block;
   position:relative
 }
-#content .container .row{
-  margin-bottom:0
-}
-
-@media only screen and (max-width: 380px){
-  .navbar-fixed {
-    height: 100px;
-  }
-   .nav-main h1.logo{
-     display: none;
-   }
-   #nav-list .chip{
-     font-size: 1.4rem;
-   }
-   #nav-list .chip img{
-     width: 40px;
-     height: 40px;
-     display: block;
-   }
-   .nav-main h1.logo ~.divider {
-     display: none;
-   }
-}
-@media only screen and (max-width: 730px){
-
-  .nav-main #application-date{
-    border: 0;
-  }
-  .nav-main .right .settings {
-    padding: 0px;
-  }
-  .nav-main .right .settings i{
-    padding: 0px;
-  }
-  .nav-main .left{
-    height: 100%;
-  }
-
-}
-@media only screen and (min-width: 601px){
-
-  nav .nav-belt, .wrapper .nav-belt i, .nav-belt a.button-collapse, .nav-belt a.button-collapse i, .nav-belt > ul > li{
-      height: 50px;
-      line-height: 50px;
-  }
-
-}
-
-@media only screen and (min-width: 1200px){
-  header nav .nav-wrapper {
-   padding-right: 240px;
-   padding-left: 200px;
- }
-  header nav .nav-wrapper .nav-belt{
-    padding-left: 180px;
-  }
-  header nav .nav-wrapper .nav-main{
-      padding-left: 0px;
-  }
-  body.expand-header header,
-  body.expand-header header nav,
-  body.expand-header header .navbar .navbar-fixed{
-    height: 200px;
-  }
-  body.expand-header .navigationbar{
-    top: 200px;
-  }
-}
- @media only screen and (max-width: 1024px){
-
-  }
-
-
-@media only screen and (max-width: 600px){
-  body header,
-  body header nav,
-  body header .navbar .navbar-fixed{
-    height: 80px;
-  }
-  header .nav-main{
-    padding: 10px 0;
-  }
-
-  header .nav-main .left:after{
-    content: "";
-    clear: both;
-  }
-  header .nav-main .right{
-    position: absolute;
-    /*top: 90px;*/
-    right: 0;
-  }
-  body.expand-header header .nav-main .right{
-    position: absolute;
-    top: 138px;
-  }
-  body.expand-header header,
-  body.expand-header header nav,
-  body.expand-header header .navbar .navbar-fixed{
-    height: 128px;
-  }
-  }
-
-  @media only screen and (min-width: 600px) and (max-width: 1200px){
-
-    /*header .nav-main .right{
-      position: absolute;
-      top: 122px;
-      right: 0;
-    }*/
-    body.expand-header header .nav-main .right{
-      position: absolute;
-      top: 170px;
-      /*margin-right: 20px;*/
-    }
-    body.expand-header header,
-    body.expand-header header nav,
-    body.expand-header header .navbar .navbar-fixed{
-      height: 170px;
-    }
-    }
-@media only screen and (min-width: 730px){
-  body.expand-header header .nav-main .right, body header .nav-main .right{
-    position: relative;
-    top: 0px;
-  }
-}
-@media only screen and (min-width: 993px){
-
-  .container {
-    width: 85%;
-    }
-  .navbar-fixed {
-      height: 110px;
-  }
-   nav .nav-main,
-   nav .nav-main .left,
-   nav .nav-main .right {
-      height: 80px!important;
-      line-height: 80px!important;
-    }
-
-    .hamburger-menu>div {
-        display: table;
-        line-height: 80px;
-    }
-    #ms-tabsSetting {
-      padding-left: 160px;
-    }
-    nav {
-        height: 130px;
-        line-height: 130px;
-    }
-    header, header nav{
-        min-height: 130px;
-    }
-    body .navigationbar {
-      top: 130px;
-}
-
-  }
-@media only screen and (max-width: 993px){
-  .nav-belt.wrapper {
-    padding-left: 0px;
-}
-  main{
-    padding-left:3rem;
-  }
-
-  footer{padding-left:0}
-
-  nav .nav-wrapper{text-align:center}
-
-  nav .nav-wrapper a.page-title{
-    font-size:36px
-  }
-
-  .navbar-fixed {
-      height: 110px;
-  }
- nav .nav-main {
-      height: 60px!important;
-      line-height: 0px!important;
-  }
-
-  nav .nav-main .left, nav .nav-main .right {
-       line-height: 60px!important;
-       height: 60px;
-   }
-
-  .hamburger-menu>div {
-      display: table;
-      line-height: 60px;
-  }
-  .nav-main .avatar-list .chip img{
-    display: block;
-    width: 40px;
-    height: 40px;
-    /*margin-top: 10px;*/
-  }
-
-
-  .nav-main .avatar-list .chip{
-    margin-bottom: 0px;
-    margin-right: 0px;
-    vertical-align: middle;
-    padding:0;
-    line-height: 40px;
-    height: 40px;
-  }
-
-  #ms-login, #ms-reset-password {
-        margin-top: 2vh;
-    }
- #ms-login .card, #ms-reset-password .card {
-    width: 100%;
-  }
-
-  #ms-tabsSetting {
-    padding-left: 160px;
-  }
-}
-@media only screen and (max-width: 900px){
-
-}
-@media screen and (max-width: 2200px){
-  .blog-sizer{width:20%}
-  .blog{width:20%}
-  .doughnut-chart-status{top:-100px}
-  .product-sizer{width:20%}
-  .product{width:20%}
-  .gallary-sizer{width:20%}
-  .gallary-item img{width:20%}
-  }
-
-@media screen and (max-width: 1800px){
-  .blog-sizer{width:30%}
-  .blog{width:30%}
-  .product-sizer{width:30%}
-  .product{width:30%}
-  .gallary-sizer{width:30%}
-  .gallary-item img{width:30%}
-  }
-
-@media screen and (max-width: 1600px)
-{.blog-sizer{width:33.33%}
-.doughnut-chart-status{top:-75px}
-.blog{width:33.33%}
-.product-sizer{width:25%}
-.product{width:25%}
-.gallary-sizer{width:25%}
-.gallary-item img{width:25%}}
-
-@media screen and (max-width: 1224px){
-  .blog-sizer{width:33.33%}
-  .doughnut-chart-status{top:-75px}
-  .doughnut-chart-status{top:-100px}
-  .blog{width:33.33%}
-  .product-sizer{width:33.33%}
-  .product{width:33.33%}
-  .gallary-sizer{width:33.33%}
-  .gallary-item img{width:33.33%}}
-
-@media screen and (max-width: 980px){
-  .blog-sizer{width:50%}
-.blog{width:50%}
-.product-sizer{width:50%}
-.product{width:50%}
-.gallary-sizer{width:50%}
-.gallary-item img{width:50%}}
-@media screen and (max-width: 720px){
-  .blog-sizer{width:50%}
-  .blog{width:50%}
-  .product-sizer{width:50%}
-  .product{width:50%}
-  .gallary-sizer{width:50%}
-  .gallary-item img{width:50%}
-
-  #task_detail {
-    min-width: 18rem;
-  }
-}
-
-@media screen and (min-width: 720px){
-  #task_detail {
-    min-width: 30rem;
-  }
-
-  nav .nav-main .left h1.logo,
-  nav .nav-main .left div.divider{
-    display: inline-block;
-  }
-
-  .nav-main h1.logo{
-    width: 130px;
-    text-indent: -1000px;
-    background-image: url("<%= asset_path('sessions-main-logo.png')%>");
-    background-repeat: no-repeat;
-    background-position: right;
-    margin:0;
-    height: 40px;
-    vertical-align: middle;
-  }
-
-  .nav-main h1.logo ~.divider{
-    content: "";
-    height: 33px;
-    width: 1px;
-    /*display: inline-block;*/
-    background-color: #444;
-    margin: 0;
-    vertical-align: middle;
-  }
-}
-@media screen and (max-width: 480px){
-  .blog-sizer{width:100%}
-  .blog{width:100%}
-  .product-sizer{width:100%}
-  .product{width:100%}
-  .gallary-sizer{width:100%}
-  .gallary-item img{width:100%}}
 
   .ps-scrollbar-x-rail{
     z-index:9999}
@@ -1122,12 +817,10 @@ select{
 
 
 ul#bar-user-informations li.bar-user-info > a > img,
-.user-info>a>img{
+.user-info > a > img {
     position: absolute;
     top: 1.73846rem;
     left: 15px;
-    width: 43px;
-    height: 43px;
 }
 
 div.bar-user-email{
@@ -1201,28 +894,6 @@ i.bar-collaboration-icon{
 .navigationbar .nano-content>ul.user-lists li a{
   font-size:14px;font-weight:400}
 
-/*.navigationbar .nano-content>ul li.user-details{
-
-  background:url("../images/user-bg.jpg") no-repeat center center;
-  -webkit-background-size:cover;
-  -moz-background-size:cover;
-  -o-background-size:cover;
-  background-size:cover;
-  margin-bottom:15px;
-  padding:15px 0 0 15px
-}*/
-
-/*.navigationbar .nano-content>ul li.user-details #profile-dropdown a{
-  padding:8px 15px}*/
-
-/*.navigationbar .nano-content>ul .profile-btn{
-
-  margin:0;
-  text-transform:capitalize;
-  padding:0;
-  color:#444!important;
-  font-size:15px}*/
-
 .navigationbar .nano-content>ul ul.collapsible-accordion{
   background-color:#fff}
 
@@ -1284,58 +955,7 @@ ul.user-lists li a.ms-add-list i{
   overflow:hidden}
 #right-search .input-field{
   margin-top:0}
-/*#chat-out .collapsible-header{
-  background-color:transparent;
-  border:none;
-  line-height:45px;
-  height:45px;
-  font-weight:400}
-#chat-out .collapsible-header:after{
-  color:#fff}
-#chat-out .chat-out-list{padding:5px;margin:0;border-bottom:1px solid #e0e0e0}
-#chat-out .favorite-associate-list .circle{-moz-border-radius:50px;
-  -webkit-border-radius:50px;
-  border-radius:50px;
-  border:2px solid #999;
-  padding:3px;
-  display:block}
-#chat-out .favorite-associate-list .online-user{
-  border:2px solid #00e676}
-#chat-out .favorite-associate-list p{padding:0}
-#chat-out .favorite-associate-list p.place{font-size:0.8rem}
-#chat-out .recent-activity-list-icon{
-  margin-top:8px;
-  font-size:2rem}
-#chat-out .recent-activity-list-text a{
-  font-size:0.8rem;
-  padding:0;
-  font-weight:600}
-#chat-out .recent-activity-list-text p{
-  font-size:0.9rem;
-  padding:0}
-.chat-close-collapse{padding:5px 15px 0 0}*/
-/*#breadcrumbs-wrapper{background:#f3f3f3}
-h5.breadcrumbs-header{font-size:1.64rem;line-height:1.804rem;margin:1.5rem 0 0 0}
-.breadcrumbs{padding:0;margin:15px 0;list-style:none}
-.breadcrumbs>li{display:inline-block}
-.breadcrumbs>li+li:before{padding:0 5px;color:#ccc;content:"/\00a0"}
-.breadcrumbs .active{font-weight:normal;color:#999}
-.breadcrumbs-title{font-size:1.5rem;line-height:1.804rem;margin:18px 0 0}
-.breadcrumbs-nav{margin:8px 0 9px}
-.breadcrumb:before{content:"\e7c3";font-family:"Material-Design-Icons"}
-.jsgrid-edit-row input[type="checkbox"],
-.jsgrid-insert-row input[type="checkbox"],
-.jsgrid-filter-row input[type="checkbox"],
-.jsgrid-alt-row input[type="checkbox"],
-.jsgrid-row input[type="checkbox"],
-.config-panel input[type=checkbox]{position:relative !important;left:0 !important;visibility:visible !important}
-.jsgrid-grid-body{height:auto !important}.jsgrid-edit-row select{display:block !important}
-.jsgrid-insert-row select{display:block !important}
-.jsgrid-insert-row .select-wrapper .caret{display:none !important}
-.jsgrid-insert-row .select-wrapper .select-dropdown{display:none !important}
-#jsGrid-sorting{height:500px !important;overflow:scroll !important}
-#jsGrid-page{height:500px !important;overflow:scroll !important}
-#jsGrid-custom-row{height:500px !important;overflow:scroll !important}*/
+
 .card{overflow:hidden}#card-stats .card-content{text-align:center}
 #card-stats .card-stats-title{font-size:1.2rem}
 #card-stats .card-stats-title i{font-size:1.2rem}
@@ -1513,64 +1133,7 @@ tr.group:hover{background-color:#ddd !important}
 .login-form-text{text-transform:uppercase;letter-spacing:2px;font-size:0.8rem}
 .profile-image-login{width:100px;height:100px !important}
 .login-text{margin-top:-6px;margin-left:-6px !important}
-/*#mail-app hr{display:block;height:1px;border:0;border-top:1px solid #e0e0e0;margin:1em 0;padding:0}*/
-/*#mail-app #email-sidebar{margin-top:0}*/
-/*#mail-app #email-list{margin-top:0}*/
-/*#mail-app #email-details{margin-top:0}
-#mail-app .modal .modal-content{padding:0}
-.email-unread .email-title{font-weight:500}
-#email-sidebar{min-height:650px}
-#email-sidebar li{padding:10px 0;text-align:center}
-#email-sidebar li i{padding:12px;color:#272727}
-#email-sidebar li i.active{background:#ddd;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px}
-#email-sidebar li i:hover{background:#ddd;border-radius:2px;-webkit-border-radius:2px;-moz-border-radius:2px}*/
-/*#email-list{padding:0}#email-list .collection{margin:0}
-#email-list .collection .collection-item.avatar{height:auto;padding-left:72px;position:relative}
-#email-list .collection .collection-item.avatar .secondary-content{position:absolute;top:10px;right:-4px}
-#email-list .collection .collection-item.avatar .secondary-content.email-time{right:8px}
-#email-list .collection .collection-item.avatar .icon{
-  position:absolute;width:42px;
-  height:42px;
-  overflow:hidden;
-  left:15px;
-  display:inline-block;
-  text-align:center;
-  vertical-align:middle;
-  top:20px}
-#email-list .collection .collection-item.avatar .circle{
-  position:absolute;
-  width:42px;
-  height:42px;
-  overflow:hidden;
-  left:15px;
-  display:inline-block;
-  vertical-align:middle;
-  text-align:center;
-  font-size:1.5rem;
-  color:#fff;
-  font-weight:300;
-  padding:10px}
-#email-list .collection .collection-item.avatar img.circle{
-  padding:0}
-#email-list .collection .collection-item:hover{
-  background:#e1f5fe;cursor:pointer}
-#email-list .collection .collection-item.selected{background:#e1f5fe;border-left:4px solid #29b6f6}
-#email-list .attach-file{-ms-transform:rotate(90deg);-webkit-transform:rotate(90deg);transform:rotate(90deg);color:#9e9e9e;font-size:1.1rem}
-#email-details{padding:15px}
-#email-details .email-subject{font-size:1.2rem}
-#email-details .email-subject i{font-size:2.2rem}
-#email-details .email-tag{padding:3px;font-size:0.9rem}
-#email-details .collection{border:none}
-#email-details .collection .collection-item.avatar{height:auto;padding-left:72px;position:relative}
-#email-details .collection .collection-item.avatar .icon{position:absolute;width:42px;height:42px;overflow:hidden;left:15px;display:inline-block;vertical-align:middle;top:20px}
-#email-details .collection .collection-item.avatar .circle{position:absolute;width:42px;height:42px;overflow:hidden;left:15px;display:inline-block;vertical-align:middle;text-align:center;font-size:1.5rem;color:#fff;font-weight:300;padding:10px}
-#email-details .collection .collection-item.avatar img.circle{padding:0}
-#email-details .collection .collection-item.selected{background:#e1f5fe;border-left:4px solid #29b6f6}
-#email-details .email-actions{padding-top:25px}
-#email-details .email-actions a{color:#757575;padding:5px}
-.email-reply{padding-top:20px}.email-reply a{color:#757575}
-.email-reply a i{font-size:2rem}.email-reply p{color:#757575;margin:0}
-.model-email-content{padding:24px}*/
+
 .blog-card .card .card-content .card-title,
 .blog-card .card .card-reveal .card-title{font-size:1.2rem;line-height:1.6rem;font-weight:400}
 .blog-card .card{margin:0}
@@ -1683,10 +1246,6 @@ img.center{
   margin: 0 auto;
 }
 
-/*span.badge {
-  min-width: 1rem;
-    /*right: 2px!important;
-  }*/
 
 .btn-floating {
     background: none;
@@ -2108,3 +1667,353 @@ extra-small.notification-badge {
 div.error:not(.error-label){
   padding-bottom: 20px;
 }
+
+/********************** MEDIA ********************/
+
+
+@media screen and (min-width: 720px){
+  #task_detail {
+    min-width: 30rem;
+  }
+
+  nav .nav-main .left h1.logo,
+  nav .nav-main .left div.divider{
+    display: inline-block;
+  }
+
+  .nav-main h1.logo{
+    width: 130px;
+    text-indent: -1000px;
+    background-image: url("<%= asset_path('sessions-main-logo.png')%>");
+    background-repeat: no-repeat;
+    background-position: right;
+    margin:0;
+    height: 40px;
+    vertical-align: middle;
+  }
+
+  .nav-main h1.logo ~.divider{
+    content: "";
+    height: 33px;
+    width: 1px;
+    /*display: inline-block;*/
+    background-color: #444;
+    margin: 0;
+    vertical-align: middle;
+  }
+}
+
+
+@media only screen and (max-width: 380px){
+
+  .navbar-fixed {
+    height: 100px;
+  }
+
+  .nav-main h1.logo{
+    display: none;
+  }
+
+  #nav-list .chip{
+    font-size: 1.4rem;
+  }
+
+  #nav-list .chip img{
+    width: 40px;
+    height: 40px;
+    display: block;
+  }
+  .nav-main h1.logo ~.divider {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 730px){
+
+  .nav-main #application-date{
+    border: 0;
+  }
+
+  .nav-main .right .settings {
+    padding: 0px;
+  }
+
+  .nav-main .right .settings i{
+    padding: 0px;
+  }
+
+  .nav-main .left{
+    height: 100%;
+  }
+
+}
+@media only screen and (min-width: 601px){
+
+  nav .nav-belt, .wrapper .nav-belt i, .nav-belt a.button-collapse, .nav-belt a.button-collapse i, .nav-belt > ul > li{
+    height: 50px;
+    line-height: 50px;
+  }
+
+}
+
+@media only screen and (min-width: 1200px){
+  header nav .nav-wrapper {
+    padding-right: 240px;
+    padding-left: 200px;
+ }
+
+  header nav .nav-wrapper .nav-belt{
+    padding-left: 180px;
+  }
+
+  header nav .nav-wrapper .nav-main{
+    padding-left: 0px;
+  }
+
+  body.expand-header header,
+  body.expand-header header nav,
+  body.expand-header header .navbar .navbar-fixed{
+    height: 200px;
+  }
+
+  body.expand-header .navigationbar{
+    top: 200px;
+  }
+}
+
+
+@media only screen and (max-width: 600px){
+  body header,
+  body header nav,
+  body header .navbar .navbar-fixed{
+    height: 80px;
+  }
+
+  header .nav-main{
+    padding: 10px 0;
+  }
+
+  header .nav-main .left:after{
+    content: "";
+    clear: both;
+  }
+
+  header .nav-main .right{
+    position: absolute;
+    right: 0;
+  }
+
+  body.expand-header header .nav-main .right{
+    position: absolute;
+    top: 138px;
+  }
+
+  body.expand-header header,
+  body.expand-header header nav,
+  body.expand-header header .navbar .navbar-fixed{
+    height: 128px;
+    }
+  }
+
+@media only screen and (min-width: 600px) and (max-width: 1200px){
+
+  body.expand-header header .nav-main .right{
+    position: absolute;
+    top: 170px;
+  }
+
+  body.expand-header header,
+  body.expand-header header nav,
+  body.expand-header header .navbar .navbar-fixed{
+    height: 170px;
+  }
+}
+
+@media only screen and (min-width: 730px){
+  body.expand-header header .nav-main .right, body header .nav-main .right{
+    position: relative;
+    top: 0px;
+  }
+}
+
+@media only screen and (min-width: 993px){
+
+  .container {
+    width: 85%;
+  }
+
+  .navbar-fixed {
+    height: 110px;
+  }
+
+  nav .nav-main,
+  nav .nav-main .left,
+  nav .nav-main .right {
+    height: 80px!important;
+    line-height: 80px!important;
+  }
+
+  .hamburger-menu>div {
+    display: table;
+    line-height: 80px;
+  }
+
+  #ms-tabsSetting {
+    padding-left: 160px;
+  }
+
+  nav {
+    height: 130px;
+    line-height: 130px;
+  }
+
+  header, header nav{
+    min-height: 130px;
+  }
+
+  body .navigationbar {
+    top: 130px;
+  }
+
+}
+
+@media only screen and (max-width: 993px){
+
+  .nav-belt.wrapper {
+    padding-left: 0px;
+  }
+
+  #main {
+    padding-left: 0;
+  }
+
+  footer{
+    padding-left:0
+  }
+
+  nav .nav-wrapper{
+    text-align:center
+  }
+
+  nav .nav-wrapper a.page-title{
+    font-size:36px
+  }
+
+  .navbar-fixed {
+    height: 110px;
+  }
+
+  nav .nav-main {
+    height: 60px!important;
+    line-height: 0px!important;
+  }
+
+  nav .nav-main .left, nav .nav-main .right {
+    line-height: 60px!important;
+    height: 60px;
+   }
+
+  .hamburger-menu>div {
+    display: table;
+    line-height: 60px;
+  }
+
+  .nav-main .avatar-list .chip img{
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .nav-main .avatar-list .chip{
+    margin-bottom: 0px;
+    margin-right: 0px;
+    vertical-align: middle;
+    padding:0;
+    line-height: 40px;
+    height: 40px;
+  }
+
+  #ms-login, #ms-reset-password {
+    margin-top: 2vh;
+  }
+
+  #ms-login .card, #ms-reset-password .card {
+    width: 100%;
+  }
+
+  #ms-tabsSetting {
+    padding-left: 160px;
+  }
+}
+
+
+@media screen and (max-width: 2200px){
+  .blog-sizer{width:20%}
+  .blog{width:20%}
+  .doughnut-chart-status{top:-100px}
+  .product-sizer{width:20%}
+  .product{width:20%}
+  .gallary-sizer{width:20%}
+  .gallary-item img{width:20%}
+}
+
+@media screen and (max-width: 1800px){
+  .blog-sizer{width:30%}
+  .blog{width:30%}
+  .product-sizer{width:30%}
+  .product{width:30%}
+  .gallary-sizer{width:30%}
+  .gallary-item img{width:30%}
+  }
+
+@media screen and (max-width: 1600px){
+  .blog-sizer{width:33.33%}
+  .doughnut-chart-status{top:-75px}
+  .blog{width:33.33%}
+  .product-sizer{width:25%}
+  .product{width:25%}
+  .gallary-sizer{width:25%}
+  .gallary-item img{width:25%}}
+
+@media screen and (max-width: 1224px){
+  .blog-sizer{width:33.33%}
+  .doughnut-chart-status{top:-75px}
+  .doughnut-chart-status{top:-100px}
+  .blog{width:33.33%}
+  .product-sizer{width:33.33%}
+  .product{width:33.33%}
+  .gallary-sizer{width:33.33%}
+  .gallary-item img{width:33.33%}}
+
+@media screen and (max-width: 980px){
+  .blog-sizer{width:50%}
+  .blog{width:50%}
+  .product-sizer{width:50%}
+  .product{width:50%}
+  .gallary-sizer{width:50%}
+  .gallary-item img{width:50%}}
+
+@media screen and (max-width: 720px){
+  .blog-sizer{width:50%}
+  .blog{width:50%}
+  .product-sizer{width:50%}
+  .product{width:50%}
+  .gallary-sizer{width:50%}
+  .gallary-item img{width:50%}
+
+  #task_detail {
+    min-width: 18rem;
+  }
+}
+
+
+@media screen and (max-width: 480px){
+  .blog-sizer{width:100%}
+  .blog{width:100%}
+  .product-sizer{width:100%}
+  .product{width:100%}
+  .gallary-sizer{width:100%}
+  .gallary-item img{width:100%}}
+
+  /************ END MEDIA ************ /

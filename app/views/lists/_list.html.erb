@@ -1,9 +1,9 @@
-<div data-list-id = "<%= list.id%>">
-    <div class="center row">
+<%= content_tag :div, data: {"list-id": "#{list.id}"} do%>
+    <section class="center row">
       <div class="col s12">
         <% unless (list.all_tasks?) %>
             <div class="share-icons">
-                <div class="row list-collaboration-users">
+                <div class="list-collaboration-users">
                     <div class="right">
                         <ul id="collaboration-users">
                           <% if has_collaborations?(list) %>
@@ -27,16 +27,11 @@
             </div>
         <% end %>
       </div>
-    </div>
-     <div id="list-users" class="row">
-          <%= render partial: "users/list_user", locals: {user: current_user, list: list} %>
-          <% if !collaboration_users.blank? %>
-              <%  collaboration_users.each do |collaboration_user| %>
-                  <%= render partial: "users/list_user", locals: {user: collaboration_user, list: list} %>
-              <% end%>
-          <% end %>
-
-      </div>
-      <!-- <div id="show_collaboration_users" class="col s12">
-      </div> -->
-</div>
+    </section>
+    <!--  SECTION LIST USERS -->
+    <section id="list-users">
+      <%= render partial: "users/list_user", locals: {user: current_user, list: list} %>
+      <%= render partial: "users/list_user", collection: collaboration_users, as: :user, locals: { list: list } if !collaboration_users.blank? %>
+    </section>
+    <!--  END SECTION LIST USERS -->
+<% end %>

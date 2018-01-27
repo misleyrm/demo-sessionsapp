@@ -854,20 +854,23 @@ a{
 /********* End Modal *********/
 /********** User Img *********/
 #list-users .chip.user-img{
-  margin: 1rem 3rem 0 0;
+  margin-top: 1.3rem;
   border: 1px solid hsla(0, 0%, 89%, 0.94);
 }
 
-#list-users .ms-user-tasks,
-#list-users .chip.user-img{
-  position: relative;
-  display: inline-block;
-  float: left;
+#list-users .ms-user-tasks {
+  padding-left: 4rem;
 }
 
-#list-users .chip img, #list-users .chip {
-   width: 46px;
-   height: 46px;
+#list-users .chip.user-img {
+  position: absolute;
+}
+
+#list-users .chip img, #list-users .chip,
+ul#bar-user-informations li.bar-user-info > a > img,
+.user-info > a > img {
+   width: 43px;
+   height: 43px;
    border-radius: 50%;
 }
 
@@ -884,7 +887,7 @@ a{
 #my-add-task .btn-floating.btn-medium {
     width: 22pt;
     height: 22pt;
-    margin-top: 5px;
+    margin-top: .8rem;
 }
 
 #list-users .chip ::after {

@@ -141,7 +141,7 @@ form.edit_task [type="checkbox"] + label {
 }
 
 .show_blockers {
-  padding-top: .5rem;
+  padding-top: .3rem!important;
 }
 
 .show_blockers div.blocker.active ul.action-menu {
@@ -158,7 +158,7 @@ form.edit_task [type="checkbox"] + label {
 
 .show_blockers ul.action-menu li i,
 .show_blockers a.blocker_detail{
-  line-height: 35px;
+  line-height: 1.5rem;
 }
 
 .show_blockers .blocker{
