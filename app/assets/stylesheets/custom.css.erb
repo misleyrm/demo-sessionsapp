@@ -445,37 +445,60 @@ i.small {
     animation-fill-mode: both;
 }
 
+.small {
+  font-size:1.0rem;
+  margin:0;
+  padding:0
+}
+
+.medium-small {
+  font-size:0.9rem;
+  margin:0;
+  padding:0
+}
+
+.ultra-small {
+  font-size:0.8rem!important;
+  margin:0;
+  padding:0
+}
+
+small {
+  font-size:0.8rem
+}
+
+.strong {
+  font-weight:600
+}
+
 /********** Scrollbar *************/
-#style-2::-webkit-scrollbar-track{
-  /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);*/
-	/*background-color: #F5F5F5;*/
+#style-2::-webkit-scrollbar-track {
 	border-radius: 10px;
   margin-right: -7px;
 }
 
-#style-2::-webkit-scrollbar
-{
+#style-2::-webkit-scrollbar {
 	width: 7px;
-	/*background-color: #F5F5F5;*/
   margin-right: -7px;
 }
 
-#style-2::-webkit-scrollbar-thumb
-{
+#style-2::-webkit-scrollbar-thumb {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #f2f2f2;
   margin-right: -7px;
 }
+
 /************ End Scrollbar *********/
 /********** END HELPERS ***********/
 
 .complete_tasks{
   padding: 0 0 20px;
 }
+
 .input-field label {
   left: 0!important;
-  }
+}
 
 .clearfix:before,
 .clearfix:after {
@@ -484,14 +507,11 @@ i.small {
   clear: both;
 }
 
-
 .clearfix {
     display: block;
     content: "";
     clear: both;
-
 }
-
 
 .nav-main .divider{
   height: 1px;
@@ -501,7 +521,6 @@ i.small {
 .nav-main .divider,
 #main_center .divider:not(.no-active) {
   background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
-
 }
 
 #main_center .divider:not(.no-active){
@@ -516,9 +535,10 @@ i.small {
 
 #new-list .divider,
 #edit-list .divider{
-
     margin: 0px -5px 5px!important;
-  }
+}
+
+
 /********* material-icons ***************/
 .material-icons.md-18 { font-size: 18px; }
 
@@ -540,18 +560,22 @@ i.small {
 a{
   color:#848994;
 }
+
 .btn-large input[type="submit"]{
   line-height: 50px;
   width: 100%;
 }
+
 .btn input[type="submit"]{
   line-height: 31px;
   width: 100%;
 }
+
 .input-field label,
 .card .card-content p {
   color: #848994;
 }
+
 .btn-floating.btn-medium {
     width: 36px;
     height: 36px;
@@ -580,6 +604,7 @@ a{
   font-size: 30px;
   color: #55C2B9!important;
 }
+
 /****** New list and Setting List *******/
 #new-list, #edit-list{
   max-width: 470px;
