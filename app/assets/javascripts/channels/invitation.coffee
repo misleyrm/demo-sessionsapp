@@ -17,6 +17,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     # collaboration user in collaboration user list
     $collaboratorUserOwner = $('[data-chip-user-id= "'+data.recipient+'"]', $collaborationUsersOwner)
     # collaboration user in collaboration user in settings
+    $collaboratorUserOwner = $('[data-chip-user-id= "'+data.recipient+'"]', $collaborationUsersOwner)
 
     $pageContent = $('#page-content')
     $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
@@ -26,7 +27,9 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
 
     # list settings
     $editList = $('[data-edit-list-id= "'+data.list_id+'"]')
+    alert data.id
     $listPendingInvitation = $('[data-list-pending-invitation-id= "' + data.id + '"]', $editList)
+    console.log $listPendingInvitation
     $collaboratorUserSettingOwner = $('[data-list-member-id= "'+data.recipient+'"]', $editList)
     $mainCenter = $('#main_center')
 
@@ -50,7 +53,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
           # Add new  user invited (existen) to the list of collaboration users for the list if owner is login
           $( data.htmlCollaborationUser ).insertBefore $addCollaborationUserOwner
           # Add new user invited (existen)to the list of collaboration users for the list if owner is login in Settings
-          $addMemberToSettingsListOwner.prepend data['htmlCollaboratorSetting']
+          $addMemberToSettingsListOwner.prepend data['htmlListMembersSettings']
           # Add new invitation to the list of user pending invitations in user Settings
           $userPendingInvitations.prepend data['htmlUserPendingInvitation']
       when 'activated'  #revisar

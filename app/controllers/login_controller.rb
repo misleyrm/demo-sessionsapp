@@ -24,10 +24,10 @@ class LoginController < ApplicationController
              user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
           end
           htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": user, "current_list": @list,"active_users": [], "current_user": current_user}).squish
-          htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": user }).squish
+          htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "collaboration_user": user }).squish
           htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: user, active: false}).squish
           htmlUserAcceptedInvitation = UsersController.render(partial: "users/accepted_invitation", locals: {accepted_invitation: @invitation}).squish
-          ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
+          ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
         end
         log_in user
         params[:session][:remember_me] == '1' ? remember(user) : forget(user)

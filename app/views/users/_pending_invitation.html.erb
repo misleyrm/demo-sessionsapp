@@ -5,7 +5,7 @@
         <div class="right">
           <%= content_tag(:span) do%>
              <%= "Invited #{pending_invitation.sent_at.strftime("%b #{pending_invitation.sent_at.day.ordinalize}")}"%></br>
-             <%= "By Santiago"%>
+             <%= "By #{pending_invitation.list.owner.first_name}"%>
           <% end%>
           <!-- <span>Invited Apr 25th<br/>By Santiago</span> -->
           <i class="material-icons ms-open-button">keyboard_arrow_right</i>

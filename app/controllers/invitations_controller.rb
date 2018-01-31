@@ -32,13 +32,13 @@ class InvitationsController < ApplicationController
                   unless @invitation.recipient.collaboration_lists.include?(@list)
                     #  hasCollaborationsList = @recipient.collaboration_lists.count > 0 ? true : false
                      @recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
-                     htmlCollaboratorSetting = ListsController.render(partial: "lists/list_members", locals: {list: @list,"member": @recipient }).squish
+                     htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {list: @list,"member": @recipient }).squish
                      htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: {list: @list,"pending_invitation": @invitation }).squish
                      htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @recipient, "current_list": @list, "active_users": [],current_user: current_user}).squish
                     #  htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @recipient, active: false}).squish
                     # htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList,
                      htmlUserPendingInvitation = UsersController.render(partial: "users/pending_invitation", locals: {pending_invitation: @invitation}).squish
-                     ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlCollaboratorSetting: htmlCollaboratorSetting, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @recipient.id, list_id: @list.id, owner: @list.owner.id, existing_user_invite: true, htmlUserPendingInvitation: htmlUserPendingInvitation
+                     ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlListMembersSettings: htmlListMembersSettings, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @recipient.id, list_id: @list.id, owner: @list.owner.id, existing_user_invite: true, htmlUserPendingInvitation: htmlUserPendingInvitation
                   end
                 else
                   @url = sign_up_url(:invitation_token => @invitation.token)
@@ -85,10 +85,10 @@ class InvitationsController < ApplicationController
            @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
         end
         htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list,"active_users": [], "current_user": @user}).squish
-        htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
+        htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "member": @user }).squish
         htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @user, active: false}).squish
         htmlUserAcceptedInvitation = UsersController.render(partial: "users/accepted_invitation", locals: {accepted_invitation: @invitation}).squish
-        ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
+        ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
         respond_to do |format|
           @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
           flash[:notice] = "The invitation accepted."
@@ -127,7 +127,7 @@ class InvitationsController < ApplicationController
     @invitation.destroy
     if (@invitation.recipient != nil) && (!@invitation.active)
       @collaboration = Collaboration.find_by(user_id: @invitation.recipient.id, list_id: @invitation.list_id)
-      @collaboration.destroy
+      @collaboration.destroy if @collaboration.blank?
     end
     ActionCable.server.broadcast 'invitation_channel', status: 'deleted', id: @invitation.id, list_id: @invitation.list_id,recipient: @invitation.recipient_id, owner: @list.owner.id
     respond_to do |format|

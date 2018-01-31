@@ -9,11 +9,11 @@ class List < ApplicationRecord
 
   # has_many :approved_comments, -> { where(approved: true) }, class_name: 'Comment'
 
-  has_many :tasks, :dependent => :destroy
-  has_many :users, through: :tasks, :dependent => :destroy
+  has_many :tasks
+  has_many :users, through: :tasks, dependent: :destroy
 
-  has_many :collaborations, :dependent => :destroy
-  has_many :collaboration_users, through: :collaborations, :source => :user,:dependent => :destroy
+  has_many :collaborations
+  has_many :collaboration_users, through: :collaborations, :source => :user,dependent: :destroy
 
   has_many :invitations, dependent: :destroy
 

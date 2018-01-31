@@ -329,8 +329,7 @@ p.label {
 
 // list of remember
 .list-settings-collection{
-  border-left: none;
-  border-right: none;
+  border:none;
 }
 
 .list-settings-collection.collection .collection-item{
@@ -387,6 +386,14 @@ p.label {
 
 .collection .collection-item.active {
   background: none;
+}
+
+.collection.list-settings-collection .collection-item:first-child {
+  border-top: 1px solid #e0e0e0;
+}
+
+.collection.list-settings-collection .collection-item:last-child {
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .row #list_manage_invitation .col{
