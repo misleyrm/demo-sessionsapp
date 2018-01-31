@@ -42,6 +42,7 @@ class User < ApplicationRecord
   validates_attachment_size :avatar, :less_than => 5.megabytes,
                                     :message => "must be smaller than 5 MB (megabytes)."
 
+  has_many :notifications, foreign_key: :recipient_id
   has_many :created_lists, class_name: "List", :dependent => :destroy
 
   has_one :all_task, ->{ where(all_tasks: true)}, class_name: "List"
@@ -49,19 +50,19 @@ class User < ApplicationRecord
   has_many :collaborations, :dependent => :destroy
   has_many :collaboration_lists, through: :collaborations, :source => :list, :dependent => :destroy
 
-  has_many :tasks, :dependent => :destroy
-  has_many :lists, through: :tasks, :dependent => :destroy
+  has_many :tasks
+  has_many :lists, through: :tasks, dependent: :destroy
 
   has_many :completed_tasks, -> { where.not(completed_at: nil) }, class_name: "Task"
   has_many :incompleted_tasks, -> { where(completed_at: nil) }, class_name: "Task"
 
-  has_many :assigns_tasks, class_name: "Task", foreign_key: "assigner_id", :dependent => :destroy
+  has_many :assigns_tasks, class_name: "Task", foreign_key: "assigner_id", dependent: :destroy
 
   # has_many :collaboration_tasks, through: :collaboration_lists, :source => :tasks
   # has_many :my_tasks, through: :created_lists, :source => :tasks
 
-  has_many :invitations, :class_name => "Invitation", :foreign_key => 'recipient_id', :dependent => :destroy
-  has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id',  :dependent => :destroy
+  has_many :invitations, :class_name => "Invitation", :foreign_key => 'recipient_id', dependent: :destroy
+  has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id',  dependent: :destroy
 
   # attr_writer :current_step
 

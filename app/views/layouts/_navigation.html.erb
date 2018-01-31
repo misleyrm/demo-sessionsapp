@@ -1,6 +1,7 @@
   <div class="nano">
     <div class="nano-content">
       <div id="slide-out" class="side-nav fixed">
+        <!-- USER INFO - START -->
          <ul id="bar-user-informations">
            <li class="bar-user-info">
               <%= link_to edit_user_path(user),remote: true do %>
@@ -12,6 +13,7 @@
               <% end %>
              </li>
          </ul>
+         <!-- USER INFO - END-->
           <ul id="ulCreated" class="user-lists">
                 <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: user.all_task ,user: user, active: current_list?(user.all_task.id, current_list.id)}%>
                 <% user.created_lists.each do |list| %>

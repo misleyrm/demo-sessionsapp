@@ -1,2 +1,5 @@
-Materialize.toast('<%=flash[:notice]%>', 4000);
-Materialize.toast('<%=flash[:danger]%>', 4000);
+  Materialize.toast('<%=flash[:notice]%>', 4000);
+  Materialize.toast('<%=flash[:danger]%>', 4000);
+  var $collapsible =   $("[data-list-pending-invitation-id= '<%= @invitation.id %>']").parent();
+  $collapsible .collapsible('close', 0)
+  collapsibleClose($collapsible);

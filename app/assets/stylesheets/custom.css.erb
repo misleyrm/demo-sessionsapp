@@ -327,6 +327,13 @@ i.small {
 }
 
 /********* HELPER **********/
+.material-icons.md-8rem {
+    font-size: .8rem;
+}
+
+.material-icons.md-1rem {
+    font-size: 1rem;
+}
 .uppercase{
   text-transform: uppercase;
 }
@@ -415,14 +422,83 @@ i.small {
 
 .line-behind:before { right: 1.5%; }
 .line-behind:after { left: 1.5%; }
+
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.ps-scrollbar{
+  overflow:hidden;
+  overflow-y:scroll;
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.small {
+  font-size:1.0rem;
+  margin:0;
+  padding:0
+}
+
+.medium-small {
+  font-size:0.9rem;
+  margin:0;
+  padding:0
+}
+
+.ultra-small {
+  font-size:0.8rem!important;
+  margin:0;
+  padding:0
+}
+
+small {
+  font-size:0.8rem
+}
+
+.strong {
+  font-weight:600
+}
+
+/********** Scrollbar *************/
+#style-2::-webkit-scrollbar-track {
+	border-radius: 10px;
+  margin-right: -7px;
+}
+
+#style-2::-webkit-scrollbar {
+	width: 7px;
+  margin-right: -7px;
+}
+
+#style-2::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #f2f2f2;
+  margin-right: -7px;
+}
+
+/************ End Scrollbar *********/
 /********** END HELPERS ***********/
 
 .complete_tasks{
   padding: 0 0 20px;
 }
+
 .input-field label {
   left: 0!important;
-  }
+}
 
 .clearfix:before,
 .clearfix:after {
@@ -431,14 +507,11 @@ i.small {
   clear: both;
 }
 
-
 .clearfix {
     display: block;
     content: "";
     clear: both;
-
 }
-
 
 .nav-main .divider{
   height: 1px;
@@ -448,7 +521,6 @@ i.small {
 .nav-main .divider,
 #main_center .divider:not(.no-active) {
   background-color:rgba(146, 146, 146, 0.27);     /*  #d3d3d5;*/
-
 }
 
 #main_center .divider:not(.no-active){
@@ -463,9 +535,10 @@ i.small {
 
 #new-list .divider,
 #edit-list .divider{
-
     margin: 0px -5px 5px!important;
-  }
+}
+
+
 /********* material-icons ***************/
 .material-icons.md-18 { font-size: 18px; }
 
@@ -487,18 +560,22 @@ i.small {
 a{
   color:#848994;
 }
+
 .btn-large input[type="submit"]{
   line-height: 50px;
   width: 100%;
 }
+
 .btn input[type="submit"]{
   line-height: 31px;
   width: 100%;
 }
+
 .input-field label,
 .card .card-content p {
   color: #848994;
 }
+
 .btn-floating.btn-medium {
     width: 36px;
     height: 36px;
@@ -527,6 +604,7 @@ a{
   font-size: 30px;
   color: #55C2B9!important;
 }
+
 /****** New list and Setting List *******/
 #new-list, #edit-list{
   max-width: 470px;
@@ -685,13 +763,13 @@ a{
   padding: 0;
 }
 
-.collaboration-user-settings .chip {
+/*.collaboration-user-settings .chip {
   position: relative;
 }
 
 .collaboration-user-settings .chip .close.my-close {
   opacity: 1;
-}
+}*/
 
 
 .chip .close.my-close {
@@ -800,17 +878,24 @@ a{
 }
 /********* End Modal *********/
 /********** User Img *********/
-#list-users .chip{
-  position: relative;
-  margin: 1.4rem 0rem 0 -5rem;
-  display: inline-block;
-  float: left;
+#list-users .chip.user-img{
+  margin-top: 1.3rem;
   border: 1px solid hsla(0, 0%, 89%, 0.94);
 }
 
-#list-users .chip img, #list-users .chip {
-   width: 46px;
-   height: 46px;
+#list-users .ms-user-tasks {
+  padding-left: 4rem;
+}
+
+#list-users .chip.user-img {
+  position: absolute;
+}
+
+#list-users .chip img, #list-users .chip,
+ul#bar-user-informations li.bar-user-info > a > img,
+.user-info > a > img {
+   width: 43px;
+   height: 43px;
    border-radius: 50%;
 }
 
@@ -827,7 +912,7 @@ a{
 #my-add-task .btn-floating.btn-medium {
     width: 22pt;
     height: 22pt;
-    margin-top: 5px;
+    margin-top: .8rem;
 }
 
 #list-users .chip ::after {
@@ -916,97 +1001,6 @@ textarea.materialize-textarea:focus.valid {
     box-shadow: 0 1px 0 0 #55C2B9;
 }
 
-.menu-information li:not(:first-child):before {
-  content: "/";
-  padding: 0 5px 0 0px;
-}
-
-.menu-information li.ms-deadline:not(.active):before {
-  opacity: 0;
-}
-
-.menu-information li.ms-deadline.active:before {
-  opacity: 1;
-}
-
-.menu-information li > p{
-  display: inline;
-}
-
-.complete_tasks div.task-detail{
-  position: relative;
-  color: #A4A6A9;
-}
-
-.complete_tasks div.task-detail::after{
-  /*content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0.5em;
-  border-top: 1px solid rgba(164, 166, 169, 0.3);
-  z-index: -1;
-  margin-left: 12px;
-  width: 120%;*/
-}
-
-.show_blockers .blocker ul.action-menu {
-    display: inline;
-    position: absolute;
-    right: -52px;
-    top: 0;
-    line-height: 20px;
-    min-height: 16px;
-}
-
-.permitted .show_blockers .blocker:hover{
-  background-color: rgba(185, 185, 185, 0.07);
-}
-
-.show_blockers div.blocker:not(.active) ul.action-menu {
-  opacity: 0;
-}
-
-.show_blockers div.blocker.active ul.action-menu {
-  -webkit-transition: opacity .05s linear,visibility .05s linear;
-  -moz-transition: opacity .05s linear,visibility .05s linear;
-  transition: opacity .05s linear,visibility .05s linear;
-
-}
-.show_blockers ul.action-menu li {
-    display: inline-table;
-    float: left;
-    padding: 0 5px;
-  }
-
-.show_blockers ul.action-menu li i,
-.show_blockers a.blocker_detail{
-  line-height: 20px;
-}
-
-.show_blockers .blocker{
-  position: relative;
-}
-.no-permitted #my-add-task{
-  display: none;
-}
-
-.no-permitted ul.menu-option > li a,
-.no-permitted ul.menu-option > li form,
-.no-permitted ul.menu-option > li div.input-group{
-  pointer-events: none;
-  cursor: not-allowed;
-  display: none;
-}
-.no-permitted ul.menu-option > li a{
-  pointer-events: none;
-}
-
-.permitted ul.menu-option > li i[data-has-blockers],
-.no-permitted ul.menu-option > li i[data-has-blockers='false']{
-  display: none;
-}
 
 /***** HIDDEN DATEPICKER ******/
 .hidden-datepicker{
@@ -1287,38 +1281,6 @@ button.close {
 
 .ms-upload-avatar input[type="file"]{
   left: 0;
-}
-.show_blockers div.blocker label.truncate{
-  -webkit-transition: white-space 2s; /* Safari */
-  transition: white-space 2s;
-
-}
-
-.show_blockers div.blocker.active label.truncate {
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: initial;
-
-}
-
-.show_blockers div.blocker label {
-    margin: 0rem 0 .3rem;
-}
-
-.complete_tasks.tasks .row{
-  margin-bottom: 0px;
-}
-
-.complete_tasks p.truncate:hover{
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: initial;
-}
-
-.complete_tasks p.truncate{
-  text-decoration: line-through;
-  -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
-  -moz-text-decoration-style: solid;
 }
 
 /************ LIST ***************/

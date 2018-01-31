@@ -68,6 +68,11 @@ Rails.application.routes.draw do
     #   resources :completeds
     #   resources :blockers
     # end
+    resources :notifications do
+      collection do
+        post :mark_as_read
+      end
+    end
     resources :sessions
   #
     resources :users do

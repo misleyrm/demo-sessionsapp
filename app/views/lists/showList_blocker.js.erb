@@ -1,57 +1,43 @@
+// $(document).on('turbolinks:load',function(){
+    var $form =  $('#application-date form');
+    var $content = $('#page-content #main_center');
+    if($('#new-list').length){
+      $('#new-list').remove();
+    }
+    if($('#ms-user-edit').length){
+      $('#ms-user-edit').remove();
+    }
+    if($('#ms-tabsSetting').length){
+        $('#ms-tabsSetting').remove();
+    }
+    if ($('body').hasClass('expand-header')){
+        $('body').removeClass('expand-header');
+    }
 
-var $form =  $('#application-date form');
-var $content = $('#page-content #main_center');
-if($('#new-list').length){
-  $('#new-list').remove();
-}
-if($('#ms-user-edit').length){
-  $('#ms-user-edit').remove();
-}
-if($('#ms-tabsSetting').length){
-    $('#ms-tabsSetting').remove();
-}
-if ($('body').hasClass('expand-header')){
-    $('body').removeClass('expand-header');
-}
-// console.log("<%= @list.id %>");
+    $content.html("<%= j render partial: 'lists/list', locals: { list: @list, user: current_user } %>");
 
-$content.html("<%= j render partial: 'lists/list', locals: { list: @list, user: current_user } %>");
+    $("#ms-link-listSetting").html("<%= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
 
-$("#ms-link-listSetting").html("<%= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
+    $form.attr("action","lists/<%= @list.id %>");
+    $form.attr("id","edit_list_<%= @list.id %>");
+    $('.edit_task').submitOnCheck();
 
-$form.attr("action","lists/<%= @list.id %>");
-$form.attr("id","edit_list_<%= @list.id %>");
-$('.edit_task').submitOnCheck();
+    $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+    $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
 
-$('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
-$('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
+    $('.tooltipped').tooltip({delay: 50});
 
-$('.tooltipped').tooltip({delay: 50});
+    var $list = $('[data-list-id = "<%= @list.id %>"]');
+    var $listUsers = $('#list-users',$list);
+    var $collaboration_user = $('#collaboration-users li#<%= @collaborator.id %>',$list);
 
-var $list = $('[data-list-id = "<%= @list.id %>"]');
-var $listUsers = $('#list-users',$list);
-var $collaboration_user = $('#collaboration-users li#<%= @collaborator.id %>',$list);
-
-
-// if ($collaboration_user.hasClass('active')) {
-//     $collaboration_user.removeClass('active');
-//     $user.remove();
-//   } else {
     $collaboration_user.addClass('active');
     $listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @collaborator, list: @list } %>");
     var $user = $('[data-user-id = "<%= @collaborator.id %>"]',$list);
     $('input[id="task_user_id"]',$user).val("<%= @colaborator.id %>");
     $('.tooltipped').tooltip({delay: 50});
-    // dropdown-button
-    $('.dropdown-button2').dropdown({
-        inDuration: 300,
-        outDuration: 225,
-        hover: false, // Activate on hover
-        belowOrigin: true, // Displays dropdown below the button
-        alignment: 'right' // Displays dropdown with edge aligned to the left of button
-      });
 
     $('.edit_task').submitOnCheck();
     deadlineDatepicker($('input.deadline-datepicker'));
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
- // }
+  // })

@@ -4,27 +4,40 @@
           <%= render 'layouts/topnavbar' %>
       </header>
   <% end %>
-  <main>
-
-    <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-    </div> -->
-    <div  id="content"  class="<% if current_user.nil? %>toggled<% end %> container">
-      <div id="page-content">
-        <%= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
-        <aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
-            <%= render partial: 'layouts/navigation', locals: { user: current_user } %>
-        </aside>
-        <div id="main_center">
-            <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
+  <div id="main">
+    <div class="wrapper">
+      <aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
+          <%= render partial: 'layouts/navigation', locals: { user: current_user } %>
+      </aside>
+      <section id="content" >
+        <div id="page-content" class="container">
+          <%= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
+          <div id="main_center">
+              <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
+          </div>
         </div>
-      </div>
-    </div>
-  </main>
+      </section>
+      <%#= content_tag "div",id: "content", class: "container" do%>
+
+          <!-- <div id="page-content">
+            <%#= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
+
+            <div id="main_center">
+                <%#= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
+            </div>
+          </div> -->
+      <%# end%>
+  </div><!-- End wrapper-->
+</div><!-- End main-->
+
   <!-- Footer -->
   <%= render 'layouts/footer' %>
   <!-- Modal Structure -->
   <div id="modal-holder"></div>
+
+  <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  </div> -->

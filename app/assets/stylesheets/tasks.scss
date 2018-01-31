@@ -12,7 +12,22 @@
   padding-bottom: 5px;
 }
 
-.tasks ul.menu-option >li,
+.tasks ul.menu-option{
+  height: 35px;
+}
+
+.tasks ul.menu-option >li{
+  padding-right: .3rem;
+  height: 100%;
+  line-height: 40px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.tasks .task-detail>p{
+  font-size: .9rem;
+}
+
 .tasks ul.menu-information >li,
 .invitation-user-settings ul.menu-option >li {
   display: inline-block;
@@ -20,9 +35,22 @@
   vertical-align: top;
 }
 
-.tasks ul.menu-option >li{
-  min-width: 26px;
-  padding-right: 8px;
+.tasks ul.menu-option [type="checkbox"]:checked + label:before {
+  top: 0;
+}
+
+.table-of-task > .row{
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.table-of-task [type="checkbox"]:checked+label:before {
+  width: 8px;
+  height: 18px;
+}
+
+.table-of-task [type="checkbox"]+label {
+    padding-left: 16px;
 }
 
 .permitted .tasks ul.menu-option >li a:hover .material-icons,
@@ -34,15 +62,6 @@
 
 .permitted .tasks ul.menu-option >li i.i-btn-datepicker:hover{
   cursor: pointer;
-}
-
-.table-of-task [type="checkbox"]:checked+label:before {
-  width: 10px;
-  height: 20px;
-}
-
-.table-of-task [type="checkbox"]+label {
-    padding-left: 16px;
 }
 
 .table-of-task{
@@ -58,7 +77,7 @@
 }
 
 .table-of-task ul.menu-information{
-  font-size: 14px;
+  font-size: .8rem;
   line-height: 20px;
   color: #a4a6a9;
 }
@@ -69,7 +88,7 @@
 
 .tasks .row{
   margin-bottom: 17px;
-  padding: 3px 0px;
+  padding: 0px;
 }
 
 .tasks .ui-sortable-handle:hover{
@@ -79,4 +98,123 @@
 
 form.edit_task [type="checkbox"] + label {
   height: 20px;
+}
+
+.menu-information li:not(:first-child):before {
+  content: "/";
+  padding: 0 5px 0 0px;
+}
+
+.menu-information li.ms-deadline:not(.active):before {
+  opacity: 0;
+}
+
+.menu-information li.ms-deadline.active:before {
+  opacity: 1;
+}
+
+.menu-information li > p{
+  display: inline;
+}
+
+.complete_tasks div.task-detail{
+  position: relative;
+  color: #A4A6A9;
+}
+
+
+.show_blockers .blocker ul.action-menu {
+    display: inline;
+    position: absolute;
+    right: -52px;
+    top: 0;
+    line-height: 20px;
+    min-height: 16px;
+}
+
+.permitted .show_blockers .blocker:hover{
+  //background-color: rgba(185, 185, 185, 0.07);
+}
+
+.show_blockers div.blocker:not(.active) ul.action-menu {
+  opacity: 0;
+}
+
+.show_blockers {
+  padding-top: .3rem!important;
+}
+
+.show_blockers div.blocker.active ul.action-menu {
+  -webkit-transition: opacity .05s linear,visibility .05s linear;
+  -moz-transition: opacity .05s linear,visibility .05s linear;
+  transition: opacity .05s linear,visibility .05s linear;
+
+}
+.show_blockers ul.action-menu li {
+    display: inline-table;
+    float: left;
+    padding-right: .3rem;
+  }
+
+.show_blockers ul.action-menu li i,
+.show_blockers a.blocker_detail{
+  line-height: 1.5rem;
+}
+
+.show_blockers .blocker{
+  position: relative;
+}
+
+.show_blockers div.blocker label.truncate{
+  -webkit-transition: white-space 2s; /* Safari */
+  transition: white-space 2s;
+  font-size: .9rem;
+}
+
+.show_blockers div.blocker.active label.truncate {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: initial;
+
+}
+
+.show_blockers div.blocker label {
+    margin: 0;
+}
+
+.complete_tasks.tasks .row{
+  margin-bottom: 0px;
+}
+
+.complete_tasks p.truncate:hover{
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: initial;
+}
+
+.complete_tasks p.truncate{
+  text-decoration: line-through;
+  -moz-text-decoration-color: rgba(164, 166, 169, 0.3);
+  -moz-text-decoration-style: solid;
+}
+
+
+.no-permitted #my-add-task{
+  display: none;
+}
+
+.no-permitted ul.menu-option > li a,
+.no-permitted ul.menu-option > li form,
+.no-permitted ul.menu-option > li div.input-group{
+  pointer-events: none;
+  cursor: not-allowed;
+  display: none;
+}
+.no-permitted ul.menu-option > li a{
+  pointer-events: none;
+}
+
+.permitted ul.menu-option > li i[data-has-blockers],
+.no-permitted ul.menu-option > li i[data-has-blockers='false']{
+  display: none;
 }

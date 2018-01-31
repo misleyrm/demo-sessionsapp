@@ -5,51 +5,40 @@
           <div class="nav-belt hide-on-small-only">
               <ul class="nav-belt-left">
                  <li><%= link_to "List", root_path %></li>
-                 <!-- <li>Guest Users</li> -->
               </ul>
               <ul class="right hide-on-small-only nav-setting">
                   <li>
-                      <!-- <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown">
-                         <i class="material-icons md-18 md-light">notifications<extra-small class="notification-badge">5</sextra-small></i>
-                      </a> -->
-                     <ul class="dropdown-content" style="min-width:250px" id="notifications-dropdown">    <!--id="notifications-dropdown" -->
-                         <li>
-                            <h5>NOTIFICATIONS<span class="new badge">5</span></h5>
-                         </li>
-                         <li class="divider"></li>
-                         <li>
-                            <a href="#!"><i class="mdi-action-add-shopping-cart"></i> A new task has been created!</a>
-                            <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
-                         </li>
-                         <li>
-                            <a href="#!"><i class="mdi-action-stars"></i> Completed the task</a>
-                            <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
-                         </li>
-                         <li>
-                            <a href="#!"><i class="mdi-action-settings"></i> Settings updated</a>
-                            <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
-                         </li>
-                         <li>
-                            <a href="#!"><i class="mdi-editor-insert-invitation"></i> New List has been created</a>
-                            <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
-                         </li>
-                         <li>
-                            <a href="#!"><i class="mdi-action-trending-up"></i> New invitation was sent</a>
-                            <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
-                         </li>
+                      <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior="notifications" data-hover="false">
+                         <i class="material-icons md-18 md-light">notifications<extra-small class="notification-badge" data-behavior='unread-count'></sextra-small></i>
+                      </a>
+                     <ul class="dropdown-content animated fadeIn" id="notifications-dropdown">
+                       <li class= "total"><span class="ultra-small">
+                               You have <strong data-behavior= 'unread-count'>3</strong> new notifications.
+                               <a href="javascript:;" class="right ultra-small" data-behavior='notifications-markasread'>Mark all as Read</a>
+                           </span>
+                       </li>
+                       <li class="list">
+                           <ul class="collection list-unstyled dropdown-menu-scrollbar" data-behavior="notification-items" id="style-2">
+                           </ul>
+                       </li>
+                       <li class="external">
+                            <a href="javascript:;">
+                                <span class="right-align">Read All Notifications</span>
+                            </a>
+                        </li>
                      </ul>
-                     </li>
-                     <li><!-- <a href="#">
-                       <i class="material-icons md-18 md-light">view_module</i></a> -->
-                     </li>
-                     <li>
-                       <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name"><span><%=current_user.first_name%></span><i class="material-icons right">arrow_drop_down</i></a>
-                       <!-- Dropdown Structure -->
-                       <ul id='dropdownUser' class='dropdown-content'>
-                         <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
-                         <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
-                       </ul>
-                     </li>
+                   </li>
+                   <li>
+                     <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name" data-hover="false">
+                       <span><%=current_user.first_name%></span>
+                       <i class="material-icons right">arrow_drop_down</i>
+                     </a>
+                     <!-- Dropdown Structure -->
+                     <ul id='dropdownUser' class='dropdown-content'>
+                       <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
+                       <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
+                     </ul>
+                   </li>
                  </ul>
           </div>
           <a href="#" data-activates="slide-out" class="button-collapse sidebar-collapse btn-medium waves-light hamburger-menu">

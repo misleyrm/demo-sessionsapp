@@ -1,6 +1,6 @@
-<div id="list_user_<%= user.id%>" data-user-id = "<%= user.id%>" class="col s12 m12 l12 xl9">
+<%= content_tag :div, id: "list_user_#{user.id}", data:{"user-id": "#{user.id}"} do%>
     <%= render :partial => "users/user_img", :locals =>{ :user => user } %>
-    <%= content_tag :div, class: permitted_user?(user.id) ? 'permitted' : 'no-permitted' do%>
+    <%= content_tag :div, class: "ms-user-tasks #{permitted_user?(user.id) ? 'permitted' : 'no-permitted'}" do%>
         <div class="new-task">
           <%= render partial: 'tasks/form', :locals =>{ :user => user }   %>
         </div>
@@ -16,9 +16,6 @@
            <%= render :partial => "users/completed_task", :locals =>{ :user => user, :list => list,:current_date => current_date} %>
         </div>
     <% end%>
+    <div class="clearfix"></div>
     <div class="divider50"></div>
-</div>
-
-<!-- # <%# if policy(@post).update? %>
-#   <%#= link_to "Edit post", edit_post_path(@post) %>
-# <%# end %> -->
+<% end%>

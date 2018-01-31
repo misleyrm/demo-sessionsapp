@@ -1,0 +1,30 @@
+{
+  "name": "demo-sessionsapp",
+  "version": "1.0.0",
+  "description": "A demo package for sessions",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {
+    "xregexp": "^3.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misleyrm/demo-sessionsapp.git"
+  },
+  "keywords": [
+    "demo"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/misleyrm/demo-sessionsapp/issues"
+  },
+  "homepage": "https://github.com/misleyrm/demo-sessionsapp#readme"
+}

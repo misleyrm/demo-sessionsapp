@@ -1,0 +1,61 @@
+
+function Notifications(){
+  this.notifications = $("[data-behavior='notifications']"),
+  this.setup = function(){
+    if (this.notifications.length >0) {
+      $.ajax({
+        url: "/notifications.json",
+        dataType: "JSON",
+        method: "GET",
+        success: handleSuccess
+      })
+    }
+  }
+}
+function handleSuccess(data){
+  var $total = $("#notifications-dropdown .total");
+  var items = $.map( data, function( notification, i ) {
+    return  "<li class='collection-item avatar'>"+ notification.actorAvatar +
+               "<span class='title'>"+notification.actorName+" "+notification.action+" " +notification.notifiable.type+"</span>"+
+               "<p class='time'>"+ $.timeago(new Date(notification.created_at));+"</p>"+
+             "</li>";
+  });
+
+  $("[data-behavior='unread-count']").text(items.length);
+  $("strong[data-behavior= 'unread-count']", $total).text(items.length);
+  $("[data-behavior='notification-items']").html(items);
+
+}
+
+$(document).on('turbolinks:load',function(){
+  var notifications = new Notifications;
+  notifications.setup();
+  $("p.time").timeago();
+
+  $("#notifications-dropdown").dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      hover: false, // Activate on hover
+      constrainWidth: false,
+      belowOrigin: true, // Displays dropdown below the button
+      alignment: 'right' // Displays dropdown with edge aligned to the left of button
+    });
+
+  $("[data-behavior='notifications-markasread']").on( "click", handleClick);
+
+})
+
+function handleClick (e) {
+  $.ajax({
+    url:"/notifications/mark_as_read",
+    dataType: "JSON",
+    method: "POST",
+    success: function(){
+        var $total = $("#notifications-dropdown .total");
+        $("[data-behavior='unread-count']").text(0);
+        $("strong[data-behavior= 'unread-count']", $total).text(0);
+        $("[data-behavior='notification-items']").html("<li>You don't have any unread notifications  </li>");
+    }
+})
+
+}

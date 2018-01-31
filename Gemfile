@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.3.0"
 
-gem "paperclip"
+gem "paperclip", "~> 5.0.0"
 # Amazon web services
 gem 'aws-sdk', '~> 2'
 
@@ -15,7 +15,7 @@ gem 'materialize-sass'
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-gem 'hirb'
+# gem 'hirb'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -44,13 +44,13 @@ gem 'simple_form'
 
 gem 'rails_autolink'
 
-gem 'perfect-scrollbar-rails'
-
 gem 'pundit'
 
 gem 'figaro'
 
 gem 'gon'
+
+gem 'scrollbar-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

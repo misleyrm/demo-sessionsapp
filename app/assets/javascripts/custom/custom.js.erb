@@ -1,6 +1,7 @@
 jQuery.fn.submitOnCheck = function() {
   this.find('input[type=submit]').remove();
   this.find('input[type=checkbox]').click(function() {
+    console.log("hhdhdhhd");
     $(this).parent('form').submit();
   });
   return this;
@@ -9,19 +10,20 @@ jQuery.fn.submitOnCheck = function() {
 function handler(ev) {
     var target = $(ev.target);
     var elId = target.attr('id');
-    // alert('The mouse was over'+ elId );
 };
-
-
 
 $(document).on('click','ul.user-lists li a', {}, function(event){
   event.preventDefault();
   var $this = $(this);
   if (!$this.parent().is("#ms-add")){
+
+
       $("ul.user-lists li.active").removeClass('active');
       $this.parent().addClass('active');
 
       var id = $this.attr('id');
+
+
       $("#form_date").attr('action', '/lists/' + id);
       var date = $('#form_date').val() ? $('#form_date').val(): new Date();
 
@@ -43,7 +45,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 
 $(document).on('turbolinks:load',function(){
-
+  $('.edit_task').submitOnCheck();
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)
@@ -62,75 +64,53 @@ $(document).on('turbolinks:load',function(){
                  e.preventDefault(e);
              });
 
-    $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
-          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-          deadlineDatepicker($('input.deadline-datepicker'));
-    });
 
-    $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
-          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-          $('div[id^="incomplete_tasks_"]').each(function (){
-            mySortable($(this));
-          })
-          deadlineDatepicker($('input.deadline-datepicker'));
-      });
-
-    $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
-          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-          deadlineDatepicker($('input.deadline-datepicker'));
-          $('div[id^="incomplete_tasks_"]').each(function (){
-            mySortable($(this));
-          })
-      });
-
-    // $("input.update-avatar-submit").on('click', function(event) {
-    //   event.preventDefault();
-    //       console.log("innnnnnnnnnnnnn");
-    //   });
 
   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
   deadlineDatepicker($('input.deadline-datepicker'));
 
   // dropdown-button
-  $('.dropdown-button').dropdown({
+  $('.dropdown-button[data-hover="false"]').dropdown({
       inDuration: 300,
       outDuration: 225,
-      hover: true, // Activate on hover
+      hover: false, // Activate on hover
+      constrainWidth: false,
+      belowOrigin: true,
       belowOrigin: true, // Displays dropdown below the button
       alignment: 'right' // Displays dropdown with edge aligned to the left of button
     });
 
-    // dropdown-button
-    $('.dropdown-button2').dropdown({
-        inDuration: 300,
-        outDuration: 225,
-        hover: false, // Activate on hover
-        belowOrigin: true, // Displays dropdown below the button
-        alignment: 'right' // Displays dropdown with edge aligned to the left of button
-      });
+    // // dropdown-button
+    // $('.dropdown-button[data-behavior= "click-open"]').dropdown({
+    //     inDuration: 300,
+    //     outDuration: 225,
+    //     hover: false, // Activate on hover
+    //     belowOrigin: true, // Displays dropdown below the button
+    //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
+    //   });
 
-  $(document).on("click", '.dropdown-button',function(e){
-     e.preventDefault();
-     var id = "#"+ $(this).data('activates');
-     $('.dropdown-list').not($(id)).removeClass('show');
-     $(id).toggleClass('show');
-  })
-
-  // Close the dropdown menu if the user clicks outside of it
-  window.onclick = function(event) {
-    // console.log('window onclick');
-    if (!($(event.target).parent('.dropdown-button').size() > 0)) {
-      var dropdowns = document.getElementsByClassName("dropdown-list");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-          openDropdown.classList.remove('show');
-        }
-      }
-    }
-  }
+  // $(document).on("click", '.dropdown-button[data-hover="false"]',function(e){
+  //    e.preventDefault();
+  //    var id = "#"+ $(this).data('activates');
+  //    $('.dropdown-list').not($(id)).removeClass('show');
+  //    $(id).toggleClass('show');
+  // })
+  //
+  // // Close the dropdown menu if the user clicks outside of it
+  // window.onclick = function(event) {
+  //   // console.log('window onclick');
+  //   if (!($(event.target).parent('.dropdown-button').size() > 0)) {
+  //     var dropdowns = document.getElementsByClassName("dropdown-list");
+  //     var i;
+  //     for (i = 0; i < dropdowns.length; i++) {
+  //       var openDropdown = dropdowns[i];
+  //       if (openDropdown.classList.contains('show')) {
+  //         openDropdown.classList.remove('show');
+  //       }
+  //     }
+  //   }
+  // }
 
  // Show action-menu in blockers when mouseover
   $(document).on("mouseover", ".permitted div.blocker", function(e){
@@ -141,26 +121,26 @@ $(document).on('turbolinks:load',function(){
   });
 
     // dropdown-button
-    $(document).on("click", '.dropdown-button2',function(e){
-       e.preventDefault();
-       var id = "#"+ $(this).data('activates');
-       $('.dropdown-list').not($(id)).removeClass('show');
-       $(id).toggleClass('show');
-    })
-
-    // Close the dropdown menu if the user clicks outside of it
-    window.onclick = function(event) {
-      if (!($(event.target).parent('.dropdown-button2').size() > 0)) {
-        var dropdowns = document.getElementsByClassName("dropdown-list");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
-        }
-      }
-    }
+    // $(document).on("click", '.dropdown-button2',function(e){
+    //    e.preventDefault();
+    //    var id = "#"+ $(this).data('activates');
+    //    $('.dropdown-list').not($(id)).removeClass('show');
+    //    $(id).toggleClass('show');
+    // })
+    //
+    // // Close the dropdown menu if the user clicks outside of it
+    // window.onclick = function(event) {
+    //   if (!($(event.target).parent('.dropdown-button2').size() > 0)) {
+    //     var dropdowns = document.getElementsByClassName("dropdown-list");
+    //     var i;
+    //     for (i = 0; i < dropdowns.length; i++) {
+    //       var openDropdown = dropdowns[i];
+    //       if (openDropdown.classList.contains('show')) {
+    //         openDropdown.classList.remove('show');
+    //       }
+    //     }
+    //   }
+    // }
 
     // Modal for view
     var modal_holder_selector;
@@ -238,14 +218,37 @@ $(document).on('turbolinks:load',function(){
 
 }); /* end of $(document).on('turbolinks:load',function(){*/
 
+  $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
+        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+        deadlineDatepicker($('input.deadline-datepicker'));
+  });
+
+  $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
+        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+        $('div[id^="incomplete_tasks_"]').each(function (){
+          mySortable($(this));
+        })
+        deadlineDatepicker($('input.deadline-datepicker'));
+    });
+
+  $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
+        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+        deadlineDatepicker($('input.deadline-datepicker'));
+        $('div[id^="incomplete_tasks_"]').each(function (){
+          mySortable($(this));
+        })
+    });
   // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
-  $(document).on("click", "#user_ownership_change a.btn-cancel", function() {
-       var $select = $(this).closest('form').find('select');
-       var value= $select.data("list-owner");
+  $(document).on("click", "#user_ownership_change a.btn-cancel", function(){
+       var $select = $(this).closest('form').find('select'),
+            value = $select.data("list-owner"),
+            $collapsible = $(this).parents($('.collapsible'));
+
        $(this).closest('form').find("input[type=password], current_password").val("");
        $select.find('option[value="'+value+'"]').prop('selected', true);
        $select.material_select();
-       $(this).parents($('.collapsible')).collapsible('close', 0);
+       $collapsible.collapsible('close', 0);
+       collapsibleClose($collapsible);
        $("#list_owner").val($("#list_owner option:first").val());
  });
 
@@ -492,12 +495,14 @@ function msCollapsible(clase){
           $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
           $arrow.animateRotate(0,90, 250, "linear");
        }, // Callback for Collapsible open
-      onClose: function(el) {
-        var $this = el,
-        $panel_headers = $this.find('div.collapsible-header'),
-        $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-        $arrow.animateRotate(90,0, 250, "linear");
-       } // Callback for Collapsible close
+      onClose: collapsibleClose
     });
 
+}
+
+function collapsibleClose(e){
+  var $this = e,
+  $panel_headers = $this.find('div.collapsible-header'),
+  $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+  $arrow.animateRotate(90,0, 250, "linear");
 }

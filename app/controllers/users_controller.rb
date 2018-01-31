@@ -106,10 +106,10 @@ class UsersController < ApplicationController
                @invitation.update_attributes(:active => true)
                htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": [],"current_user": current_user}).squish
                htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
-               htmlCollaboratorSetting = ListsController.render(partial: "lists/collaboration_user_settings", locals: {"list": @list, "collaboration_user": @user }).squish
+               htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "collaboration_user": @user }).squish
 
                htmlCollaborationsList = ""
-               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlCollaboratorSetting: htmlCollaboratorSetting, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+               ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end
         end
         @user.send_activation_email
@@ -199,10 +199,10 @@ class UsersController < ApplicationController
       end
 
       @invitations = @list.invitations.where(recipient_email: @user.email)
-      @invitation = Invitation.find_by(recipient_email: @user.email, list_id: @list.id)
+      @invitationId = (Invitation.find_by(recipient_email: @user.email, list_id: @list.id).blank? )? "" : Invitation.find_by(recipient_email: @user.email, list_id: @list.id).id
       @invitations.delete_all
       Invitation.reset_pk_sequence
-      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id, id: @invitation.id
+      ActionCable.server.broadcast 'invitation_channel', status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id, id: @invitationId
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy

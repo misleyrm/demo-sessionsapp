@@ -14,10 +14,11 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery.timeago
 //= require jquery.atwho
 //= require rails.validations
+//= require jquery.timeago
 //= require turbolinks
 //= require custom/custom
 //= require materialize-sprockets
-//= require perfect-scrollbar
 //= require_tree .

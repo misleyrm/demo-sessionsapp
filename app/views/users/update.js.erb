@@ -1,41 +1,43 @@
-if(!$('#ms-user-nav-setting').length){
-    $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');
-};
 
-$('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
-$('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+  if(!$('#ms-user-nav-setting').length){
 
-$('body').addClass('expand-header');
-$('nav a.button-collapse').css('display','block');
-$('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
+        $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');
+    };
+
+    $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
+    $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+
+    $('body').addClass('expand-header');
+    $('nav a.button-collapse').css('display','block');
+    $('.navigationbar div#slide-out').css({transform:'translateX(-100%)'});
 
 
-if ($("#error_explanation").length > 0){
-       $("#error_explanation").remove();
-     }
+    if ($("#error_explanation").length > 0){
+           $("#error_explanation").remove();
+         }
 
- <% if @user.errors.blank? %>
-    console.log("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
-     $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
-<% else%>
-    console.log("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
-     $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
- <% end %>
+     <% if @user.errors.blank? %>
+        console.log("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
+         $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
+    <% else%>
+        console.log("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
+         $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
+     <% end %>
 
- $('#change_email').collapsible({
-      onOpen: function(el) {
-          var $this = el,
-          $panel_headers = $this.find('div.collapsible-header'),
-          $arrow =   $panel_headers.find('i.material-icons.right');
-          $arrow.animateRotate(0,90, 250, "linear");
-       }, // Callback for Collapsible open
-      onClose: function(el) {
-        var $this = el,
-        $panel_headers = $this.find('div.collapsible-header'),
-        $arrow =   $panel_headers.find('i.material-icons.right');
-        $arrow.animateRotate(90,0, 250, "linear");
-       } // Callback for Collapsible close
-    });
-    
-$('#change_email').collapsible('close', 0);
-$('ul.tabs').tabs();
+     $('#change_email').collapsible({
+          onOpen: function(el) {
+              var $this = el,
+              $panel_headers = $this.find('div.collapsible-header'),
+              $arrow =   $panel_headers.find('i.material-icons.right');
+              $arrow.animateRotate(0,90, 250, "linear");
+           }, // Callback for Collapsible open
+          onClose: function(el) {
+            var $this = el,
+            $panel_headers = $this.find('div.collapsible-header'),
+            $arrow =   $panel_headers.find('i.material-icons.right');
+            $arrow.animateRotate(90,0, 250, "linear");
+           } // Callback for Collapsible close
+        });
+
+    $('#change_email').collapsible('close', 0);
+    $('ul.tabs').tabs();
