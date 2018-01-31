@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 ruby "2.3.0"
 
-gem "paperclip", "~> 5.0.0"
+gem 'paperclip', '~> 5.2', '>= 5.2.1'
 # Amazon web services
 gem 'aws-sdk', '~> 2'
 
@@ -73,7 +73,7 @@ gem 'jquery-atwho-rails'
 # gem 'unicorn'
 
 group :production do
-  gem 'pg'
+  gem 'pg','~> 0.18'
   gem 'bcrypt'
   gem 'whenever', require: false
 

@@ -130,13 +130,13 @@ GEM
     nio4r (2.2.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
-    paperclip (5.0.0)
+    paperclip (5.2.1)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
-    pg (1.0.0)
+    pg (0.21.0)
     public_suffix (3.0.1)
     puma (3.11.2)
     pundit (1.1.0)
@@ -280,8 +280,8 @@ DEPENDENCIES
   materialize-sass
   mocha
   nifty-generators
-  paperclip (~> 5.0.0)
-  pg
+  paperclip (~> 5.2, >= 5.2.1)
+  pg (~> 0.18)
   puma
   pundit
   rails (>= 5.0.0.beta3, < 5.1)
