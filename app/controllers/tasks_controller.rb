@@ -133,16 +133,29 @@ class TasksController < ApplicationController
 
    def destroy
      @recipient = @task.user
+     sender = current_user
+     @email_blockers = @task.t_blockers.map {|blocker| blocker.mention_emails} if (!@task.is_blocker?)
      if (@task.destroy)
-         if !current_user?(@task.user_id)
-           Notification.create(recipient:@recipient, actor:current_user, action: "has deleted this task: '#{@task.detail}'", notifiable: @task)
-         end
+       if !current_user?(@task.user_id)
+         Notification.create(recipient:@recipient, actor:sender, action: "has deleted this task: '#{@task.detail}'", notifiable: @task)
+       end
+       if (!@task.is_blocker?)
+           @email_blockers.each do |emails|
+             emails.each do |email|
+               Notification.create(recipient: User.find_by_email(email), actor:sender, action: 'has "cleared" the task. You are no longer a blocker for this', notifiable: @task)
+              end
+           end
+        else
+          tag_emails = @task.mention_emails
+          tag_emails.each do |email|
+            Notification.create(recipient: User.find_by_email(email), actor:sender, action: 'has "cleared" the blocker. You are no longer a blocker for this', notifiable: @task)
+          end
+        end
          respond_to do |format|
            format.html { redirect_to root_path, notice: "Task was deleted" }
            format.js
          end
      end
-
    end
 
    def complete

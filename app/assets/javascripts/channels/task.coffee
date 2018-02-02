@@ -91,6 +91,7 @@ App.task = App.cable.subscriptions.create "TaskChannel",
           $("#task_"+ data.id + " #menu .tooltipped", $divCompleted ).tooltip('remove')
           $task.remove()
           $incomplete.prepend data['html']
+          deadlineDatepicker($('input.deadline-datepicker'));
           $lineDate = $('[data-date = "'+ data.num_date+'"]', $divCompleted)
           if ((data['num_completed_tasks_date'] == 0) && ($lineDate.length != 0))
             $lineDate.remove()
