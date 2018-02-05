@@ -4,4 +4,6 @@ class Notification < ApplicationRecord
   belongs_to :notifiable, polymorphic: true
 
   scope :unread, -> { where(read_at: nil).order('created_at DESC') }
+
+  after_commit -> { NotificationRelayJob.perform_later(self) }
 end

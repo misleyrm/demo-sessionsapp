@@ -47,7 +47,8 @@ class TasksController < ApplicationController
          sender = current_user
          tag_emails.each do |email|
              TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now
-             Notification.create(recipient:User.find_by_email(email), actor:sender, action:"has tagged you as a blocker for the task '#{@task.detail}'",notifiable: @t_blocker)
+             Notification.create(recipient:User.find_by_email(email), actor:sender, action:"task",notifiable: @t_blocker)
+             #"has tagged you as a blocker for the task '#{@task.detail}'"
           end
           flash[:success] = "Blocker created"
        end

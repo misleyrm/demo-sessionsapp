@@ -1,0 +1,7 @@
+<li class='collection-item avatar' data-notification-id="<%= notification.id %>">
+    <%= render(partial: "users/collection_user_image", locals: {"user": notification.actor}, formats: [:html])%>
+    <span class='title'>
+      <%= yield %>
+    </span>
+    <%= content_tag(:p, notification.created_at.to_s, :data => {:datetime=> notification.created_at.getutc.iso8601}, :class => "time") %>
+</li>
