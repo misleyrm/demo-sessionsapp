@@ -1,0 +1,3 @@
+<%= render :layout => 'notifications/li', :locals => {:notification => notification} do %>
+     <%= "Your task: '#{notification.notifiable.detail}' was successfully created" %>
+<% end %>
