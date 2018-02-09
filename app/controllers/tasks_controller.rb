@@ -9,6 +9,7 @@ class TasksController < ApplicationController
   before_action :set_user, only: [:create, :index ]
   before_action :set_current_list, only: [ :changelist, :complete, :incomplete ]
   before_action :saved_list, only: [:changelist, :update, :complete ]
+  # before_action :saved_detail, only: [ :update], if: -> { !params[:detail].blank? && (params[:detail]!= @task.detail) }
   # respond_to :html, :js
   # before_action :set_current_user, only: [:changelist, :update, :complete ]   #if: -> { params[:assigner_id].present? || current_user !=  }
   # after_action :set_current_user, only: [:new], unless: -> { @task.nil? }
@@ -47,7 +48,7 @@ class TasksController < ApplicationController
          sender = current_user
          tag_emails.each do |email|
              TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now
-             Notification.create(recipient:User.find_by_email(email), actor:sender, action:"tagged",notifiable: @t_blocker)
+             Notification.create(recipient:User.find_by_email(email), actor:sender, action:"tagged", notifiable: @t_blocker)
           end
           flash[:success] = "Blocker created"
        end
@@ -74,12 +75,13 @@ class TasksController < ApplicationController
         if @task.is_blocker?
           tag_emails = params['tags_emails'].split(',')
           tag_emails.each do |email|
-              Notification.create(recipient: User.find_by_email(email), actor:sender, action: "has tagged you as a blocker for the task '#{@task.detail}'",notifiable: @task)
+              Notification.create(recipient: User.find_by_email(email), actor:sender, action: "tagged'#{@task.detail}'",notifiable: @task)
               # TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now
            end
-        else
-            Notification.create(recipient: @task.user, actor:sender, action: "has edited",notifiable: @task)
-            Notification.create(recipient: @task.assigner_user, actor:sender, action: "has edited",notifiable: @task) if (!@task.assigner_user.nil?) && (!current_user?(@task.assigner_user))
+        elsif (@task.previous_changes.key?(:detail) && @task.previous_changes[:detail].first != @task.previous_changes[:detail].last)
+          @task.detail_before = @task.previous_changes[:detail].first
+          recipient = (!(current_user?(@task.assigner_id))&&(@task.assigner_id != @task.user.id )) ? User.find(@task.assigner_id) : @task.user
+          Notification.create(recipient: recipient, actor: sender, action: "updated", notifiable: @task)
         end
     end
 
@@ -122,7 +124,6 @@ class TasksController < ApplicationController
     authorize @task
     # @task.update_attribute(:flag, 'true')
     @task.toggle! :flag
-
     respond_to do |format|
       format.html {  redirect_to current_list, notice: "Task was correctily updated" }
       format.js
@@ -132,39 +133,47 @@ class TasksController < ApplicationController
 
    def destroy
      @recipient = @task.user
-     sender = current_user
+     currentUser = current_user
      @email_blockers = (!@task.is_blocker?)? @task.t_blockers.map {|blocker| blocker.mention_emails} : @task.mention_emails
-     if (@task.destroy)
-      if (!@task.is_blocker?)
-           @email_blockers.each do |emails|
-             emails.each do |email|
-               Notification.create(recipient: User.find_by_email(email), actor:sender, action: "cleared", notifiable: @task)
-             end
-           end
-        else
-          byebug
-          @email_blockers.each do |email|
-            byebug
-            Notification.create(recipient: User.find_by_email(email), actor:sender, action: "cleared", notifiable: @task)
-          end
-      end
-
-     end
      respond_to do |format|
-        format.html { redirect_to root_path, notice: "Task was deleted" }
-        format.js
+       if (@task.destroy)
+          if (!@task.is_blocker?)
+              byebug
+              if (@task.assigner_id == currentUser.id) && (@task.assigner_id!= @task.user.id)
+                Notification.create(recipient: @task.user, actor:currentUser, action: "assigned_cancel", notifiable: @task)
+              end
+              @email_blockers.each do |emails|
+                 emails.each do |email|
+                   Notification.create(recipient: User.find_by_email(email), actor:currentUser, action: "cleared_blocker", notifiable: @task)
+                 end
+              end
+          else
+              @email_blockers.each do |email|
+                Notification.create(recipient: User.find_by_email(email), actor:currentUser, action: "cleared_blocker", notifiable: @task)
+              end
+
+          end
+          resource = (!@task.is_blocker?)? "Task" : "Blocker"
+          flash[:notice] = "Task was deleted"
+          format.html { redirect_to root_path }
+      else
+        flash[:notice] = "We can't process your request now"
+        format.html { redirect_to root_path }
       end
+    end # end respond_to do |format|
+
    end
 
    def complete
      @task.update_attribute(:completed_at, Time.now)
      sender = current_user
-     Notification.create(recipient: User.find(@task.assigner_id), actor:sender, action: "has marked as completed", notifiable: @task) if !(current_user?(@task.assigner_id))
+     recipient = (!(current_user?(@task.assigner_id))&&(@task.assigner_id != @task.user.id )) ? User.find(@task.assigner_id) : @task.user
+     Notification.create(recipient: recipient, actor:sender, action: "completed", notifiable: @task)
      if @task.has_blockers?
        @task.t_blockers.each do |t_blocker|
          tag_emails = t_blocker.mention_emails
          tag_emails.each do |email|
-             Notification.create(recipient: User.find_by_email(email), actor:sender, action: 'has "cleared" the blocker. You are no longer a blocker for this',notifiable: @task)
+             Notification.create(recipient: User.find_by_email(email), actor:sender, action: "cleared_blocker",notifiable: @task)
             #  TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now
           end
        end
@@ -179,18 +188,17 @@ class TasksController < ApplicationController
 
    def incomplete
      @task.update_attribute(:completed_at, nil)
-     Notification.create(recipient:User.find(@task.assigner_id), actor:current_user, action: "has marked as incompleted", notifiable: @task) if !(current_user?(@task.assigner_id))
+     currentUser = current_user
+     recipient = (!(current_user?(@task.assigner_id))&&(@task.assigner_id != @task.user.id )) ? User.find(@task.assigner_id) : @task.user
+     Notification.create(recipient: recipient, actor: currentUser, action: "completed", notifiable: @task)
      respond_to do |format|
        flash[:notice] = "Task marked as incompleted"
        format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
        format.js
      end
-
    end
 
    def changelist
-
-    #  List.current = List.find(params[:currentList])
      @task.update_attribute(:list_id, params[:list_id])
 
      respond_to do |format|
@@ -257,6 +265,10 @@ class TasksController < ApplicationController
 
      def saved_list
        @task.list_before = @task.list_id
+     end
+
+     def saved_detail
+       @task.detail_before = @task.detail
      end
 
      def user_not_authorized

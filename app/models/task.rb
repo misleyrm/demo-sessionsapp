@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   include ActiveModel::Dirty
 
   # sdefine_attribute_methods :list_id
-  attr_accessor :t_blocker_attributes, :completed, :list_before, :current_user_id
+  attr_accessor :t_blocker_attributes, :completed, :list_before, :detail_before, :current_user_id
   belongs_to :list
   belongs_to :user
   belongs_to :assigner_user, class_name: "User"
@@ -20,6 +20,10 @@ class Task < ApplicationRecord
 
   def completed?
     !completed_at.blank?
+  end
+
+  def state
+    (!completed_at.blank?)? "completed" : "incompleted"
   end
 
   def important?
