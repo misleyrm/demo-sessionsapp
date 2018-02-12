@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119162028) do
+ActiveRecord::Schema.define(version: 20180212202848) do
 
   create_table "blockers", force: :cascade do |t|
     t.integer "session_id"
@@ -62,6 +62,15 @@ ActiveRecord::Schema.define(version: 20180119162028) do
     t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.index ["user_id"], name: "index_lists_on_user_id"
+  end
+
+  create_table "notification_types", force: :cascade do |t|
+    t.string "action"
+    t.string "string"
+    t.string "settings_text"
+    t.string "notification_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notifications", force: :cascade do |t|

@@ -56,8 +56,9 @@ class TasksController < ApplicationController
        @task = current_list.tasks.build(task_params)
        List.current = current_list
        if @task.save
-          @action = (!current_user?(@task.user_id))? "assigned" : "created"
-          Notification.create(recipient:@task.user, actor:current_user, action: @action,notifiable: @task)
+          if (!current_user?(@task.user_id))
+             Notification.create(recipient:@task.user, actor:current_user, action: "assigned",notifiable: @task)
+          end
           flash[:success] = "Task created"
        end
      end
@@ -80,8 +81,9 @@ class TasksController < ApplicationController
            end
         elsif (@task.previous_changes.key?(:detail) && @task.previous_changes[:detail].first != @task.previous_changes[:detail].last)
           @task.detail_before = @task.previous_changes[:detail].first
-          recipient = (!(current_user?(@task.assigner_id))&&(@task.assigner_id != @task.user.id )) ? User.find(@task.assigner_id) : @task.user
-          Notification.create(recipient: recipient, actor: sender, action: "updated", notifiable: @task)
+          if (!(current_user?(@task.assigner_id))&&(@task.assigner_id != @task.user.id )) ? User.find(@task.assigner_id) : @task.user
+              Notification.create(recipient: User.find(@task.assigner_id), actor: sender, action: "updated", notifiable: @task)
+          end
         end
     end
 
@@ -96,7 +98,9 @@ class TasksController < ApplicationController
       authorize @task
       @task.update_attribute(:deadline, params[:deadline])
       sender = current_user
-      Notification.create(recipient:@task.user, actor:current_user, action: "deadline",notifiable: @task)
+      if (!current_user?(@task.user_id))
+        Notification.create(recipient:@task.user, actor:current_user, action: "deadline",notifiable: @task)
+      end
       # TaskMailer.deadline(@task.user.email, sender, @task).deliver_now
       respond_to do |format|
         format.html { }
@@ -108,7 +112,9 @@ class TasksController < ApplicationController
   def delete_deadline
     respond_to do |format|
       if @task.update_attribute(:deadline, '')
-        Notification.create(recipient:@task.user, actor:current_user, action: "removed_deadline",notifiable: @task)
+        if (!current_user?(@task.user_id))
+          Notification.create(recipient:@task.user, actor:current_user, action: "deadline",notifiable: @task)
+        end
         format.html {redirect_to root_path, notice: 'Deadline date was removed' }
         format.json {render json: @task }
         format.js
