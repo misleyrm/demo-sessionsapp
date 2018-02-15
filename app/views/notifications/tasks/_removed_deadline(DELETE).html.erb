@@ -1,0 +1,4 @@
+<%= render :layout => 'notifications/li', :locals => {:notification => notification} do %>
+    <% intro = (notification.actor == notification.recipient)? "You have successfully" : "#{notification.actor.name} has"%>
+    <%= "#{notification.actor.name} removed due date for the task: '#{notification.notifiable.detail}'"%>
+<% end %>

@@ -1,0 +1,3 @@
+<%= render :layout => 'notifications/li', :locals => {:notification => notification} do %>
+     <%= "#{notification.actor.name} assigned you a new task: '#{notification.notifiable.detail}'"%>
+<% end %>

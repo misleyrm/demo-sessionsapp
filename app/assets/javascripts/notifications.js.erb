@@ -21,6 +21,7 @@ function handleSuccess(data){
              "</li>";
   });
 
+  (items.length ==0)? $("[data-behavior='unread-count']").addClass("display-none"):$("[data-behavior='unread-count']").removeClass("display-none");
   $("[data-behavior='unread-count']").text(items.length);
   $("strong[data-behavior= 'unread-count']", $total).text(items.length);
   $("[data-behavior='notification-items']").html(items);
@@ -52,6 +53,7 @@ function handleClick (e) {
     method: "POST",
     success: function(){
         var $total = $("#notifications-dropdown .total");
+        $("[data-behavior='unread-count']").addClass("display-none");
         $("[data-behavior='unread-count']").text(0);
         $("strong[data-behavior= 'unread-count']", $total).text(0);
         $("[data-behavior='notification-items']").html("<li>You don't have any unread notifications  </li>");

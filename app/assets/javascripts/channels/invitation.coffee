@@ -16,8 +16,8 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $editListOwner = $('[data-edit-list-id= "'+data.list_id+'"]', $currentUserOwner)
     # collaboration user in collaboration user list
     $collaboratorUserOwner = $('[data-chip-user-id= "'+data.recipient+'"]', $collaborationUsersOwner)
-    # collaboration user in collaboration user in settings
-    $collaboratorUserOwner = $('[data-chip-user-id= "'+data.recipient+'"]', $collaborationUsersOwner)
+    # collaboration user shown in list
+    $collaboratorShowInList = $('[data-user-id= "'+data.recipient+'"]', $listOwner)
 
     $pageContent = $('#page-content')
     $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
@@ -27,9 +27,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
 
     # list settings
     $editList = $('[data-edit-list-id= "'+data.list_id+'"]')
-    alert data.id
     $listPendingInvitation = $('[data-list-pending-invitation-id= "' + data.id + '"]', $editList)
-    console.log $listPendingInvitation
     $collaboratorUserSettingOwner = $('[data-list-member-id= "'+data.recipient+'"]', $editList)
     $mainCenter = $('#main_center')
 
@@ -62,6 +60,7 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
         $userAcceptedInvitations.prepend data['htmlUserAcceptedInvitation']
         if $collaboratorUserOwner.length > 0
           $collaboratorUserOwner.removeClass("ms-inactive")
+          $(".user-img",$collaboratorShowInList).removeClass("ms-inactive")
         else
           $collaboration_users.append data.htmlCollaborationUser
         $collaboratorUserSettingOwner.removeClass("ms-inactive")

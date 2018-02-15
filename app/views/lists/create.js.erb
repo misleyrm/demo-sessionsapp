@@ -8,6 +8,6 @@
 
   $("li.active", $ul).removeClass('active');
   $add.prepend("<%= j render partial: 'lists/nav_list_name', layout: 'layouts/li_navigation', locals: {list: @list, user: current_user, active:'true'} %>");
-  console.log(gon.current_user.id);
+  // console.log(gon.current_user.id);
   $('#ms-modal-dialog').modal('close');
   Materialize.toast("<%= flash[:success] %>", 4000);
