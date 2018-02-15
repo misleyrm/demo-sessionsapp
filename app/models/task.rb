@@ -18,6 +18,8 @@ class Task < ApplicationRecord
 
   validates_presence_of :detail, :on => :create
 
+  # scope :cheaper_than, lambda { |price| where('price < ?', price) }
+
   def completed?
     !completed_at.blank?
   end

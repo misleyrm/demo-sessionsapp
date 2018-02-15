@@ -24,13 +24,13 @@ class User < ApplicationRecord
   # has_many :wips, :dependent => :destroy
   # has_many :completeds, :dependent => :destroy
   # has_many :blockers, dependent: :destroy
-  enum role: [:master, :admin, :manager, :employee]
+  # enum role: [:master, :admin, :manager, :employee]
   # after_initialize :set_default_role, :if => :new_record?
 
   attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password
   before_create :create_activation_digest
 
-  after_create :create_all_tasks_list
+  after_create :create_settings
 
 
 
@@ -64,6 +64,8 @@ class User < ApplicationRecord
   has_many :invitations, :class_name => "Invitation", :foreign_key => 'recipient_id', dependent: :destroy
   has_many :sent_invitations, :class_name => "Invitation", :foreign_key => 'sender_id',  dependent: :destroy
 
+  has_many :notification_settings
+  has_many :notification_types, through: :notification_settings
   # attr_writer :current_step
 
   validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
@@ -123,12 +125,25 @@ class User < ApplicationRecord
       end
     end
 
+  def notification_type_options(id)
+    self.notification_settings.where(notification_type_id: id ).select(:notification_option_id, :active).order(notification_option_id: :asc)
+  end
+
+  def notification_setting_texts
+    self.notification_types.select(:settings_text,:id).distinct 
+  end
   # def set_default_role
   #   self.role ||= :employee
   # end
 
-  def create_all_tasks_list
+  def create_settings
     self.created_lists << self.created_lists.create(name: "All Tasks", all_tasks: true)
+    @notification_types = NotificationType.all
+    @notification_types.each do |notification_type|
+      NotificationOption.all.each do |notification_option|
+        self.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
+      end
+    end
   end
 
   def owner?(list)

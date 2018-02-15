@@ -1,13 +1,17 @@
 <%= content_tag "div", class: "ms-tabsSetting-content" do %>
-  <%= render :partial => 'shared/error_messages', :locals => {:object => @user} %>
-    <!-- <%= hidden_field_tag :authenticity_token, form_authenticity_token %> -->
-  <%= content_tag "div", id:"profile" do %>
-    <%= render 'users/personal_info'%>
-  <% end %>
-  <%= content_tag "div", id:"security" do %>
-    <%= render 'users/security'%>
-  <% end %>
-  <%= content_tag "div", id:"invitations" do %>
-    <%= render 'users/invitations', :locals => {:object => @user} %>
-  <% end%>
+    <%= render :partial => 'shared/error_messages', :locals => {:object => @user} %>
+      <!-- <%= hidden_field_tag :authenticity_token, form_authenticity_token %> -->
+    <%= content_tag "div", id:"profile" do %>
+      <%= render 'users/personal_info'%>
+    <% end %>
+    <%= content_tag "div", id:"security" do %>
+      <%= render 'users/security'%>
+    <% end %>
+    <%= content_tag "div", id:"invitations" do %>
+      <%= render 'users/invitations', :locals => {:object => @user} %>
+    <% end%>
+    <%= content_tag "div", id:"notifications" do %>
+      <%= render 'users/notifications', :locals => {:object => @user} %>
+    <% end%>
+
 <% end%>

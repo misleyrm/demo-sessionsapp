@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212202848) do
+ActiveRecord::Schema.define(version: 20180214160849) do
 
   create_table "blockers", force: :cascade do |t|
     t.integer "session_id"
@@ -64,6 +64,25 @@ ActiveRecord::Schema.define(version: 20180212202848) do
     t.index ["user_id"], name: "index_lists_on_user_id"
   end
 
+  create_table "notification_options", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notification_settings", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "notification_option_id"
+    t.integer "user_id"
+    t.integer "notification_type_id"
+    t.index ["notification_option_id"], name: "index_notification_settings_on_notification_option_id"
+    t.index ["notification_type_id"], name: "index_notification_settings_on_notification_type_id"
+    t.index ["user_id", "notification_type_id", "notification_option_id"], name: "index_user_ntype_noption", unique: true
+    t.index ["user_id"], name: "index_notification_settings_on_user_id"
+  end
+
   create_table "notification_types", force: :cascade do |t|
     t.string "action"
     t.string "string"
@@ -71,6 +90,7 @@ ActiveRecord::Schema.define(version: 20180212202848) do
     t.string "notification_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index [nil], name: "index_notification_types_on_notification_type_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -82,6 +102,8 @@ ActiveRecord::Schema.define(version: 20180212202848) do
     t.string "notifiable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "notification_type_id"
+    t.index ["notification_type_id"], name: "index_notifications_on_notification_type_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -176,6 +198,7 @@ ActiveRecord::Schema.define(version: 20180212202848) do
     t.datetime "avatar_updated_at"
     t.string "remember_digest"
     t.index ["team_id"], name: "index_users_on_team_id"
+    t.index [nil], name: "index_users_on_user_id"
   end
 
   create_table "wips", force: :cascade do |t|

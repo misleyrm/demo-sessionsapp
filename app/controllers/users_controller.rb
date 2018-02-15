@@ -68,6 +68,8 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @pending_invitations = @user.pending_invitations
     @accepted_invitations = @user.accepted_invitations
+    @notification_options = NotificationOption.all.order(id: :asc)
+    @notification = @user.notification_setting_texts
     respond_to do |format|
       format.html { }
       format.json { render json: @user}

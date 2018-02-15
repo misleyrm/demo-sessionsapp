@@ -1,0 +1,10 @@
+<%= content_tag :tr, data: {:'notification-type-id'=> "#{notification_type.id}"} do %>
+  <%= content_tag :td, "#{notification_type.settings_text}" %>
+  <% current_user.notification_type_options(notification_type.id).each do |n| %>
+    <%= content_tag :td, "#{n.active }", data: {:'notification_option_id'=> "#{n.notification_option_id}"} do%>
+        <% checked = (n.active)? "checked": "" %>
+        <%= content_tag(:input, nil, :type => 'checkbox', :class => "filled-in", :id => "filled-in-box_#{notification_type.id}_#{n.notification_option_id}", :checked => "#{checked}" ) %>
+        <%= content_tag(:label, nil, :for => "filled-in-box_#{notification_type.id}_#{n.notification_option_id}")%>
+    <% end %>
+  <% end %>
+<% end %>
