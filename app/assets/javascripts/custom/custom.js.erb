@@ -1,7 +1,6 @@
 jQuery.fn.submitOnCheck = function() {
   this.find('input[type=submit]').remove();
-  this.find('input[type=checkbox]').click(function() {
-    console.log("hhdhdhhd");
+  this.find('input[type=checkbox]').click(function(){
     $(this).parent('form').submit();
   });
   return this;
@@ -46,6 +45,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 $(document).on('turbolinks:load',function(){
   $('.edit_task').submitOnCheck();
+  $('.edit_notification_setting').submitOnCheck();
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)

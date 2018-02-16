@@ -126,11 +126,11 @@ class User < ApplicationRecord
     end
 
   def notification_type_options(id)
-    self.notification_settings.where(notification_type_id: id ).select(:notification_option_id, :active).order(notification_option_id: :asc)
+    self.notification_settings.where(notification_type_id: id ).select(:id,:notification_option_id, :active).order(notification_option_id: :asc)
   end
 
   def notification_setting_texts
-    self.notification_types.select(:settings_text,:id).distinct 
+    self.notification_types.select(:settings_text,:id).distinct
   end
   # def set_default_role
   #   self.role ||= :employee

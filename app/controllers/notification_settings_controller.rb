@@ -5,16 +5,22 @@ class NotificationSettingsController < ApplicationController
   before_action :set_notification_setting, only: [ :update ]
 
   def update
-    @notification_setting.update_attributes(:ative => notification_setting_params[:active])
-    if saved
-      flash[:notice] = "Setting was successfully updated."
 
-      respond_to do |format|
-        format.json { }
-        format.js { }  # render :action => "edit"
-       end
-
-    end
+    # @notification_setting.update_attributes(:ative => )
+    # if saved
+    #   flash[:notice] = "Setting was successfully updated."
+    #
+    #   respond_to do |format|
+    #     format.json { }
+    #     format.js { }  # render :action => "edit"
+    #    end
+    #
+    # end
+     @notification_setting.toggle! :active
+     respond_to do |format|
+         format.json { }
+         format.js { }  # render :action => "edit"
+      end
   end
 
   def index
