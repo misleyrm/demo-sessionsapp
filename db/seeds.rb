@@ -7,9 +7,8 @@ NotificationType.create([
   {action: "deadline",settings_text: "Task change date",notification_text:" %{intro} changed the due date to %{notifiable.deadline.strftime('%a, %e %B')} for task %{notifiable.detail}."},
   {action: "cleared_blocker",settings_text: "Blocker Completed",notification_text: "%{actor.name} has cleared the blocker %{notifiable.detail}. You are no longer a blocker."},
   {action: "tagged",settings_text: "Tagged as a blocker",notification_text: "%{actor.name} has tagged you as a blocker for the task %{ notifiable.parent_task.detail }."},
-  {action: "update",settings_text: "Task has been updated",notification_text: "%{actor.name} has been updated the task %{ notifiable.detail }."}]
+  {action: "updated",settings_text: "Task has been updated",notification_text: "%{actor.name} has been updated the task %{ notifiable.detail }."}]
 )
-
 
 NotificationOption.create([{name: "Email"},{name: "Web App"}])
 

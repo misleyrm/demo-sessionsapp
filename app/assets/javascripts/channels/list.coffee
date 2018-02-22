@@ -6,6 +6,7 @@ App.list = App.cable.subscriptions.create "ListChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
+    alert("list")
     # Called when there's incoming data on the websocket for this channel
     # alert(data.html);
     $pageContent = $('#page-content')
@@ -13,7 +14,8 @@ App.list = App.cable.subscriptions.create "ListChannel",
     $user = $('[data-user-id = "' + data.user + '"]', $list)
 
     $nav = $('[data-nav-id = "' + data.user + '"]')
-    $listNav = $('[data-nav-list-id = "' + data.id + '"]', $nav)
+    $listNav = $('[data-nav-list-id = "' + data.id + '"]')
+
     $listTopnavbar = $('[data-topnavbar-list-id = "' + data.id + '"]')
     $chipListTopnavbar =  $('.chip', $listTopnavbar)
     $chipList = $('.chip', $listNav)
@@ -36,4 +38,3 @@ App.list = App.cable.subscriptions.create "ListChannel",
           $collaborationListsBeforeOwner.append data.htmlLi
         $( data.htmlLi ).insertBefore $add
         $listNav.remove()
-    

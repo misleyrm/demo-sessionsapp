@@ -6,6 +6,30 @@ jQuery.fn.submitOnCheck = function() {
   return this;
 };
 
+jQuery.fn.mentionUsers = function(){
+  var $inputor = $('#mentionsBlocker'),
+      $mention = $(this),
+      listId = $mention.data('list_id'),
+      userId = $mention.data('user_id');
+
+      $mention.atwho({
+        at: "+",
+        displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+        insertTpl: function(){
+           return '${atwho-at}${email}'
+        },
+        callbacks: {
+          remoteFilter: function(query, callback) {
+            if (query.length >= 1) {
+              $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
+                callback(data)
+              });
+            }
+          }
+      }
+
+  });}
+
 function handler(ev) {
     var target = $(ev.target);
     var elId = target.attr('id');
@@ -44,6 +68,7 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 
 $(document).on('turbolinks:load',function(){
+  $('.mentions').mentionUsers();
   $('.edit_task').submitOnCheck();
   $('.edit_notification_setting').submitOnCheck();
   $(".close").onclick = function(){

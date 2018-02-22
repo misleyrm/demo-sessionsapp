@@ -15,32 +15,13 @@
 $(function() {
  $('ul.tabs').tabs();
   msCollapsible("ms-accordion-section");
-  var $inputor = $('#mentionsBlocker'),
-      listId = $inputor.data('list_id'),
-      userId = $inputor.data('user_id');
+  $('.mentions').mentionUsers();
 
-  $inputor.atwho({
-    at: "@",
-    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
-    insertTpl: function(){
-       return '${atwho-at}[${email}]'
-    },
-    callbacks: {
-      remoteFilter: function(query, callback) {
-        if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
-            callback(data)
-          });
-        }
-      }
-  }
 
-});
+ //$('#create-blocker').submit(function(e){
+   //Arrayofemails(e);
 
-$('#create-blocker').submit(function(e){
-   Arrayofemails(e);
-
-});
+//});
 
 
 <% unless @task.blank? %>
@@ -65,7 +46,7 @@ function Arrayofemails(e){
      arr[index] = value.slice(2,-1);
    })
    arrstring = arr.join(',');
-   $('#tags_emails').val( arrstring );
+   <!-- $('#tags_emails').val( arrstring ); -->
 
 }
 

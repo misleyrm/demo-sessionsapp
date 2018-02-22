@@ -45,7 +45,8 @@ class TasksController < ApplicationController
     if params[:type].present?
        @t_blocker = @task.t_blockers.build(task_params)
        if @t_blocker.save
-         tag_emails = params['tags_emails'].split(',')
+        #  tag_emails = params['tags_emails'].split(',')
+         tag_emails = @t_blocker.mention_emails
          sender = current_user
          notification_type = notification_type("tagged")
          tag_emails.each do |email|
@@ -59,6 +60,15 @@ class TasksController < ApplicationController
        @task = current_list.tasks.build(task_params)
        List.current = current_list
        if @task.save
+         tag_emails = @task.mention_emails
+         sender = current_user
+         notification_type = notification_type("tagged")
+         tag_emails.each do |email|
+           recipient = User.find_by_email(email)
+           TaskMailer.mentioned_in_blocker(email, sender, @task).deliver_now if (notification_active?(recipient, notification_type,1))
+           Notification.create(recipient:recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+          end
+
           if (!current_user?(@task.user_id))
              recipient = @task.user
              notification_type= notification_type("assigned")
@@ -78,19 +88,27 @@ class TasksController < ApplicationController
     List.current = current_list
     if (@task.update_attributes!(task_params))
         sender = current_user
+        tag_emails = @task.mention_emails
+        tag_emails.each do |email|
+           recipient = User.find_by_email(email)
+           notification_type = notification_type("tagged")
+           Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))
+           TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now if (notification_active?(recipient, notification_type,1))
+         end
         if @task.is_blocker?
-          tag_emails = params['tags_emails'].split(',')
-          tag_emails.each do |email|
-             recipient = User.find_by_email(email)
-             notification_type = notification_type("tagged")
-             Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))
-             TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now if (notification_active?(recipient, notification_type,1))
-           end
+          # tag_emails = params['tags_emails'].split(',')
+          # tag_emails = @task.mention_emails
+          # tag_emails.each do |email|
+          #    recipient = User.find_by_email(email)
+          #    notification_type = notification_type("tagged")
+          #    Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))
+          #    TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now if (notification_active?(recipient, notification_type,1))
+          #  end
         elsif (@task.previous_changes.key?(:detail) && @task.previous_changes[:detail].first != @task.previous_changes[:detail].last)
           @task.detail_before = @task.previous_changes[:detail].first
           if (!(current_user?(@task.assigner_id))&&(@task.assigner_id != @task.user.id )) ? User.find(@task.assigner_id) : @task.user
               recipient = User.find(@task.assigner_id)
-              notification_type = notification_type("update")
+              notification_type = notification_type("updated")
               # TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now if (notification_active?(recipient, notification_type,1))
               Notification.create(recipient: recipient, actor: sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
           end
@@ -193,13 +211,16 @@ class TasksController < ApplicationController
    def complete
      @task.update_attribute(:completed_at, Time.now)
      sender = current_user
-     byebug
+     notification_type = notification_type("completed")
+     recipient= ""
      if (@task.assigner_id != @task.user_id)
-       byebug
        recipient = !(current_user?(@task.assigner_id)) ? User.find(@task.assigner_id) : @task.user
-       notification_type = notification_type("completed")
-       Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+    elsif !(current_user?(@task.user_id))
+        recipient = @task.user
      end
+     if !recipient.blank?
+       Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+    end
      if @task.has_blockers?
        @task.t_blockers.each do |t_blocker|
          tag_emails = t_blocker.mention_emails
@@ -211,30 +232,34 @@ class TasksController < ApplicationController
           end
        end
      end
-     respond_to do |format|
-       flash[:notice] = "Task completed"
-       format.json { head :no_content } #{  redirect_to current_list, notice: "Task completed" }
-       format.js
-     end
+    #  respond_to do |format|
+    #    flash[:notice] = "Task completed"
+    #    format.json { head :no_content } #{  redirect_to current_list, notice: "Task completed" }
+    #    format.js
+    #  end
 
    end
 
    def incomplete
+
+     recipient= ""
      @task.update_attribute(:completed_at, nil)
      sender = current_user
-
-     if (@task.assigner_id != @task.user_id) || !(current_user?(@task.user_id))
-   
+     notification_type = notification_type("completed")
+     if (@task.assigner_id != @task.user_id)
        recipient = !(current_user?(@task.assigner_id)) ? User.find(@task.assigner_id) : @task.user
-       notification_type = notification_type("completed")
-       Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+    elsif !(current_user?(@task.user_id))
+        recipient = @task.user
      end
 
-     respond_to do |format|
-       flash[:notice] = "Task marked as incompleted"
-       format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
-       format.js
-     end
+     if !recipient.blank?
+       Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+    end
+    #  respond_to do |format|
+    #    flash[:notice] = "Task marked as incompleted"
+    #    format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
+    #    format.js
+    #  end
    end
 
    def changelist
