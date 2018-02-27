@@ -86,6 +86,7 @@ class TasksController < ApplicationController
   def update
     authorize @task
     List.current = current_list
+
     if (@task.update_attributes!(task_params))
         sender = current_user
         tag_emails = @task.mention_emails
@@ -215,7 +216,7 @@ class TasksController < ApplicationController
      recipient= ""
      if (@task.assigner_id != @task.user_id)
        recipient = !(current_user?(@task.assigner_id)) ? User.find(@task.assigner_id) : @task.user
-    elsif !(current_user?(@task.user_id))
+      elsif !(current_user?(@task.user_id))
         recipient = @task.user
      end
      if !recipient.blank?
@@ -225,6 +226,7 @@ class TasksController < ApplicationController
        @task.t_blockers.each do |t_blocker|
          tag_emails = t_blocker.mention_emails
          tag_emails.each do |email|
+    
              recipient= User.find_by_email(email)
              notification_type = notification_type("cleared_blocker")
              Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))

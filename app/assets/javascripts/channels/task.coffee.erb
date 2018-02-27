@@ -6,7 +6,6 @@
       # Called when the subscription has been terminated by the server
 
     received: (data) ->
-      console.log data
       # Called when there's incoming data on the websocket for this channel
       $pageContent = $('#page-content')
       $mainCenter = $('#main_center')
@@ -110,7 +109,9 @@
             if !($('a#link-blocker > i',$parent).hasClass('md-red'))
               $('a#link-blocker > i',$parent).addClass('md-red')
               $('a#link-blocker > i',$parent).removeClass('md-inactive')
-            $('i[data-has-blockers]',$parent).data('data-has-blockers','true')
+            $menuBlocker = $('[data-has-blockers= "false"]',$parent)
+            console.log $menuBlocker.lenght
+            $menuBlocker.data("data-has-blockers",true)
             $('.edit_task').submitOnCheck()
 
         else

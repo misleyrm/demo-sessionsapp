@@ -1,3 +1,4 @@
 <%= render :layout => 'notifications/li', :locals => {:notification => notification} do %>
-     <%= "#{notification.actor.name} has tagged you as a blocker for the task: '#{notification.notifiable.parent_task.detail}'"%>
+    <% text = (notification.notifiable.is_blocker?)? "as a blocker for the task: '#{notification.notifiable.parent_task.detail}'" : "in a task: '#{notification.notifiable.detail}'"%>
+    <%= "#{notification.actor.name} has tagged you #{text}" %>
 <% end %>

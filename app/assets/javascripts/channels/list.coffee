@@ -6,7 +6,6 @@ App.list = App.cable.subscriptions.create "ListChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    alert("list")
     # Called when there's incoming data on the websocket for this channel
     # alert(data.html);
     $pageContent = $('#page-content')

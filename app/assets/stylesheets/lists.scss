@@ -338,7 +338,8 @@ p.label {
   letter-spacing: .25px;
 }
 
-.list-settings-collection .collection-item.avatar .circle{
+.collection.list-settings-collection .collection-item.avatar:not(.circle-clipper) > .circle,
+.collection.list-settings-collection .collection-item.avatar :not(.circle-clipper) > .circle{
   width: 30px;
   height: 30px;
   left: 0;
