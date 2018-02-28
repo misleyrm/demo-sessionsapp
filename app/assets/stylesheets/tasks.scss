@@ -214,7 +214,7 @@ form.edit_task [type="checkbox"] + label {
   pointer-events: none;
 }
 
-.permitted ul.menu-option > li i[data-has-blockers],
-.no-permitted ul.menu-option > li i[data-has-blockers='false']{
+.permitted ul.menu-option > li >i[data-hasblockers],
+.no-permitted ul.menu-option > li > i[data-hasblockers='false']{
   display: none;
 }

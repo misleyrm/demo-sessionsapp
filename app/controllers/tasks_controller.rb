@@ -179,7 +179,7 @@ class TasksController < ApplicationController
      respond_to do |format|
        if (@task.destroy)
           if (!@task.is_blocker?)
-            recipient = @task.user
+              recipient = @task.user
               notification_type = notification_type("assigned_cancel")
               if (@task.assigner_id == currentUser.id) && (@task.assigner_id!= @task.user.id)
                 Notification.create(recipient: recipient, actor:currentUser, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
@@ -200,11 +200,12 @@ class TasksController < ApplicationController
           end
           resource = (!@task.is_blocker?)? "Task" : "Blocker"
           flash[:notice] = "Task was deleted"
-          format.html { redirect_to root_path }
       else
         flash[:notice] = "We can't process your request now"
-        format.html { redirect_to root_path }
       end
+      format.html { }
+      format.js
+
     end # end respond_to do |format|
 
    end
@@ -226,7 +227,7 @@ class TasksController < ApplicationController
        @task.t_blockers.each do |t_blocker|
          tag_emails = t_blocker.mention_emails
          tag_emails.each do |email|
-    
+
              recipient= User.find_by_email(email)
              notification_type = notification_type("cleared_blocker")
              Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))

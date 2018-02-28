@@ -71,12 +71,14 @@
 					</li>
 					<li>
 						<% if !task.completed? %>
-							 <i class="material-icons md-18 md-red" data-has-blockers="<%= !task.t_blockers.blank? %>" >warning</i>
-							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: 'link-blocker', remote: true, data: { behavior: 'modal' }  do %>
-									<i class="tooltipped material-icons md-1rem md-<%= (!task.t_blockers.blank?) ? 'red' : 'dark md-inactive' %>" data-position="top" data-delay="50" data-tooltip="Add blocker">warning</i>
+							 <i class="material-icons md-18 md-red" data-hasblockers="<%= !task.t_blockers.blank? %>" >warning</i>
+							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: "link-blocker_#{task.id}", remote: true, data: { behavior: 'modal' }  do %>
+									<%= content_tag :i, class: "tooltipped material-icons md-18 md-#{(!task.t_blockers.blank?) ? 'red' : 'dark md-inactive'}", data: {"position"=> "top", "delay"=>"50","tooltip"=>"Add blocker", "hasblockers"=>"#{!task.t_blockers.blank?}"} do%>
+											warning
+									<% end %>
 							 <% end %>
 						<% end %>
-					</li>
+				</li>
 		</ul>
 	</div>
 	<div class="col s3 show_blockers text-align:left" id="show_blockers_<%= task.id%>">

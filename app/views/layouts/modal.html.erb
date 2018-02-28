@@ -26,11 +26,11 @@ $(function() {
 
 <% unless @task.blank? %>
     <% if @task.is_blocker?%>
-       console.log("Arrayofemails");
-        $("#edit_task_<%= @task.id%>").submit(function(e){
+       <!-- console.log("Arrayofemails"); -->
+        <!-- $("#edit_task_<%= @task.id%>").submit(function(e){
 
           Arrayofemails(e);
-        });
+        }); -->
     <% end %>
 <% end %>
 

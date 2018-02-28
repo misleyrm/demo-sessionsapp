@@ -10,6 +10,7 @@
       $pageContent = $('#page-content')
       $mainCenter = $('#main_center')
       $currentListMainCenter = $('#main_center > div ').data('list-id')
+      $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
       $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
       $user = $('[data-user-id = "' + data.user + '"]', $pageContent)
 
@@ -25,6 +26,9 @@
       # $('#list_user_' + data['user'] + ' #incomplete_tasks')
       if data.blocker
         $task = $('[data-blocker-id = "' + data.id + '"]')
+        $parent = $('[data-task-id = "' + data.parentId + '"]')
+        $menuAddBlocker = $('a#link-blocker_' + data.parentId, $parent)
+        # $menuIBlocker = $('i ~ a#link-blocker_' + data.parentId, $parent)
       else
         $task = $('[data-task-id = "' + data.id + '"]', $user)
       if $task.length > 0
@@ -42,8 +46,9 @@
               $('.bar-number-task', $listNav).html data['num']
               $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
             if (data.blocker) && (data.numBlockers == 0)
-              $parentTask = $('[data-task-id = "' + data.parentTask + '"]', $user)
-              $('#menu >ul.menu-option li a#link-blocker i', $parentTask).removeClass('md-red').addClass('md-dark md-inactive')
+              $('i', $menuAddBlocker).removeClass('md-red').addClass('md-dark md-inactive')
+              $('i', $menuAddBlocker).attr("data-hasblockers","false")
+              $menuAddBlocker.siblings('i').attr("data-hasblockers","false")
           when 'important'
             if (data.important)
               $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-dark md-inactive').addClass('md-jellow')
@@ -64,6 +69,7 @@
               $('p#alternate', $task).html(data.deadline)
           when 'changelist'
             $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
+            $('[data-user-id = "' + data.user + '"]',$changeListMainCenter).prepend data.html
             if (data.list_all_task_id != $currentListMainCenter)
               $task.remove()
             else
@@ -79,7 +85,6 @@
               $divCompleted.prepend '<div class="line-behind" data-date="0">Today</div>'
             $insertCompleted = $('[data-date = "0"]', $divCompleted)
             $( data['html'] ).insertAfter $insertCompleted
-            # $insertCompleted.insertAfter data['html']
             $('.tooltipped').tooltip({delay: 50})
             if ($('.divider', $user).hasClass('no-active'))
               $('.divider', $user).removeClass('no-active')
@@ -103,15 +108,14 @@
         deadlineDatepicker($('input.deadline-datepicker',$list ))
       else
         if data.blocker
-            $parent = $('[data-task-id = "' + data.parentId + '"]', $user)
-            $('#show_blockers_' + data.parentId).prepend data['html']
+            $t_blockers = $("#show_blockers_#{data.parentId}")
+            $t_blockers.prepend data['html']
             $('.tooltipped').tooltip({delay: 50})
-            if !($('a#link-blocker > i',$parent).hasClass('md-red'))
-              $('a#link-blocker > i',$parent).addClass('md-red')
-              $('a#link-blocker > i',$parent).removeClass('md-inactive')
-            $menuBlocker = $('[data-has-blockers= "false"]',$parent)
-            console.log $menuBlocker.lenght
-            $menuBlocker.data("data-has-blockers",true)
+            if !($('i',$menuAddBlocker).hasClass('md-red'))
+              $('i',$menuAddBlocker).addClass('md-red')
+              $('i',$menuAddBlocker).removeClass('md-inactive')
+            $('i[data-hasblockers]',$menuAddBlocker).attr("data-hasblockers","true")
+            $menuAddBlocker.siblings('i[data-hasblockers]').attr("data-hasblockers","true")
             $('.edit_task').submitOnCheck()
 
         else

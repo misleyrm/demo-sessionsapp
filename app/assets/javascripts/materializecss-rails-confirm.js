@@ -19,7 +19,7 @@ $(function() {
     message = void 0;
     message = link.attr("data-confirm");
 
-    html= "<div id=\"ms-modal-confirm\" class=\"modal\" style=\"z-index: 1003; display: block; opacity: 1; transform: scaleX(1); top: 0%;\">" +
+    html= "<div id=\"ms-modal-confirm\" class=\"modal open\" style=\"z-index: 1003; display: block; opacity: 1; transform: scaleX(1); top: 0%;\">" +
            "<div class=\"valign-wrapper\" style=\"height:100%;\">" +
            "<div class=\"modal-content\">" +
            "<a href=\"#!\" class=\"modal-action modal-close ms-close-x waves-effect waves-green btn-flat right close\" data-remote=\"true\">" +
@@ -49,12 +49,12 @@ $(function() {
       }
     });
 
-    $("#ms-modal-confirm .close").on("click", function() {
-      return $("#ms-modal-confirm").modal('close');
+    $("#ms-modal-confirm a.ms-close-x").on("click", function() {
+      return $(this).parents("#ms-modal-confirm").removeClass("open").css("display","none");
     });
 
     return $("#ms-modal-confirm .confirm").on("click", function() {
-      $("#ms-modal-confirm").modal('close');
+      $(this).parents("#ms-modal-confirm").removeClass("open").css("display", "none");;
       return $.rails.confirmed(link);
     });
   };

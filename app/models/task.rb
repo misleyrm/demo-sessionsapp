@@ -10,6 +10,8 @@ class Task < ApplicationRecord
   has_many :t_blockers, class_name: "Task", foreign_key: "parent_task_id", :dependent => :destroy
   belongs_to :parent_task, class_name: "Task"
 
+  has_many :notifications, as: :notifiable, dependent: :destroy
+
   accepts_nested_attributes_for :t_blockers
   # after_save :broadcast_save
   after_destroy :broadcast_delete
@@ -58,10 +60,10 @@ class Task < ApplicationRecord
   end
 
   def broadcast_delete
-    parentTask = ''
+    parentId = ''
   #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
-      parentTask = self.parent_task.id
+      parentId = self.parent_task.id
       all_task_id = self.parent_task.user.all_task.id
       num = ''
       user = self.parent_task.user_id
@@ -84,7 +86,7 @@ class Task < ApplicationRecord
       blocker: self.is_blocker?,
       num: num,
       numBlockers: numBlockers,
-      parentTask: parentTask,
+      parentId: parentId,
       numAllTask: numAllTask,
       list_all_task_id: all_task_id}
     end
