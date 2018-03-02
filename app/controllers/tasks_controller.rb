@@ -222,12 +222,11 @@ class TasksController < ApplicationController
      end
      if !recipient.blank?
        Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
-    end
+     end
      if @task.has_blockers?
        @task.t_blockers.each do |t_blocker|
          tag_emails = t_blocker.mention_emails
          tag_emails.each do |email|
-
              recipient= User.find_by_email(email)
              notification_type = notification_type("cleared_blocker")
              Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))
@@ -235,11 +234,11 @@ class TasksController < ApplicationController
           end
        end
      end
-    #  respond_to do |format|
-    #    flash[:notice] = "Task completed"
-    #    format.json { head :no_content } #{  redirect_to current_list, notice: "Task completed" }
-    #    format.js
-    #  end
+     respond_to do |format|
+       flash[:notice] = "Task completed"
+       format.html 
+       format.js
+     end
 
    end
 
