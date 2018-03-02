@@ -88,7 +88,7 @@ class InvitationsController < ApplicationController
         htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "member": @user }).squish
         htmlCollaborationsList = ListsController.render(partial: "lists/nav_list_name", layout: "li_navigation", locals: {list: @list, user: @user, active: false}).squish
         htmlUserAcceptedInvitation = UsersController.render(partial: "users/accepted_invitation", locals: {accepted_invitation: @invitation}).squish
-        ActionCable.server.broadcast 'invitation_channel', status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
+        ActionCable.server.broadcast "invitation_channel", status: 'activated',id: @invitation.id, htmlCollaborationUser: htmlCollaborationUser, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient.id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList, htmlUserAcceptedInvitation: htmlUserAcceptedInvitation
         respond_to do |format|
           @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
           flash[:notice] = "The invitation accepted."
@@ -130,11 +130,11 @@ class InvitationsController < ApplicationController
       @collaboration.destroy if @collaboration.blank?
     end
     ActionCable.server.broadcast 'invitation_channel', status: 'deleted', id: @invitation.id, list_id: @invitation.list_id,recipient: @invitation.recipient_id, owner: @list.owner.id
+    flash[:notice] = 'Invitation was successfully destroyed.'
     respond_to do |format|
-      flash[:notice] = 'Invitation was successfully destroyed.'
-      format.html {   }
       format.json { head :no_content }
-    end
+      format.js
+     end
   end
 
   private

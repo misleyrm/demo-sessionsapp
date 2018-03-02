@@ -1,14 +1,15 @@
+
 <%= form_for(@user, url: updatePassword_user_path(@user), :html=>{:id=>"user_edit_password", :multipart=> true, :remote => true, :method => "POST"}) do |j| %>
   <!-- <input name="_method" type="hidden" value="patch" /> -->
 <%= content_tag "div", class:"section ms-form" do %>
   <%= j.hidden_field :current_step, :value => "security" %>
   <div class="input-field">
       <i class="material-icons prefix">person_outline</i>
-      <%= j.text_field :name, id:"disabled icon_prefix", disabled: true %>
+      <%= j.text_field :name, id:"icon_prefix", disabled: true %>
   </div>
   <div class="input-field">
       <i class="material-icons prefix">email</i>
-      <%= j.email_field :email, id:"disabled icon_prefix", disabled: true %>
+      <%= j.email_field :email, id:"icon_prefix", disabled: true %>
   </div>
   <div class="input-field">
       <i class="material-icons prefix">lock_outline</i>

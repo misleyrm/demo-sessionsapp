@@ -10,6 +10,8 @@ class Task < ApplicationRecord
   has_many :t_blockers, class_name: "Task", foreign_key: "parent_task_id", :dependent => :destroy
   belongs_to :parent_task, class_name: "Task"
 
+  has_many :notifications, as: :notifiable, dependent: :destroy
+
   accepts_nested_attributes_for :t_blockers
   # after_save :broadcast_save
   after_destroy :broadcast_delete
@@ -17,6 +19,8 @@ class Task < ApplicationRecord
   after_create :broadcast_save
 
   validates_presence_of :detail, :on => :create
+
+  # scope :cheaper_than, lambda { |price| where('price < ?', price) }
 
   def completed?
     !completed_at.blank?
@@ -56,10 +60,10 @@ class Task < ApplicationRecord
   end
 
   def broadcast_delete
-    parentTask = ''
+    parentId = ''
   #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
-      parentTask = self.parent_task.id
+      parentId = self.parent_task.id
       all_task_id = self.parent_task.user.all_task.id
       num = ''
       user = self.parent_task.user_id
@@ -73,8 +77,19 @@ class Task < ApplicationRecord
       list = self.list_id
       numBlockers = self.t_blockers.count
     end
-    ActionCable.server.broadcast 'task_channel', status: 'deleted', id: self.id, user: user, list_id: list, blocker: self.is_blocker?,num: num, numBlockers: numBlockers, parentTask: parentTask, numAllTask: numAllTask, list_all_task_id: all_task_id
-  end
+
+    ActionCable.server.broadcast "task_list_#{list}",{
+      status: 'deleted',
+      id: self.id,
+      user: user,
+      list_id: list,
+      blocker: self.is_blocker?,
+      num: num,
+      numBlockers: numBlockers,
+      parentId: parentId,
+      numAllTask: numAllTask,
+      list_all_task_id: all_task_id}
+    end
 
   def broadcast_save
       if (is_blocker?)
@@ -92,7 +107,17 @@ class Task < ApplicationRecord
          list = self.list_id
          all_task_id = self.user.all_task.id
       end
-      ActionCable.server.broadcast "task_channel", { html: render_task(self,partial),user: user, id: self.id, list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num, numAllTask: numAllTask, list_all_task_id: all_task_id }
+      ActionCable.server.broadcast "task_list_#{list}",{
+        html: render_task(self,partial),
+        user: user, id: self.id,
+        list_id: list,
+        completed: self.completed?,
+        partial: partial,
+        blocker: is_blocker?,
+        parentId: self.parent_task_id,
+        num: num,
+        numAllTask: numAllTask,
+        list_all_task_id: all_task_id }
    end
 
  def broadcast_update
@@ -116,7 +141,19 @@ class Task < ApplicationRecord
       status = 'changelist'
       num = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].first))
       num_list_change = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].last))
-      ActionCable.server.broadcast 'task_channel', html: render_task(self,partial), status: status, id: self.id, user: self.user_id, list_id: self.list_before, list_name: self.list.name, blocker: is_blocker?, list_change: self.list_id, num: num, num_list_change: num_list_change, numAllTask: numAllTask, list_all_task_id: all_task_id
+      ActionCable.server.broadcast "task_list_#{self.list_before}", {
+        html: render_task(self,partial),
+        status: status,
+        id: self.id,
+        user: self.user_id,
+        list_id: self.list_before,
+        list_name: self.list.name,
+        blocker: is_blocker?,
+        list_change: self.list_id,
+        num: num,
+        num_list_change: num_list_change,
+        numAllTask: numAllTask,
+        list_all_task_id: all_task_id}
    elsif (self.previous_changes.key?(:completed_at) &&
        self.previous_changes[:completed_at].first != self.previous_changes[:completed_at].last)
       #  status = (self.completed?) ? 'completed' : 'incomplete'
@@ -130,20 +167,70 @@ class Task < ApplicationRecord
          num_completed_tasks_date = self.user.num_completed_tasks_by_date(self.list, self.previous_changes[:completed_at].first.to_date)
          num_date = (Date.today.to_date - self.previous_changes[:completed_at].first.to_date).to_i
        end
-       ActionCable.server.broadcast "task_channel", { html: render_task(self,partial),user: self.user_id, id: self.id, status: status,list_id: self.list_id, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num, numAllTask: numAllTask, list_all_task_id: all_task_id, num_completed_tasks_date: num_completed_tasks_date, num_date: num_date  }
+      #  CommentsChannel.broadcast_to(@post, @comment)
+       ActionCable.server.broadcast "task_list_#{self.list_id}", {
+          html: render_task(self,partial),
+          user: self.user_id,
+          id: self.id,
+          status: status,
+          list_id: self.list_id,
+          completed: self.completed?,
+          partial: partial,
+          blocker: is_blocker?,
+          parentId: self.parent_task_id,
+          num: num,
+          numAllTask: numAllTask,
+          list_all_task_id: all_task_id,
+          num_completed_tasks_date: num_completed_tasks_date,
+          num_date: num_date }
    elsif self.previous_changes.key?(:flag) &&
           self.previous_changes[:flag].first != self.previous_changes[:flag].last
-       ActionCable.server.broadcast 'task_channel', status: 'important', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,important: self.flag, numAllTask: numAllTask, list_all_task_id: all_task_id
+       ActionCable.server.broadcast "task_list_#{self.list_id}", {
+         status: 'important',
+         id: self.id,
+         user: self.user_id,
+         list_id: self.list_id,
+         blocker: self.is_blocker?,
+         important: self.flag,
+         numAllTask: numAllTask,
+         list_all_task_id: all_task_id}
    elsif self.previous_changes.key?(:deadline) &&
             self.previous_changes[:deadline].first != self.previous_changes[:deadline].last
         if (self.deadline?)
-          ActionCable.server.broadcast 'task_channel', status: 'deadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline.strftime('%a, %e %B'), numAllTask: numAllTask, list_all_task_id: all_task_id
+          ActionCable.server.broadcast "task_list_#{self.list_id}",{
+             status: 'deadline',
+             id: self.id,
+             user: self.user_id,
+             list_id: self.list_id,
+             blocker: self.is_blocker?,
+             deadline: self.deadline.strftime('%a, %e %B'),
+             numAllTask: numAllTask,
+             list_all_task_id: all_task_id}
         else
-          ActionCable.server.broadcast 'task_channel', status: 'deletedeadline', id: self.id, user: self.user_id, list_id: self.list_id, blocker: self.is_blocker?,deadline: self.deadline, numAllTask: numAllTask, list_all_task_id: all_task_id
+          ActionCable.server.broadcast "task_list_#{self.list_id}", {
+            status: 'deletedeadline',
+            id: self.id,
+            user: self.user_id,
+            list_id: self.list_id,
+            blocker: self.is_blocker?,
+            deadline: self.deadline,
+            numAllTask: numAllTask,
+            list_all_task_id: all_task_id}
         end
    else
       status = 'saved'
-      ActionCable.server.broadcast "task_channel", { html: render_task(self,partial),user: user, id: self.id, status: status,list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num, numAllTask: numAllTask, list_all_task_id: all_task_id }
+      ActionCable.server.broadcast "task_list_#{list}", {
+        html: render_task(self,partial),
+        user: user, id: self.id,
+        status: status,
+        list_id: list,
+        completed: self.completed?,
+        partial: partial,
+        blocker: is_blocker?,
+        parentId: self.parent_task_id,
+        num: num,
+        numAllTask: numAllTask,
+        list_all_task_id: all_task_id }
    end
  end
 

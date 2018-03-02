@@ -102,7 +102,7 @@ Rails.application.routes.draw do
       end
     end
 
-
+    resources :notification_settings
     # resources :users
     # resources :lists do
     #   resources :tasks , only: [:new, :create, :edit]

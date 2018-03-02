@@ -17,7 +17,7 @@
 <!-- <% cache task do %> -->
 <div id='task_<%= task.id%>' class="row	<%= (!task.completed?)? task.task_created : ''  %>" data-task-id = "<%= task.id%>">
 	<div class="col s6">
-		<p id="<%= task.id%>"  style="<%= (task.completed?)? 'text-decoration: line-through;' : ''  %>"><%= "#{task.detail} #{task.completed_at}" %></p>
+		<p id="<%= task.id%>"  style="<%= (task.completed?)? 'text-decoration: line-through;' : ''  %>"><%= "#{task.detail}" %></p>
 		<% if (!task.is_blocker?) && (!task.completed?) %>
 				<ul class="menu-information">
 				<% if (all_task?(task.list_id) ) %>

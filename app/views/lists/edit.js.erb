@@ -1,10 +1,1 @@
-// $(document).on('turbolinks:load',function(){
-//
-// 		var url = <%= current_user.avatar('thumb') %>;
-// 		// console.log('background'+ $('#ms-upload-avatar').css("background-image"));
-// 		$('.ms-upload-avatar').css('background-image', 'url(url)');
-// 		// console.log('background'+ $('.ms-upload-avatar').css("background-image"));
-// 		msCollapsible("ms-accordion-section");
-//
-//
-// })
+  $("#error_message_list").html("<%= j render :partial => 'layouts/error_message', :locals => {:model => @list} %>");

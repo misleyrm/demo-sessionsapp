@@ -8,6 +8,9 @@ module ApplicationHelper
     first_names
   end
 
+  def notification_type(action)
+    notification_type = NotificationType.find_by_action(action)
+  end
   # def is_today?(date)
   #   (date == Date.today)
   # end

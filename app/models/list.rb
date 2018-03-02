@@ -77,9 +77,9 @@ class List < ApplicationRecord
     if (self.previous_changes.key?(:user_id) &&
        self.previous_changes[:user_id].first != self.previous_changes[:user_id].last)
        user = User.find(self.user_id)
-       ActionCable.server.broadcast 'list_channel', htmlLi: render_list_li(self,user,false), htmlChip: render_list_chip(self), status: 'listUpdatedOwner', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, before_owner: self.previous_changes[:user_id].first
+       ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,false), htmlChip: render_list_chip(self), status: 'listUpdatedOwner', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, before_owner: self.previous_changes[:user_id].first
     elsif !self.previous_changes.keys.nil?
-      ActionCable.server.broadcast 'list_channel', htmlChip: render_list_chip(self), status: 'listUpdated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
+      ActionCable.server.broadcast "list:#{self.id}", htmlChip: render_list_chip(self), status: 'listUpdated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
     end
 
 
@@ -112,7 +112,7 @@ class List < ApplicationRecord
 
   def broadcast_save
       user = User.find(self.user_id)
-      ActionCable.server.broadcast 'list_channel', htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
+      ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
    end
 
   def render_list_chip(list)

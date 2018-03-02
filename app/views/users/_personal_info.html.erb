@@ -21,7 +21,7 @@
 <div class="clearfix"></div>
   <div class="ms-form-title">
       <i class="material-icons prefix">person_outline</i><span>PROFILE</span>
-    </div>
+  </div>
   <%= form_for(@user, :html=>{:id=>"user_edit_pinfo", :multipart=> true, :remote => true}) do |g| %>
     <div class="section ms-form">
         <%= g.hidden_field :current_step, :value => "personal" %>
@@ -40,6 +40,7 @@
               <div class="ms-form-title"><i class="material-icons prefix">email</i><span>E-MAIL</span>
                   <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
               </div>
+              <div class="clearfix"></div>
               <p>Your email address is <span class="ms-strong" id="current-user-email"><%= @user.email%></span></p>
             </div>
             <div class="collapsible-body" id="user_email_change">

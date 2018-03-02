@@ -1,0 +1,14 @@
+<%= content_tag :tr, data: {:'notification-type-id'=> "#{notification_type.id}"} do %>
+  <%= content_tag :td do %>
+      <%= content_tag :p, "#{notification_type.settings_text}" %>
+  <% end %>
+  <% current_user.notification_type_options(notification_type.id).each do |n| %>
+    <%= content_tag :td, data: {:'notification_option_id'=> "#{n.notification_option_id}"}, class: "center-align" do%>
+        <%= form_for n,:method => :PUT, remote: true do |f|%>
+          <%= check_box_tag "setting_option[#{n.id}]", "#{n.active}", n.active,:class => "filled-in" %>
+          <%= content_tag(:label, nil, :for => "setting_option_#{n.id}")%>
+          <%= f.submit "Update" %>
+        <% end%>
+    <% end %>
+  <% end %>
+<% end %>

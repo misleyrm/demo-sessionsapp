@@ -51,6 +51,7 @@ class ListsController < ApplicationController
   def show
     if !params[:mention_by].blank?
       mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
+      # mention_by = params[:mention_by].each.map(&:to_i)
       @collaboration_users = User.where(id: mention_by)
     end
     respond_to do |format|
@@ -168,7 +169,6 @@ class ListsController < ApplicationController
            format.json { render :json => {:htmlerrors => @htmlerrors }}
            format.js { render :action => "edit" }
           end
-
        end
     # end
   end

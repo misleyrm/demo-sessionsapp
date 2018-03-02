@@ -15,10 +15,7 @@ function Notifications(){
 function handleSuccess(data){
   var $total = $("#notifications-dropdown .total");
   var items = $.map( data, function( notification, i ) {
-    return  "<li class='collection-item avatar'>"+ notification.actorAvatar +
-               "<span class='title'>"+notification.actorName+" "+notification.action+" " +notification.notifiable.type+"</span>"+
-               "<p class='time'>"+ $.timeago(new Date(notification.created_at));+"</p>"+
-             "</li>";
+    return  notification.html ;
   });
 
   (items.length ==0)? $("[data-behavior='unread-count']").addClass("display-none"):$("[data-behavior='unread-count']").removeClass("display-none");

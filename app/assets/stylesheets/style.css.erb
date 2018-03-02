@@ -1556,8 +1556,69 @@ extra-small.notification-badge {
   bottom: 0;
 }
 .ms-tabsSetting-content {
-  max-width: 450px;
+  /*max-width: 450px;*/
   padding: 75px 0;
+  margin-left: -2.75rem;
+  margin-right: -0.75rem;
+}
+
+.ms-tabsSetting-content #invitations{
+  max-width: 450px;
+}
+
+/****** NOTIFICATION_SETTINGS ********/
+
+.ms-tabsSetting-content #notifications{
+  max-width: 650px;
+}
+
+.ms-tabsSetting-content h3{
+  font-size: 1.3rem;
+  margin-bottom: .5rem;
+}
+
+.ms-tabsSetting-content #notifications .table-notification-settings {
+  margin: 1.5rem 0;
+}
+
+.ms-tabsSetting-content #notifications .table-notification-settings td{
+  vertical-align: middle;
+  font-size: .85rem;
+}
+
+.ms-tabsSetting-content #notifications .table-notification-settings th{
+  font-size: .9rem;
+}
+
+.table-notification-settings [type="checkbox"].filled-in:checked + label:after {
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c0bebe;
+  background-color: transparent;
+  z-index: 0;
+}
+
+.container .table-notification-settings [type="checkbox"].filled-in:checked + label:before {
+  left: 0;
+  width: 8px;
+  height: 11px;
+  border-right: 3px solid #55c2b9;
+  border-bottom: 3px solid #55c2b9;
+
+}
+
+.container .table-notification-settings [type="checkbox"].filled-in:not(:checked) + label:after {
+  height: 16px;
+  width: 16px;
+  background-color: transparent;
+  border: 2px solid #c0bebe;
+}
+
+.container .table-notification-settings [type="checkbox"] + label {
+    padding-left: 20px;
+    height: 16px;
+    margin: 7px 0 5px;
 }
 
 #ms-tabsSetting ul.tabs{
