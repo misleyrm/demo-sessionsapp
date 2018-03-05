@@ -1,4 +1,4 @@
-class AddAvatarColumnToLists < ActiveRecord::Migration
+class AddAvatarColumnToLists < ActiveRecord::Migration[5.1]
   def up
    add_attachment :lists, :avatar
  end

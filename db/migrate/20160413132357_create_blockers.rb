@@ -1,4 +1,4 @@
-class CreateBlockers < ActiveRecord::Migration
+class CreateBlockers < ActiveRecord::Migration[5.1]
   def change
     create_table :blockers do |t|
       t.integer :session_id
