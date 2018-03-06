@@ -86,7 +86,6 @@ class TasksController < ApplicationController
   def update
     authorize @task
     List.current = current_list
-
     if (@task.update_attributes!(task_params))
         sender = current_user
         tag_emails = @task.mention_emails
@@ -211,7 +210,10 @@ class TasksController < ApplicationController
    end
 
    def complete
-     @task.update_attribute(:completed_at, Time.now)
+
+     if @task.update_attribute(:completed_at, Time.now)
+       # TaskRelayJob.perform_later(@task)
+     end
      sender = current_user
      notification_type = notification_type("completed")
      recipient= ""
@@ -236,7 +238,7 @@ class TasksController < ApplicationController
      end
      respond_to do |format|
        flash[:notice] = "Task completed"
-       format.html 
+       format.html
        format.js
      end
 
@@ -245,23 +247,27 @@ class TasksController < ApplicationController
    def incomplete
 
      recipient= ""
-     @task.update_attribute(:completed_at, nil)
+
+     if @task.update_attribute(:completed_at, nil)
+       # TaskRelayJob.perform_later(@task)
+     end
      sender = current_user
      notification_type = notification_type("completed")
      if (@task.assigner_id != @task.user_id)
        recipient = !(current_user?(@task.assigner_id)) ? User.find(@task.assigner_id) : @task.user
-    elsif !(current_user?(@task.user_id))
+      elsif !(current_user?(@task.user_id))
         recipient = @task.user
      end
 
-     if !recipient.blank?
-       Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
-    end
-    #  respond_to do |format|
-    #    flash[:notice] = "Task marked as incompleted"
-    #    format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
-    #    format.js
-    #  end
+      if !recipient.blank?
+          Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+      end
+     respond_to do |format|
+       flash[:notice] = "Task marked as incompleted"
+       # format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
+       format.html {  redirect_to current_list, notice: "Task marked as incompleted" }
+        format.js
+     end
    end
 
    def changelist

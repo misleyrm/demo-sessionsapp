@@ -189,6 +189,7 @@ class User < ApplicationRecord
 
   def num_incompleted_tasks(list)
     self.incompleted_tasks_by_date(list,Date.today).count
+    # if !self.incompleted_tasks_by_date(list,Date.today).blank?
   end
 
 

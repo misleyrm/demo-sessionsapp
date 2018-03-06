@@ -7,10 +7,15 @@
 
     received: (data) ->
       # Called when there's incoming data on the websocket for this channel
+      console.log(data.data)
       $pageContent = $('#page-content')
       $mainCenter = $('#main_center')
+      html = data.html
+      data = data.data
+
+      console.log(data.list_id)
       $currentListMainCenter = $('#main_center > div ').data('list-id')
-      $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
+
       $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
       $user = $('[data-user-id = "' + data.user + '"]', $pageContent)
 
@@ -18,7 +23,9 @@
       $nav = $('[data-nav-id = "' + data.user + '"]')
       $listNav = $('[data-nav-list-id = "' + data.list_id + '"]', $nav)
       $listAllTaskNav = $('[data-nav-list-id = "' + data.list_all_task_id + '"]', $nav)
-      $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
+      if (data.status == 'changelist')
+        $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
+        $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
 
       $incomplete = $('#incomplete_tasks_' + data.user )
       $divCompleted = $('#complete_tasks_' + data.user)
@@ -34,7 +41,7 @@
       if $task.length > 0
         switch data.status
           when 'saved'
-            $task.replaceWith data.html
+            $task.replaceWith html
             $('.edit_task').submitOnCheck()
             deadlineDatepicker($('input.deadline-datepicker'));
             $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
@@ -69,11 +76,11 @@
               $('p#alternate', $task).html(data.deadline)
           when 'changelist'
             $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
-            $('[data-user-id = "' + data.user + '"]',$changeListMainCenter).prepend data.html
+            $('[data-user-id = "' + data.user + '"]',$changeListMainCenter).prepend html
             if (data.list_all_task_id != $currentListMainCenter)
               $task.remove()
             else
-              $task.replaceWith data.html
+              $task.replaceWith html
               $('.edit_task').submitOnCheck()
             if (data.num != '')
               $('.bar-number-task', $listNav).html data['num']
@@ -84,7 +91,7 @@
             if ($('[data-date = "0"]', $divCompleted).length == 0)
               $divCompleted.prepend '<div class="line-behind" data-date="0">Today</div>'
             $insertCompleted = $('[data-date = "0"]', $divCompleted)
-            $( data['html'] ).insertAfter $insertCompleted
+            $( html ).insertAfter $insertCompleted
             $('.tooltipped').tooltip({delay: 50})
             if ($('.divider', $user).hasClass('no-active'))
               $('.divider', $user).removeClass('no-active')
@@ -95,7 +102,7 @@
           when 'incomplete'
             $("#task_"+ data.id + " #menu .tooltipped", $divCompleted ).tooltip('remove')
             $task.remove()
-            $incomplete.prepend data['html']
+            $incomplete.prepend html
             deadlineDatepicker($('input.deadline-datepicker'));
             $lineDate = $('[data-date = "'+ data.num_date+'"]', $divCompleted)
             if ((data['num_completed_tasks_date'] == 0) && ($lineDate.length != 0))
@@ -109,7 +116,7 @@
       else
         if data.blocker
             $t_blockers = $("#show_blockers_#{data.parentId}")
-            $t_blockers.prepend data['html']
+            $t_blockers.prepend html
             $('.tooltipped').tooltip({delay: 50})
             if !($('i',$menuAddBlocker).hasClass('md-red'))
               $('i',$menuAddBlocker).addClass('md-red')
@@ -119,7 +126,7 @@
             $('.edit_task').submitOnCheck()
 
         else
-          $incomplete.prepend data['html']
+          $incomplete.prepend html
           $('.tooltipped').tooltip({delay: 50})
           $('.edit_task').submitOnCheck()
           $('#list_user_' + data['user'] + ' .new_task #task_detail').val('');

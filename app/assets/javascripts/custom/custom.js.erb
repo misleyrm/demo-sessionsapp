@@ -1,8 +1,5 @@
 jQuery.fn.submitOnCheck = function() {
   this.find('input[type=submit]').remove();
-  this.find('input[type=checkbox]').click(function(){
-    $(this).parent('form').submit();
-  });
   return this;
 };
 
@@ -27,8 +24,7 @@ jQuery.fn.mentionUsers = function(){
             }
           }
       }
-
-  });}
+  })}
 
 function handler(ev) {
     var target = $(ev.target);
@@ -66,8 +62,21 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 });
 
+$(document).on('click','input[type=checkbox]', {}, function(event){
+    // alert($(this));
+    $(this).parent('form').submit();
+});
+
 
 $(document).on('turbolinks:load',function(){
+  var $table_of_task = $(".table-of-task"),
+      c= 0;
+
+  // $('input[type=checkbox]',$table_of_task).click(function(){
+  //   c = c+1;
+  //   console.log(c);
+  //   $(this).parent('form').submit();
+  // });
   $('.mentions').mentionUsers();
   $('.edit_task').submitOnCheck();
   $('.edit_notification_setting').submitOnCheck();
