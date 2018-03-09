@@ -8,7 +8,7 @@ class TasksController < ApplicationController
   # before_action :set_list, only: [:new, :create, :edit, :complete ], if: -> { params[:type].blank? }
   before_action :set_task,  if: -> { !params[:type].blank? || !params[:id].blank? }
   before_action :set_user, only: [:create, :index ]
-  before_action :set_current_list, only: [ :changelist, :complete, :incomplete ]
+  before_action :set_current_list, only: [ :changelist, :complete, :incomplete]
   before_action :saved_list, only: [:changelist, :update, :complete ]
   # before_action :saved_detail, only: [ :update], if: -> { !params[:detail].blank? && (params[:detail]!= @task.detail) }
   # respond_to :html, :js
@@ -124,6 +124,7 @@ class TasksController < ApplicationController
   def add_deadline
     if (!params[:deadline].blank?) && (!params[:deadline].nil?) && (params[:deadline] != "null")
       authorize @task
+      List.current = current_list
       @task.update_attribute(:deadline, params[:deadline])
       sender = current_user
       if (!current_user?(@task.user_id))
@@ -143,6 +144,7 @@ class TasksController < ApplicationController
   def delete_deadline
     respond_to do |format|
       if @task.update_attribute(:deadline, '')
+        List.current = current_list
         if (!current_user?(@task.user_id))
           notification_type = notification_type("deadline")
           recipient = @task.user

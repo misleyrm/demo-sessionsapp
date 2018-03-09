@@ -62,11 +62,13 @@ class Task < ApplicationRecord
   def broadcast_delete
     data= Hash.new
     data["parentId"] = ''
+    data["status"]= 'deleted'
     data["blocker"]= is_blocker?
+    data["id"]= self.id
   #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
       data["parentId"] = self.parent_task.id
-      data["all_task_id"] = self.parent_task.user.all_task.id
+      data["list_all_task_id"] = self.parent_task.user.all_task.id
       data["num"] = ''
       data["user"] = self.parent_task.user_id
       data["list_id"] = self.parent_task.list_id
@@ -74,12 +76,12 @@ class Task < ApplicationRecord
     else
       data["num"] = (!is_blocker?) ? self.user.num_incompleted_tasks(List.find(self.list_id)) : ''
       data["numAllTask"] = self.user.num_incompleted_tasks(self.user.all_task)
-      data["all_task_id"] = self.user.all_task.id
+      data["list_all_task_id"] = self.user.all_task.id
       data["user"] = self.user_id
       data["list_id"] = self.list_id
       data["numBlockers"] = self.t_blockers.count
     end
-    TaskRelayJob.perform_later(self,data,List.current)
+    TaskRelayJob.perform_later(self,data,List.current, data["list_id"])
     # ActionCable.server.broadcast "task_list_#{list}",{
     #   status: 'deleted',
     #   id: self.id,
@@ -98,6 +100,8 @@ class Task < ApplicationRecord
       data["completed"]= self.completed?
       data["blocker"]= is_blocker?
       data["parentId"]= self.parent_task_id
+      data["id"]= self.id
+      # data["status"]= 'saved'
       if (is_blocker?)
         data["partial"] = 't_blocker'
         data["num"] = ''
@@ -111,9 +115,9 @@ class Task < ApplicationRecord
          data["numAllTask"] = self.user.num_incompleted_tasks(self.user.all_task)
          data["user"] = self.user_id
          data["list_id"] = self.list_id
-         data["all_task_id"] = self.user.all_task.id
+         data["list_all_task_id"] = self.user.all_task.id
       end
-      TaskRelayJob.perform_later(self,data,List.current)
+      TaskRelayJob.perform_later(self,data,List.current,data["list_id"])
       # ActionCable.server.broadcast "task_list_#{list}",{
       #   html: render_task(self,partial),
       #   user: user, id: self.id,
@@ -130,7 +134,7 @@ class Task < ApplicationRecord
  def broadcast_update
    data= Hash.new
    data["id"] = self.id
-   data["list_id"] = self.list_id
+   # data["list_id"] = self.list_id
    data["completed"] = self.completed?
    data["blocker"]= self.is_blocker?
    data["parentId"]= self.parent_task_id
@@ -139,13 +143,13 @@ class Task < ApplicationRecord
    if (is_blocker?)
      partial = 't_blocker'
      data["user"] = self.parent_task.user_id
-     data["list"] = self.parent_task.list_id
-     data["all_task_id"] = self.parent_task.user.all_task.id
+     data["list_id"] = self.parent_task.list_id
+     data["list_all_task_id"] = self.parent_task.user.all_task.id
    else
     partial = 'task'
     data["user"] = self.user_id
-    data["list"] = self.list_id
-    data["all_task_id"] = self.user.all_task.id
+    data["list_id"] = self.list_id
+    data["list_all_task_id"] = self.user.all_task.id
     data["numAllTask"] = self.user.num_incompleted_tasks(self.user.all_task)
    end
 
@@ -155,9 +159,10 @@ class Task < ApplicationRecord
       data["num"] = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].first))
       data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].last))
       data["list_name"] = self.list.name
-      data["list_change"]= self.list_id,
+      data["list_change"]= self.list_id
+      data["list_before"]= self.list_before
 
-      TaskRelayJob.perform_later(self,data,List.current)
+      TaskRelayJob.perform_later(self,data,List.current,self.list_before)
       # ActionCable.server.broadcast "task_list_#{self.list_before}", {
       #   html: render_task(self,partial),
       #   status: status,
@@ -176,6 +181,7 @@ class Task < ApplicationRecord
 
        data["status"] = (self.completed?) ? 'completed' : 'incomplete'
        data["num"] = self.user.num_incompleted_tasks(self.list)
+       data["list_all_task_id"] = self.user.all_task.id
        if (self.completed?)
          data["num_completed_tasks_date"] = self.user.num_completed_tasks_by_date(self.list, self.completed_at.to_date)
          date = 0
@@ -184,7 +190,7 @@ class Task < ApplicationRecord
          data["num_date"] = (Date.today.to_date - self.previous_changes[:completed_at].first.to_date).to_i
        end
 
-      TaskRelayJob.perform_later(self,data,List.current)
+      TaskRelayJob.perform_later(self,data,List.current,self.list_id)
       # #  CommentsChannel.broadcast_to(@post, @comment)
       #  ActionCable.server.broadcast "task_list_#{self.list_id}", {
       #     html: render_task(self,partial),
@@ -205,7 +211,8 @@ class Task < ApplicationRecord
           self.previous_changes[:flag].first != self.previous_changes[:flag].last
        data["status"]= "important"
        data["important"]= self.flag
-       TaskRelayJob.perform_later(self,data,List.current)
+       data["list_all_task_id"] = self.user.all_task.id
+       TaskRelayJob.perform_later(self,data,List.current,self.list_id)
        # ActionCable.server.broadcast "task_list_#{self.list_id}", {
        #   status: 'important',
        #   id: self.id,
@@ -217,6 +224,9 @@ class Task < ApplicationRecord
        #   list_all_task_id: all_task_id}
    elsif self.previous_changes.key?(:deadline) &&
             self.previous_changes[:deadline].first != self.previous_changes[:deadline].last
+        # data["id"]= self.id
+        # data["list_id"] = self.list_id
+        data["list_all_task_id"] = self.user.all_task.id
         if (self.deadline?)
           data["status"]= 'deadline'
           data["deadline"] = self.deadline.strftime('%a, %e %B')
@@ -242,11 +252,11 @@ class Task < ApplicationRecord
           #   numAllTask: numAllTask,
           #   list_all_task_id: all_task_id}
         end
-        TaskRelayJob.perform_later(self,data,List.current)
+        TaskRelayJob.perform_later(self,data,List.current,self.list_id)
    else
       data["status"] = 'saved'
-
-      TaskRelayJob.perform_later(self,data,List.current)
+      data["list_all_task_id"]= all_task_id
+      TaskRelayJob.perform_later(self,data,List.current,data["list_id"])
       # ActionCable.server.broadcast "task_list_#{list}", {
       #   html: render_task(self,partial),
       #   user: user, id: self.id,

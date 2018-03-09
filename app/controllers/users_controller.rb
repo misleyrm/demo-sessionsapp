@@ -43,8 +43,10 @@ class UsersController < ApplicationController
     # authorize user
     @user = User.new
     @token = params[:invitation_token]
-    if !@token.nil?
+    if !@token.nil? && !Invitation.find_by_token(@token).blank?
       @user.email = Invitation.find_by_token(@token).recipient_email
+    elsif !@token.nil? && Invitation.find_by_token(@token).blank?
+      flash[:danger]= "The invitations was revoke"
     end
 
   end
@@ -93,7 +95,7 @@ class UsersController < ApplicationController
       @user = User.create(user_params)
       @token = params[:invitation_token]
       if @user.save
-        if !@token.nil?
+        if !@token.nil? && !Invitation.find_by_token(@token).blank?
             @invitation = Invitation.find_by_token(@token)
             @list = @invitation.list #find the list_id attached to the invitation
             # hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false

@@ -1,8 +1,9 @@
 class TaskRelayJob < ApplicationJob
   queue_as :default
 
-  def perform(task,data,currentList)
+  def perform(task,data,currentList,list)
     html = render_task(task,currentList)
+    data["currentList"]= currentList
     ActionCable.server.broadcast "task_list_#{task.list_id}", {
       data: data,
       html: html}
