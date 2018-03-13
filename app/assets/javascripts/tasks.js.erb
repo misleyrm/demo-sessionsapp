@@ -16,8 +16,10 @@ document.addEventListener("turbolinks:load", function(){
       mySortable($(this));
     })
 
-    $('li[id^="drop_zone_"]').each(function (){
+    $('li[id^="drop_zone_"]').each(function (e){
       myDroppable($(this));
+
+
     })
 
 
@@ -48,7 +50,7 @@ function myDroppable(elem){
     elem.droppable({
         hoverClass: 'ui-state-active',
         tolerance: 'pointer',
-
+        disable:elem.hasClass("active")? 'true':'false',
         accept: function (event, ui) {
             return true;
         },
@@ -58,18 +60,18 @@ function myDroppable(elem){
             var obj;
             if ($(ui.helper).hasClass('draggable')) {
                 ui.draggable.css( "color", "red" )
-                console.log(ui.draggable);
-                console.log(elem);
-                // ui.draggable.remove();
+                // console.log(ui.draggable);
+                // console.log(elem);
+                ui.draggable.remove();
                 var taskId = ui.draggable.data("task-id"),
                     currentlistId = ui.draggable.parents("#current-list").data("list-id"),
-                    listId = elem.data("nav-list-id");
-                    console.log(taskId);
-                    console.log("/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId);
+                    listId = elem.data("nav-list-id"),
+                    url = "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId;
+               console.log(ui.draggable.parents("#current-list"));
                 // $.ajax({
                 //     type: "PUT",
-                //     url: "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId,
-                //     data: $(this).sortable('serialize'),
+                //     url: url,
+                //     data: "",
                 // });
 
             }
@@ -78,6 +80,7 @@ function myDroppable(elem){
             //alert($(this).parent().html());
         }
     })
+
 }
 
 // Drag and drop tasks from current_list to new list
