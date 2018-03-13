@@ -1,4 +1,4 @@
-<%= content_tag :div, data: {"list-id": "#{list.id}"} do%>
+<%= content_tag :div, data: {"list-id": "#{list.id}"}, id: "current-list" do%>
     <section class="center row">
       <div class="col s12">
         <% unless (list.all_tasks?) %>

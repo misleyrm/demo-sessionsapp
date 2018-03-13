@@ -7,8 +7,6 @@
 
     received: (data) ->
       # Called when there's incoming data on the websocket for this channel
-      console.log(data.data)
-      # alert "AC"
       $pageContent = $('#page-content')
       $mainCenter = $('#main_center')
       html = data.html
@@ -79,8 +77,6 @@
           when 'changelist'
             $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
             $('[data-user-id = "' + data.user + '"]',$changeListMainCenter).prepend html
-            console.log "list_change: #{data.list_change}"
-            console.log "list_all_task_id: #{data.list_all_task_id}"
             if !(data.list_change == data.list_all_task_id)
               t= $('[data-task-id = "' + data.id + '"]',$changeListMainCenter)
               alert t.length
@@ -90,7 +86,6 @@
               $task.remove()
             else
               $task.replaceWith html
-              console.log data["list_name"]
               $task_all_task = $('[data-task-id = "' + data.id + '"]', $listAllTask)
               if ($("ul.menu-information #list_name", $task_all_task).length > 0)
                 $("ul.menu-information #list_name", $task_all_task).html data['list_name']

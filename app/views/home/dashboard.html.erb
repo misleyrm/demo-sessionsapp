@@ -13,6 +13,7 @@
         <div id="page-content" class="container">
           <%= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
           <div id="main_center">
+              <h2 id="app_status">App status...</h2>
               <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
           </div>
         </div>
