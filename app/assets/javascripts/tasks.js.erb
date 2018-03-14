@@ -22,12 +22,6 @@ document.addEventListener("turbolinks:load", function(){
 
     })
 
-
-
-    var droppedIn = false;
-
-    // END Drag and drop tasks from current_list to new list
-
 });
 
 function mySortable(elem){
@@ -35,6 +29,7 @@ function mySortable(elem){
   elem.sortable({
     update: function(e,ui){
       // send the updated order via ajax
+      console.log("1");
        $.ajax({
            type: "PUT",
            url: $(this).data("url"),
@@ -55,74 +50,21 @@ function myDroppable(elem){
             return true;
         },
         drop: function (event, ui) {
-            //alert($(this).parent().html());
-            //alert($(ui.helper).attr('class'));
             var obj;
             if ($(ui.helper).hasClass('draggable')) {
                 ui.draggable.css( "color", "red" )
-                // console.log(ui.draggable);
-                // console.log(elem);
-                ui.draggable.remove();
+                console.log(ui.draggable);
                 var taskId = ui.draggable.data("task-id"),
-                    currentlistId = ui.draggable.parents("#current-list").data("list-id"),
+                    currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
                     listId = elem.data("nav-list-id"),
                     url = "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId;
-               console.log(ui.draggable.parents("#current-list"));
-                // $.ajax({
-                //     type: "PUT",
-                //     url: url,
-                //     data: "",
-                // });
-
+                ui.draggable.remove();    
+                $.ajax({
+                    type: "patch",
+                    url: url,
+                    data: "",
+                });
             }
-
-
-            //alert($(this).parent().html());
         }
     })
-
 }
-
-// Drag and drop tasks from current_list to new list
-function _(id){
-   return document.getElementById(id);
-}
-
-function drag_start(event) {
-  alert("innnnn");
-    console.log ("Dragging the "+event.target.getAttribute('id'));
-    _('app_status').innerHTML = "Dragging the "+event.target.getAttribute('id');
-    event.dataTransfer.dropEffect = "move";
-    event.dataTransfer.setData("text", event.target.getAttribute('id') );
-}
-function drag_enter(event) {
-
-    _('app_status').innerHTML = "You are dragging over the "+event.target.getAttribute('id');
-}
-function drag_leave(event) {
-    _('app_status').innerHTML = "You left the "+event.target.getAttribute('id');
-}
-function drag_drop(event) {
-  event.preventDefault();
-  event.stopPropagation();
-  alert("Dropped!");
-  // console.log("Grag_drop");
-  //   event.preventDefault(); /* Prevent undesirable default behavior while dropping */
-  //   var elem_id = event.dataTransfer.getData("text");
-  //   event.target.appendChild( _(elem_id) );
-  //   _('app_status').innerHTML = "Dropped "+elem_id+" into the "+event.target.getAttribute('id');
-  //   _(elem_id).removeAttribute("draggable");
-  //   _(elem_id).style.cursor = "default";
-  //   droppedIn = true;
-}
-function drag_end(event) {
-    if(droppedIn == false){
-        _('app_status').innerHTML = "You let the "+event.target.getAttribute('id')+" go.";
-    }
-  droppedIn = false;
-}
-function readDropZone(){
-    for(var i=0; i < _("drop_zone").children.length; i++){
-        alert(_("drop_zone").children[i].id+" is in the drop zone");
-    }
-  }

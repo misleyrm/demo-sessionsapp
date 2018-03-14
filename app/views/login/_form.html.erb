@@ -12,13 +12,13 @@
       <% end %>
       <div class="input-field">
         <i class="material-icons prefix">email</i>
-        <%= f.email_field :email, id: 'icon_prefix' %>
-        <%= f.label :icon_prefix, 'Email' %>
+        <%= f.email_field :email, id: 'login_email' %>
+        <%= f.label :login_email, 'Email' %>
       </div>
       <div class="input-field">
         <i class="material-icons prefix">lock_outline</i>
-        <%= f.password_field :password, id: 'icon_prefix' %>
-        <%= f.label :icon_prefix, 'Password' %>
+        <%= f.password_field :password, id: 'login_password' %>
+        <%= f.label :login_password, 'Password' %>
       </div>
       <div class="input-field">
         <%= f.check_box :remember_me %>

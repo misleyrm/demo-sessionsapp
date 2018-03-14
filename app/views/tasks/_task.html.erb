@@ -27,7 +27,10 @@
 						<% if !task.completed? %>
 							 <div class="input-group">
 							     <input type="text" class="tooltipped deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>" data-position="top" data-delay="50" data-tooltip="Add deadline">
-									 <i class="i-btn-datepicker material-icons md-1rem <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%> " id="btn-datepicker_<%= task.id%>" data-href = '<%= "#{ add_deadline_task_url(id: task.id)}"%>' data-href-delete-deadline = '<%= "#{ delete_deadline_task_url(id: task.id)}"%>'>&#xE858;</i>
+									 <!-- <i class="i-btn-datepicker material-icons md-1rem <%= (task.deadline?)? 'md-red' : 'md-dark md-inactive'%> " id="btn-datepicker_<%= task.id%>" data-href = '<%= "#{ add_deadline_task_url(id: task.id)}"%>' data-href-delete-deadline = '<%= "#{ delete_deadline_task_url(id: task.id)}"%>'>&#xE858;</i> -->
+									 <%= content_tag :i, class: "i-btn-datepicker material-icons md-1rem #{(task.deadline?)? 'md-red' : 'md-dark md-inactive'}", id: "btn-datepicker_#{task.id}", data: {"href" => "#{ add_deadline_task_path(id: task.id)}", "href-delete-deadline"=> "#{ delete_deadline_task_path(id: task.id)}" } do%>
+											&#xE858;
+									<% end%>
 							</div>
 						<% end %>
 					</li>
@@ -49,7 +52,11 @@
 			 		     	<% @current_all_lists ||= @lists + @collaboration_lists %>
 			 					<% @current_all_lists.each do |list| %>
 			 					    <% if (list.id != task.list_id) %>
-			 							    <li><%= link_to list.name, changelist_task_path(list_id: list.id, id: task.id, currentList: currentList ), remote: true, :method=> :patch  %></li>
+			 							    <li>
+													<%= link_to changelist_task_path(list_id: list.id, id: task.id, currentList: currentList ), remote: true, :method=> :patch  do%>
+													   <%= list.name%>
+													<% end %>
+												</li>
 			 							<% end %>
 			 					<% end %>
 			 			  </ul>

@@ -1,15 +1,15 @@
 
-   $('.edit_task').submitOnCheck();
-   <% if params[:type].present? %>
-        // $('#show_blockers_<%= @task.id%>').append('<%#= j render partial: "t_blocker", object: @t_blocker %>');
-       $('#edit_task_<%= @t_blocker.id %>').submitOnCheck();
-       $('.show_blockers #detail').val('');
-    <% else %>
-       <% @date= Date.today %>
-       $('#edit_task_<%= @task.id %>').submitOnCheck();
-       $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-       deadlineDatepicker($('input.deadline-datepicker'));
-      $('.new_task #detail').val('');
-   <% end %>
-   $('.tooltipped').tooltip({delay: 50});
+   // $('.edit_task').submitOnCheck();
+   // <% if params[:type].present? %>
+   //      // $('#show_blockers_<%= @task.id%>').append('<%#= j render partial: "t_blocker", object: @t_blocker %>');
+   //     $('#edit_task_<%= @t_blocker.id %>').submitOnCheck();
+   //     $('.show_blockers #detail').val('');
+   //  <% else %>
+   //     <% @date= Date.today %>
+   //     $('#edit_task_<%= @task.id %>').submitOnCheck();
+   //     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+   //     deadlineDatepicker($('input.deadline-datepicker'));
+   //    // $('#task_detail').val('');
+   // <% end %>
+   // $('.tooltipped').tooltip({delay: 50});
     // Materialize.toast("<%= flash[:success] %>", 4000);

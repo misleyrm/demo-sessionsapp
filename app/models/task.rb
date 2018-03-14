@@ -117,7 +117,8 @@ class Task < ApplicationRecord
          data["list_id"] = self.list_id
          data["list_all_task_id"] = self.user.all_task.id
       end
-      TaskRelayJob.perform_later(self,data,List.current,data["list_id"])
+      list= data["list_id"]
+      TaskRelayJob.perform_later(self,data,List.current,list)
       # ActionCable.server.broadcast "task_list_#{list}",{
       #   html: render_task(self,partial),
       #   user: user, id: self.id,
@@ -256,7 +257,8 @@ class Task < ApplicationRecord
    else
       data["status"] = 'saved'
       data["list_all_task_id"]= all_task_id
-      TaskRelayJob.perform_later(self,data,List.current,data["list_id"])
+      list = data["list_id"]
+      TaskRelayJob.perform_later(self,data,List.current,list)
       # ActionCable.server.broadcast "task_list_#{list}", {
       #   html: render_task(self,partial),
       #   user: user, id: self.id,
