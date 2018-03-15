@@ -13,13 +13,11 @@
         <div id="page-content" class="container">
           <%= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
           <div id="main_center">
-              <h2 id="app_status">App status...</h2>
               <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
           </div>
         </div>
       </section>
       <%#= content_tag "div",id: "content", class: "container" do%>
-
           <!-- <div id="page-content">
             <%#= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
 
@@ -35,10 +33,3 @@
   <%= render 'layouts/footer' %>
   <!-- Modal Structure -->
   <div id="modal-holder"></div>
-
-  <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-  </div> -->

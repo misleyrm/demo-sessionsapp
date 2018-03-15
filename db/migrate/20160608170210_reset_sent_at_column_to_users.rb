@@ -1,4 +1,4 @@
-class ResetSentAtColumnToUsers < ActiveRecord::Migration
+class ResetSentAtColumnToUsers < ActiveRecord::Migration[5.0]
   def up
     add_column :users, :reset_sent_at, :datetime
   end

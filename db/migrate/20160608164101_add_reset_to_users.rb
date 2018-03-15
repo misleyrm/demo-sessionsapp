@@ -1,4 +1,4 @@
-class AddResetToUsers < ActiveRecord::Migration
+class AddResetToUsers < ActiveRecord::Migration[5.0]
   def up
     add_column :users, :reset_digest, :string
   end
