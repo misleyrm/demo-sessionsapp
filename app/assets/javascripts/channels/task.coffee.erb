@@ -132,7 +132,6 @@
             $('.edit_task').submitOnCheck()
         else
           $incomplete.prepend html
-          console.log "add task"
           $("#list_user_#{data['user']} .new_task input#task_detail").val('');
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']

@@ -71,6 +71,9 @@ $(document).on('turbolinks:load',function(){
   var $table_of_task = $(".table-of-task"),
       c= 0;
 
+  dropdown(".dropdown-button",false);
+  deadlineDatepicker($('input.deadline-datepicker'));
+
   $('.mentions').mentionUsers();
   $('.edit_task').submitOnCheck();
   $('.edit_notification_setting').submitOnCheck();
@@ -97,8 +100,7 @@ $(document).on('turbolinks:load',function(){
 
   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
-  deadlineDatepicker($('input.deadline-datepicker'));
-  dropdown(".dropdown-button",false);
+
 
   // $('.dropdown-button[data-hover="false"]').dropdown({
   //     inDuration: 300,
@@ -306,8 +308,10 @@ $(document).on('turbolinks:load',function(){
 
 // dropdown-button
 function dropdown(selector,hover){
-  console.log(''+ selector +'[data-hover="'+ hover +'"]');
-  $(''+ selector +'[data-hover="'+ hover +'"]').dropdown({
+  $( selector ).each(function(){
+    console.log($(this).data("activates"));
+
+    $(this).dropdown({
       inDuration: 300,
       outDuration: 225,
       hover: hover, // Activate on hover
@@ -316,7 +320,7 @@ function dropdown(selector,hover){
       belowOrigin: true, // Displays dropdown below the button
       alignment: 'right' // Displays dropdown with edge aligned to the left of button
     });
-}
+})}
 
 function handlerIn(){
     $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
