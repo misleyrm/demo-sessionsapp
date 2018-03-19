@@ -1,4 +1,4 @@
-class AddFlagToTask < ActiveRecord::Migration
+class AddFlagToTask < ActiveRecord::Migration[5.0]
   def up
     add_column :tasks, :flag, :boolean,  default: false
   end

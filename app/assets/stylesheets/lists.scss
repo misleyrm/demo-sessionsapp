@@ -1,40 +1,3 @@
-
-.dropdown-list{
-    background-color: #FFFFFF;
-    margin: 0;
-    display: none;
-    min-width: 100px; /* Changed this to accomodate content width */
-    max-height: auto;
-  	margin-left: -1px; /* Add this to keep dropdown in line with edge of navbar */
-    overflow: hidden; /* Changed this from overflow-y:auto; to overflow:hidden; */
-    opacity: 0;
-    position: absolute;
-    white-space: nowrap;
-    z-index: 1;
-    will-change: width, height;
-    border: 1px solid #c3c3c3;
-}
-.dropdown-list li{
-  line-height: 30px;
-}
-.dropdown-list li:not(:last-child){
-  border-bottom: 1px solid #c3c3c3;
-}
-
-ul.dropdown-list li{
-  padding: 0px;
-}
-
-ul.dropdown-list li> a{
-  line-height: 0px;
-  padding: 7px 20px;
-}
-
-ul.dropdown-list li:hover,
-ul.dropdown-list li:active {
-  background-color: #c3c3c3;
-}
-
 #edit_option {
   float: left;
 }
@@ -63,50 +26,9 @@ form.edit_list .select-wrapper input.select-dropdown{
   border-radius: 50%;
   border: 2px solid #C0BFBF;
   background-color: #C0BFBF;
-  //padding: 5px!important;
-  height: 32px;
-  width: 32px;
+  height: 35px;
+  width: 35px;
 }
-
-// .collaboration-user-settings li.chip > img{
-//   border-radius: 50%;
-//   border: 1px solid rgba(0, 0, 0, 0.26);
-//   background-color: #fff;
-//   padding: 1px!important;
-//   width: 40px;
-//   height: 100%;
-//   margin: 0 auto;
-// }
-//
-// .collaboration-user-settings li.chip > img,
-// .collaboration-user-settings li.chip > img ~ span {
-//   display: block;
-//   float: none;
-// }
-//
-// .collaboration-user-settings li.chip {
-//   display: inline-block;
-//   height: 40px;
-//   width: 60px;
-//   font-weight: 500;
-//   color: rgba(0, 0, 0, 0.6);
-//   padding: 0;
-//   line-height: 12px;
-//   border-radius: 16px;
-//   background: none;
-//   margin-bottom: 5px;
-//   margin-right: 5px;
-//   text-align: center;
-// }
-//
-// .collaboration-user-settings{
-//   min-height: 100px;
-// }
-//
-//
-// .collaboration-user-settings, .invitation-user-settings{
-//   padding: 20px 0;
-// }
 
 .invitation-user-settings li{
    padding: 10px 0 0;
@@ -135,32 +57,6 @@ form.edit_list .select-wrapper input.select-dropdown{
 .invitation-user-settings li ul.menu-option a:hover i.material-icons{
   color: #55C2B9 !important;
 }
-// ul.collaboration-user-settings li{
-//   float: left;
-// }
-//
-// ul.collaboration-user-settings li.more {
-//   display: inline-block;
-//   height: 40px;
-//   width: 40px;
-//   border-radius: 50%;
-//   border: 1px solid;
-//   text-align: center;
-//   cursor: pointer;
-// }
-//
-// ul.collaboration-user-settings li.more i{
-//   padding: 7px 0;
-//   text-align: center;
-// }
-//
-// .collaboration-user-settings li.chip > img ~ span {
-//   line-height: 10px;
-//   font-size: 12px;
-//   line-height: 12px;
-//   font-size: 11px;
-//   padding-top: 5px;
-// }
 
 form.edit_list ul.dropdown-content li{
   min-height: 1rem;

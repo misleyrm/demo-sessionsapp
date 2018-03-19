@@ -72,6 +72,10 @@ gem 'jquery-atwho-rails'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+# test gem
+gem 'rails-perftest'
+gem 'ruby-prof'
+
 group :production do
   gem 'pg','~> 0.18'
   gem 'bcrypt'

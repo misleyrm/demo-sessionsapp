@@ -1,4 +1,4 @@
-class RemoveUserIdFromSessions < ActiveRecord::Migration
+class RemoveUserIdFromSessions < ActiveRecord::Migration[5.0]
   def up
     remove_column :sessions, :user_id, :integer
   end

@@ -1,4 +1,4 @@
-<%= content_tag :div, data: {"list-id": "#{list.id}"} do%>
+<%= content_tag :div, data: {"list-id": "#{list.id}"}, id: "current-list" do%>
     <section class="center row">
       <div class="col s12">
         <% unless (list.all_tasks?) %>
@@ -7,6 +7,13 @@
                     <div class="right">
                         <ul id="collaboration-users">
                           <% if has_collaborations?(list) %>
+                            <!-- All Collaboration Users -->
+                            <%#= content_tag :li, class: "chip" do%>
+                              <!-- <%= link_to list_collaboration_user_path(current_list,list.collaboration_users),class: "tooltipped",remote: true,:data => { :'tooltip'=>"Show tasks for all" }  do %>
+                                   <span class="user-initial circle">All</span>
+                              <% end %> -->
+                            <%# end %>
+                            <!-- All -->
                               <% if (!current_user.owner?(list) && (!list.owner.nil?)) %>
                                  <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: collaboration_users, current_user: current_user} %>
                               <% end %>

@@ -9,32 +9,37 @@
       # Called when there's incoming data on the websocket for this channel
       $pageContent = $('#page-content')
       $mainCenter = $('#main_center')
+      html = data.html
+      data = data.data
+
       $currentListMainCenter = $('#main_center > div ').data('list-id')
-      $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
+
       $list = $('[data-list-id = "' + data.list_id + '"]', $pageContent)
       $user = $('[data-user-id = "' + data.user + '"]', $pageContent)
 
-      # if data.current_user_id           #(data.status == 'changelist') || (data.num != '')
       $nav = $('[data-nav-id = "' + data.user + '"]')
       $listNav = $('[data-nav-list-id = "' + data.list_id + '"]', $nav)
       $listAllTaskNav = $('[data-nav-list-id = "' + data.list_all_task_id + '"]', $nav)
-      $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
+      if (data.status == 'changelist')
+        $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
+        $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
+        $beforeList = $('[data-list-id = "' + data.list_before+ '"]', $pageContent)
+        $listAllTask = $('[data-list-id = "' + data.list_all_task_id + '"]', $pageContent)
 
       $incomplete = $('#incomplete_tasks_' + data.user )
       $divCompleted = $('#complete_tasks_' + data.user)
-        # $numTask = $('.bar-number-task', $listNav)
-      # $('#list_user_' + data['user'] + ' #incomplete_tasks')
+
       if data.blocker
         $task = $('[data-blocker-id = "' + data.id + '"]')
         $parent = $('[data-task-id = "' + data.parentId + '"]')
         $menuAddBlocker = $('a#link-blocker_' + data.parentId, $parent)
-        # $menuIBlocker = $('i ~ a#link-blocker_' + data.parentId, $parent)
       else
         $task = $('[data-task-id = "' + data.id + '"]', $user)
+
       if $task.length > 0
         switch data.status
           when 'saved'
-            $task.replaceWith data.html
+            $task.replaceWith html
             $('.edit_task').submitOnCheck()
             deadlineDatepicker($('input.deadline-datepicker'));
             $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
@@ -61,19 +66,27 @@
               $('p#alternate', $task).html('')
           when 'deadline'
             if (data.deadline != "") || (data.deadline != "null")
-              # d = new Date(data.deadline)
-              # date = d.getShortDayWeek()+ ', ' + d.getDate() + ' ' + d.getShortMonth()
               $('ul.menu-information li.ms-deadline', $task).addClass('active')
               if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
                 $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
               $('p#alternate', $task).html(data.deadline)
           when 'changelist'
             $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
-            $('[data-user-id = "' + data.user + '"]',$changeListMainCenter).prepend data.html
+            $('[data-user-id = "' + data.user + '"]',$changeListMainCenter).prepend html
+            if !(data.list_change == data.list_all_task_id)
+              task_change_list = $('[data-task-id = "' + data.id + '"]',$changeListMainCenter)
+              $("ul.menu-information #list_name", task_change_list).html ''
+            $tasklistMainCenter = $task.parents('[data-user-id = "' + data.user + '"]',$beforeList)
             if (data.list_all_task_id != $currentListMainCenter)
               $task.remove()
             else
-              $task.replaceWith data.html
+              $task.replaceWith html
+              $task_all_task = $('[data-task-id = "' + data.id + '"]', $listAllTask)
+              if ($("ul.menu-information #list_name", $task_all_task).length > 0)
+                $("ul.menu-information #list_name", $task_all_task).html data['list_name']
+              else
+                listNamehtml = "<li><p id='list_name'>#{data["list_name"]}</p></li>"
+                $("ul.menu-information", $task_all_task).prepend listNamehtml
               $('.edit_task').submitOnCheck()
             if (data.num != '')
               $('.bar-number-task', $listNav).html data['num']
@@ -84,7 +97,7 @@
             if ($('[data-date = "0"]', $divCompleted).length == 0)
               $divCompleted.prepend '<div class="line-behind" data-date="0">Today</div>'
             $insertCompleted = $('[data-date = "0"]', $divCompleted)
-            $( data['html'] ).insertAfter $insertCompleted
+            $( html ).insertAfter $insertCompleted
             $('.tooltipped').tooltip({delay: 50})
             if ($('.divider', $user).hasClass('no-active'))
               $('.divider', $user).removeClass('no-active')
@@ -95,7 +108,7 @@
           when 'incomplete'
             $("#task_"+ data.id + " #menu .tooltipped", $divCompleted ).tooltip('remove')
             $task.remove()
-            $incomplete.prepend data['html']
+            $incomplete.prepend html
             deadlineDatepicker($('input.deadline-datepicker'));
             $lineDate = $('[data-date = "'+ data.num_date+'"]', $divCompleted)
             if ((data['num_completed_tasks_date'] == 0) && ($lineDate.length != 0))
@@ -109,7 +122,7 @@
       else
         if data.blocker
             $t_blockers = $("#show_blockers_#{data.parentId}")
-            $t_blockers.prepend data['html']
+            $t_blockers.prepend html
             $('.tooltipped').tooltip({delay: 50})
             if !($('i',$menuAddBlocker).hasClass('md-red'))
               $('i',$menuAddBlocker).addClass('md-red')
@@ -117,19 +130,13 @@
             $('i[data-hasblockers]',$menuAddBlocker).attr("data-hasblockers","true")
             $menuAddBlocker.siblings('i[data-hasblockers]').attr("data-hasblockers","true")
             $('.edit_task').submitOnCheck()
-
         else
-          $incomplete.prepend data['html']
-          $('.tooltipped').tooltip({delay: 50})
-          $('.edit_task').submitOnCheck()
-          $('#list_user_' + data['user'] + ' .new_task #task_detail').val('');
+          $incomplete.prepend html
+          $("#list_user_#{data['user']} .new_task input#task_detail").val('');
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
             $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
-
-    submit_task = () ->
-    $('#new_task #detail').on 'keydown', (event) ->
-      if event.keyCode is 13
-        $('#new_task #create_task_button').click()
-        event.target.value = ""
-        event.preventDefault()
+          deadlineDatepicker($('input.deadline-datepicker'));
+          dropdown("#task_#{data.id} .dropdown-button","false");
+          $('.tooltipped').tooltip({delay: 50})
+          $('.edit_task').submitOnCheck()

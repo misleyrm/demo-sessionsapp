@@ -17,24 +17,6 @@ $(function() {
   msCollapsible("ms-accordion-section");
   $('.mentions').mentionUsers();
 
-
- //$('#create-blocker').submit(function(e){
-   //Arrayofemails(e);
-
-//});
-
-
-<% unless @task.blank? %>
-    <% if @task.is_blocker?%>
-       <!-- console.log("Arrayofemails"); -->
-        <!-- $("#edit_task_<%= @task.id%>").submit(function(e){
-
-          Arrayofemails(e);
-        }); -->
-    <% end %>
-<% end %>
-
-
 function Arrayofemails(e){
   e.preventDefault();
   var value = $inputor.val(),

@@ -1,8 +1,5 @@
 jQuery.fn.submitOnCheck = function() {
   this.find('input[type=submit]').remove();
-  this.find('input[type=checkbox]').click(function(){
-    $(this).parent('form').submit();
-  });
   return this;
 };
 
@@ -27,8 +24,7 @@ jQuery.fn.mentionUsers = function(){
             }
           }
       }
-
-  });}
+  })}
 
 function handler(ev) {
     var target = $(ev.target);
@@ -66,11 +62,22 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
 });
 
+$(document).on('click','input[type=checkbox]', {}, function(event){
+    $(this).parent('form').submit();
+});
+
 
 $(document).on('turbolinks:load',function(){
+  var $table_of_task = $(".table-of-task"),
+      c= 0;
+
+  dropdown(".dropdown-button",false);
+  deadlineDatepicker($('input.deadline-datepicker'));
+
   $('.mentions').mentionUsers();
   $('.edit_task').submitOnCheck();
   $('.edit_notification_setting').submitOnCheck();
+
   $(".close").onclick = function(){
 
         // Get the parent of <span class="closebtn"> (<div class="alert">)
@@ -86,25 +93,24 @@ $(document).on('turbolinks:load',function(){
     $('ul.tabs').tabs();
 
     $("form#user-edit-avatar").submit(function(e){
-                 e.preventDefault(e);
-             });
+       e.preventDefault(e);
+    });
 
 
 
   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
-  deadlineDatepicker($('input.deadline-datepicker'));
 
-  // dropdown-button
-  $('.dropdown-button[data-hover="false"]').dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      hover: false, // Activate on hover
-      constrainWidth: false,
-      belowOrigin: true,
-      belowOrigin: true, // Displays dropdown below the button
-      alignment: 'right' // Displays dropdown with edge aligned to the left of button
-    });
+
+  // $('.dropdown-button[data-hover="false"]').dropdown({
+  //     inDuration: 300,
+  //     outDuration: 225,
+  //     hover: false, // Activate on hover
+  //     constrainWidth: false,
+  //     belowOrigin: true,
+  //     belowOrigin: true, // Displays dropdown below the button
+  //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
+  //   });
 
     // // dropdown-button
     // $('.dropdown-button[data-behavior= "click-open"]').dropdown({
@@ -115,27 +121,6 @@ $(document).on('turbolinks:load',function(){
     //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
     //   });
 
-  // $(document).on("click", '.dropdown-button[data-hover="false"]',function(e){
-  //    e.preventDefault();
-  //    var id = "#"+ $(this).data('activates');
-  //    $('.dropdown-list').not($(id)).removeClass('show');
-  //    $(id).toggleClass('show');
-  // })
-  //
-  // // Close the dropdown menu if the user clicks outside of it
-  // window.onclick = function(event) {
-  //   // console.log('window onclick');
-  //   if (!($(event.target).parent('.dropdown-button').size() > 0)) {
-  //     var dropdowns = document.getElementsByClassName("dropdown-list");
-  //     var i;
-  //     for (i = 0; i < dropdowns.length; i++) {
-  //       var openDropdown = dropdowns[i];
-  //       if (openDropdown.classList.contains('show')) {
-  //         openDropdown.classList.remove('show');
-  //       }
-  //     }
-  //   }
-  // }
 
  // Show action-menu in blockers when mouseover
   $(document).on("mouseover", ".permitted div.blocker", function(e){
@@ -239,7 +224,13 @@ $(document).on('turbolinks:load',function(){
           });
 
 
-
+          $('form#new_task input#detail').on('keydown', function(event) {
+            if (event.keyCode === 13) {
+              $(this).parents("form").submit();
+              event.target.value = "";
+              return event.preventDefault();
+            }
+           });
 
 }); /* end of $(document).on('turbolinks:load',function(){*/
 
@@ -284,7 +275,7 @@ $(document).on('turbolinks:load',function(){
      if ($(this).val().length !=0)
         $("#btn-list-ownership-change").removeClass("disabled");
      else
-       $("#btn-list-ownership-change").addClass("disabled");
+        $("#btn-list-ownership-change").addClass("disabled");
     })
 
  // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
@@ -303,9 +294,30 @@ $(document).on('turbolinks:load',function(){
       })
 
      // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
-
+    $(document).on('keydown','#new_task >input#detail', function(event) {
+      alert(event.keyCode);
+      if (event.keyCode === 13) {
+        $(this).parents("form").submit();
+        event.target.value = "";
+        return event.preventDefault();
+      }
+     });
 
 // Functions
+
+// dropdown-button
+function dropdown(selector,hover){
+  $( selector ).each(function(){
+    $(this).dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      hover: hover, // Activate on hover
+      constrainWidth: false,
+      belowOrigin: true,
+      belowOrigin: true, // Displays dropdown below the button
+      alignment: 'right' // Displays dropdown with edge aligned to the left of button
+    });
+})}
 
 function handlerIn(){
     $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");

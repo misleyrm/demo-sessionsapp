@@ -55,7 +55,7 @@ class ListsController < ApplicationController
       @collaboration_users = User.where(id: mention_by)
     end
     respond_to do |format|
-      format.html {redirect_to root_path(:collaboration_users => @collaboration_users)}
+      format.html {}
       format.json { render json: @list }
       format.js
     end
