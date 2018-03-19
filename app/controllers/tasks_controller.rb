@@ -268,15 +268,16 @@ class TasksController < ApplicationController
        flash[:notice] = "Task marked as incompleted"
        # format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
        format.html {  redirect_to current_list, notice: "Task marked as incompleted" }
-        format.js
+       format.js
      end
    end
 
    def changelist
      @task.update_attribute(:list_id, params[:list_id])
 
+     flash[:notice] = "Task changed to the new list successfully"
      respond_to do |format|
-       format.html {  redirect_to current_list, notice: "Task changed" }
+       # format.html 
        format.js
      end
 

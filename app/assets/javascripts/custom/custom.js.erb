@@ -225,7 +225,6 @@ $(document).on('turbolinks:load',function(){
 
 
           $('form#new_task input#detail').on('keydown', function(event) {
-            alert("event.keyCode");
             if (event.keyCode === 13) {
               $(this).parents("form").submit();
               event.target.value = "";
@@ -276,7 +275,7 @@ $(document).on('turbolinks:load',function(){
      if ($(this).val().length !=0)
         $("#btn-list-ownership-change").removeClass("disabled");
      else
-       $("#btn-list-ownership-change").addClass("disabled");
+        $("#btn-list-ownership-change").addClass("disabled");
     })
 
  // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
@@ -309,8 +308,6 @@ $(document).on('turbolinks:load',function(){
 // dropdown-button
 function dropdown(selector,hover){
   $( selector ).each(function(){
-    console.log($(this).data("activates"));
-
     $(this).dropdown({
       inDuration: 300,
       outDuration: 225,
