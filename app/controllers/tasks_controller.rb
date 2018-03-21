@@ -212,6 +212,7 @@ class TasksController < ApplicationController
 
    def complete
      @task.update_attribute(:completed_at, Time.now)
+     TaskRelayJob.perform_later(@task)  nn
      sender = current_user
      notification_type = notification_type("completed")
      recipient= ""
@@ -236,7 +237,7 @@ class TasksController < ApplicationController
      end
      respond_to do |format|
        flash[:notice] = "Task completed"
-       format.html 
+       format.html
        format.js
      end
 

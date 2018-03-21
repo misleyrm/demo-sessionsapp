@@ -36,8 +36,4 @@
       });
 
     deadlineDatepicker($('input.deadline-datepicker'));
-    <% if @invitation.errors.any? %>
-      $(".error_message").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
-    <% else %>
-      $(".error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
-    <% end %>
+  
