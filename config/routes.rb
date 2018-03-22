@@ -103,15 +103,6 @@ Rails.application.routes.draw do
     end
 
     resources :notification_settings
-    # resources :users
-    # resources :lists do
-    #   resources :tasks , only: [:new, :create, :edit]
-    #   resources :invitations
-    #   resources :collaboration_users, :controller => 'users', :defaults => {:type => 'collaborator'}
-    #   member do
-    #     patch :num_incompleted_tasks
-    #   end
-    # end
 
     resources :tasks do
       resources :t_blockers, :controller => 'tasks', :defaults => {:type => 'blocker'}, :name_prefix => "tasks_"

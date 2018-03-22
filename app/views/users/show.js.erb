@@ -1,30 +1,25 @@
-
- <% if params[:type].present? %>
-
+<% if params[:type].present? %>
       var $list = $('[data-list-id = "<%= @list.id %>"]');
       var $listUsers = $('#list-users',$list);
       var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
-      var $user = $('[data-user-id = "<%= @user.id %>"]',$list);
-
+      var $user = $('[data-user-id = "<%= @user.id %>"]',$list),
+          tooltip = $("a.tooltipped", $collaboration_user).data("tooltip"),
+          text;
       if ($collaboration_user.hasClass('active')) {
           $collaboration_user.removeClass('active');
+          text = tooltip.replace("Hide", "Show");
+          $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
+          $('.tooltipped').tooltip({delay: 50});
           $user.remove();
         } else {
           $collaboration_user.addClass('active');
+          text = tooltip.replace("Show", "Hide");
+          $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
           $listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @user, list: @list } %>");
           $('input[id="task_user_id"]',$user).val("<%= @user.id %>");
           $('.tooltipped').tooltip({delay: 50});
-          // dropdown-button
-          // $('.dropdown-button2').dropdown({
-          //     inDuration: 300,
-          //     outDuration: 225,
-          //     hover: false, // Activate on hover
-          //     belowOrigin: true, // Displays dropdown below the button
-          //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
-          //   });
-
           $('.edit_task').submitOnCheck();
           deadlineDatepicker($('input.deadline-datepicker'));
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
        }
-   <% end %>
+<% end %>

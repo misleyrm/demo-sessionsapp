@@ -8,7 +8,7 @@ class TasksController < ApplicationController
   # before_action :set_list, only: [:new, :create, :edit, :complete ], if: -> { params[:type].blank? }
   before_action :set_task,  if: -> { !params[:type].blank? || !params[:id].blank? }
   before_action :set_user, only: [:create, :index ]
-  before_action :set_current_list, only: [ :changelist, :complete, :incomplete ]
+  before_action :set_current_list, only: [ :changelist, :complete, :incomplete]
   before_action :saved_list, only: [:changelist, :update, :complete ]
   # before_action :saved_detail, only: [ :update], if: -> { !params[:detail].blank? && (params[:detail]!= @task.detail) }
   # respond_to :html, :js
@@ -86,7 +86,6 @@ class TasksController < ApplicationController
   def update
     authorize @task
     List.current = current_list
-
     if (@task.update_attributes!(task_params))
         sender = current_user
         tag_emails = @task.mention_emails
@@ -125,6 +124,7 @@ class TasksController < ApplicationController
   def add_deadline
     if (!params[:deadline].blank?) && (!params[:deadline].nil?) && (params[:deadline] != "null")
       authorize @task
+      List.current = current_list
       @task.update_attribute(:deadline, params[:deadline])
       sender = current_user
       if (!current_user?(@task.user_id))
@@ -144,6 +144,7 @@ class TasksController < ApplicationController
   def delete_deadline
     respond_to do |format|
       if @task.update_attribute(:deadline, '')
+        List.current = current_list
         if (!current_user?(@task.user_id))
           notification_type = notification_type("deadline")
           recipient = @task.user
@@ -246,30 +247,35 @@ class TasksController < ApplicationController
    def incomplete
 
      recipient= ""
-     @task.update_attribute(:completed_at, nil)
+
+     if @task.update_attribute(:completed_at, nil)
+       # TaskRelayJob.perform_later(@task)
+     end
      sender = current_user
      notification_type = notification_type("completed")
      if (@task.assigner_id != @task.user_id)
        recipient = !(current_user?(@task.assigner_id)) ? User.find(@task.assigner_id) : @task.user
-    elsif !(current_user?(@task.user_id))
+      elsif !(current_user?(@task.user_id))
         recipient = @task.user
      end
 
-     if !recipient.blank?
-       Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
-    end
-    #  respond_to do |format|
-    #    flash[:notice] = "Task marked as incompleted"
-    #    format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
-    #    format.js
-    #  end
+      if !recipient.blank?
+          Notification.create(recipient: recipient, actor:sender, notification_type: notification_type, notifiable: @task) if (notification_active?(recipient, notification_type,2))
+      end
+     respond_to do |format|
+       flash[:notice] = "Task marked as incompleted"
+       # format.json { head :no_content }  # {  redirect_to current_list, notice: "Task marked as incompleted" }
+       format.html {  redirect_to current_list, notice: "Task marked as incompleted" }
+       format.js
+     end
    end
 
    def changelist
      @task.update_attribute(:list_id, params[:list_id])
 
+     flash[:notice] = "Task changed to the new list successfully"
      respond_to do |format|
-       format.html {  redirect_to current_list, notice: "Task changed" }
+       # format.html
        format.js
      end
 

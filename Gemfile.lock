@@ -166,6 +166,7 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-perftest (0.0.7)
     rails-ujs (0.1.0)
       railties (>= 3.1)
     rails_12factor (0.0.3)
@@ -207,6 +208,7 @@ GEM
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
     ruby-graphviz (1.2.3)
+    ruby-prof (0.17.0)
     sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -286,11 +288,13 @@ DEPENDENCIES
   pundit
   rails (>= 5.0.0.beta3, < 5.1)
   rails-erd
+  rails-perftest
   rails-ujs
   rails_12factor
   rails_autolink
   redis (~> 3.0)
   rspec-rails
+  ruby-prof
   sass-rails (~> 5.0)
   scrollbar-rails
   sdoc (~> 0.4.0)

@@ -8,13 +8,11 @@
   <%= action_cable_meta_tag %>
   <script src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js' type='text/javascript'></script>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track'=>'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track'=> 'reload' %>
   <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons", media: "all", "data-turbolinks-track" => "reload" %>
-  
-  <style>
-    <%= yield :stylesheets %>
-  </style>
+
+  <style><%= yield :stylesheets %></style>
   <%= csrf_meta_tags %>
 
 </head>
