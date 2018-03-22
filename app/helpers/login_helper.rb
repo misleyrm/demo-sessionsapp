@@ -8,6 +8,7 @@ module LoginHelper
     # all_task_list = (all_task_list.nil?) ? current_user.created_lists.create(name: "All Tasks") : all_task_list
     session[:all_tasks_id] = all_task_list.id
     session[:list_id] = all_task_list.id
+    session[:collaboration_users] = []
     # set_current_list
     session[:current_date]= Date.today
     # $date = Date.today
@@ -44,14 +45,18 @@ module LoginHelper
 
   def current_user
     if (user_id = session[:user_id])
-      @current_user ||= User.find_by(id: user_id)
+      @_current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:id])
       user = User.find_by(id: user_id)
       if user && user.authenticated?(:remember,cookies[:remember_token])
         log_in user
-        @current_user = user
+        @_current_user ||= user
       end
     end
+
+    #
+    # @_current_user ||= session[:current_user_id] &&
+    #   User.find_by(id: session[:current_user_id])
   end
 
   def current_list
@@ -62,6 +67,7 @@ module LoginHelper
       list_id  = session[:list_id]
     end
      session[:list_id] = List.current = nil
+     cookies.delete :list_id
      session[:list_id] = list_id
      @_current_list = List.find(list_id)
   end
@@ -106,7 +112,7 @@ module LoginHelper
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
-  
+
   # Returns true if the user is logged in, false otherwise.
   def logged_in?
     !current_user.nil?

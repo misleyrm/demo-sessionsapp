@@ -2,16 +2,12 @@ class UsersController < ApplicationController
   include UsersHelper
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
-  # helper_method :get_current_date
   before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword]
-  # before_action :set_list,  if: -> { !params[:type].blank? }
-  # before_action :set_task_per_user, only: [:show]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
   before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :validate_email_update, only: :updateEmail
   before_action :validate_password_update, only: :updatePassword
-  # before_action :set_collaboration, if: -> { !params[:type].blank? }
 
   def index
     # this_user = User.find(session[:user_id])
@@ -81,13 +77,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    # user = User.find(session[:user_id])
-    # authorize user
-    # user_info = user_params
-    # temp_password = SecureRandom.hex(8)
-    # user_info[:password] = temp_password
-    # user_info[:password_confirmation] = temp_password
-    # @team = Team.find(session[:team_id])
+
     if (@user = User.find_by_email(user_params[:email]))
       flash[:danger] = "We found an account under that email. Please login or reset your password."
       redirect_to password_resets_path

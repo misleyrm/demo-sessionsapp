@@ -96,39 +96,24 @@ $(document).on('turbolinks:load',function(){
        e.preventDefault(e);
     });
 
-
-
   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
-
-
-  // $('.dropdown-button[data-hover="false"]').dropdown({
-  //     inDuration: 300,
-  //     outDuration: 225,
-  //     hover: false, // Activate on hover
-  //     constrainWidth: false,
-  //     belowOrigin: true,
-  //     belowOrigin: true, // Displays dropdown below the button
-  //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
-  //   });
-
-    // // dropdown-button
-    // $('.dropdown-button[data-behavior= "click-open"]').dropdown({
-    //     inDuration: 300,
-    //     outDuration: 225,
-    //     hover: false, // Activate on hover
-    //     belowOrigin: true, // Displays dropdown below the button
-    //     alignment: 'right' // Displays dropdown with edge aligned to the left of button
-    //   });
-
-
- // Show action-menu in blockers when mouseover
+   // Show action-menu in blockers when mouseover
   $(document).on("mouseover", ".permitted div.blocker", function(e){
      $(this).addClass("active");
   });
   $(document).on("mouseleave", ".permitted div.blocker", function(e){
      $(this).removeClass("active");
   });
+
+  window.addEventListener("beforeunload", function (e) {
+      var confirmationMessage = "\o/";
+      var object = [1,2];
+      // localStorage['collaborator_users'] = object;
+
+      (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+      return confirmationMessage;                                //Webkit, Safari, Chrome etc.
+    });
 
     // dropdown-button
     // $(document).on("click", '.dropdown-button2',function(e){
