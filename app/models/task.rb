@@ -256,7 +256,7 @@ class Task < ApplicationRecord
         TaskRelayJob.perform_later(self,data,List.current,self.list_id)
    else
       data["status"] = 'saved'
-      data["list_all_task_id"]= all_task_id
+      # data["list_all_task_id"]= all_task_id
       list = data["list_id"]
       TaskRelayJob.perform_later(self,data,List.current,list)
       # ActionCable.server.broadcast "task_list_#{list}", {
