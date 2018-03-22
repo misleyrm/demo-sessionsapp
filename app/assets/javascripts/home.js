@@ -48,8 +48,6 @@ function getActiveCollaborators(){
 
   $('li', $ulCollaboration_users).each(function( index ) {
      if ($( this ).hasClass('active')) {
-      console.log($( this ));
-      console.log($( this ).attr('id'));
         arrayActiveCorraborators.push($( this ).attr('id'));
      }
 });
