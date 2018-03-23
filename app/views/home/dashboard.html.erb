@@ -12,12 +12,8 @@
       <section id="content" >
         <div id="page-content" class="container">
           <%#= render :partial => 'shared/error_messages_alert', :locals => {:object => @list} %>
-          <%= content_tag "div", class: "error_message" do%>
-            <% if @list.errors.any? %>
-              <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
-            <% else %>
-              <%= render :partial => 'shared/flash_messages', :locals => {:object => @list} %>
-            <% end %>
+          <%= content_tag "div", id: "error_message" do%>
+             <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
           <% end %>
           <div id="main_center">
               <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>

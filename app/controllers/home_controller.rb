@@ -3,7 +3,6 @@ class HomeController < ApplicationController
   before_action :set_current_list, only: [:dashboard ]
 
   def dashboard
-      puts "HomeController inside"
     @user = current_user
     gon.current_user = @user
     gon.current_list = current_list
@@ -24,14 +23,6 @@ class HomeController < ApplicationController
 
   def unregistered
   end
-
-
-  def resetDate
-    cookies.delete :current_date
-    puts "Inside HomeController now #{Time.now}"
-    redirect_to root_path
-  end
-
 
 
 end

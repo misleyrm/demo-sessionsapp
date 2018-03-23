@@ -5,7 +5,7 @@
 
 # Example:
 #
-set :output, "/logs/cron_log.log"
+# set :output, "/logs/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -42,8 +42,8 @@ set :output, "#{path}/log/cron.log"
 
 every 1.minute do
   # runner "User.cleardate"
-  runner "User.cleardate"
-  runner "HomeController.resetDate"
+  # runner "User.cleardate"
+  runner "User.resetdate"
   # command "echo 'whenever gem test'"
 end
 

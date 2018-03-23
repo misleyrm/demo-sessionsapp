@@ -25,7 +25,6 @@ class ListsController < ApplicationController
   end
 
   def search
-
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
     @collaboration_users = @list.collaboration_users
     user = User.where('id'=> params[:userid])
@@ -126,10 +125,12 @@ class ListsController < ApplicationController
     @list = current_user.created_lists.build(list_params)
     # respond_to do |format|
         if @list.save
-          flash[:success] = "List was successfully created."
-          redirect_to list_path(@list)
-          # format.html{ redirect_to list_path(@list)}
-          # format.js
+          flash[:notice] = "List was successfully created."
+          respond_to do |format|
+            format.js { redirect_to root_path(@list)}
+            format.json { }
+            format.js { render :action => "new" }
+           end
         else
           flash[:danger] = "We can't create the list."
           @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
@@ -143,26 +144,16 @@ class ListsController < ApplicationController
   end
 
   def update
-
-    # respond_to do |format|
       gon.list = @list
-      # if (!@list.all_tasks_list?) && (!params[:list_owner].blank?)
-      #   if (@list.user_id!= params[:list_owner].to_i)
-      #     current_user.collaboration_lists << @list
-      #     @collaboration = Collaboration.find_by(list_id:@list.id, user_id: current_user.id)
-      #     @collaboration.update_attributes(:collaboration_date => Time.now)
-      #     User.find(params[:list_owner].to_i).collaboration_lists.delete(@list)
-      #     @list.user_id = params[:list_owner].to_i
-      #   end
-      # end
       saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
-
       if saved
-          flash[:success] = "List was successfully updated."
-          #  format.html{ redirect_to root_path}
-          #  format.json  { render :json => {:list => @list.id, :message => flash[:success]}}
-          #  format.js
-          redirect_to list_path(@list)
+          flash[:notice] = "List was successfully updated."
+          # redirect_to root_path(@list)
+          respond_to do |format|
+            format.html {}
+            format.json { render :json => {:htmlerrors => @htmlerrors }}
+            format.js {  }
+           end
        else
          flash[:danger] = "We can't update the list."
          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
@@ -171,12 +162,10 @@ class ListsController < ApplicationController
            format.js { render :action => "edit" }
           end
        end
-    # end
   end
 
   def updateOwnership
     authorize @list
-
     @new_owner = User.find(params[:list_owner].to_i)
     @new_owner.collaboration_lists.delete(@list)
     if @invitation = @new_owner.invitations.find_by(list_id: @list.id)
@@ -188,7 +177,7 @@ class ListsController < ApplicationController
     @collaboration = Collaboration.find_by(list_id: @list.id, user_id: @user.id)
     @collaboration.update_attributes(:collaboration_date => Time.now)
     flash[:notice] = "Ownership updated"
-    redirect_to list_path(@list)
+    redirect_to root_path(@list)
     # render :showList => {:status => 'success', :owner => @list.user_id}
 
   end
@@ -196,13 +185,14 @@ class ListsController < ApplicationController
   def destroy
     @list.destroy
     @list = current_user.all_task
-    List.reset_pk_sequence
-    redirect_to list_path(@list)
-    # respond_to do |format|
-    #   flash[:success] = "List was successfully destroyed."
-    #   format.html { redirect_to root_path }
-    #   format.js
-    # end
+    # flash[:notice] = "List was successfully destroyed."
+    # redirect_to root_path(@list)
+
+    respond_to do |format|
+      flash[:success] = "List was successfully destroyed."
+      format.html { redirect_to root_path(@list) }
+      format.js
+    end
   end
 
   private

@@ -4,3 +4,8 @@
 // <% flash.each do |message_type, message| %>
 // 		Materialize.toast("<%= message %>", 4000);
 // <% end %>
+<% if @list.errors.any? %>
+  $("#error_message_list").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
+<% else %>
+  $("#error_message_list").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
+<% end %>
