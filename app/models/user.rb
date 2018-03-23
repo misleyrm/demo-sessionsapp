@@ -315,6 +315,11 @@ class User < ApplicationRecord
     # end
   end
 
+  def self.cleardate
+    puts "inside user"
+
+  end
+
   def pending_invitations
     self.invitations.where("active":false).order('sent_at DESC')
   end

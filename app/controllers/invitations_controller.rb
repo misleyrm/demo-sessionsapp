@@ -53,7 +53,7 @@ class InvitationsController < ApplicationController
   end
 
   def update
-
+byebug
     @user = current_user
     @token = params[:invitation_token]
     if (!@token.nil?) && (@user == @invitation.recipient)

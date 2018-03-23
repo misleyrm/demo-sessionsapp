@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   before_action :set_current_list, only: [:dashboard ]
 
   def dashboard
+      puts "HomeController inside"
     @user = current_user
     gon.current_user = @user
     gon.current_list = current_list
@@ -24,5 +25,12 @@ class HomeController < ApplicationController
   def unregistered
   end
 
+
+  def cleardate2
+    puts "HomeController inside"
+    # session[:current_date] = nil
+    # session[:current_date] = Date.today
+    # redirect_to login_url
+  end
 
 end
