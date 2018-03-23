@@ -1,4 +1,4 @@
-class AddAllTasksToLists < ActiveRecord::Migration[5.0]
+class AddAllTasksToLists < ActiveRecord::Migration[5.1]
   def up
     add_column :lists, :all_tasks, :boolean,  default: false
   end

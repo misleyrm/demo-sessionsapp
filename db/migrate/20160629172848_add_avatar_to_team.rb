@@ -1,4 +1,4 @@
-class AddAvatarToTeam < ActiveRecord::Migration[5.0]
+class AddAvatarToTeam < ActiveRecord::Migration[5.1]
   def up
    add_attachment :teams, :avatar
  end

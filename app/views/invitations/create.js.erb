@@ -1,4 +1,7 @@
-// Materialize.toast('<%=flash[:notice]%>', 4000);
-// Materialize.toast('<%=flash[:danger]%>', 4000);
-
+<% if @invitation.errors.any? %>
   $("#error_message_invitation").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @invitation} %>");
+<% else %>
+  $("#error_message_invitation").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @invitation} %>");
+  document.getElementById("new_invitation").reset();
+  document.getElementById("recipient_email").focus();
+<% end %>

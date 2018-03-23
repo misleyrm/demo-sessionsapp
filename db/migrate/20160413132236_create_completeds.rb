@@ -1,9 +1,9 @@
-class CreateWips < ActiveRecord::Migration[5.1]
+class CreateCompleteds < ActiveRecord::Migration[5.1]
   def change
-    create_table :wips do |t|
+    create_table :completeds do |t|
       t.integer :session_id
       t.integer :user_id
-      t.text :wip_item
+      t.text :completed
 
       t.timestamps null: false
     end

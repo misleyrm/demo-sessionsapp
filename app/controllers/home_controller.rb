@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   before_action :set_current_list, only: [:dashboard ]
 
   def dashboard
+      puts "HomeController inside"
     @user = current_user
     gon.current_user = @user
     gon.current_list = current_list

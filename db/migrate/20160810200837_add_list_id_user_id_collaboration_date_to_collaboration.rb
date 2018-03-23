@@ -1,4 +1,4 @@
-class AddListIdUserIdCollaborationDateToCollaboration < ActiveRecord::Migration[5.0]
+class AddListIdUserIdCollaborationDateToCollaboration < ActiveRecord::Migration[5.1]
   def up
     add_column :collaborations, :user_id, :integer
     add_index :collaborations, :user_id

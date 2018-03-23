@@ -1,3 +1,8 @@
 <% flash.each do |key, value| %>
-   <%= content_tag :div, value, class: "ms-alert ms-alert_#{key} left-align fade show alert-dismissible", id:"error_explanation" %>
+  <%= content_tag :div, id:"error_explanation", class:"ms-alert ms-alert_error left-align alert-dismissible ms-alert_#{key}" do%>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="this.parentElement.style.display='none';">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <ul><%= content_tag :li, value %></ul>
+  <% end%>
 <% end %>

@@ -15,7 +15,7 @@ class Task < ApplicationRecord
   accepts_nested_attributes_for :t_blockers
   # after_save :broadcast_save
   after_destroy :broadcast_delete
-  after_commit :broadcast_update,on: [:update]
+  # after_commit :broadcast_update,on: [:update]
   after_create :broadcast_save
 
   validates_presence_of :detail, :on => :create

@@ -212,10 +212,8 @@ class TasksController < ApplicationController
    end
 
    def complete
-
-     if @task.update_attribute(:completed_at, Time.now)
-       # TaskRelayJob.perform_later(@task)
-     end
+     @task.update_attribute(:completed_at, Time.now)
+     TaskRelayJob.perform_later(@task)  nn
      sender = current_user
      notification_type = notification_type("completed")
      recipient= ""
@@ -277,7 +275,7 @@ class TasksController < ApplicationController
 
      flash[:notice] = "Task changed to the new list successfully"
      respond_to do |format|
-       # format.html 
+       # format.html
        format.js
      end
 

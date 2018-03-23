@@ -31,25 +31,22 @@ set :output, "/logs/cron_log.log"
 # every :hour do # Many shortcuts available: :hour, :day, :month, :year, :reboot
 #   runner "SomeModel.ladeeda"
 # end
-set :environment, 'development'
-# env :MAILTO, 'sgarzaceja@gmail.com'
 
-# every :friday, :at => '9:00am' do # Use any day of the week or :weekend, :weekday
-#   runner "SessionsController.friday_recap"
+set :output, "#{path}/log/cron.log"
+# job_type :script, "'#{path}/script/:task' :output"
+
+# every 15.minutes do
+#   command "rm '#{path}/tmp/cache/foo.txt'"
+#   script "generate_report"
 # end
 
-every 1.minutes do# Use any day of the week or :weekend, :weekday
+every 1.minute do
+  # runner "User.cleardate"
+  runner "User.cleardate"
   runner "HomeController.resetDate"
-  # Rails.logger.info("HomeController updated at #{Time.now}")
-  command "echo 'you can use raw cron syntax too'"
+  # command "echo 'whenever gem test'"
 end
 
-# every '0 0 27-31 * *' do
-#   command "echo 'you can use raw cron syntax too'"
-# end
-
-# run this task only on servers with the :app role in Capistrano
-# see Capistrano roles section below
-# every :day, :at => '9:00am', :roles => [:app] do
-#   rake "app_server:task"
+# every :reboot do
+#   rake "ts:start"
 # end

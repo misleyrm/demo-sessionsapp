@@ -93,6 +93,7 @@ group :development, :test do
   gem 'sqlite3'
   gem "nifty-generators"
   gem 'hirb'
+  gem "capistrano"
 end
 
 group :development do

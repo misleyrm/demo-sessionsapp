@@ -1,4 +1,4 @@
-class AddNameDescAndUserIdToList < ActiveRecord::Migration[5.0]
+class AddNameDescAndUserIdToList < ActiveRecord::Migration[5.1]
   def up
     add_column :lists, :name, :string
     add_column :lists, :description, :string

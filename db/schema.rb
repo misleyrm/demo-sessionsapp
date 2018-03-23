@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219184523) do
+ActiveRecord::Schema.define(version: 201610171313560) do
 
   create_table "blockers", force: :cascade do |t|
     t.integer "session_id"
@@ -90,7 +90,6 @@ ActiveRecord::Schema.define(version: 20180219184523) do
     t.string "notification_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index [nil], name: "index_notification_types_on_notification_type_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -121,31 +120,6 @@ ActiveRecord::Schema.define(version: 20180219184523) do
     t.index ["user_id"], name: "index_sessions_users_on_user_id"
   end
 
-  create_table "taggings", force: :cascade do |t|
-    t.integer "tag_id"
-    t.integer "taggable_id"
-    t.string "taggable_type"
-    t.integer "tagger_id"
-    t.string "tagger_type"
-    t.string "context", limit: 128
-    t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-  end
-
-  create_table "tags", force: :cascade do |t|
-    t.string "name"
-    t.integer "taggings_count", default: 0
-    t.index ["name"], name: "index_tags_on_name", unique: true
-  end
-
   create_table "tasks", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -157,8 +131,8 @@ ActiveRecord::Schema.define(version: 20180219184523) do
     t.boolean "flag", default: false
     t.datetime "completed_at"
     t.datetime "deadline"
-    t.integer "assigner_id"
     t.integer "position"
+    t.integer "assigner_id"
     t.index ["assigner_id"], name: "index_tasks_on_assigner_id"
     t.index ["collaboration_id"], name: "index_tasks_on_collaboration_id"
     t.index ["list_id"], name: "index_tasks_on_list_id"
@@ -197,7 +171,6 @@ ActiveRecord::Schema.define(version: 20180219184523) do
     t.datetime "avatar_updated_at"
     t.string "remember_digest"
     t.index ["team_id"], name: "index_users_on_team_id"
-    t.index [nil], name: "index_users_on_user_id"
   end
 
   create_table "wips", force: :cascade do |t|
