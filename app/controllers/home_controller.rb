@@ -25,4 +25,12 @@ class HomeController < ApplicationController
   end
 
 
+  def resetDate
+    cookies.delete :current_date
+    puts "Inside HomeController now #{Time.now}"
+    redirect_to root_path
+  end
+
+
+
 end

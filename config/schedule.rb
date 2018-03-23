@@ -5,7 +5,7 @@
 
 # Example:
 #
-# set :output, "/path/to/my/cron_log.log"
+set :output, "/logs/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -34,8 +34,14 @@
 set :environment, 'development'
 # env :MAILTO, 'sgarzaceja@gmail.com'
 
-every :friday, :at => '9:00am' do # Use any day of the week or :weekend, :weekday
-  runner "SessionsController.friday_recap"
+# every :friday, :at => '9:00am' do # Use any day of the week or :weekend, :weekday
+#   runner "SessionsController.friday_recap"
+# end
+
+every 1.minutes do# Use any day of the week or :weekend, :weekday
+  runner "HomeController.resetDate"
+  # Rails.logger.info("HomeController updated at #{Time.now}")
+  command "echo 'you can use raw cron syntax too'"
 end
 
 # every '0 0 27-31 * *' do
