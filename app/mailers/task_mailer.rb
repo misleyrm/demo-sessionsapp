@@ -1,10 +1,11 @@
 class TaskMailer < ApplicationMailer
   default from: 'standupsessionsapp@gmail.com'
 
-  def mentioned_in_blocker(email, sender, blocker)
+  def mentioned_in_blocker(email, sender, task)
     @user = email
     @sender = sender
-    @blocker = blocker
+    @blocker = task
+    @list = (@blocker.is_blocker?)? @blocker.parent_task.list : @blocker.list
     mail to: email, subject: "Blocker Alert"
   end
 

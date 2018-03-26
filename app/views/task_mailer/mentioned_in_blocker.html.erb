@@ -36,7 +36,9 @@
       <td width="10%">&nbsp;</td>
       <td style="text-align:center;">
         <font style="font-family: Verdana, Geneva, sans-serif; color:#ffffff; font-size:14px">
-          <%= link_to "View #{(@blocker.is_blocker?) ? 'blocker' : 'task'}", list_url(id:(@blocker.is_blocker?)? @blocker.parent_task.list_id : @blocker.list_id,email: @user, mention_by: [@sender.id] ),:remote => true,:class => "ms-email-button" %>
+          <% if @list.collaboration_users.include?(@user) %>
+            <%= link_to "View #{(@blocker.is_blocker?) ? 'blocker' : 'task'}", list_url(id:(@blocker.is_blocker?)? @blocker.parent_task.list_id : @blocker.list_id,email: @user, mention_by: [@sender.id] ),:remote => true,:class => "ms-email-button" %>
+          <% end %>
         </font>
       </td>
       <td>&nbsp;</td>

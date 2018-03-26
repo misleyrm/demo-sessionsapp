@@ -1,4 +1,4 @@
-class SessionsUsers < ActiveRecord::Migration[5.0]
+class SessionsUsers < ActiveRecord::Migration[5.1]
   def change
     create_table :sessions_users do |t|
       t.belongs_to :session, index: true, foreign_key: true

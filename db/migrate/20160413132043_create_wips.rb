@@ -1,4 +1,4 @@
-class CreateWips < ActiveRecord::Migration[5.0]
+class CreateWips < ActiveRecord::Migration[5.1]
   def change
     create_table :wips do |t|
       t.integer :session_id

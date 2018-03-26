@@ -315,6 +315,18 @@ class User < ApplicationRecord
     # end
   end
 
+  def self.resetdate
+    cookies.delete :current_date
+    puts "Inside UserModal now #{Time.now}"
+    # redirect_to root_path
+  end
+
+
+  def self.cleardate
+    puts "inside user"
+
+  end
+
   def pending_invitations
     self.invitations.where("active":false).order('sent_at DESC')
   end

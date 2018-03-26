@@ -1,4 +1,4 @@
-class CreateCompleteds < ActiveRecord::Migration[5.0]
+class CreateCompleteds < ActiveRecord::Migration[5.1]
   def change
     create_table :completeds do |t|
       t.integer :session_id

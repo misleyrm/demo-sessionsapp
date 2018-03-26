@@ -1,10 +1,12 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
 
     # get 'dashboard' => 'home#dashboard'
     # root to: 'home#dashboard', as: '/'
     root 'home#dashboard'
     # get 'home/unregistered'
-
+    # ...
+    mount Sidekiq::Web, at: '/sidekiq'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
     #Paperclip images

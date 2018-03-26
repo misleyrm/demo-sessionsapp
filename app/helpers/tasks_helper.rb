@@ -8,4 +8,13 @@ module TasksHelper
     end
   end
 
+  def mentioned_in(tag_emails, notifiable, notification_type, sender)
+    tag_emails.each do |email|
+      email.sub!(%r{^\+},"")
+      if recipient = User.find_by_email(email)
+        TaskMailer.mentioned_in_blocker(email, sender, notifiable).deliver_now if (notification_active?(recipient, notification_type,1))
+        Notification.create(recipient:recipient, actor:sender, notification_type: notification_type, notifiable: notifiable) if (notification_active?(recipient, notification_type,2))
+      end
+     end
+   end
 end

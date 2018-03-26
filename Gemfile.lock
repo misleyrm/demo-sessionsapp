@@ -43,6 +43,8 @@ GEM
       activerecord (>= 3.0)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    airbrussh (1.3.0)
+      sshkit (>= 1.6.1, != 1.7.0)
     arel (8.0.0)
     aws-sdk (2.11.19)
       aws-sdk-resources (= 2.11.19)
@@ -59,6 +61,11 @@ GEM
       railties (>= 3.0)
     builder (3.2.3)
     byebug (10.0.1)
+    capistrano (3.10.1)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
     capybara (2.18.0)
       addressable
       mini_mime (>= 0.1.3)
@@ -77,6 +84,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.1)
     crass (1.0.3)
     diff-lcs (1.3)
     erubi (1.7.1)
@@ -124,6 +132,10 @@ GEM
     mocha (1.4.0)
       metaclass (~> 0.0.1)
     multi_json (1.13.1)
+    mustermann (1.0.2)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (4.2.0)
     nifty-generators (0.4.6)
     nio4r (2.3.0)
     nokogiri (1.8.2)
@@ -140,6 +152,8 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.4)
+    rack-protection (2.0.1)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.0.rc2)
@@ -222,9 +236,22 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sidekiq (5.1.1)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     simple_form (3.5.1)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
+    sinatra (2.0.1)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.1)
+      tilt (~> 2.0)
+    slim (3.0.9)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 1.3.3, < 2.1)
     spring (2.0.2)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -235,6 +262,10 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
+    sshkit (1.16.0)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
+    temple (0.8.0)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
     thor (0.20.0)
@@ -270,6 +301,7 @@ DEPENDENCIES
   bcrypt
   bootstrap-validator-rails
   byebug
+  capistrano
   capybara
   coffee-rails (~> 4.2)
   figaro
@@ -298,7 +330,10 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   scrollbar-rails
   sdoc (~> 0.4.0)
+  sidekiq
   simple_form
+  sinatra
+  slim
   spring
   sqlite3
   turbolinks

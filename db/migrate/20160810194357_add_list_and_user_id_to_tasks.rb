@@ -1,4 +1,4 @@
-class AddListAndUserIdToTasks < ActiveRecord::Migration[5.0]
+class AddListAndUserIdToTasks < ActiveRecord::Migration[5.1]
   def up
     add_column :tasks, :detail, :string
     add_column :tasks, :parent_task_id, :integer

@@ -1,0 +1,21 @@
+// $('#ms-modal-dialog').modal('close');
+// console.log("<%= flash %>");
+// Materialize.toast("<%= flash %>", 4000);
+// <% flash.each do |message_type, message| %>
+// 		Materialize.toast("<%= message %>", 4000);
+// <% end %>
+
+<% if @list.errors.any? %>
+  $("#error_message").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
+<% else %>
+  $nav = $('[data-nav-id = "<%= current_user.id%>"]');
+  $listNav = $('[data-nav-list-id = "<%= current_list.id %>"]');
+  $('#ms-modal-dialog').modal('close');
+  $ul = $('ul#ulCreated', $nav);
+  $('#main_center').html("<%= j render @list %>");  <%= j render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: collaboration_users(@list) } %>
+  $("li.active", $ul).removeClass('active');
+  $listNav.addClass('active');
+
+  // $('#ms-modal-dialog').modal('close');
+  $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
+<% end %>

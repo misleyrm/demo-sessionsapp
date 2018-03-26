@@ -1,4 +1,4 @@
-class AddRoleColumnInUsers < ActiveRecord::Migration[5.0]
+class AddRoleColumnInUsers < ActiveRecord::Migration[5.1]
   def up
     add_column :users, :role, :integer
   end
