@@ -5,26 +5,11 @@ class TasksController < ApplicationController
   include ApplicationHelper
   include LoginHelper
   before_action :require_logged_in
-  # before_action :set_list, only: [:new, :create, :edit, :complete ], if: -> { params[:type].blank? }
   before_action :set_task,  if: -> { !params[:type].blank? || !params[:id].blank? }
   before_action :set_user, only: [:create, :index ]
   before_action :set_current_list, only: [ :changelist, :complete, :incomplete]
   before_action :saved_list, only: [:changelist, :update, :complete ]
-  # before_action :saved_detail, only: [ :update], if: -> { !params[:detail].blank? && (params[:detail]!= @task.detail) }
-  # respond_to :html, :js
-  # before_action :set_current_user, only: [:changelist, :update, :complete ]   #if: -> { params[:assigner_id].present? || current_user !=  }
-  # after_action :set_current_user, only: [:new], unless: -> { @task.nil? }
-  # skip_before_filter :verify_authenticity_token
 
-  # def index
-  #   if (params[:type].present? || params[:type]=="blocker")
-  #      @t_blockers = @task.t_blockers
-  #   end
-  #   respond_to do |format|
-  #     format.html { redirect_to current_list  }
-  #     format.js
-  #   end
-  # end
 
   def new
     if (params[:type].present? || params[:type]=="blocker")
@@ -41,11 +26,9 @@ class TasksController < ApplicationController
 
   def create
     #  authorize @task
-    task_info = task_params
     if params[:type].present?
        @t_blocker = @task.t_blockers.build(task_params)
        if @t_blocker.save
-        #  tag_emails = params['tags_emails'].split(',')
          tag_emails = @t_blocker.mention_emails
          sender = current_user
          notification_type = notification_type("tagged")
@@ -55,12 +38,12 @@ class TasksController < ApplicationController
          #   TaskMailer.mentioned_in_blocker(email, sender, @t_blocker).deliver_now if (notification_active?(recipient, notification_type,1))
          #   Notification.create(recipient:recipient, actor:sender, notification_type: notification_type, notifiable: @t_blocker) if (notification_active?(recipient, notification_type,2))
          #  end
-          mentioned_in(tag_emails, @t_blocker, notification_type, sender)
-          flash[:success] = "Blocker created"
+         mentioned_in(tag_emails, @t_blocker, notification_type, sender)
+         flash[:success] = "Blocker created"
        end
      else
        @task = current_list.tasks.build(task_params)
-       List.current = current_list
+       @list = List.current = current_list
        if @task.save
          tag_emails = @task.mention_emails
          sender = current_user
@@ -88,7 +71,7 @@ class TasksController < ApplicationController
 
   def update
     authorize @task
-    List.current = current_list
+    @list= List.current = current_list
     if (@task.update_attributes!(task_params))
         sender = current_user
         notification_type = notification_type("tagged")
@@ -181,7 +164,7 @@ class TasksController < ApplicationController
     if !@task.blank?
        @recipient = @task.user
        currentUser = current_user
-       @email_blockers = (!@task.is_blocker?)? @task.t_blockers.map {|blocker| blocker.mention_emails} : @task.mention_emails
+       @email_blockers = (!@task.is_blocker?) ? @task.t_blockers.map {|blocker| blocker.mention_emails} : @task.mention_emails
        respond_to do |format|
          if (@task.destroy)
             if (!@task.is_blocker?)
@@ -212,13 +195,11 @@ class TasksController < ApplicationController
         else
           flash[:notice] = "We can't process your request now"
         end
-      end
-      format.html { }
-      format.js
-
-    end # end respond_to do |format|
-
+        format.html { }
+        format.js
+      end # end respond_to do |format|
    end
+  end
 
    def complete
      @task.update_attribute(:completed_at, Time.now)
@@ -243,7 +224,7 @@ class TasksController < ApplicationController
              Notification.create(recipient: recipient, actor:sender, notification_type: notification_type,notifiable: @task) if (notification_active?(recipient, notification_type,2))
             #  TaskMailer.mentioned_in_blocker(email, sender,@task).deliver_now if (notification_active?(recipient, notification_type,2))
           end
-       end
+        end
      end
      respond_to do |format|
        flash[:notice] = "Task completed"

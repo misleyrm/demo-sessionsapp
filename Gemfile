@@ -64,6 +64,10 @@ gem 'jquery-atwho-rails'
 
 # gem 'bower-rails'
 
+# background job
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'slim'
 # gem 'angularjs-rails'
 
 
