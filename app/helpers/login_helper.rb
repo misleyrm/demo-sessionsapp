@@ -8,7 +8,7 @@ module LoginHelper
     # all_task_list = (all_task_list.nil?) ? current_user.created_lists.create(name: "All Tasks") : all_task_list
     session[:all_tasks_id] = all_task_list.id
     session[:list_id] = all_task_list.id
-    session[:collaboration_users] = []
+    session[:active_collaborations] = []
     # set_current_list
     session[:current_date]= Date.today
     # $date = Date.today

@@ -50,8 +50,9 @@ class ListsController < ApplicationController
   def show
     if !params[:mention_by].blank?
       # byebug
-      # mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
-      mention_by = params[:mention_by].each.map(&:to_i)
+       mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
+      # byebug
+      # mention_by = params[:mention_by].each.map(&:to_i)
       @collaboration_users = User.where(id: mention_by)
     end
     respond_to do |format|
@@ -205,6 +206,7 @@ class ListsController < ApplicationController
         @_current_list = session[:list_id] = List.current = nil
         session[:list_id] = params[:id]
         @_current_list = List.current = @list
+        session[:active_collaborations] = nil
         set_current_list
       end
       # set_current_list

@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
-  before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  before_action :set_active_collaborations, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :validate_email_update, only: :updateEmail
   before_action :validate_password_update, only: :updatePassword
 
@@ -349,5 +350,12 @@ class UsersController < ApplicationController
       if numberoferror != 0
         return render edit: { status: 'invalid',:errors => @user.errors.full_messages }, status: :bad_request
       end
+  end
+
+  def set_active_collaborations
+    @active_collaborations = session[:active_collaborations]
+    @active_collaborations ||= Array.new
+    (@active_collaborations.include?(@user.id))? @active_collaborations.delete(@user.id) : @active_collaborations.push(@user.id)
+    session[:active_collaborations] = @active_collaborations
   end
 end

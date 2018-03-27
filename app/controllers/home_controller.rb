@@ -1,20 +1,21 @@
 class HomeController < ApplicationController
   before_action :require_logged_in
-  before_action :set_current_list, only: [:dashboard ]
+  # before_action :set_current_list, only: [:dashboard ]
 
   def dashboard
     @user = current_user
     gon.current_user = @user
-    gon.current_list = current_list
+    gon.current_list = @list = current_list
     gon.startDate = startDate
     gon.current_date = current_date.to_date
     @all_tasks   = @user.tasks.where(:completed_at => nil).order('created_at')
     @lists = @user.created_lists.all.order('created_at')
     @collaboration_lists = @user.collaboration_lists.all
-    @list = current_list
-    if !params[:collaboration_users].blank?
-      @collaboration_users = User.where(id: params[:collaboration_users])
-    end
+    # @list = current_list
+    # if !params[:collaboration_users].blank?
+    #   @collaboration_users = User.where(id: params[:collaboration_users])
+    # end
+    @active_collaborations = User.where(id: session[:active_collaborations])
     # respond_to do |format|
     #     format.html { }
     #     format.js
@@ -23,6 +24,5 @@ class HomeController < ApplicationController
 
   def unregistered
   end
-
 
 end
