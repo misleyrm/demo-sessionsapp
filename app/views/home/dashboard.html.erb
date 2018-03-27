@@ -16,7 +16,7 @@
              <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
           <% end %>
           <div id="main_center">
-              <%= render partial: "lists/list", locals: { list: @list, user: current_user, collaboration_users: @collaboration_users } %>
+              <%= render partial: "lists/list", locals: { list: @list, user: @user, collaboration_users: @active_collaborations } %>
           </div>
         </div>
       </section>

@@ -17,7 +17,7 @@ $(document).on('turbolinks:load',function(){
         $('#form_date').val(this.get());
         var $activeCollaborators = $('#application-date input#active-collaborators');
 
-        $activeCollaborators.val(getActiveCollaborators()) ;
+        $activeCollaborators.val(getActiveCollaborators());
 
         // console.log(this.$root.parent('form'));
         // $.ajax({
