@@ -50,7 +50,7 @@ class ListsController < ApplicationController
   def show
     if !params[:mention_by].blank?
       # byebug
-       mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
+      mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
       # byebug
       # mention_by = params[:mention_by].each.map(&:to_i)
       @collaboration_users = User.where(id: mention_by)
@@ -61,11 +61,6 @@ class ListsController < ApplicationController
       format.js
     end
 
-    # respond_to do |format|
-    #   format.html{redirect_to @list}
-    #   format.json
-    #   format.js
-    # end
   end
 
   def showList
@@ -74,11 +69,6 @@ class ListsController < ApplicationController
       format.json
       format.js
     end
-
-    # byebug
-    # @list = List.find(params[:id])
-    # set_task_per_list
-
   end
 
 
@@ -125,44 +115,44 @@ class ListsController < ApplicationController
   def create
     @list = current_user.created_lists.build(list_params)
     # respond_to do |format|
-        if @list.save
-          flash[:notice] = "List was successfully created."
-          respond_to do |format|
-            format.js { redirect_to root_path(@list)}
-            format.json { }
-            format.js { render :action => "new" }
-           end
-        else
-          flash[:danger] = "We can't create the list."
-          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-          # format.html
-          respond_to do |format|
-            format.json { render :json => {:htmlerrors => @htmlerrors }}
-            format.js { render :action => "new" }
-           end
-        end
+    if @list.save
+      flash[:notice] = "List was successfully created."
+      respond_to do |format|
+        format.js { redirect_to root_path(@list)}
+        format.json { }
+        format.js { render :action => "new" }
+      end
+    else
+      flash[:danger] = "We can't create the list."
+      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      # format.html
+      respond_to do |format|
+        format.json { render :json => {:htmlerrors => @htmlerrors }}
+        format.js { render :action => "new" }
+      end
+    end
     #  end
   end
 
   def update
-      gon.list = @list
-      saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
-      if saved
-          flash[:notice] = "List was successfully updated."
-          # redirect_to root_path(@list)
-          respond_to do |format|
-            format.html {}
-            format.json { render :json => {:htmlerrors => @htmlerrors }}
-            format.js {  }
-           end
-       else
-         flash[:danger] = "We can't update the list."
-         @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-         respond_to do |format|
-           format.json { render :json => {:htmlerrors => @htmlerrors }}
-           format.js { render :action => "edit" }
-          end
-       end
+    gon.list = @list
+    saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
+    if saved
+      flash[:notice] = "List was successfully updated."
+      # redirect_to root_path(@list)
+      respond_to do |format|
+        format.html {}
+        format.json { render :json => {:htmlerrors => @htmlerrors }}
+        format.js {  }
+      end
+    else
+      flash[:danger] = "We can't update the list."
+      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      respond_to do |format|
+        format.json { render :json => {:htmlerrors => @htmlerrors }}
+        format.js { render :action => "edit" }
+      end
+    end
   end
 
   def updateOwnership
@@ -197,82 +187,80 @@ class ListsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_list
-      if params[:id].blank?
-        @list = current_list
-      else
-        @list = List.find(params[:id])
-        @_current_list = session[:list_id] = List.current = nil
-        session[:list_id] = params[:id]
-        @_current_list = List.current = @list
-        session[:active_collaborations] = nil
-        set_current_list
+  # Use callbacks to share common setup or constraints between actions.
+  def set_list
+    if params[:id].blank?
+      @list = List.current =current_list
+    else
+      @list = List.find(params[:id])
+      @_current_list = session[:list_id] = List.current = nil
+      session[:list_id] = params[:id]
+      @_current_list = List.current = @list
+      session[:active_collaborations] = nil
+      set_current_list
+    end
+
+  end
+
+  def set_user
+    if params[:user_id].blank?
+      @user = current_user
+    else
+      @user = User.find(params[:user_id])
+    end
+  end
+
+
+  def validate_ownership_update
+    user = current_user
+    @new_owner_id = params[:list_owner].to_i
+    @current_password = params[:current_password]
+
+    numberoferror = 0
+    if @new_owner_id.blank?
+      @list.errors.add(:new_list_owner,message: "New Owner cannot be blank.")
+      numberoferror += 1
+    end
+
+    if  @new_owner_id == current_user.id
+      @list.errors.add(:new_email,message: "Current Owner and New owner cannot be the same.")
+      numberoferror += 1
+    end
+
+    if @current_password.blank?
+      @list.errors.add(:password, message: "Password cannot be blank.")
+      numberoferror += 1
+    end
+
+    if !user.authenticate(@current_password)
+      @list.errors.add(:password, message: "Password incorrect.")
+      numberoferror += 1
+    end
+
+    if numberoferror != 0
+      respond_to do |format|
+        format.json { render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request}
+        format.js { render :action => "edit" }
       end
-      # set_current_list
-
-      # set_task_per_user
+      # return render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request
     end
+  end
 
-    def set_user
-      if params[:user_id].blank?
-        @user = current_user
-      else
-        @user = User.find(params[:user_id])
-      end
-    end
+  # def set_task_per_user
+  #   d_today = get_current_date
+  #   d_yesterday =  d_today - 1.day
+  #   incomplete_tasks = @list.incompleted_tasks(@user)
+  #   @incomplete_tasks = incomplete_tasks.where(["DATE(created_at)=?",d_today])
+  #   byebug
+  #   @incomplete_tasks_past= (Date.today == d_today)? incomplete_tasks - @incomplete_tasks : nil
+  #   # @incomplete_tasks_past = incomplete_tasks - @incomplete_tasks
+  #   # @list.incompleted_tasks(@user).where(["DATE(created_at)<?",d_today])
+  #   # @incomplete_tasks = @tasks.where(["completed_at IS ? and DATE(created_at)=?",nil,d_today])
+  #   @complete_tasks = @list.completed_tasks(@user).where('DATE(completed_at) BETWEEN ? AND ?' , d_yesterday , d_today ).order('completed_at')
+  # end
+  # Never trust parameters from the scary internet, only allow the white list through.
 
-
-    def validate_ownership_update
-        user = current_user
-        @new_owner_id = params[:list_owner].to_i
-        @current_password = params[:current_password]
-
-        numberoferror = 0
-        if @new_owner_id.blank?
-          @list.errors.add(:new_list_owner,message: "New Owner cannot be blank.")
-          numberoferror += 1
-        end
-
-        if  @new_owner_id == current_user.id
-          @list.errors.add(:new_email,message: "Current Owner and New owner cannot be the same.")
-          numberoferror += 1
-        end
-
-        if @current_password.blank?
-          @list.errors.add(:password, message: "Password cannot be blank.")
-          numberoferror += 1
-        end
-
-        if !user.authenticate(@current_password)
-          @list.errors.add(:password, message: "Password incorrect.")
-          numberoferror += 1
-        end
-
-        if numberoferror != 0
-          respond_to do |format|
-            format.json { render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request}
-            format.js { render :action => "edit" }
-           end
-          # return render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request
-        end
-    end
-
-    # def set_task_per_user
-    #   d_today = get_current_date
-    #   d_yesterday =  d_today - 1.day
-    #   incomplete_tasks = @list.incompleted_tasks(@user)
-    #   @incomplete_tasks = incomplete_tasks.where(["DATE(created_at)=?",d_today])
-    #   byebug
-    #   @incomplete_tasks_past= (Date.today == d_today)? incomplete_tasks - @incomplete_tasks : nil
-    #   # @incomplete_tasks_past = incomplete_tasks - @incomplete_tasks
-    #   # @list.incompleted_tasks(@user).where(["DATE(created_at)<?",d_today])
-    #   # @incomplete_tasks = @tasks.where(["completed_at IS ? and DATE(created_at)=?",nil,d_today])
-    #   @complete_tasks = @list.completed_tasks(@user).where('DATE(completed_at) BETWEEN ? AND ?' , d_yesterday , d_today ).order('completed_at')
-    # end
-    # Never trust parameters from the scary internet, only allow the white list through.
-
-    def list_params
-      params.require(:list).permit(:name, :description, :avatar, :date)
-    end
+  def list_params
+    params.require(:list).permit(:name, :description, :avatar, :date)
+  end
 end
