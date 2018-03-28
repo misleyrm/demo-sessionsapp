@@ -40,6 +40,7 @@
         switch data.status
           when 'saved'
             $task.replaceWith html
+            dropdown("#task_#{data['id']} .dropdown-button","false");
             $('.edit_task').submitOnCheck()
             deadlineDatepicker($('input.deadline-datepicker'));
             $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
@@ -51,24 +52,23 @@
               $('.bar-number-task', $listNav).html data['num']
               $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
             if (data.blocker) && (data.numBlockers == 0)
-              $('i', $menuAddBlocker).removeClass('md-red').addClass('md-dark md-inactive')
+              $('i', $menuAddBlocker).removeClass('md-red').addClass('md-grey')
               $('i', $menuAddBlocker).attr("data-hasblockers","false")
               $menuAddBlocker.siblings('i').attr("data-hasblockers","false")
           when 'important'
             if (data.important)
-              $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-dark md-inactive').addClass('md-jellow')
+              $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-grey').addClass('md-jellow')
             else
-              $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-jellow').addClass('md-dark md-inactive')
+              $('#menu >ul.menu-option li i#md-important', $task).removeClass('md-jellow').addClass('md-grey')
           when 'deletedeadline'
               $('ul.menu-information li.ms-deadline', $task).removeClass('active')
-              if  !($('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive'))
-                $('#menu >ul.menu-option li i.i-btn-datepicker', $task).addClass('md-dark md-inactive').removeClass('md-red')
+              $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-red').addClass('md-grey')
               $('p#alternate', $task).html('')
           when 'deadline'
             if (data.deadline != "") || (data.deadline != "null")
               $('ul.menu-information li.ms-deadline', $task).addClass('active')
-              if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-dark md-inactive')
-                $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-dark md-inactive').addClass('md-red')
+              if  $('#menu >ul.menu-option li i.i-btn-datepicker', $task).hasClass('md-grey')
+                $('#menu >ul.menu-option li i.i-btn-datepicker', $task).removeClass('md-grey').addClass('md-red')
               $('p#alternate', $task).html(data.deadline)
           when 'changelist'
             $("#task_"+ data.id + " #menu .tooltipped").tooltip('remove')
@@ -81,6 +81,7 @@
               $task.remove()
             else
               $task.replaceWith html
+              dropdown("#task_#{data['id']} .dropdown-button","false");
               $task_all_task = $('[data-task-id = "' + data.id + '"]', $listAllTask)
               if ($("ul.menu-information #list_name", $task_all_task).length > 0)
                 $("ul.menu-information #list_name", $task_all_task).html data['list_name']
@@ -109,6 +110,7 @@
             $("#task_"+ data.id + " #menu .tooltipped", $divCompleted ).tooltip('remove')
             $task.remove()
             $incomplete.prepend html
+            dropdown("#task_#{data['id']} .dropdown-button","false");
             deadlineDatepicker($('input.deadline-datepicker'));
             $lineDate = $('[data-date = "'+ data.num_date+'"]', $divCompleted)
             if ((data['num_completed_tasks_date'] == 0) && ($lineDate.length != 0))
@@ -120,24 +122,23 @@
 
         deadlineDatepicker($('input.deadline-datepicker',$list ))
       else
-        if data.blocker
-            $t_blockers = $("#show_blockers_#{data.parentId}")
+        if data['blocker']
+            $t_blockers = $("#show_blockers_#{data['parentId']}")
             $t_blockers.prepend html
             $('.tooltipped').tooltip({delay: 50})
             if !($('i',$menuAddBlocker).hasClass('md-red'))
               $('i',$menuAddBlocker).addClass('md-red')
-              $('i',$menuAddBlocker).removeClass('md-inactive')
+              $('i',$menuAddBlocker).removeClass('md-grey')
             $('i[data-hasblockers]',$menuAddBlocker).attr("data-hasblockers","true")
             $menuAddBlocker.siblings('i[data-hasblockers]').attr("data-hasblockers","true")
             $('.edit_task').submitOnCheck()
         else
           $incomplete.prepend html
-          alert("create")
           $("#list_user_#{data['user']} .new_task input#task_detail").val('');
           if (data.num != '')
             $('.bar-number-task', $listNav).html data['num']
             $('.bar-number-task', $listAllTaskNav).html data['numAllTask']
           deadlineDatepicker($('input.deadline-datepicker'));
-          dropdown("#task_#{data.id} .dropdown-button","false");
+          dropdown("#task_#{data['id']} .dropdown-button","false");
           $('.tooltipped').tooltip({delay: 50})
           $('.edit_task').submitOnCheck()

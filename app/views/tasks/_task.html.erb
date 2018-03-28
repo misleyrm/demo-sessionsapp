@@ -42,7 +42,7 @@
 					</li>
 					<li>
 						<% if !task.completed? %>
-							 <%= content_tag :a, class: "dropdown-button", href: "#", data: {"activates" => "dropdownlist_#{task.id}", "hover" => "false"} do%>
+							 <%= content_tag :a, class: "dropdown-button", href: "#", data: {"activates" => "dropdownlist_#{task.id}", "hover" => "false"},id: "dropdown_list_#{task.id}" do%>
 								 <i class="tooltipped material-icons md-1rem md-grey" data-position="top" data-delay="50" data-tooltip="Change task to another list">view_list</i>
 							 <% end %>
 							 <ul id="dropdownlist_<%= task.id%>" class="dropdown-list">

@@ -71,7 +71,8 @@ $(document).on('turbolinks:load',function(){
   var $table_of_task = $(".table-of-task"),
       c= 0;
 
-  dropdown(".dropdown-button",false);
+  // dropdown(".dropdown-button",false);
+  dropdown("[id^=dropdown_list_]","false");
   deadlineDatepicker($('input.deadline-datepicker'));
 
   $('.mentions').mentionUsers();
@@ -280,7 +281,6 @@ $(document).on('turbolinks:load',function(){
 
      // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
     $(document).on('keydown','#new_task >input#detail', function(event) {
-      alert(event.keyCode);
       if (event.keyCode === 13) {
         $(this).parents("form").submit();
         event.target.value = "";
