@@ -23,6 +23,7 @@
       if (data.status == 'changelist')
         $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
         $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
+        $listBeforeNav = $('[data-nav-list-id = "' + data.list_before + '"]', $nav)
         $beforeList = $('[data-list-id = "' + data.list_before+ '"]', $pageContent)
         $listAllTask = $('[data-list-id = "' + data.list_all_task_id + '"]', $pageContent)
 
@@ -89,9 +90,10 @@
                 listNamehtml = "<li><p id='list_name'>#{data["list_name"]}</p></li>"
                 $("ul.menu-information", $task_all_task).prepend listNamehtml
               $('.edit_task').submitOnCheck()
-            if (data.num != '')
-              $('.bar-number-task', $listNav).html data['num']
-              $('.bar-number-task', $listChangeNav).html data['num_list_change']
+            if (data['num'] != '')
+              $('.bar-number-task', $listBeforeNav).html data['num']
+              console.log data["num_list_change"]
+              $('.bar-number-task', $listChangeNav).html data["num_list_change"]
           when 'completed'
             $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
             $task.remove()
@@ -133,6 +135,7 @@
             $menuAddBlocker.siblings('i[data-hasblockers]').attr("data-hasblockers","true")
             $('.edit_task').submitOnCheck()
         else
+          console.log $incomplete
           $incomplete.prepend html
           $("#list_user_#{data['user']} .new_task input#task_detail").val('');
           if (data.num != '')

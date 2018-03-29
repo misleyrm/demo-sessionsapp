@@ -18,8 +18,6 @@ document.addEventListener("turbolinks:load", function(){
 
     $('li[id^="drop_zone_"]').each(function (e){
       myDroppable($(this));
-
-
     })
 
 });
@@ -29,7 +27,6 @@ function mySortable(elem){
   elem.sortable({
     update: function(e,ui){
       // send the updated order via ajax
-      console.log("1");
        $.ajax({
            type: "PUT",
            url: $(this).data("url"),
@@ -42,10 +39,11 @@ function mySortable(elem){
 
 
 function myDroppable(elem){
+    var disabled = elem.hasClass("active")? true : false;
     elem.droppable({
         hoverClass: 'ui-state-active',
         tolerance: 'pointer',
-        disable:elem.hasClass("active")? 'true':'false',
+        disabled: disabled,
         accept: function (event, ui) {
             return true;
         },

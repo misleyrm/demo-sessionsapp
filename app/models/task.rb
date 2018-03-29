@@ -104,7 +104,6 @@ class Task < ApplicationRecord
     data["blocker"]= is_blocker?
     data["parentId"]= self.parent_task_id
     data["id"]= self.id
-    data["current_list"] = List.current.id
     data["status"]= 'created'
     if (is_blocker?)
       data["partial"] = 't_blocker'
@@ -113,7 +112,9 @@ class Task < ApplicationRecord
       data["user"] = self.parent_task.user_id
       list_id = data["list_id"] = self.parent_task.list_id
       data["all_task_id"] = self.parent_task.user.all_task.id
+      data["current_list"] = self.parent_task.list_id
     else
+      data["current_list"] = self.list_id
       data["partial"] = 'task'
       data["num"] = self.user.num_incompleted_tasks(List.find(self.list_id))
       data["numAllTask"] = self.user.num_incompleted_tasks(self.user.all_task)
@@ -153,8 +154,8 @@ class Task < ApplicationRecord
     if (self.previous_changes.key?(:list_id) &&
       self.previous_changes[:list_id].first != self.previous_changes[:list_id].last)
       data["status"] = 'changelist'
-      data["num"] = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].first))
-      data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].last))
+      data["num"] = self.user.num_incompleted_tasks(List.find(self.list_before))
+      data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.list_id))
       data["list_name"] = self.list.name
       data["list_change"]= self.list_id
       data["list_before"]= self.list_before

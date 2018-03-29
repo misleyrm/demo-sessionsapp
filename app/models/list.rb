@@ -18,9 +18,10 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   after_commit :broadcast_update,on: [:update]
-
+  after_destroy :broadcast_delete
 
   before_save :capitalize_name
+
 
   def owner_name
     self.owner.name
@@ -108,6 +109,14 @@ class List < ApplicationRecord
     #    status = 'saved'
     #    ActionCable.server.broadcast "list_channel", { html: render_task(self,partial),user: user, id: self.id, status: status,list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }
     # end
+  end
+
+  def broadcast_delete
+    data = Hash.new
+    data[task_ids] = Task.where(list_id: self.id).ids
+    Task.where(list_id: self.id).delete_all
+
+    #call action cable to remove all tasks from the front end
   end
 
   def broadcast_save

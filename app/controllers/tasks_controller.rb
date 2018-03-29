@@ -43,6 +43,7 @@ class TasksController < ApplicationController
       end
     else
       @task = current_list.tasks.build(task_params)
+      List.current = nil
       @list = List.current = current_list
       if @task.save
         tag_emails = @task.mention_emails
