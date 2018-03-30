@@ -18,7 +18,7 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   after_commit :broadcast_update,on: [:update]
-  after_destroy :broadcast_delete
+  before_destroy :tasks_delete
 
   before_save :capitalize_name
 
@@ -48,16 +48,6 @@ class List < ApplicationRecord
     !self.avatar.blank?
   end
 
-  def active_collaborators
-    # active collaborators users
-    # byebug
-    # # active_collaborators = self.collaborations.joins(:user).where.not(collaborations: {collaboration_date: nil})
-    # active_collaborators = self.collaboration_users.joins(:collaborator).where.not(collaborations: {collaboration_date: nil})
-    #
-    # active_collaborators.each do |collaborator_user|
-    #   byebug
-    # end
-  end
 
   def pending_invitation
     self.invitations.where(["active!=?",true]).order('sent_at DESC')
@@ -111,9 +101,9 @@ class List < ApplicationRecord
     # end
   end
 
-  def broadcast_delete
-    data = Hash.new
-    data[task_ids] = Task.where(list_id: self.id).ids
+  def tasks_delete
+    # data = Hash.new
+    # data[task_ids] = Task.where(list_id: self.id).ids
     Task.where(list_id: self.id).delete_all
 
     #call action cable to remove all tasks from the front end

@@ -44,7 +44,7 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def showTask?
-      user.owner?(task.try(:list)) || task.try(:user) == user
+      (user.owner?(task.try(:list)) || task.try(:user) == user)
   end
 
   def sort?

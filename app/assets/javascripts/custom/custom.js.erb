@@ -72,6 +72,7 @@ jQuery.fn.mentionUsers = function(){
     c= 0;
 
     // dropdown(".dropdown-button",false);
+    $('#ms-modal-dialog').modal('close');
     dropdown("[id^=dropdown_list_]","false");
     deadlineDatepicker($('input.deadline-datepicker'));
 
@@ -141,6 +142,7 @@ jQuery.fn.mentionUsers = function(){
     // Modal for view
     var modal_holder_selector;
     modal_holder_selector = "#modal-holder";
+
     $(document).on("click", "[data-behavior='modal']", function() {
       var location;
       location = $(this).attr("href");
@@ -282,13 +284,6 @@ jQuery.fn.mentionUsers = function(){
       }
     });
 
-    // $('form#new_task input#detail').on('keydown', function(event) {
-    //   if (event.keyCode === 13) {
-    //     $(this).parents("form").submit();
-    //     event.target.value = "";
-    //     return event.preventDefault();
-    //   }
-    // });
 
     // Functions
 
@@ -364,8 +359,6 @@ jQuery.fn.mentionUsers = function(){
           }
         }
 
-        // $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
-        // $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
 
         function mouseOutAvatar(){
           if ($('div.mousehover',this).hasClass('active')){
@@ -529,4 +522,44 @@ jQuery.fn.mentionUsers = function(){
           $panel_headers = $this.find('div.collapsible-header'),
           $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
           $arrow.animateRotate(90,0, 250, "linear");
+        }
+
+
+        function droppable_all(elem){
+          $(elem).each(function (e){
+            myDroppable($(this));
+          })
+        }
+
+        function myDroppable(elem){
+          var disabled = elem.hasClass("active")? true : false;
+          elem.droppable({
+            hoverClass: 'ui-state-active',
+            tolerance: 'pointer',
+            disabled: disabled,
+            accept: function (event, ui) {
+              return true;
+            },
+            drop: function (event, ui) {
+              var obj;
+              if ($(ui.helper).hasClass('draggable')) {
+                // ui.draggable.css( "color", "red" )
+                // console.log(ui.draggable);
+                var taskId = ui.draggable.data("task-id"),
+                currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
+                listId = elem.data("nav-list-id"),
+                url = "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId;
+                // console.log(url);
+                // ui.draggable.remove();
+                $.ajax({
+                  type: "patch",
+                  url: url,
+                  data: "",
+                  success: function(){
+                    Materialize.toast("Task changed to the new list successfully", 4000);
+                  }
+                });
+              }
+            }
+          })
         }

@@ -231,7 +231,7 @@ class UsersController < ApplicationController
 
   def user_not_authorized
     flash[:alert] = "You are not cool enough to do this - go back from whence you came."
-    redirect_to(sessions_path)
+    redirect_to(root_path)
   end
 
   # Use callbacks to share common setup or constraints between actions.

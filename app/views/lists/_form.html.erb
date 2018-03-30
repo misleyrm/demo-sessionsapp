@@ -1,10 +1,6 @@
 <%= form_for(@list, url: (@list.new_record?) ? "/lists" : list_url(@list), method: :post, :html=>{id: "list-new"}, :data => {new: (@list.new_record?)? "create" : "update"},remote: true) do |f| %>
       <%= hidden_field_tag 'id', @list.id%>
-      <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <input type='hidden' name='_method' value="<%=(@list.new_record?) ? "post" : "put"%>">
-      <%= content_tag "div", id: "flash_message" do%>
-        <%= render 'shared/flash_messages' if !flash.empty? %>
-      <% end %>
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>

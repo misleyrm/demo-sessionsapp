@@ -49,6 +49,7 @@ class ListsController < ApplicationController
       mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
       @collaboration_users = User.where(id: mention_by)
     end
+    gon.startDate = startDate
     respond_to do |format|
       format.html { redirect_to root_path}
       format.json { render json: @list }
@@ -107,10 +108,12 @@ class ListsController < ApplicationController
       flash[:notice] = "List was successfully created."
       @_current_list = session[:list_id] = List.current = nil
       session[:list_id] = @list.id
-      respond_to do |format|
-        format.html { redirect_to root_path(@list) }
-        format.js
-      end
+      gon.startDate = startDate
+      # respond_to do |format|
+      #   format.html { redirect_to root_path(@list) }
+      #   format.js
+      # end
+      redirect_to root_path(@list)
 
     else
       flash[:danger] = "We can't create the list."
@@ -167,11 +170,11 @@ class ListsController < ApplicationController
       @list = session[:list_id] = List.current = @user.all_task
 
       flash[:notice] = "List was successfully destroyed."
-
-      respond_to do |format|
-        format.html { redirect_to root_path(@list)}
-        format.js
-      end
+      redirect_to root_path(@list)
+      # respond_to do |format|
+      #   format.html { }
+      #   format.js
+      # end
     end
   end
 

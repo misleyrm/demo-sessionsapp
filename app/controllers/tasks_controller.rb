@@ -210,6 +210,10 @@ def incomplete
 end
 
 def changelist
+  authorize @task
+  list = List.find(params[:list_id])
+
+  # if list.collaborator_users.include(@task.user) 
   @task.update_attribute(:list_id, params[:list_id])
   flash[:notice] = "Task changed to the new list successfully"
 end

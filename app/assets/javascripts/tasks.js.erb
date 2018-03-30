@@ -16,9 +16,7 @@ document.addEventListener("turbolinks:load", function(){
       mySortable($(this));
     })
 
-    $('li[id^="drop_zone_"]').each(function (e){
-      myDroppable($(this));
-    })
+    droppable_all('li[id^="drop_zone_"]');
 
 });
 
@@ -35,38 +33,4 @@ function mySortable(elem){
     }
   });
   }
-}
-
-
-function myDroppable(elem){
-    var disabled = elem.hasClass("active")? true : false;
-    elem.droppable({
-        hoverClass: 'ui-state-active',
-        tolerance: 'pointer',
-        disabled: disabled,
-        accept: function (event, ui) {
-            return true;
-        },
-        drop: function (event, ui) {
-            var obj;
-            if ($(ui.helper).hasClass('draggable')) {
-                // ui.draggable.css( "color", "red" )
-                // console.log(ui.draggable);
-                var taskId = ui.draggable.data("task-id"),
-                    currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
-                    listId = elem.data("nav-list-id"),
-                    url = "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId;
-                // console.log(url);
-                // ui.draggable.remove();
-                $.ajax({
-                    type: "patch",
-                    url: url,
-                    data: "",
-                    success: function(){
-                      Materialize.toast("Task changed to the new list successfully", 4000);
-                    }
-                });
-            }
-        }
-    })
 }
