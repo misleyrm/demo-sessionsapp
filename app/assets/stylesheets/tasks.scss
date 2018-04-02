@@ -24,8 +24,9 @@
   display: inline-block;
 }
 
-.tasks .task-detail>p{
-  font-size: .9rem;
+.tasks .task-detail > p{
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .tasks ul.menu-information >li,
@@ -46,7 +47,7 @@
 
 .table-of-task [type="checkbox"]:checked+label:before {
   width: 8px;
-  height: 18px;
+  height: 15px;
 }
 
 .table-of-task [type="checkbox"]+label {
@@ -77,8 +78,8 @@
 }
 
 .table-of-task ul.menu-information{
-  font-size: .8rem;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 14px;
   color: #a4a6a9;
 }
 
@@ -97,7 +98,7 @@
 }
 
 form.edit_task [type="checkbox"] + label {
-  height: 20px;
+  height: 18px;
 }
 
 .menu-information li:not(:first-child):before {

@@ -40,6 +40,7 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def changelist?
+    byebug
       user.owner?(task.try(:list)) || task.try(:user) == user
   end
 

@@ -2,11 +2,14 @@
   <%= content_tag :a, id: "#{list.id}", href: "#",data: {"href"=> "#{list_path(list)}"}, :remote =>"true"  do %>
       <%= yield %>
       <div class="right">
-        <% if (list.collaborations?) && (list.collaboration_users.count!=0) %>
+        <!-- <% if (list.collaborations?) && (list.collaboration_users.count!=0) %>
             <i class="material-icons bar-collaboration-icon">group</i>
-        <% end %>
+        <% end %> -->
         <%= content_tag :span, class: "bar-number-task" do %>
-           <%="#{user.num_incompleted_tasks(list)}"%>
+          <% if (list.collaborations?) && (list.collaboration_users.count!=0) %>
+              <i class="material-icons bar-collaboration-icon md-15">group</i>
+          <% end %>
+          <%= "#{user.num_incompleted_tasks(list)}" %>
         <% end %>
      </div>
   <% end %>

@@ -132,7 +132,8 @@ div .card{
 }
 
 .container{
-  padding-top: 20px;
+  width: 100%;
+  padding: 20px 65px 20px 15px;
 }
 
 .card .card-content a[class="btn"],
@@ -331,9 +332,9 @@ i.small {
     font-size: .8rem;
 }
 
-.material-icons.md-1rem {
-    font-size: 1rem;
-}
+.material-icons.md-1rem { font-size: 1rem;}
+.material-icons.md-9rem { font-size: .9rem;}
+
 .uppercase{
   text-transform: uppercase;
 }
@@ -361,6 +362,11 @@ i.small {
 .divider100{
   height: 100px;
   display: block;
+}
+
+.divider12 {
+    height: 12px;
+    display: block;
 }
 
 .md-jellow{
@@ -541,6 +547,7 @@ small {
 
 /********* material-icons ***************/
 .material-icons.md-18 { font-size: 18px; }
+.material-icons.md-15 { font-size: 15px; }
 
 .material-icons.md-grey { color: rgba(0, 0, 0, 0.26)!important; }
 .material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26)!important; }
@@ -939,23 +946,28 @@ a.ui-button:active,
 /********* End Modal *********/
 /********** User Img *********/
 #list-users .chip.user-img{
-  margin-top: 1.3rem;
-  border: 1px solid hsla(0, 0%, 89%, 0.94);
+  margin-top: 17.5px;
+	height: 35px;
+  width: 35px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+  position: absolute;
 }
 
 #list-users .ms-user-tasks {
-  padding-left: 4rem;
-}
-
-#list-users .chip.user-img {
-  position: absolute;
+  /* padding-left: 4rem; */
+  margin-left: 50px;
+  padding: 30px;
+  max-width: 1060px;
+  border: 0.25px solid #50C2BB;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);}
 }
 
 #list-users .chip img, #list-users .chip,
 ul#bar-user-informations li.bar-user-info > a > img,
 .user-info > a > img {
-   width: 43px;
-   height: 43px;
+   width: 35px;
+   height: 35px;
    border-radius: 50%;
 }
 
@@ -1203,7 +1215,7 @@ li.ms-deadline.active{
 }
 
 .nav-main .left{
-   line-height: 60px;
+   line-height: 75px;
 }
 
 .ms-avatar-ini{
@@ -1304,7 +1316,7 @@ button.close {
 .nav-main .left .divider{
   height: 33.6px;
   margin: 0px;
-  margin-left: 1.2rem;
+  /* margin-left: 1.2rem; */
   vertical-align: middle;
 }
 

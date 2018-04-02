@@ -19,7 +19,7 @@
 					<li>
 						<% if !task.completed? %>
 							 <%= link_to importanttask_task_path(id: task.id, currentList: current_list.id ), :method=> :patch, remote: true do %>
-									 <i class="tooltipped material-icons md-1rem <%= (task.important?)? 'md-jellow' : 'md-grey'  %>" id="md-important" data-position="top" data-delay="50" data-tooltip="Mark as important">&#xE838;</i>
+									 <i class="tooltipped material-icons md-9rem <%= (task.important?)? 'md-jellow' : 'md-grey'  %>" id="md-important" data-position="top" data-delay="50" data-tooltip="Mark as important">&#xE838;</i>
 							 <% end %>
 						<% end %>
 					</li>
@@ -27,7 +27,7 @@
 						<% if !task.completed? %>
 							 <div class="input-group">
 								<input type="text" class="tooltipped deadline-datepicker hidden-datepicker" id="deadline_<%= task.id%>" data-position="top" data-delay="50" data-tooltip="Add deadline">
-								<%= content_tag :i, class: "i-btn-datepicker material-icons md-1rem #{(task.deadline?)? 'md-red' : 'md-grey'}", id: "btn-datepicker_#{task.id}", data: {"href" => "#{ add_deadline_task_path(id: task.id)}", "href-delete-deadline"=> "#{ delete_deadline_task_path(id: task.id)}" } do%>
+								<%= content_tag :i, class: "i-btn-datepicker material-icons md-9rem #{(task.deadline?)? 'md-red' : 'md-grey'}", id: "btn-datepicker_#{task.id}", data: {"href" => "#{ add_deadline_task_path(id: task.id)}", "href-delete-deadline"=> "#{ delete_deadline_task_path(id: task.id)}" } do%>
 									&#xE858;
 								<% end%>
 							</div>
@@ -36,14 +36,14 @@
 					<li>
 						<% if !task.completed? %>
 							 <%= link_to edit_list_task_path(list_id: task.list_id, id: task.id, currentList: current_list.id ), remote: true, data: { behavior: 'modal' } do %>
-									 <i class="tooltipped material-icons md-1rem md-grey" data-position="top" data-delay="50" data-tooltip="Edit Task">mode_edit</i>
+									 <i class="tooltipped material-icons md-9rem md-grey" data-position="top" data-delay="50" data-tooltip="Edit Task">mode_edit</i>
 							 <% end %>
 						<% end %>
 					</li>
 					<li>
 						<% if !task.completed? %>
 							 <%= content_tag :a, class: "dropdown-button", href: "#", data: {"activates" => "dropdownlist_#{task.id}", "hover" => "false"},id: "dropdown_list_#{task.id}" do%>
-								 <i class="tooltipped material-icons md-1rem md-grey" data-position="top" data-delay="50" data-tooltip="Change task to another list">view_list</i>
+								 <i class="tooltipped material-icons md-9rem md-grey" data-position="top" data-delay="50" data-tooltip="Change task to another list">view_list</i>
 							 <% end %>
 							 <ul id="dropdownlist_<%= task.id%>" class="dropdown-list">
 			 					<% @lists = User.find(task.user_id).created_lists.all.order('created_at')%>
@@ -73,14 +73,14 @@
 					</li>
 					<li>
 							<%= link_to task, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, remote: true do %>
-								 <i class="tooltipped material-icons md-1rem md-grey" data-position="top" data-delay="50" data-tooltip="Delete task">cancel</i>
+								 <i class="tooltipped material-icons md-9rem md-grey" data-position="top" data-delay="50" data-tooltip="Delete task">cancel</i>
 							<% end %>
 					</li>
 					<li>
 						<% if !task.completed? %>
 							 <i class="material-icons md-18 md-red" data-hasblockers="<%= !task.t_blockers.blank? %>" >warning</i>
 							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: "link-blocker_#{task.id}", remote: true, data: { behavior: 'modal' }  do %>
-									<%= content_tag :i, class: "tooltipped material-icons md-18 md-#{(!task.t_blockers.blank?) ? 'red' : 'grey'}", data: {"position"=> "top", "delay"=>"50","tooltip"=>"Add blocker", "hasblockers"=>"#{!task.t_blockers.blank?}"} do%>
+									<%= content_tag :i, class: "tooltipped material-icons md-9rem md-#{(!task.t_blockers.blank?) ? 'red' : 'grey'}", data: {"position"=> "top", "delay"=>"50","tooltip"=>"Add blocker", "hasblockers"=>"#{!task.t_blockers.blank?}"} do%>
 											warning
 									<% end %>
 							 <% end %>
