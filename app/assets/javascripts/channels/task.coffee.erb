@@ -92,15 +92,15 @@
               $('.edit_task').submitOnCheck()
             if (data['num'] != '')
               $('.bar-number-task', $listBeforeNav).html data['num']
-              console.log data["num_list_change"]
               $('.bar-number-task', $listChangeNav).html data["num_list_change"]
           when 'completed'
             $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
             $task.remove()
             if ($('[data-date = "0"]', $divCompleted).length == 0)
-              $divCompleted.prepend '<div class="line-behind" data-date="0">Today</div>'
-            $insertCompleted = $('[data-date = "0"]', $divCompleted)
-            $( html ).insertAfter $insertCompleted
+              $divCompleted.prepend '<div class="week-days" data-date="0"><span>Today</span><i class="material-icons md-18 ms-open-button" style="transform: rotate(90deg);">keyboard_arrow_right</i></div>'
+            $insertCollapsible = $('[data-date = "0"]', $divCompleted).parent()
+            $insertCompleted = $insertCollapsible.siblings(".collapsible-body")
+            $insertCompleted.prepend(html)
             $('.tooltipped').tooltip({delay: 50})
             if ($('.divider', $user).hasClass('no-active'))
               $('.divider', $user).removeClass('no-active')

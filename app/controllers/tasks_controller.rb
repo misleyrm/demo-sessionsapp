@@ -10,7 +10,7 @@ class TasksController < ApplicationController
   before_action :set_current_list           #, only: [ :changelist, :complete, :incomplete]
   before_action :saved_list, only: [:changelist, :update, :complete ]
 
-  
+
   def new
     if (params[:type].present? || params[:type]=="blocker")
       @t_blocker = @task.t_blockers.build
@@ -28,6 +28,7 @@ class TasksController < ApplicationController
     #  authorize @task
     if params[:type].present?
       @t_blocker = @task.t_blockers.build(task_params)
+      @t_blocker.current_user_id = current_user.id
       if @t_blocker.save
         tag_emails = @t_blocker.mention_emails
         sender = current_user
@@ -45,6 +46,7 @@ class TasksController < ApplicationController
       @task = current_list.tasks.build(task_params)
       List.current = nil
       @list = List.current = current_list
+      @task.current_user_id = current_user.id
       if @task.save
         tag_emails = @task.mention_emails
         sender = current_user
@@ -210,12 +212,14 @@ class TasksController < ApplicationController
   end
 
   def changelist
-    authorize @task
-    list = List.find(params[:list_id])
-
-    # if list.collaborator_users.include(@task.user)
-    @task.update_attribute(:list_id, params[:list_id])
-    flash[:notice] = "Task changed to the new list successfully"
+    @task.list_after = list = List.find(params[:list_id])
+    if authorize @task
+      # if list.collaborator_users.include(@task.user)
+      @task.update_attribute(:list_id, params[:list_id])
+      flash[:notice] = "Task changed to the new list successfully"
+    else
+      flash[:notice] = "Access denied"
+    end
   end
 
   def showTask
@@ -237,12 +241,10 @@ class TasksController < ApplicationController
     params[:task].each_with_index do |id, index|
       Task.where(id: id).update_all(position: index + 1)
     end
-
     head :ok
   end
 
   private
-
 
   def set_user
     @user = User.find((!task_params[:user_id].blank?) ? task_params[:user_id] : current_user.id)
@@ -254,7 +256,7 @@ class TasksController < ApplicationController
     else
       @task= Task.find(params[:id])
     end
-
+    @task.current_user_id = current_user.id
   end
 
   def set_current_list

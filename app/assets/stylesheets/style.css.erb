@@ -241,6 +241,7 @@ nav .chip > i{
   font-family: "Proxima Nova";
   font-size: 14px;
   font-weight: 50px;
+  display: inline-block;
 }
 
 .ms-modal-main{
@@ -513,6 +514,13 @@ select{
   padding:0
 }
 
+i.ms-open-button {
+  -webkit-transform-origin: center;
+  -moz-transform-origin: center;
+  -o-transform-origin: center;
+  transform-origin: center;
+}
+
 nav.top-nav {
   height:122px;
   -webkit-box-shadow:none;
@@ -545,6 +553,12 @@ nav ul li.no-hover:hover{
   transform: translate3d(0,0,0);
   height: auto;
 
+
+}
+
+.navigationbar .side-nav{
+  border-right: 1px solid #50c2bb6b;
+  background-color: white;
 }
 
 .navigationbar ul {
@@ -733,6 +747,13 @@ ul#bar-user-informations li.bar-user-info a> div{
   ul.user-lists li a.ms-add-list{
     padding: 0 .5rem 0 3.3rem;
     line-height: 52px;
+  }
+
+  ul.user-lists li.title{
+    text-transform: uppercase;
+  	color: #87888A;
+    font-size: 10px;
+    padding: 0 20px;
   }
 
   ul.user-lists li a.ms-add-list i{
@@ -1501,6 +1522,10 @@ ul#bar-user-informations li.bar-user-info a> div{
 
         #ms-tabsSetting {
           padding-left: 160px;
+        }
+
+        .navigationbar {
+            transform: translateX(-105%);
         }
       }
 

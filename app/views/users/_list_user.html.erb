@@ -7,10 +7,9 @@
         <!-- INCOMPLETE TASKS -->
         <div class="tasks table-of-task incomplete_tasks" id="incomplete_tasks_<%= user.id%>" data-url="<%= sort_list_tasks_path(list,'user_id': user.id)%>" >
           <% for task in user.incompleted_tasks_by_date(list,current_date) %>
-            <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task, :list => list, :current_list => list} %>
+            <%= render :partial => "tasks/task", :locals =>{ :currentUser => current_user, :task => task, :list => list, :current_list => list} %>
           <% end %>
         </div>
-        <div class="divider <%= (user.completed_tasks_by_date(list,current_date).count == 0) ? 'no-active' : '' %>"></div>
         <!-- COMPLETED TASKS -->
         <div class="tasks table-of-task complete_tasks" id="complete_tasks_<%= user.id%>">
            <%= render :partial => "users/completed_task", :locals =>{ :user => user, :list => list,:current_date => current_date} %>

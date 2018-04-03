@@ -71,6 +71,7 @@ jQuery.fn.mentionUsers = function(){
     var $table_of_task = $(".table-of-task"),
     c= 0;
 
+    msCollapsible("collapsible");
     // dropdown(".dropdown-button",false);
     $('#ms-modal-dialog').modal('close');
     dropdown("[id^=dropdown_list_]","false");
@@ -505,22 +506,26 @@ jQuery.fn.mentionUsers = function(){
         };
 
         function msCollapsible(clase){
-          $('.'+ clase).collapsible({
-            onOpen: function(el) {
-              var $this = el,
-              $panel_headers = $this.find('div.collapsible-header'),
-              $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-              $arrow.animateRotate(0,90, 250, "linear");
-            }, // Callback for Collapsible open
-            onClose: collapsibleClose
-          });
+          $('.'+ clase).each(function(){
+            console.log($(this));
+            $(this).collapsible({
+              onOpen: function(el) {
+                var $this = el,
+                $panel_headers = $this.find('div.collapsible-header'),
+                $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+                $arrow.animateRotate(0,90, 250, "linear");
+              },
+              onClose: collapsibleClose
+            });
 
-        }
+        })
+      }
 
         function collapsibleClose(e){
           var $this = e,
           $panel_headers = $this.find('div.collapsible-header'),
           $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+          // $arrow.css('transform-origin','center');
           $arrow.animateRotate(90,0, 250, "linear");
         }
 

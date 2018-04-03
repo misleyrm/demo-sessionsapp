@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   include ActiveModel::Dirty
 
   # sdefine_attribute_methods :list_id
-  attr_accessor :t_blocker_attributes, :completed, :list_before, :detail_before, :current_user_id
+  attr_accessor :t_blocker_attributes, :completed, :list_before, :list_after, :detail_before, :current_user_id
   belongs_to :list
   belongs_to :user
   belongs_to :assigner_user, class_name: "User"
@@ -66,6 +66,7 @@ class Task < ApplicationRecord
     data["blocker"]= is_blocker?
     data["id"]= self.id
     data["current_list"] = List.current.id
+    data["current_user_id"]= self.current_user_id
     #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
       data["parentId"] = self.parent_task.id
@@ -105,6 +106,7 @@ class Task < ApplicationRecord
     data["parentId"]= self.parent_task_id
     data["id"]= self.id
     data["status"]= 'created'
+    data["current_user_id"]= self.current_user_id
     if (is_blocker?)
       data["partial"] = 't_blocker'
       data["num"] = ''
@@ -138,6 +140,7 @@ class Task < ApplicationRecord
     data["num"] = ''
     data["numAllTask"] = ''
     data["current_list"] = List.current.id
+    data["current_user_id"]= self.current_user_id
     if (is_blocker?)
       data["partial"] = 't_blocker'
       data["user"] = self.parent_task.user_id

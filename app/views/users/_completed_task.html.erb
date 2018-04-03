@@ -1,9 +1,17 @@
 <% 5.times do |i| %>
   <% date = current_date - i.days %>
   <% if !user.completed_tasks_by_date(list,date).blank? %>
-    <%= render :partial => "shared/line_behind_date", :locals =>{ :date => date, :i => i } %>
-    <% for task in user.completed_tasks_by_date(list,date) %>
-      <%= render :partial => "tasks/task", :locals =>{ :user => user, :task => task,:list => list, :current_list => list } %>
-    <% end %>
+  <ul class="collapsible">
+    <li class="active">
+      <div class="collapsible-header active">
+        <%= render :partial => "shared/line_behind_date", :locals =>{ :date => date, :i => i } %>
+      </div>
+      <div class="collapsible-body">
+        <% for task in user.completed_tasks_by_date(list,date) %>
+          <%= render :partial => "tasks/task", :locals =>{ :currentUser => current_user, :task => task,:list => list, :current_list => list } %>
+        <% end %>
+      </div>
+    </li>
+  </ul>
   <% end %>
 <% end %>
