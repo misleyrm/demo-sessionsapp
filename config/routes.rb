@@ -115,6 +115,7 @@ Rails.application.routes.draw do
         patch :complete
         patch :incomplete
         patch :changelist
+        patch :changeuser
         patch :importanttask
       end
     end

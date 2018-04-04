@@ -1,4 +1,4 @@
-<%= content_tag :div, id: "list_user_#{user.id}", data:{"user-id": "#{user.id}"} do%>
+<%= content_tag :div, id: "list_user_#{user.id}", data:{"user-id": "#{user.id}" , "draggable-tasks": "#{ permitted? ? true : false}"} do%>
     <%= render :partial => "users/user_img", :locals =>{ :user => user } %>
     <%= content_tag :div, class: "ms-user-tasks #{permitted_user?(user.id) ? 'permitted' : 'no-permitted'}" do%>
         <div class="new-task">

@@ -1,0 +1,4 @@
+
+<% if @task.errors.any? %>
+  $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @task } %>");
+<% else %>

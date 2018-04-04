@@ -14,8 +14,15 @@ module ApplicationHelper
   # def is_today?(date)
   #   (date == Date.today)
   # end
-
-
+  def active_collaborator(list)
+    users = User.where(id: session[:active_collaborations])
+    byebug
+    if list.collaboration_users.include?(users.first)
+      @active_collaborator = User.where(id: session[:active_collaborations])
+    else
+      @active_collaborator = ''
+    end
+  end
 
   # def task_created(task)
   #   created = (task.created_at.to_date.today?)? 'today' : 'before'

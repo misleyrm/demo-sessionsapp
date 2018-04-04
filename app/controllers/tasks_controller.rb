@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   before_action :require_logged_in
   before_action :set_task,  if: -> { !params[:type].blank? || !params[:id].blank? }
   before_action :set_user, only: [:create, :index ]
-  before_action :set_current_list           #, only: [ :changelist, :complete, :incomplete]
+  before_action :set_current_list, :except => [:changelist]
   before_action :saved_list, only: [:changelist, :update, :complete ]
 
 
@@ -212,14 +212,41 @@ class TasksController < ApplicationController
   end
 
   def changelist
+
     @task.list_after = list = List.find(params[:list_id])
-    if authorize @task
-      # if list.collaborator_users.include(@task.user)
-      @task.update_attribute(:list_id, params[:list_id])
-      flash[:notice] = "Task changed to the new list successfully"
-    else
-      flash[:notice] = "Access denied"
-    end
+    List.current = @task.list
+     respond_to do |format|
+      if can_change_list?(@task)
+        if @task.update_attribute(:list_id, params[:list_id])
+          flash[:notice] = "Task changed to the new list successfully"
+          @htmlflash = TasksController.render(partial: "shared/flash_messages", locals: {"object": @task}).squish
+          format.json { render :json => {:flash => flash[:notice]} }
+        end
+      else
+        flash[:danger] = "You cannot change this task to this list"
+        # @task.errors.add(:new_email,message: "You cannot change this task to this list")
+        @htmlerrors = TasksController.render(partial: "shared/flash_messages", locals: {"object": @task}).squish
+        format.json { render :json => {:errors => flash[:danger] }}
+      end
+
+   end
+  end
+
+  def changeuser
+    @task.user_after =  User.find(params[:user_id])
+    @task.user_before =  User.find(@task.user_id)
+    authorize @task
+    respond_to do |format|
+      if can_change_user?(@task)
+        if @task.update_attribute(:user_id, params[:user_id])
+          flash[:notice] = "Task changed to the new user successfully"
+          format.json { render :json => {:flash => flash[:notice]} }
+        end
+      else
+        flash[:danger] = "You cannot change this task to this user"
+        format.json { render :json => {:errors => flash[:danger] }}
+      end
+   end
   end
 
   def showTask

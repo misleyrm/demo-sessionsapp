@@ -20,4 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+ pundit:
+   default: 'You cannot perform this action.'
+   task_policy:
+     update?: 'You cannot edit this task!'
+     create?: 'You cannot create task!'
+     changelist?: 'You cannot change this task to this list!'
