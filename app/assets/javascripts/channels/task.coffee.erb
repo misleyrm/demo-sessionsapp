@@ -27,6 +27,14 @@
         $beforeList = $('[data-list-id = "' + data.list_before+ '"]', $pageContent)
         $listAllTask = $('[data-list-id = "' + data.list_all_task_id + '"]', $pageContent)
 
+      if (data.status == 'changeuser')
+        # $incompleteUAfter = $('#incomplete_tasks_' + data.user )
+        $navBefore = $('[data-nav-id = "' + data.user_before + '"]')
+        $beforeUser = $('[data-user-id = "' + data.user_before + '"]', $pageContent)
+        $listNavUAfter = $('[data-nav-list-id = "' + data.list_id + '"]', $nav)
+        $listNavUBefore = $('[data-nav-list-id = "' + data.list_id+ '"]', $navBefore)
+        $AllTaskUBefore = $('[data-nav-list-id = "' + data.list_all_task_before_id + '"]', $navBefore)
+
       $incomplete = $('#incomplete_tasks_' + data.user )
       $divCompleted = $('#complete_tasks_' + data.user)
 
@@ -35,7 +43,10 @@
         $parent = $('[data-task-id = "' + data.parentId + '"]')
         $menuAddBlocker = $('a#link-blocker_' + data.parentId, $parent)
       else
-        $task = $('[data-task-id = "' + data.id + '"]', $user)
+        if (data.status == 'changeuser')
+          $task = $('[data-task-id = "' + data.id + '"]', $beforeUser)
+        else
+          $task = $('[data-task-id = "' + data.id + '"]', $user)
 
       if $task.length > 0
         switch data.status
@@ -91,8 +102,16 @@
                 $("ul.menu-information", $task_all_task).prepend listNamehtml
               $('.edit_task').submitOnCheck()
             if (data['num'] != '')
-              $('.bar-number-task', $listBeforeNav).html data['num']
+              $('.bar-number-task', $listBeforeNav).html data["num"]
               $('.bar-number-task', $listChangeNav).html data["num_list_change"]
+          when 'changeuser'
+            console.log('changeuser')
+            $task.remove()
+            $incomplete.prepend html
+            $('.bar-number-task', $listNavUBefore).html data["num_task_list_u_before"]
+            $('.bar-number-task', $listNavUAfter).html data["num_task_list_u_after"]
+            $('.bar-number-task', $AllTaskUBefore).html data["num_task_alllist_u_before"]
+            $('.bar-number-task', $listAllTaskNav).html data["num_task_alllist_u_after"]
           when 'completed'
             $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
             $task.remove()

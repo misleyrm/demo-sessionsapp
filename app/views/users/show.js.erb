@@ -1,7 +1,7 @@
 <% if params[:type].present? %>
       var $list = $('[data-list-id = "<%= current_list.id %>"]');
       var $listUsers = $('#list-users',$list);
-      var $collaboration_user = $('#collaboration-users li#<%= @user.id %>',$list);
+      var $collaboration_user = $('#collaboration-users li#collaboration_user_<%= @user.id %>',$list);
       var $user = $('[data-user-id = "<%= @user.id %>"]',$list),
           tooltip = $("a.tooltipped", $collaboration_user).data("tooltip"),
           text, $elem;

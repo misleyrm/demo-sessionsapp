@@ -99,12 +99,12 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
   line-height: 6pt;
   background-color: #fff;
   color: #77B44E;
-  position: relative;
   z-index: 1;
   border-radius: 50%;
   padding: 0;
-  left: 27px;
-  top: 0px;
+  margin-top: 1.6rem;
+  margin-left: 1rem;
+  position: absolute;
   opacity: 0;
   transition: opacity .25s ease-in-out;
  -moz-transition: opacity .25s ease-in-out;

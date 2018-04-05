@@ -34,3 +34,25 @@ function mySortable(elem){
   });
   }
 }
+
+
+// sortableCollaborationUsers($('#collaboration-users'));
+
+function sortableCollaborationUsers(elem){
+ if (elem.is(':visible')){
+  elem.sortable({
+    items: "> li",
+    axis: "x",
+    update: function(e,ui){
+      // console.log($(this).data("url"));
+      console.log($(this).sortable('serialize'));
+      // send the updated order via ajax
+       // $.ajax({
+       //     type: "PUT",
+       //     url: $(this).data("url"),
+       //     data: $(this).sortable('serialize'),
+       // });
+    }
+  });
+  }
+}

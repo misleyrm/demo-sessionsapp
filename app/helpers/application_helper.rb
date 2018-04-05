@@ -15,10 +15,9 @@ module ApplicationHelper
   #   (date == Date.today)
   # end
   def active_collaborator(list)
-    users = User.where(id: session[:active_collaborations])
-    byebug
-    if list.collaboration_users.include?(users.first)
-      @active_collaborator = User.where(id: session[:active_collaborations])
+    if (!session[:active_collaborations].nil?)
+      users = User.where(id: session[:active_collaborations])
+      @active_collaborator = ((list.collaboration_users.include?(users.first)) || users.first.owner?(list)) ? users : ''
     else
       @active_collaborator = ''
     end

@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   include ActiveModel::Dirty
 
   # sdefine_attribute_methods :list_id
-  attr_accessor :t_blocker_attributes, :completed, :list_before, :list_after, :detail_before, :current_user_id, :user_after
+  attr_accessor :t_blocker_attributes, :completed, :list_before, :list_after, :detail_before, :current_user_id, :user_after,:user_before
   belongs_to :list
   belongs_to :user
   belongs_to :assigner_user, class_name: "User"
@@ -205,12 +205,13 @@ class Task < ApplicationRecord
     elsif self.previous_changes.key?(:user_id) &&
       self.previous_changes[:user_id].first != self.previous_changes[:user_id].last
       data["status"] = 'changeuser'
+      self.user_before = User.find(self.previous_changes[:user_id].first)
       # data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.list_id))
-      data["list_name"] = self.list.name
-      data["user_after"]= self.user_after
-      data["user_before"]= self.user_before
-      data["num_task_list_u_before"] = self.user_before.num_incompleted_tasks(List.find(self.list))
-      data["num_task_list_u_after"] = self.user_after.num_incompleted_tasks(List.find(self.list))
+      data["user_after"]= self.user_after.id
+      data["user_before"]= self.previous_changes[:user_id].first
+      data["list_all_task_before_id"] = self.user_before.all_task.id
+      data["num_task_list_u_before"] = self.user_before.num_incompleted_tasks(self.list)
+      data["num_task_list_u_after"] = self.user_after.num_incompleted_tasks(self.list)
       data["num_task_alllist_u_before"] = self.user_before.num_incompleted_tasks(self.user_before.all_task)
       data["num_task_alllist_u_after"] = self.user_after.num_incompleted_tasks(self.user_after.all_task)
 

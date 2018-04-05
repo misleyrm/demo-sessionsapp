@@ -234,11 +234,11 @@ class TasksController < ApplicationController
 
   def changeuser
     @task.user_after =  User.find(params[:user_id])
-    @task.user_before =  User.find(@task.user_id)
     authorize @task
     respond_to do |format|
       if can_change_user?(@task)
         if @task.update_attribute(:user_id, params[:user_id])
+          # @task.user_before =  User.find(@task.user_id)
           flash[:notice] = "Task changed to the new user successfully"
           format.json { render :json => {:flash => flash[:notice]} }
         end

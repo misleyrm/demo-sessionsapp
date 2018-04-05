@@ -73,6 +73,10 @@ jQuery.fn.mentionUsers = function(){
 
     msCollapsible("collapsible");
 
+
+    sortableCollaborationUsers($('#collaboration-users'));
+
+
     droppable_task_to_user_all('[id^="list_user_"]');
     // dropdown(".dropdown-button",false);
     $('#ms-modal-dialog').modal('close');
