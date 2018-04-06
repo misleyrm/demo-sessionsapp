@@ -5,7 +5,7 @@
           <% active = (active_users.include?(collaboration_user)) ? "active" : "" %>
       <% end %>
       <% msinactive =  !collaboration_user.active_collaborator?(current_list.id)? "ms-inactive" : "" %>
-      <%= content_tag :li, class: "chip #{active} #{msinactive}" , id: "collaboration_user_#{collaboration_user.id}", data: {:'chip-user-id'=> "#{collaboration_user.id}"} do%>
+      <%= content_tag :li, class: "chip #{active} #{msinactive} " , id: "collaboration_user_#{collaboration_user.id}", data: {:'chip-user-id'=> "#{collaboration_user.id}"} do%>
           <%= link_to list_collaboration_user_path(current_list,collaboration_user),class: "tooltipped", id:"#{collaboration_user.id}",remote: true,:data => { :'tooltip'=>"Show tasks for #{collaboration_user.first_name}" }  do %>
               <% if !collaboration_user.avatar.nil? %>
                  <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>

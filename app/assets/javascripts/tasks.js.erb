@@ -42,17 +42,19 @@ function sortableCollaborationUsers(elem){
  if (elem.is(':visible')){
   elem.sortable({
     items: "> li",
-    axis: "x",
-    update: function(e,ui){
-      // console.log($(this).data("url"));
-      console.log($(this).sortable('serialize'));
-      // send the updated order via ajax
-       // $.ajax({
-       //     type: "PUT",
-       //     url: $(this).data("url"),
-       //     data: $(this).sortable('serialize'),
-       // });
-    }
-  });
+    start: function (event, ui) {
+              $(this).data("position", ui.item.index());
+          },
+          update: function (event, ui) {
+              var originalP = $(this).data("position");
+              elem.not($(this)).each(function (i, e) {
+                  if (originalP > ui.item.index()) {
+                      $(this).children("li:eq(" + originalP + ")").insertBefore($(this).children("li:eq(" + ui.item.index() + ")"));
+                  } else {
+                      $(this).children("li:eq(" + originalP + ")").insertAfter($(this).children("li:eq(" + ui.item.index() + ")"));
+                  }
+              })
+          }
+    }).disableSelection();
   }
 }

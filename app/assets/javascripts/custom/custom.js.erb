@@ -69,15 +69,17 @@ jQuery.fn.mentionUsers = function(){
 
   $(document).on('turbolinks:load',function(){
     var $table_of_task = $(".table-of-task"),
-    c= 0;
+        c = 0,
+        $li_list_user = $('li[id^="list_user_"]')
+        $div_user_tasks = $('.ms-user-tasks', $li_list_user );
 
     msCollapsible("collapsible");
 
 
-    sortableCollaborationUsers($('#collaboration-users'));
+    sortableCollaborationUsers($('.sort_c_users'));
 
 
-    droppable_task_to_user_all('[id^="list_user_"]');
+    droppable_task_to_user_all($div_user_tasks);
     // dropdown(".dropdown-button",false);
     $('#ms-modal-dialog').modal('close');
     dropdown("[id^=dropdown_list_]","false");
@@ -582,7 +584,7 @@ jQuery.fn.mentionUsers = function(){
 
         /**** Drag task to other user ****/
         function droppable_task_to_user_all(elem){
-          $(elem).each(function (e){
+          elem.each(function (e){
             myDroppable_task_to_user($(this));
           })
         }
@@ -603,7 +605,7 @@ jQuery.fn.mentionUsers = function(){
                 // console.log(ui.draggable);
                 var taskId = ui.draggable.data("task-id"),
                 currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
-                userId = elem.data("user-id"),
+                userId = elem.parent().data("user-id"),
                 url = "/tasks/"+ taskId +"/changeuser?user_id="+userId;
                 // console.log(url);
                 // ui.draggable.remove();

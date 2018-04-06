@@ -188,10 +188,11 @@ class ListsController < ApplicationController
       @_current_list = session[:list_id] = List.current = nil
       session[:list_id] = params[:id]
       @_current_list = List.current = @list
-      session[:active_collaborations] = nil
+      session[:active_collaborations] = Array.new
+      session[:active_collaborations][0] = current_user.id
       set_current_list
     end
-
+    @active_users = active_collaborator(@list)
   end
 
   def set_user

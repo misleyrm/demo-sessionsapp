@@ -254,23 +254,12 @@ form.edit_task [type="checkbox"] + label {
   margin-top: 0;
 }
 
-#list-users .ui-state-active .ms-user-tasks,
-#list-users .ui-widget-content .ui-state-active .ms-user-tasks,
-#list-users .ui-widget-header .ui-state-active .ms-user-tasks,
-#list-users a.ui-button:active .ms-user-tasks,
-#list-users .ui-button:active .ms-user-tasks,
-#list-users .ui-button.ui-state-active:hover .ms-user-tasks{
-  color: #808080;
-  border-color: red;
-}
-
 #list-users .ui-state-active,
 #list-users .ui-widget-content .ui-state-active,
 #list-users .ui-widget-header .ui-state-active,
 #list-users a.ui-button:active,
-#list-users .ui-button:active,
+#list-users .ui-button:active .ms-user-tasks,
 #list-users .ui-button.ui-state-active:hover{
   color: #808080;
-  border: none;
-  background: none;
+  border-color: red;
 }

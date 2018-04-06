@@ -16,7 +16,7 @@ class HomeController < ApplicationController
     # if !params[:collaboration_users].blank?
     #   @collaboration_users = User.where(id: params[:collaboration_users])
     # end
-    @active_collaborations = active_collaborator(@list)
+    @active_users = active_collaborator(@list)
     # respond_to do |format|
     #     format.html { }
     #     format.js
