@@ -16,7 +16,20 @@
           text = tooltip.replace("Show", "Hide");
 
           $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
-          $listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>");
+          var sortedIDs = $( "#collaboration-users" ).sortable( "toArray" );
+          position = $.inArray( "collaboration_user_<%= @user.id %>", sortedIDs )
+          console.log(sortedIDs);
+          console.log(position);
+          console.log("collaboration_user_<%= @user.id %>");
+
+          console.log($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")").length);
+          if ($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")").length >0){
+            $("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>").insertBefore($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")"));
+          }else{
+              $("#list-users > ul.sort_c_users").append("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>");
+          }
+
+           //$listUsers.append("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>");
           $elem = $("#list_user_<%= @user.id %>");
 
           if ($elem.length > 0){

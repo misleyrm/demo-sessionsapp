@@ -24,7 +24,7 @@ form.edit_list .select-wrapper input.select-dropdown{
 .secondary-content {
     color: #9e9e9e!important;
 }
-#collaboration-users .chip a img, .invited_user .chip a img{
+#collaboration-users .chip img, .invited_user .chip img{
   border-radius: 50%;
   border: 2px solid #C0BFBF;
   background-color: #C0BFBF;
@@ -83,12 +83,20 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
 
 .list-collaboration-users .chip{
   background: none;
-  padding: 0 3px 0 0;
+  padding: 0 8px 0 0;
 }
 
-#collaboration-users a{
+#collaboration-users {
+  float: left;
+}
+
+#collaboration-users, #collaboration-menu {
+  display: inline-block;
+}
+
+#collaboration-users a {
   position: relative;
-  margin-left: -10px;
+
 }
 
 #collaboration-users .chip:before {
@@ -102,8 +110,7 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
   z-index: 1;
   border-radius: 50%;
   padding: 0;
-  margin-top: 1.6rem;
-  margin-left: 1rem;
+  margin: 1.6rem 0 0 1.6rem;
   position: absolute;
   opacity: 0;
   transition: opacity .25s ease-in-out;

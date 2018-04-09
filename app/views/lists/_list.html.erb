@@ -7,26 +7,24 @@
                     <div class="right">
                         <ul id="collaboration-users" class="sort_c_users">
                           <% if has_collaborations?(list) %>
-                            <!-- All Collaboration Users -->
-                            <%#= content_tag :li, class: "chip" do%>
-                              <!-- <%= link_to list_collaboration_user_path(current_list,list.collaboration_users),class: "tooltipped",remote: true,:data => { :'tooltip'=>"Show tasks for all" }  do %>
-                                   <span class="user-initial circle">All</span>
-                              <% end %> -->
-                            <%# end %>
-                            <!-- All -->
-                              <!-- <% if (!current_user.owner?(list) && (!list.owner.nil?)) %>
-                                 <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: collaboration_users, current_user: current_user} %>
-                              <% end %> -->
                               <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
                                  <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', user.id]), as: :collaboration_user, locals: { active_users: active_users,current_user: user }%>
                               <% end %>
-
                           <% end %>
-                        </ul>
-                        <ul id="collaboration-users">
                           <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
+                        </ul>
+                        <ul id="collaboration-menu">
+                          <% if has_collaborations?(list) %>
+                              <li class="chip circle ms-text-green ms-view-all">
+                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
+                                    <%= content_tag :i, class: "material-icons add-user" do%>
+                                      <%= "#{(active_users.count > 1)? 'visibility_off' : 'visibility'}" %>
+                                    <% end %>
+                                <% end %>
+                              </li>
+                          <% end %>
                           <% if (current_user.owner?(list)) %>
-                              <li class="chip circle ms-text-green ms-add" data-disabled-sortable= true>
+                              <li class="chip circle ms-text-green ms-add">
                                 <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
                                     <i class="material-icons add-user">add</i>
                                 <% end %>
@@ -41,8 +39,10 @@
     </section>
     <!--  SECTION LIST USERS -->
     <section id="list-users">
-      <ul class="sort_c_users">
+      <ul>
         <%= render partial: "users/list_user", locals: {user: user, list: list} %>
+      </ul>
+      <ul class="sort_c_users">
         <%= render partial: "users/list_user", collection: active_users.without(user), as: :user, locals: { list: list } if (!active_users.blank? ) %>
       </ul>
     </section>

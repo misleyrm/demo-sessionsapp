@@ -41,7 +41,7 @@ function mySortable(elem){
 function sortableCollaborationUsers(elem){
  if (elem.is(':visible')){
   elem.sortable({
-    items: "> li",
+    items: "li:not(.disabled)",
     start: function (event, ui) {
               $(this).data("position", ui.item.index());
           },
