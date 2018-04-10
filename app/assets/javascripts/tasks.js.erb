@@ -54,6 +54,18 @@ function sortableCollaborationUsers(elem){
                       $(this).children("li:eq(" + originalP + ")").insertAfter($(this).children("li:eq(" + ui.item.index() + ")"));
                   }
               })
+                console.log(  ui.item.index());
+                // send the updated order via ajax
+                console.log($(this).sortable('serialize'));
+                 $.ajax({
+                     type: "PUT",
+                     url: $(this).data("url"),
+                     data: $(this).sortable('serialize')
+                 });
+
+
+
+
           }
     }).disableSelection();
   }

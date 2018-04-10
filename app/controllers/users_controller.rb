@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
-  before_action :set_active_collaborations, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  before_action :set_active_collaborations, only: [:show], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :validate_email_update, only: :updateEmail
   before_action :validate_password_update, only: :updatePassword
 
@@ -222,6 +222,28 @@ class UsersController < ApplicationController
     UserMailer.account_activation(@user).deliver_now
     flash[:info] = "Please check your email to activate your account."
     redirect_to login_url
+  end
+
+
+  def sort
+
+    # @list = List.find(params[:list_id])
+    # @collaboration_users = Collaboration.where(:user_id=> params[:users], :list_id => params[:list_id])
+    # authorize @tasks.first
+    params[:collaboration_user].map!(&:to_i)
+    active_collaborations = session[:active_collaborations]
+    params[:collaboration_user].each_with_index do |id, index|
+      if active_collaborations.include?(id)
+        value = active_collaborations[index]
+        pos = active_collaborations.index(id)
+        active_collaborations[index] = id
+        active_collaborations[pos] = value
+      end
+      Collaboration.where(:user_id=> id, :list_id => params[:list_id]).update_all(position: index + 1)
+  
+    end
+    session[:active_collaborations] = active_collaborations
+    head :ok
   end
 
   private

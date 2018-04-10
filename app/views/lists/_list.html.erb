@@ -5,14 +5,16 @@
             <div class="share-icons">
                 <div class="list-collaboration-users">
                     <div class="right">
-                        <ul id="collaboration-users" class="sort_c_users">
+                        <%= content_tag :ul, id: "collaboration-users", class: "sort_c_users", data: {"url" => "#{sort_list_collaboration_users_path(list)}"} do%>
+                        <!-- <ul id="collaboration-users" class="sort_c_users" data-url="<%= sort_list_collaboration_users_path(list)%>"> -->
                           <% if has_collaborations?(list) %>
                               <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', user.id]), as: :collaboration_user, locals: { active_users: active_users,current_user: user }%>
+                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', user.id]).order('position ASC'), as: :collaboration_user, locals: { active_users: active_users,current_user: user }%>
                               <% end %>
                           <% end %>
                           <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
-                        </ul>
+                        <!-- </ul> -->
+                        <% end%>
                         <ul id="collaboration-menu">
                           <% if has_collaborations?(list) %>
                               <li class="chip circle ms-text-green ms-view-all">

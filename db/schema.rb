@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.integer "user_id"
     t.integer "list_id"
     t.datetime "collaboration_date"
+    t.integer "position"
     t.index ["list_id"], name: "index_collaborations_on_list_id"
     t.index ["user_id"], name: "index_collaborations_on_user_id"
   end

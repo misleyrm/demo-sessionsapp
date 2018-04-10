@@ -16,8 +16,8 @@ module ApplicationHelper
   # end
   def active_collaborator(list)
     if (!session[:active_collaborations].empty?)
-      users = User.where(id: session[:active_collaborations])
-      @active_collaborator = ((list.collaboration_users.include?(users.first)) || users.first.owner?(list)) ? users : ''
+      users = list.collaboration_users.where(id: session[:active_collaborations]).order('position ASC')
+      @active_collaborator = users
     else
       @active_collaborator = ''
     end
