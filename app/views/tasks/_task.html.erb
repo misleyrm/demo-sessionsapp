@@ -1,6 +1,6 @@
 <%# task_created = (!task.completed?) ? task.task_created : ''%>
 <% task_created =  task.task_created %>
-<% draggable =  (currentUser.owner?(current_list)|| (currentUser.id== task.id))? "draggable" : "" %>
+<% draggable =  (currentUser.owner?(current_list)|| (currentUser.id== task.user_id))? "draggable" : "" %>
 <%= content_tag :div, id: dom_id(task), class:"row #{task_created} #{draggable} task-box", data: {"task-id"=> task.id} do%>
 	<div class="col s6 task-detail">
     <%= content_tag "p", id: "#{task.id}",class: (!task.completed?) ? "" : "truncate" do %>

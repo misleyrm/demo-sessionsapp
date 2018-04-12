@@ -40,6 +40,7 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def changelist?
+  
     list_before = task.try(:list)
     list_after = task.list_after
     if (user.id != task.user_id)
