@@ -54,7 +54,11 @@ class PasswordResetsController < ApplicationController
       @user.errors.add(:password, "can't be empty")
       redirect_to :back
     else
-      @user.update_attributes(user_params)
+      if @user.update_attributes(user_params)
+        log_in @user
+        redirect_to root_path, success: "Password has been reset."
+      end
+
     end
   end
 
