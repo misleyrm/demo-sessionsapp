@@ -19,11 +19,13 @@
                         <ul id="collaboration-menu">
                           <% if has_collaborations?(list) %>
                               <li class="chip circle ms-text-green ms-view-all">
-                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
+                                <%#= link_to list_collaboration_user_all_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
+                                  <a href="#">
                                     <%= content_tag :i, class: "material-icons add-user" do%>
-                                      <%= "#{(active_users.count > 1)? 'visibility_off' : 'visibility'}" %>
+                                      <%= "#{(active_users.count >= list.collaboration_users.count)? 'visibility_off' : 'visibility'}" %>
                                     <% end %>
-                                <% end %>
+                                  </a>
+                                <%# end %>
                               </li>
                           <% end %>
                           <% if (current_user.owner?(list)) %>
