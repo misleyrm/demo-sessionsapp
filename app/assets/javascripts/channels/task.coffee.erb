@@ -105,7 +105,6 @@
               $('.bar-number-task', $listBeforeNav).html data["num"]
               $('.bar-number-task', $listChangeNav).html data["num_list_change"]
           when 'changeuser'
-            console.log('changeuser')
             $task.remove()
             $incomplete.prepend html
             $('.bar-number-task', $listNavUBefore).html data["num_task_list_u_before"]
@@ -115,9 +114,11 @@
           when 'completed'
             $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
             $task.remove()
+            console.log($('[data-date = "0"]', $divCompleted).length == 0)
             if ($('[data-date = "0"]', $divCompleted).length == 0)
               $divCompleted.prepend '<div class="week-days" data-date="0"><span>Today</span><i class="material-icons md-18 ms-open-button" style="transform: rotate(90deg);">keyboard_arrow_right</i></div>'
             $insertCollapsible = $('[data-date = "0"]', $divCompleted).parent()
+            console.log($insertCollapsible)
             $insertCompleted = $insertCollapsible.siblings(".collapsible-body")
             $insertCompleted.prepend(html)
             $('.tooltipped').tooltip({delay: 50})

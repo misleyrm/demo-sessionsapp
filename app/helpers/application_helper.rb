@@ -11,9 +11,7 @@ module ApplicationHelper
   def notification_type(action)
     notification_type = NotificationType.find_by_action(action)
   end
-  # def is_today?(date)
-  #   (date == Date.today)
-  # end
+
   def active_collaborator(list)
     if (!session[:active_collaborations].empty?)
       users = list.collaboration_users.where(id: session[:active_collaborations]).order('position ASC')
