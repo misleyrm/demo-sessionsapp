@@ -7,18 +7,16 @@ sortableCollaborationUsers($('.sort_c_users'));
       var $user = $('[data-user-id = "<%= @user.id %>"]',$list),
           tooltip = $("a.tooltipped", $collaboration_user).data("tooltip"),
           text, $elem;
-      console.log($collaboration_user.hasClass('active'));
       if ($collaboration_user.hasClass('active')) {
           $collaboration_user.removeClass('active');
           text = tooltip.replace("Hide", "Show");
           $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
           $('.tooltipped').tooltip({delay: 50});
           $user.remove();
-          console.log("no active");
         } else {
           $collaboration_user.addClass('active');
           text = tooltip.replace("Show", "Hide");
-          console.log($("#collaboration-users").sortable("serialize"));
+
           var sortedIDs = $("#collaboration-users").sortable("toArray");
           $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
           var position = $.inArray( "collaboration_user_<%= @user.id %>", sortedIDs );
@@ -26,7 +24,6 @@ sortableCollaborationUsers($('.sort_c_users'));
           if ($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")").length >0){
             $("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>").insertBefore($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")"));
           }else{
-              console.log("in");
               // console.log("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>");
               $("#list-users > ul.sort_c_users").append("<%= j render partial: 'users/list_user', locals:{user: @user, list: current_list } %>");
           }
@@ -40,6 +37,11 @@ sortableCollaborationUsers($('.sort_c_users'));
           $('input[id="task_user_id"]',$user).val("<%= @user.id %>");
           $('.tooltipped').tooltip({delay: 50});
           msCollapsible("collapsible");
+          $('div[id^="incomplete_tasks_"]').each(function (){
+            mySortable($(this));
+          })
+
+          droppable_all('li[id^="drop_zone_"]');
           $('.edit_task').submitOnCheck();
           deadlineDatepicker($('input.deadline-datepicker'));
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
