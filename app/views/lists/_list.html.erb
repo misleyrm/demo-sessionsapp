@@ -5,21 +5,26 @@
             <div class="share-icons">
                 <div class="list-collaboration-users">
                     <div class="right">
-                        <ul id="collaboration-users">
+                        <%= content_tag :ul, id: "collaboration-users", class: "sort_c_users", data: {"url" => "#{sort_list_collaboration_users_path(list)}"} do%>
+                        <!-- <ul id="collaboration-users" class="sort_c_users" data-url="<%= sort_list_collaboration_users_path(list)%>"> -->
                           <% if has_collaborations?(list) %>
-                            <!-- All Collaboration Users -->
-                            <%#= content_tag :li, class: "chip" do%>
-                              <!-- <%= link_to list_collaboration_user_path(current_list,list.collaboration_users),class: "tooltipped",remote: true,:data => { :'tooltip'=>"Show tasks for all" }  do %>
-                                   <span class="user-initial circle">All</span>
-                              <% end %> -->
-                            <%# end %>
-                            <!-- All -->
-                              <% if (!current_user.owner?(list) && (!list.owner.nil?)) %>
-                                 <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: collaboration_users, current_user: current_user} %>
-                              <% end %>
                               <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', current_user.id]), as: :collaboration_user, locals: { active_users: collaboration_users,current_user: current_user }%>
+                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', user.id]).order('position ASC'), as: :collaboration_user, locals: { active_users: active_users,current_user: user }%>
                               <% end %>
+                          <% end %>
+                          <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
+                          <%= render partial: "lists/collaboration_user", locals: {collaboration_user: user, active_users: active_users, current_user: user} if !user.owner?(list)%>
+                        <!-- </ul> -->
+                        <% end%>
+                        <ul id="collaboration-menu">
+                          <% if has_collaborations?(list) %>
+                              <li class="chip circle ms-text-green ms-view-all">
+                                <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
+                                    <%= content_tag :i, class: "material-icons add-user" do%>
+                                      <%= "#{(active_users.count > 1)? 'visibility_off' : 'visibility'}" %>
+                                    <% end %>
+                                <% end %>
+                              </li>
                           <% end %>
                           <% if (current_user.owner?(list)) %>
                               <li class="chip circle ms-text-green ms-add">
@@ -37,8 +42,12 @@
     </section>
     <!--  SECTION LIST USERS -->
     <section id="list-users">
-      <%= render partial: "users/list_user", locals: {user: user, list: list} %>
-      <%= render partial: "users/list_user", collection: @active_collaborations, as: :user, locals: { list: list } if !@active_collaborations.blank? %>
+      <ul>
+        <%= render partial: "users/list_user", locals: {user: user, list: list} %>
+      </ul>
+      <%= content_tag :ul, class: "sort_c_users", data: {"url" => "#{sort_list_collaboration_users_path(list)}"} do%>
+        <%= render partial: "users/list_user", collection: active_users.without(user), as: :user, locals: { list: list } if (!active_users.blank? ) %>
+      <% end %>
     </section>
     <!--  END SECTION LIST USERS -->
 <% end %>

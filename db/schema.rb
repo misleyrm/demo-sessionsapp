@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.integer "user_id"
     t.integer "list_id"
     t.datetime "collaboration_date"
+    t.integer "position"
     t.index ["list_id"], name: "index_collaborations_on_list_id"
     t.index ["user_id"], name: "index_collaborations_on_user_id"
   end
@@ -90,7 +91,6 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.string "notification_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index [nil], name: "index_notification_types_on_notification_type_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -172,7 +172,6 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.datetime "avatar_updated_at"
     t.string "remember_digest"
     t.index ["team_id"], name: "index_users_on_team_id"
-    t.index [nil], name: "index_users_on_user_id"
   end
 
   create_table "wips", force: :cascade do |t|

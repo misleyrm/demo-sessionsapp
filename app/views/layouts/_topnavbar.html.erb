@@ -1,75 +1,107 @@
 <!-- start header nav-->
 <div class="navbar navbar-fixed">
- <nav class="navbar-color">
+  <nav class="navbar-color">
     <div class="nav-wrapper">
-          <div class="nav-belt hide-on-small-only">
-              <ul class="nav-belt-left">
-                 <li><%= link_to "List", root_path %></li>
+      <!-- <div class="nav-belt hide-on-small-only">
+        <ul class="nav-belt-left">
+          <li><%= link_to "List", root_path %></li>
+        </ul>
+        <ul class="right hide-on-small-only nav-setting">
+          <li>
+            <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior="notifications" data-hover="false">
+              <i class="material-icons md-18 md-light">notifications<extra-small class="notification-badge display-none" data-behavior='unread-count' id="notification_badge_<%= current_user.id%>"></sextra-small></i>
+              </a>
+              <ul class="dropdown-content animated fadeIn" id="notifications-dropdown">
+                <li class= "total">
+                  <span class="ultra-small">
+                    You have <strong data-behavior= 'unread-count'></strong> new notifications.
+                    <a href="javascript:;" class="right ultra-small" data-behavior='notifications-markasread'>Mark all as Read</a>
+                  </span>
+                </li>
+                <li class="list">
+                  <ul class="collection list-unstyled dropdown-menu-scrollbar" data-behavior="notification-items" id="style-2"></ul>
+                </li>
+                <li class="external">
+
+                  <span class="right-align" style="color: #a4a6a9; font-size:12px">All Notifications</span>
+
+                </li>
               </ul>
-              <ul class="right hide-on-small-only nav-setting">
-                  <li>
-                      <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior="notifications" data-hover="false">
-                         <i class="material-icons md-18 md-light">notifications<extra-small class="notification-badge display-none" data-behavior='unread-count' id="notification_badge_<%= current_user.id%>"></sextra-small></i>
-                      </a>
-                     <ul class="dropdown-content animated fadeIn" id="notifications-dropdown">
-                       <li class= "total">
-                           <span class="ultra-small">
-                               You have <strong data-behavior= 'unread-count'></strong> new notifications.
-                               <a href="javascript:;" class="right ultra-small" data-behavior='notifications-markasread'>Mark all as Read</a>
-                           </span>
-                       </li>
-                       <li class="list">
-                           <ul class="collection list-unstyled dropdown-menu-scrollbar" data-behavior="notification-items" id="style-2"></ul>
-                       </li>
-                       <li class="external">
-                            <!-- <a href="javascript:;" class="disabled"> -->
-                                <span class="right-align" style="color: #a4a6a9; font-size:12px">All Notifications</span>
-                            <!-- </a> -->
-                        </li>
-                     </ul>
-                   </li>
-                   <li>
-                     <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name" data-hover="false">
-                       <span><%=current_user.first_name%></span>
-                       <i class="material-icons right">arrow_drop_down</i>
-                     </a>
-                     <!-- Dropdown Structure -->
-                     <ul id='dropdownUser' class='dropdown-content'>
-                       <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
-                       <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
-                     </ul>
-                   </li>
-                 </ul>
+            </li>
+            <li>
+              <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name" data-hover="false">
+                <span><%=current_user.first_name%></span>
+                <i class="material-icons right">arrow_drop_down</i>
+              </a>
+
+              <ul id='dropdownUser' class='dropdown-content'>
+                <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
+                <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
+              </ul>
+            </li>
+          </ul>
+        </div> -->
+        <a href="#" data-activates="slide-out" class="button-collapse sidebar-collapse btn-medium waves-light hamburger-menu">
+          <div>
+            <i class="material-icons">menu</i>
           </div>
-          <a href="#" data-activates="slide-out" class="button-collapse sidebar-collapse btn-medium waves-light hamburger-menu">
-            <div>
-              <i class="material-icons">menu</i>
-            </div>
-          </a>
-          <div class="nav-main">
-            <ul class="left valign-wrapper">
-              <li class="logo">  <h1 class="logo">Sessions</h1></li>
-              <li><div class="divider"></div></li>
-              <li class="uppercase avatar-list" id="nav-list" data-topnavbar-list-id = "<%= current_list.id %>">
-                  <%= render partial: "lists/nav_list_name", locals: {list: current_list} %>
+        </a>
+        <div class="nav-main">
+          <ul class="left valign-wrapper">
+            <li class="ms-logo"> <h1 class="logo">Sessions</h1></li>
+            <li><div class="divider"></div></li>
+            <li class="uppercase avatar-list" id="nav-list" data-topnavbar-list-id = "<%= current_list.id %>">
+              <%= render partial: "lists/nav_list_name", locals: {list: current_list} %>
+            </li>
+          </ul>
+          <ul class="right valign-wrapper">
+            <li id="ms-link-listSetting" class="settings">
+              <%= render partial: 'lists/link_listSetting',  locals:{list: current_list}%>
+            </li>
+            <li id='application-date'>
+              <%= form_tag(root_path, method: :get) do%>                                                           <%#= form_for current_list, method: :get,remote: true do |f| %>
+              <input type="hidden" name="date" id="form_date">
+              <input type="hidden" name="mention_by" id="active-collaborators">
+              <input type="date" class="datepicker right-align">
+              <% end %>
+            </li>
+            <li>
+              <a href="#" class="waves-block waves-light notification-button dropdown-button" data-activates="notifications-dropdown" data-behavior="notifications" data-hover="false">
+                <i class="material-icons md-15 md-light">notifications<extra-small class="notification-badge display-none" data-behavior='unread-count' id="notification_badge_<%= current_user.id%>"></sextra-small></i>
+                </a>
+                <ul class="dropdown-content animated fadeIn" id="notifications-dropdown">
+                  <li class= "total">
+                    <span class="ultra-small">
+                      You have <strong data-behavior= 'unread-count'></strong> new notifications.
+                      <a href="javascript:;" class="right ultra-small" data-behavior='notifications-markasread'>Mark all as Read</a>
+                    </span>
+                  </li>
+                  <li class="list">
+                    <ul class="collection list-unstyled dropdown-menu-scrollbar" data-behavior="notification-items" id="style-2"></ul>
+                  </li>
+                  <li class="external">
+                    <!-- <a href="javascript:;" class="disabled"> -->
+                    <span class="right-align" style="color: #a4a6a9; font-size:12px">All Notifications</span>
+                    <!-- </a> -->
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a class='dropdown-button' href='#' data-activates='dropdownUser' id="dropdown-button-name" data-hover="false">
+                  <span><%=current_user.first_name%></span>
+                  <i class="material-icons md-15 right">expand_moren</i>
+                </a>
+                <!-- Dropdown Structure -->
+                <ul id='dropdownUser' class='dropdown-content'>
+                  <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
+                  <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
+                </ul>
               </li>
             </ul>
-            <ul class="right valign-wrapper">
-                <li id="ms-link-listSetting" class="settings">
-                   <%= render partial: 'lists/link_listSetting',  locals:{list: current_list}%>
-                </li>
-                <li id='application-date'>
-                      <%= form_tag(root_path, method: :get) do%>                                                           <%#= form_for current_list, method: :get,remote: true do |f| %>
-                          <input type="hidden" name="date" id="form_date">
-                          <input type="hidden" name="mention_by" id="active-collaborators">
-                          <input type="date" class="datepicker right-align">
-                       <% end %>
-                 </li>
-              </ul>
-            </div>
+          </div>
 
-     </div>
-  </nav>
-</div>
+        </div>
+      </nav>
+    </div>
 
-<!-- end header nav-->
+    <!-- end header nav-->

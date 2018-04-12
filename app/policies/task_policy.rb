@@ -40,11 +40,21 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def changelist?
-      user.owner?(task.try(:list)) || task.try(:user) == user
+    list_before = task.try(:list)
+    list_after = task.list_after
+    if (user.id != task.user_id)
+      user.owner?(list_after) && user.owner?(list_before) && task.try(:user).collaboration_lists.include?(list_after)
+    else
+      (user.owner?(list_after) || user.collaboration_lists.include?(list_after)) && (user.owner?(list_before) || user.collaboration_lists.include?(list_before))
+    end
+  end
+
+  def changeuser?
+    (task.user_after.id != task.user_id)
   end
 
   def showTask?
-      user.owner?(task.try(:list)) || task.try(:user) == user
+      (user.owner?(task.try(:list)) || task.try(:user) == user)
   end
 
   def sort?

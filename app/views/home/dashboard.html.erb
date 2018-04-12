@@ -6,7 +6,7 @@
   <% end %>
   <div id="main">
     <div class="wrapper">
-      <aside id="left-sidebar-nav" class="navigationbar" data-nav-id="<%= current_user.id %>">
+      <aside class="navigationbar" data-nav-id="<%= current_user.id %>">
           <%= render partial: 'layouts/navigation', locals: { user: current_user } %>
       </aside>
       <section id="content" >
@@ -16,7 +16,7 @@
              <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
           <% end %>
           <div id="main_center">
-              <%= render partial: "lists/list", locals: { list: @list, user: @user, collaboration_users: @active_collaborations } %>
+              <%= render partial: "lists/list", locals: { list: @list, user: @user, active_users: @active_users } %>
           </div>
         </div>
       </section>

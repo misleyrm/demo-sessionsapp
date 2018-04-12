@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   before_action :require_logged_in
+  include ApplicationHelper
   # before_action :set_current_list, only: [:dashboard ]
 
   def dashboard
@@ -15,7 +16,7 @@ class HomeController < ApplicationController
     # if !params[:collaboration_users].blank?
     #   @collaboration_users = User.where(id: params[:collaboration_users])
     # end
-    @active_collaborations = User.where(id: session[:active_collaborations])
+    @active_users = active_collaborator(@list)
     # respond_to do |format|
     #     format.html { }
     #     format.js

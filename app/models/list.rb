@@ -18,9 +18,10 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   after_commit :broadcast_update,on: [:update]
-
+  before_destroy :tasks_delete
 
   before_save :capitalize_name
+
 
   def owner_name
     self.owner.name
@@ -47,16 +48,6 @@ class List < ApplicationRecord
     !self.avatar.blank?
   end
 
-  def active_collaborators
-    # active collaborators users
-    # byebug
-    # # active_collaborators = self.collaborations.joins(:user).where.not(collaborations: {collaboration_date: nil})
-    # active_collaborators = self.collaboration_users.joins(:collaborator).where.not(collaborations: {collaboration_date: nil})
-    #
-    # active_collaborators.each do |collaborator_user|
-    #   byebug
-    # end
-  end
 
   def pending_invitation
     self.invitations.where(["active!=?",true]).order('sent_at DESC')
@@ -108,6 +99,14 @@ class List < ApplicationRecord
     #    status = 'saved'
     #    ActionCable.server.broadcast "list_channel", { html: render_task(self,partial),user: user, id: self.id, status: status,list_id: list, completed: self.completed?, partial: partial, blocker: is_blocker?, parentId: self.parent_task_id, num: num }
     # end
+  end
+
+  def tasks_delete
+    # data = Hash.new
+    # data[task_ids] = Task.where(list_id: self.id).ids
+    Task.where(list_id: self.id).delete_all
+
+    #call action cable to remove all tasks from the front end
   end
 
   def broadcast_save

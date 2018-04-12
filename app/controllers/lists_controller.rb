@@ -5,17 +5,14 @@ class ListsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership, :create]
   before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership]
   before_action :validate_ownership_update, only: [:updateOwnership]
 
   def index
-    @all_tasks   = current_user.tasks.where(:completed_at => nil).order('created_at')
+    @all_tasks = current_user.tasks.where(:completed_at => nil).order('created_at')
     @lists = current_user.created_lists.all.order('created_at')
     @collaboration_lists = current_user.collaboration_lists.all
-    # byebug
-    # @date = current_date
-    # @collaborators = @list.collaboration_users
     respond_to do |format|
       format.html{redirect_to root_path}
       format.json
@@ -49,12 +46,10 @@ class ListsController < ApplicationController
 
   def show
     if !params[:mention_by].blank?
-      # byebug
       mention_by = params[:mention_by].tr('[]', '').split(',').map(&:to_i)
-      # byebug
-      # mention_by = params[:mention_by].each.map(&:to_i)
       @collaboration_users = User.where(id: mention_by)
     end
+    gon.startDate = startDate
     respond_to do |format|
       format.html { redirect_to root_path}
       format.json { render json: @list }
@@ -73,7 +68,6 @@ class ListsController < ApplicationController
 
 
   def showList_blocker
-    # byebug
     @user = User.find_by_email(params[:email].downcase)
     unless current_user?(@user.id)
       @collaborator = User.find(params[:mention_by])
@@ -96,10 +90,6 @@ class ListsController < ApplicationController
       @c_users['value'] =   user.id
       @c_users['label'] =   user.first_name
     end
-    # respond_to do |format|
-    #   format.html {redirect_to lists_url}
-    #   format.json { render json: @c_users }
-    # end
   end
 
   def new
@@ -114,24 +104,25 @@ class ListsController < ApplicationController
 
   def create
     @list = current_user.created_lists.build(list_params)
-    # respond_to do |format|
     if @list.save
       flash[:notice] = "List was successfully created."
-      respond_to do |format|
-        format.js { redirect_to root_path(@list)}
-        format.json { }
-        format.js { render :action => "new" }
-      end
+      @_current_list = session[:list_id] = List.current = nil
+      session[:list_id] = @list.id
+      gon.startDate = startDate
+      # respond_to do |format|
+      #   format.html { redirect_to root_path(@list) }
+      #   format.js
+      # end
+      redirect_to root_path(@list)
+
     else
       flash[:danger] = "We can't create the list."
       @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      # format.html
       respond_to do |format|
         format.json { render :json => {:htmlerrors => @htmlerrors }}
         format.js { render :action => "new" }
       end
     end
-    #  end
   end
 
   def update
@@ -139,7 +130,7 @@ class ListsController < ApplicationController
     saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
     if saved
       flash[:notice] = "List was successfully updated."
-      # redirect_to root_path(@list)
+
       respond_to do |format|
         format.html {}
         format.json { render :json => {:htmlerrors => @htmlerrors }}
@@ -169,25 +160,26 @@ class ListsController < ApplicationController
     @collaboration.update_attributes(:collaboration_date => Time.now)
     flash[:notice] = "Ownership updated"
     redirect_to root_path(@list)
-    # render :showList => {:status => 'success', :owner => @list.user_id}
 
   end
 
   def destroy
-    @list.destroy
-    @list = current_user.all_task
-    # flash[:notice] = "List was successfully destroyed."
-    # redirect_to root_path(@list)
+    if @list.destroy
 
-    respond_to do |format|
-      flash[:success] = "List was successfully destroyed."
-      format.html { redirect_to root_path(@list) }
-      format.js
+      session[:list_id] = List.current = nil
+      @list = session[:list_id] = List.current = @user.all_task
+
+      flash[:notice] = "List was successfully destroyed."
+      redirect_to root_path(@list)
+      # respond_to do |format|
+      #   format.html { }
+      #   format.js
+      # end
     end
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_list
     if params[:id].blank?
       @list = List.current =current_list
@@ -196,10 +188,11 @@ class ListsController < ApplicationController
       @_current_list = session[:list_id] = List.current = nil
       session[:list_id] = params[:id]
       @_current_list = List.current = @list
-      session[:active_collaborations] = nil
+      session[:active_collaborations] = Array.new
+      session[:active_collaborations][0] = current_user.id
       set_current_list
     end
-
+    @active_users = active_collaborator(@list)
   end
 
   def set_user
@@ -242,7 +235,6 @@ class ListsController < ApplicationController
         format.json { render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request}
         format.js { render :action => "edit" }
       end
-      # return render json: { status: 'invalid',:errors => @list.errors.messages }, status: :bad_request
     end
   end
 

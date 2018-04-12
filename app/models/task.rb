@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   include ActiveModel::Dirty
 
   # sdefine_attribute_methods :list_id
-  attr_accessor :t_blocker_attributes, :completed, :list_before, :detail_before, :current_user_id
+  attr_accessor :t_blocker_attributes, :completed, :list_before, :list_after, :detail_before, :current_user_id, :user_after,:user_before
   belongs_to :list
   belongs_to :user
   belongs_to :assigner_user, class_name: "User"
@@ -66,6 +66,7 @@ class Task < ApplicationRecord
     data["blocker"]= is_blocker?
     data["id"]= self.id
     data["current_list"] = List.current.id
+    data["current_user_id"]= self.current_user_id
     #  current_user = (!self.assigner_id.blank?) ? self.user_id : self.assigner_id
     if (is_blocker?)
       data["parentId"] = self.parent_task.id
@@ -104,8 +105,8 @@ class Task < ApplicationRecord
     data["blocker"]= is_blocker?
     data["parentId"]= self.parent_task_id
     data["id"]= self.id
-    data["current_list"] = List.current.id
     data["status"]= 'created'
+    data["current_user_id"]= self.current_user_id
     if (is_blocker?)
       data["partial"] = 't_blocker'
       data["num"] = ''
@@ -113,7 +114,9 @@ class Task < ApplicationRecord
       data["user"] = self.parent_task.user_id
       list_id = data["list_id"] = self.parent_task.list_id
       data["all_task_id"] = self.parent_task.user.all_task.id
+      data["current_list"] = self.parent_task.list_id
     else
+      data["current_list"] = self.list_id
       data["partial"] = 'task'
       data["num"] = self.user.num_incompleted_tasks(List.find(self.list_id))
       data["numAllTask"] = self.user.num_incompleted_tasks(self.user.all_task)
@@ -137,6 +140,7 @@ class Task < ApplicationRecord
     data["num"] = ''
     data["numAllTask"] = ''
     data["current_list"] = List.current.id
+    data["current_user_id"]= self.current_user_id
     if (is_blocker?)
       data["partial"] = 't_blocker'
       data["user"] = self.parent_task.user_id
@@ -153,8 +157,8 @@ class Task < ApplicationRecord
     if (self.previous_changes.key?(:list_id) &&
       self.previous_changes[:list_id].first != self.previous_changes[:list_id].last)
       data["status"] = 'changelist'
-      data["num"] = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].first))
-      data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.previous_changes[:list_id].last))
+      data["num"] = self.user.num_incompleted_tasks(List.find(self.list_before))
+      data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.list_id))
       data["list_name"] = self.list.name
       data["list_change"]= self.list_id
       data["list_before"]= self.list_before
@@ -198,6 +202,19 @@ class Task < ApplicationRecord
 
       end
       # TaskRelayJob.perform_later(self,data,List.current)
+    elsif self.previous_changes.key?(:user_id) &&
+      self.previous_changes[:user_id].first != self.previous_changes[:user_id].last
+      data["status"] = 'changeuser'
+      self.user_before = User.find(self.previous_changes[:user_id].first)
+      # data["num_list_change"] = self.user.num_incompleted_tasks(List.find(self.list_id))
+      data["user_after"]= self.user_after.id
+      data["user_before"]= self.previous_changes[:user_id].first
+      data["list_all_task_before_id"] = self.user_before.all_task.id
+      data["num_task_list_u_before"] = self.user_before.num_incompleted_tasks(self.list)
+      data["num_task_list_u_after"] = self.user_after.num_incompleted_tasks(self.list)
+      data["num_task_alllist_u_before"] = self.user_before.num_incompleted_tasks(self.user_before.all_task)
+      data["num_task_alllist_u_after"] = self.user_after.num_incompleted_tasks(self.user_after.all_task)
+
     else
       data["status"] = 'saved'
 

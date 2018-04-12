@@ -1,5 +1,5 @@
   <%= link_to (current_user.owner?(list))? edit_list_path(list) : list_showList_path(list), data: { behavior: 'modal' },remote: true do%>
-     <i class="material-icons md-18 md-light">settings</i>
+     <i class="material-icons md-15 md-light">settings</i>
   <% end %>
   <!-- <% if logged_in? && current_user.owner?(list)%>
       <li><%= link_to "Edit List", edit_list_path(list), remote: true %></li>

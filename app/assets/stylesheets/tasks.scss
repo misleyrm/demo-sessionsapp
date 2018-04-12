@@ -8,6 +8,22 @@
   text-decoration: line-through;
 }
 
+.complete_tasks .collapsible{
+  box-shadow: none;
+  border: none;
+  margin: 0;
+}
+
+.complete_tasks .collapsible .collapsible-header,
+.complete_tasks .collapsible .collapsible-body {
+  border: none;
+  padding: 0;
+}
+
+.task-box{
+  margin: 15px 0 15px;
+}
+
 .show_blockers p{
   padding-bottom: 5px;
 }
@@ -24,8 +40,9 @@
   display: inline-block;
 }
 
-.tasks .task-detail>p{
-  font-size: .9rem;
+.tasks .task-detail > p{
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .tasks ul.menu-information >li,
@@ -39,14 +56,14 @@
   top: 0;
 }
 
-.table-of-task > .row{
+.table-of-task .task-box.row{
   margin-left: 0;
   margin-right: 0;
 }
 
 .table-of-task [type="checkbox"]:checked+label:before {
   width: 8px;
-  height: 18px;
+  height: 15px;
 }
 
 .table-of-task [type="checkbox"]+label {
@@ -77,8 +94,8 @@
 }
 
 .table-of-task ul.menu-information{
-  font-size: .8rem;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 14px;
   color: #a4a6a9;
 }
 
@@ -97,7 +114,7 @@
 }
 
 form.edit_task [type="checkbox"] + label {
-  height: 20px;
+  height: 18px;
 }
 
 .menu-information li:not(:first-child):before {
@@ -217,4 +234,25 @@ form.edit_task [type="checkbox"] + label {
 .permitted ul.menu-option > li >i[data-hasblockers],
 .no-permitted ul.menu-option > li > i[data-hasblockers='false']{
   display: none;
+}
+
+
+.new_task input[type=text]:not(.browser-default){
+  height: 2.5rem;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+}
+
+.new-task .input-field {
+  margin-top: 0;
+}
+
+#list-users .ui-state-active,
+#list-users .ui-widget-content .ui-state-active,
+#list-users .ui-widget-header .ui-state-active,
+#list-users a.ui-button:active,
+#list-users .ui-button:active .ms-user-tasks,
+#list-users .ui-button.ui-state-active:hover{
+  color: #808080;
+  border-color: red;
 }

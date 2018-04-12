@@ -95,7 +95,9 @@ Rails.application.routes.draw do
           get :resend_invitation
         end
       end
-      resources :collaboration_users, :controller => 'users', :defaults => {:type => 'collaborator'}
+      resources :collaboration_users, :controller => 'users', :defaults => {:type => 'collaborator'} do
+        put :sort, on: :collection
+      end
       get :search, :on => :collection
       member do
         patch :num_incompleted_tasks
@@ -115,6 +117,7 @@ Rails.application.routes.draw do
         patch :complete
         patch :incomplete
         patch :changelist
+        patch :changeuser
         patch :importanttask
       end
     end

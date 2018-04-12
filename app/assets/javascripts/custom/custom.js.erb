@@ -5,36 +5,36 @@ jQuery.fn.submitOnCheck = function() {
 
 jQuery.fn.mentionUsers = function(){
   var $inputor = $('#mentionsBlocker'),
-      $mention = $(this),
-      listId = $mention.data('list_id'),
-      userId = $mention.data('user_id');
+  $mention = $(this),
+  listId = $mention.data('list_id'),
+  userId = $mention.data('user_id');
 
-      $mention.atwho({
-        at: "+",
-        displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
-        insertTpl: function(){
-           return '${atwho-at}${email}'
-        },
-        callbacks: {
-          remoteFilter: function(query, callback) {
-            if (query.length >= 1) {
-              $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
-                callback(data)
-              });
-            }
-          }
+  $mention.atwho({
+    at: "+",
+    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+    insertTpl: function(){
+      return '${atwho-at}${email}'
+    },
+    callbacks: {
+      remoteFilter: function(query, callback) {
+        if (query.length >= 1) {
+          $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
+            callback(data)
+          });
+        }
       }
+    }
   })}
 
-function handler(ev) {
+  function handler(ev) {
     var target = $(ev.target);
     var elId = target.attr('id');
-};
+  };
 
-$(document).on('click','ul.user-lists li a', {}, function(event){
-  event.preventDefault();
-  var $this = $(this);
-  if (!$this.parent().is("#ms-add")){
+  $(document).on('click','ul.user-lists li a', {}, function(event){
+    event.preventDefault();
+    var $this = $(this);
+    if (!$this.parent().is("#ms-add")){
 
 
       $("ul.user-lists li.active").removeClass('active');
@@ -48,73 +48,83 @@ $(document).on('click','ul.user-lists li a', {}, function(event){
 
       $.ajax({
         complete:function(request){
-           $('.tooltipped').tooltip({delay: 50});
-           $('div[id^="incomplete_tasks_"]').each(function (){
-             mySortable($(this));
-           })
+          $('.tooltipped').tooltip({delay: 50});
+          $('div[id^="incomplete_tasks_"]').each(function (){
+            mySortable($(this));
+          })
         },
         data:'date='+ date,
         dataType:'script',
         type:'get',
         url: $this.attr('data-href')
       })
-  }
+    }
 
-});
+  });
 
-$(document).on('click','input[type=checkbox]', {}, function(event){
+  $(document).on('click','input[type=checkbox]', {}, function(event){
     $(this).parent('form').submit();
-});
+  });
 
 
-$(document).on('turbolinks:load',function(){
-  var $table_of_task = $(".table-of-task"),
-      c= 0;
+  $(document).on('turbolinks:load',function(){
+    var $table_of_task = $(".table-of-task"),
+        c = 0,
+        $li_list_user = $('li[id^="list_user_"]')
+        $div_user_tasks = $('.ms-user-tasks', $li_list_user );
 
-  // dropdown(".dropdown-button",false);
-  dropdown("[id^=dropdown_list_]","false");
-  deadlineDatepicker($('input.deadline-datepicker'));
+    msCollapsible("collapsible");
 
-  $('.mentions').mentionUsers();
-  $('.edit_task').submitOnCheck();
-  $('.edit_notification_setting').submitOnCheck();
 
-  $(".close").onclick = function(){
+    sortableCollaborationUsers($('.sort_c_users'));
 
-        // Get the parent of <span class="closebtn"> (<div class="alert">)
-        var div = this.parentElement;
 
-        // Set the opacity of div to 0 (transparent)
-        div.style.opacity = "0";
+    droppable_task_to_user_all($div_user_tasks);
+    // dropdown(".dropdown-button",false);
+    $('#ms-modal-dialog').modal('close');
+    dropdown("[id^=dropdown_list_]","false");
+    deadlineDatepicker($('input.deadline-datepicker'));
 
-        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
-        setTimeout(function(){ div.style.display = "none"; }, 600);
+    $('.mentions').mentionUsers();
+    $('.edit_task').submitOnCheck();
+    $('.edit_notification_setting').submitOnCheck();
+
+    $(".close").onclick = function(){
+
+      // Get the parent of <span class="closebtn"> (<div class="alert">)
+      var div = this.parentElement;
+
+      // Set the opacity of div to 0 (transparent)
+      div.style.opacity = "0";
+
+      // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+      setTimeout(function(){ div.style.display = "none"; }, 600);
     };
 
     $('ul.tabs').tabs();
 
     $("form#user-edit-avatar").submit(function(e){
-       e.preventDefault(e);
+      e.preventDefault(e);
     });
 
-  $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+    $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
-   // Show action-menu in blockers when mouseover
-  $(document).on("mouseover", ".permitted div.blocker", function(e){
-     $(this).addClass("active");
-  });
-  $(document).on("mouseleave", ".permitted div.blocker", function(e){
-     $(this).removeClass("active");
-  });
+    // Show action-menu in blockers when mouseover
+    $(document).on("mouseover", ".permitted div.blocker", function(e){
+      $(this).addClass("active");
+    });
+    $(document).on("mouseleave", ".permitted div.blocker", function(e){
+      $(this).removeClass("active");
+    });
 
-  // window.addEventListener("beforeunload", function (e) {
-  //     var confirmationMessage = "\o/";
-  //     var object = [1,2];
-  //     // localStorage['collaborator_users'] = object;
-  //
-  //     (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
-  //     return confirmationMessage;                                //Webkit, Safari, Chrome etc.
-  //   });
+    // window.addEventListener("beforeunload", function (e) {
+    //     var confirmationMessage = "\o/";
+    //     var object = [1,2];
+    //     // localStorage['collaborator_users'] = object;
+    //
+    //     (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+    //     return confirmationMessage;                                //Webkit, Safari, Chrome etc.
+    //   });
 
     // dropdown-button
     // $(document).on("click", '.dropdown-button2',function(e){
@@ -140,390 +150,478 @@ $(document).on('turbolinks:load',function(){
 
     // Modal for view
     var modal_holder_selector;
-     modal_holder_selector = "#modal-holder";
-     $(document).on("click", "[data-behavior='modal']", function() {
-       var location;
-       location = $(this).attr("href");
-       $.get(location, function(data) {
-           $(modal_holder_selector).html(data);
-            $('.modal').modal();
-           return $("#ms-modal-dialog").modal("open");
-       })
-       return false;
-     })
+    modal_holder_selector = "#modal-holder";
 
-     return $(document).on("ajax:success", "[data-behavior='modal-form']", function(event, data, status, xhr) {
-         var url;
-         url = xhr.getResponseHeader("Location");
-         if (url) {
-           window.location = url;
-         } else {
-           $("#ms-modal-dialog").modal("close");
-         }
-           return false;
-     })
-
-      /* end modal*/
-     $(".sidebar-collapse").sideNav();
-      // Initialize collapse button
-     $(".button-collapse").sideNav();
-
-     $('select').material_select();
-     $('.modal-trigger').modal();
-      // MODAL
-      $('#ms-modal-applications').modal({
-           dismissible: false, // Modal can be dismissed by clicking outside of the modal
-           opacity: .5, // Opacity of modal background
-           inDuration: 300, // Transition in duration
-           outDuration: 200, // Transition out duration
-           startingTop: '4%', // Starting top style attribute
-           endingTop: '150px', // Ending top style attribute
-           ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
-             console.log(modal, trigger);
-           },
-           complete: function() {  } // Callback for Modal close
-         })
-
-        var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-        $("#stand-up ul li a").each(function(){
-               if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
-               $(this).addClass("active");
-          })
-
-        $("#stand-up ul.menu li a").hover(function(){
-            change_img_nav(this);
-          }, function(){
-            change_img_nav(this)
-         });
-
-        $('#new_user').validate({
-            debug: true,
-            rules: {
-            'user[avatar]': {required: true},
-            'user[first_name]': {required: true},
-            'user[last_name]': {required: true},
-            'user[email]': {required: true, email: true},
-            'user[password]': {required: true, minlength: 6},
-            'user[password_confirmation]': {required: true, equalTo: '#user_password'}
-            }
-            // console.log('in');
-          });
-
-
-          $('form#new_task input#detail').on('keydown', function(event) {
-            if (event.keyCode === 13) {
-              $(this).parents("form").submit();
-              event.target.value = "";
-              return event.preventDefault();
-            }
-           });
-
-}); /* end of $(document).on('turbolinks:load',function(){*/
-
-  $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
-        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-        deadlineDatepicker($('input.deadline-datepicker'));
-  });
-
-  $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
-        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-        $('div[id^="incomplete_tasks_"]').each(function (){
-          mySortable($(this));
-        })
-        deadlineDatepicker($('input.deadline-datepicker'));
-    });
-
-  $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
-        $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-        deadlineDatepicker($('input.deadline-datepicker'));
-        $('div[id^="incomplete_tasks_"]').each(function (){
-          mySortable($(this));
-        })
-    });
-  // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
-  $(document).on("click", "#user_ownership_change a.btn-cancel", function(){
-       var $select = $(this).closest('form').find('select'),
-            value = $select.data("list-owner"),
-            $collapsible = $(this).parents($('.collapsible'));
-
-       $(this).closest('form').find("input[type=password], current_password").val("");
-       $select.find('option[value="'+value+'"]').prop('selected', true);
-       $select.material_select();
-       $collapsible.collapsible('close', 0);
-       collapsibleClose($collapsible);
-       $("#list_owner").val($("#list_owner option:first").val());
- });
-
-
- // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
-
- $(document).on("keyup","#change_ownership_password",function(){
-     if ($(this).val().length !=0)
-        $("#btn-list-ownership-change").removeClass("disabled");
-     else
-        $("#btn-list-ownership-change").addClass("disabled");
+    $(document).on("click", "[data-behavior='modal']", function() {
+      var location;
+      location = $(this).attr("href");
+      $.get(location, function(data) {
+        $(modal_holder_selector).html(data);
+        $('.modal').modal();
+        return $("#ms-modal-dialog").modal("open");
+      })
+      return false;
     })
 
- // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+    return $(document).on("ajax:success", "[data-behavior='modal-form']", function(event, data, status, xhr) {
+      var url;
+      url = xhr.getResponseHeader("Location");
+      if (url) {
+        window.location = url;
+      } else {
+        $("#ms-modal-dialog").modal("close");
+      }
+      return false;
+    })
 
- // CHANGE BUTTON TO ACTIVE WHEN EMAIL IS NOT EMPTY INVITATION
-   $(document).on("keyup","#recipient_email",function(){
-      var $invitationSubmit = $("#invitation_submit");
-       $("#error_message_invitation").html("");
-       if ($(this).val().length !=0){
-         $invitationSubmit.removeClass("disabled");
-         $('input[type="submit"]', $invitationSubmit).attr("disabled", false);
-       } else {
-         $invitationSubmit.addClass("disabled");
-         $('input[type="submit"]', $invitationSubmit).attr("disabled", true);
-       }
+    /* end modal*/
+    $(".sidebar-collapse").sideNav();
+    // Initialize collapse button
+    $(".button-collapse").sideNav();
+
+    $('select').material_select();
+    $('.modal-trigger').modal();
+    // MODAL
+    $('#ms-modal-applications').modal({
+      dismissible: false, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      inDuration: 300, // Transition in duration
+      outDuration: 200, // Transition out duration
+      startingTop: '4%', // Starting top style attribute
+      endingTop: '150px', // Ending top style attribute
+      ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+        console.log(modal, trigger);
+      },
+      complete: function() {  } // Callback for Modal close
+    })
+
+    var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+    $("#stand-up ul li a").each(function(){
+      if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+      $(this).addClass("active");
+    })
+
+    $("#stand-up ul.menu li a").hover(function(){
+      change_img_nav(this);
+    }, function(){
+      change_img_nav(this)
+    });
+
+    $('#new_user').validate({
+      debug: true,
+      rules: {
+        'user[avatar]': {required: true},
+        'user[first_name]': {required: true},
+        'user[last_name]': {required: true},
+        'user[email]': {required: true, email: true},
+        'user[password]': {required: true, minlength: 6},
+        'user[password_confirmation]': {required: true, equalTo: '#user_password'}
+      }
+      // console.log('in');
+    });
+
+
+
+
+  }); /* end of $(document).on('turbolinks:load',function(){*/
+
+    $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
+      $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+      deadlineDatepicker($('input.deadline-datepicker'));
+    });
+
+    $("ul#collaboration-users li a").on('ajax:complete', function(event, xhr, settings) {
+      $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+      $('div[id^="incomplete_tasks_"]').each(function (){
+        mySortable($(this));
       })
+      deadlineDatepicker($('input.deadline-datepicker'));
+    });
 
-     // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
-    $(document).on('keydown','#new_task >input#detail', function(event) {
+    $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
+      $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+      deadlineDatepicker($('input.deadline-datepicker'));
+      $('div[id^="incomplete_tasks_"]').each(function (){
+        mySortable($(this));
+      })
+    });
+    // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
+    $(document).on("click", "#user_ownership_change a.btn-cancel", function(){
+      var $select = $(this).closest('form').find('select'),
+      value = $select.data("list-owner"),
+      $collapsible = $(this).parents($('.collapsible'));
+
+      $(this).closest('form').find("input[type=password], current_password").val("");
+      $select.find('option[value="'+value+'"]').prop('selected', true);
+      $select.material_select();
+      $collapsible.collapsible('close', 0);
+      collapsibleClose($collapsible);
+      $("#list_owner").val($("#list_owner option:first").val());
+    });
+
+
+    // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
+
+    $(document).on("keyup","#change_ownership_password",function(){
+      if ($(this).val().length !=0)
+      $("#btn-list-ownership-change").removeClass("disabled");
+      else
+      $("#btn-list-ownership-change").addClass("disabled");
+    })
+
+    // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+
+    // CHANGE BUTTON TO ACTIVE WHEN EMAIL IS NOT EMPTY INVITATION
+    $(document).on("keyup","#recipient_email",function(){
+      var $invitationSubmit = $("#invitation_submit");
+      $("#error_message_invitation").html("");
+      if ($(this).val().length !=0){
+        $invitationSubmit.removeClass("disabled");
+        $('input[type="submit"]', $invitationSubmit).attr("disabled", false);
+      } else {
+        $invitationSubmit.addClass("disabled");
+        $('input[type="submit"]', $invitationSubmit).attr("disabled", true);
+      }
+    })
+
+    // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+    $(document).on('keydown','#new_task >input#task_detail', function(event) {
       if (event.keyCode === 13) {
         $(this).parents("form").submit();
         event.target.value = "";
         return event.preventDefault();
       }
-     });
-
-// Functions
-
-// dropdown-button
-function dropdown(selector,hover){
-  $( selector ).each(function(){
-    $(this).dropdown({
-      inDuration: 300,
-      outDuration: 225,
-      hover: hover, // Activate on hover
-      constrainWidth: false,
-      belowOrigin: true,
-      belowOrigin: true, // Displays dropdown below the button
-      alignment: 'right' // Displays dropdown with edge aligned to the left of button
     });
-})}
 
-function handlerIn(){
-    $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
-};
-function handlerOut(){
-   var color;
-   if ($(this).next( ".i-btn-datepicker" ).hasClass("md-red")){
-        color = 'rgb(238, 70, 114, 0.54)';
-   } else {
-         color = 'rgb(0, 0, 0, 0.26)';
-   }
-    $(this).next( ".i-btn-datepicker" ).css("color",color);
-};
 
-function change_img_nav(e){
-  var img = $(e).find("img#icon-change");
-  var img_path = img.attr('src');
+    // Functions
 
-  if ((img.length) && (img_path.lastIndexOf("lightblue")== -1)){
-    img_path = img_path.substr(0,img_path.lastIndexOf("."))+'-lightblue.png';
-    $(e).css('color','#92daee');
-    img.attr('src',img_path);
-  } else if (img.length){
-      img_path = img_path.substr(0,img_path.lastIndexOf("-lightblue"))+'.png';
-      img.attr('src',img_path);
-      $(e).css('color','#fff');
-    }
-}
+    // dropdown-button
+    function dropdown(selector,hover){
+      $( selector ).each(function(){
 
-function uploadAvatar(){
+        $(this).dropdown({
+          inDuration: 300,
+          outDuration: 225,
+          hover: hover, // Activate on hover
+          constrainWidth: false,
+          belowOrigin: true,
+          belowOrigin: true, // Displays dropdown below the button
+          alignment: 'right' // Displays dropdown with edge aligned to the left of button
+        });
+      })}
 
-  // Get a reference to the fileList
-  var files = !!this.files ? this.files : [];
-  var element = $(this);
-
-  // If no files were selected, or no FileReader support, return
-  if ( !files.length || !window.FileReader ) {
-    element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
-    return} ;
-
-  // Only proceed if the selected file is an image
-  if ( /^image/.test( files[0].type ) ) {
-      // Create a new instance of the FileReader
-      var reader = new FileReader();
-
-      // Read the local file as a DataURL
-      reader.readAsDataURL( files[0] );
-
-      // When loaded, set image data as background of div
-      reader.onloadend = function(){
-          element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
-          element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
-          element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
-          element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
-      }
-  }
-}
-
-// $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
-// $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
-
-function mouseOutAvatar(){
-  if ($('div.mousehover',this).hasClass('active')){
-      $('div.mousehover',this).toggleClass('hover');
-    }
-}
-
-function mouseOverAvatar(){
-
-  if (!$('div.mousehover', this ).hasClass('hover')){
-    $( 'div.mousehover', this).toggleClass( 'hover' );
-  }
-}
-
-function deadlineDatepicker(e){
-  // e.each(function(){
-    $(e).datepicker({
-      altFormat: "D, d MM",
-      minDate: 0,
-      showButtonPanel: true,
-      onClose: function(){
-        var date = $(this).datepicker('getDate');
-        if (date != null){
-          $.ajax({
-            complete:function(request){},
-            data:'deadline='+ date,
-            dataType:'script',
-            type:'PATCH',
-            url: $(this).siblings("i.material-icons").attr('data-href')
-          })
+      function handlerIn(){
+        $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
+      };
+      function handlerOut(){
+        var color;
+        if ($(this).next( ".i-btn-datepicker" ).hasClass("md-red")){
+          color = 'rgb(238, 70, 114, 0.54)';
+        } else {
+          color = 'rgb(0, 0, 0, 0.26)';
         }
-      },
-      beforeShow: function( input ) {
-          var href = $(this).siblings("i.material-icons").attr("data-href-delete-deadline");
-          setTimeout(function() {
-              var buttonPane = $( input )
-                  .datepicker( "widget" )
-                  .find( ".ui-datepicker-buttonpane" );
+        $(this).next( ".i-btn-datepicker" ).css("color",color);
+      };
 
-              $( "<button>", {
-                  text: "Clear",
-                  click: function() {
-                  //Code to clear your date field (text box, read only field etc.) I had to remove the line below and add custom code here
-                      $.datepicker._clearDate( input );
-                      var date = null;
-                      $.ajax({
-                        complete:function(request){},
-                        data:'deadline='+ date,
-                        dataType:'script',
-                        type:'PATCH',
-                        url: href
-                      })
-                  }
-              }).appendTo( buttonPane ).addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
-          }, 1 );
-      },
-      onChangeMonthYear: function( year, month, instance ) {
-          setTimeout(function() {
-              var buttonPane = $( instance )
-                  .datepicker( "widget" )
-                  .find( ".ui-datepicker-buttonpane" );
+      function change_img_nav(e){
+        var img = $(e).find("img#icon-change");
+        var img_path = img.attr('src');
 
-              $( "<button>", {
-                  text: "Clear",
-                  click: function() {
-                  //Code to clear your date field (text box, read only field etc.) I had to remove the line below and add custom code here
-                      $.datepicker._clearDate( instance.input );
-                  }
-              }).appendTo( buttonPane ).addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
-          }, 1 );
+        if ((img.length) && (img_path.lastIndexOf("lightblue")== -1)){
+          img_path = img_path.substr(0,img_path.lastIndexOf("."))+'-lightblue.png';
+          $(e).css('color','#92daee');
+          img.attr('src',img_path);
+        } else if (img.length){
+          img_path = img_path.substr(0,img_path.lastIndexOf("-lightblue"))+'.png';
+          img.attr('src',img_path);
+          $(e).css('color','#fff');
+        }
       }
-    });
-  // });
 
-};
+      function uploadAvatar(){
 
-'use strict';
+        // Get a reference to the fileList
+        var files = !!this.files ? this.files : [];
+        var element = $(this);
 
-(function(d){
-  	var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  	var mS = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        // If no files were selected, or no FileReader support, return
+        if ( !files.length || !window.FileReader ) {
+          element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+          return} ;
 
-    var wL = [ 'Sunday','Monday','Tuesday','Wednesday','Thursday', 'Friday','Saturday'];
-  	var wS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+          // Only proceed if the selected file is an image
+          if ( /^image/.test( files[0].type ) ) {
+            // Create a new instance of the FileReader
+            var reader = new FileReader();
 
-  	d.prototype.getLongMonth = d.getLongMonth = function getLongMonth (inMonth) {
-  		return gM.call(this, inMonth, mL);
-  	}
+            // Read the local file as a DataURL
+            reader.readAsDataURL( files[0] );
 
-  	d.prototype.getShortMonth = d.getShortMonth = function getShortMonth (inMonth) {
-  		return gM.call(this, inMonth, mS);
-  	}
-
-    d.prototype.getLongDayWeek = d.getLongDayWeek = function getLongDayWeek (inWeek) {
-  		return gD.call(this, inWeek, wL);
-  	}
-
-  	d.prototype.getShortDayWeek = d.getShortDayWeek = function getShortDayWeek (inWeek) {
-  		return gD.call(this, inWeek, wS);
-  	}
-
-  	function gM(inMonth, arr){
-    		var m;
-
-    		if(this instanceof d){
-    			m = this.getMonth();
-    		}
-    		else if(typeof inMonth !== 'undefined') {
-    			m = parseInt(inMonth,10) - 1; // Subtract 1 to start January at zero
-    		}
-
-    		return arr[m];
-  	}
-
-    function gD(inWeek, arr){
-  		var m;
-
-  		if(this instanceof d){
-  			m = this.getDay();
-  		}
-  		else if(typeof inWeek !== 'undefined') {
-  			m = parseInt(inWeek,10) ; // Subtract 1 to start January at zero
-  		}
-
-  		return arr[m];
-  	}
-})(Date);
-
-function toValidDate(datestring){
-  return datestring.replace(/(\d{2})(\/)(\d{2})/, "$3$2$1");
-}
+            // When loaded, set image data as background of div
+            reader.onloadend = function(){
+              element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
+              element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+              element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
+              element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
+            }
+          }
+        }
 
 
-$.fn.animateRotate = function(ini,angle, duration, easing, complete) {
-    var args = $.speed(duration, easing, complete);
-    var step = args.step;
-    return this.each(function(i, e) {
-        args.step = function(now) {
-            $.style(e, 'transform', 'rotate(' + now + 'deg)');
-            if (step) return step.apply(this, arguments);
+        function mouseOutAvatar(){
+          if ($('div.mousehover',this).hasClass('active')){
+            $('div.mousehover',this).toggleClass('hover');
+          }
+        }
+
+        function mouseOverAvatar(){
+
+          if (!$('div.mousehover', this ).hasClass('hover')){
+            $( 'div.mousehover', this).toggleClass( 'hover' );
+          }
+        }
+
+        function deadlineDatepicker(e){
+          // e.each(function(){
+          $(e).datepicker({
+            altFormat: "D, d MM",
+            minDate: 0,
+            showButtonPanel: true,
+            onClose: function(){
+              var date = $(this).datepicker('getDate');
+              if (date != null){
+                $.ajax({
+                  complete:function(request){},
+                  data:'deadline='+ date,
+                  dataType:'script',
+                  type:'PATCH',
+                  url: $(this).siblings("i.material-icons").attr('data-href')
+                })
+              }
+            },
+            beforeShow: function( input ) {
+              var href = $(this).siblings("i.material-icons").attr("data-href-delete-deadline");
+              setTimeout(function() {
+                var buttonPane = $( input )
+                .datepicker( "widget" )
+                .find( ".ui-datepicker-buttonpane" );
+
+                $( "<button>", {
+                  text: "Clear",
+                  click: function() {
+                    //Code to clear your date field (text box, read only field etc.) I had to remove the line below and add custom code here
+                    $.datepicker._clearDate( input );
+                    var date = null;
+                    $.ajax({
+                      complete:function(request){},
+                      data:'deadline='+ date,
+                      dataType:'script',
+                      type:'PATCH',
+                      url: href
+                    })
+                  }
+                }).appendTo( buttonPane ).addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
+              }, 1 );
+            },
+            onChangeMonthYear: function( year, month, instance ) {
+              setTimeout(function() {
+                var buttonPane = $( instance )
+                .datepicker( "widget" )
+                .find( ".ui-datepicker-buttonpane" );
+
+                $( "<button>", {
+                  text: "Clear",
+                  click: function() {
+                    //Code to clear your date field (text box, read only field etc.) I had to remove the line below and add custom code here
+                    $.datepicker._clearDate( instance.input );
+                  }
+                }).appendTo( buttonPane ).addClass("ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all");
+              }, 1 );
+            }
+          });
+          // });
+
         };
-        $({deg: ini}).animate({deg: angle}, args);
-    });
-};
 
-function msCollapsible(clase){
-  $('.'+ clase).collapsible({
-      onOpen: function(el) {
-          var $this = el,
+        'use strict';
+
+        (function(d){
+          var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          var mS = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+          var wL = [ 'Sunday','Monday','Tuesday','Wednesday','Thursday', 'Friday','Saturday'];
+          var wS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+          d.prototype.getLongMonth = d.getLongMonth = function getLongMonth (inMonth) {
+            return gM.call(this, inMonth, mL);
+          }
+
+          d.prototype.getShortMonth = d.getShortMonth = function getShortMonth (inMonth) {
+            return gM.call(this, inMonth, mS);
+          }
+
+          d.prototype.getLongDayWeek = d.getLongDayWeek = function getLongDayWeek (inWeek) {
+            return gD.call(this, inWeek, wL);
+          }
+
+          d.prototype.getShortDayWeek = d.getShortDayWeek = function getShortDayWeek (inWeek) {
+            return gD.call(this, inWeek, wS);
+          }
+
+          function gM(inMonth, arr){
+            var m;
+
+            if(this instanceof d){
+              m = this.getMonth();
+            }
+            else if(typeof inMonth !== 'undefined') {
+              m = parseInt(inMonth,10) - 1; // Subtract 1 to start January at zero
+            }
+
+            return arr[m];
+          }
+
+          function gD(inWeek, arr){
+            var m;
+
+            if(this instanceof d){
+              m = this.getDay();
+            }
+            else if(typeof inWeek !== 'undefined') {
+              m = parseInt(inWeek,10) ; // Subtract 1 to start January at zero
+            }
+
+            return arr[m];
+          }
+        })(Date);
+
+        function toValidDate(datestring){
+          return datestring.replace(/(\d{2})(\/)(\d{2})/, "$3$2$1");
+        }
+
+
+        $.fn.animateRotate = function(ini,angle, duration, easing, complete) {
+          var args = $.speed(duration, easing, complete);
+          var step = args.step;
+          return this.each(function(i, e) {
+            args.step = function(now) {
+              $.style(e, 'transform', 'rotate(' + now + 'deg)');
+              if (step) return step.apply(this, arguments);
+            };
+            $({deg: ini}).animate({deg: angle}, args);
+          });
+        };
+
+        function msCollapsible(clase){
+          $('.'+ clase).each(function(){
+            console.log($(this));
+            $(this).collapsible({
+              onOpen: function(el) {
+                var $this = el,
+                $panel_headers = $this.find('div.collapsible-header'),
+                $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+                $arrow.animateRotate(0,90, 250, "linear");
+              },
+              onClose: collapsibleClose
+            });
+
+        })
+      }
+
+        function collapsibleClose(e){
+          var $this = e,
           $panel_headers = $this.find('div.collapsible-header'),
           $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-          $arrow.animateRotate(0,90, 250, "linear");
-       }, // Callback for Collapsible open
-      onClose: collapsibleClose
-    });
+          // $arrow.css('transform-origin','center');
+          $arrow.animateRotate(90,0, 250, "linear");
+        }
 
-}
 
-function collapsibleClose(e){
-  var $this = e,
-  $panel_headers = $this.find('div.collapsible-header'),
-  $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-  $arrow.animateRotate(90,0, 250, "linear");
-}
+        function droppable_all(elem){
+          $(elem).each(function (e){
+            myDroppable($(this));
+          })
+        }
+
+        function myDroppable(elem){
+          var disabled = elem.hasClass("active")? true : false;
+          elem.droppable({
+            hoverClass: 'ui-state-active',
+            tolerance: 'pointer',
+            disabled: disabled,
+            accept: function (event, ui) {
+              return true;
+            },
+            drop: function (event, ui) {
+              var obj;
+              if ($(ui.helper).hasClass('draggable task-box')) {
+                // ui.draggable.css( "color", "red" )
+                // console.log(ui.draggable);
+                var taskId = ui.draggable.data("task-id"),
+                currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
+                listId = elem.data("nav-list-id"),
+                url = "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId;
+                // console.log(url);
+                // ui.draggable.remove();
+                $.ajax({
+                  type: "patch",
+                  url: url,
+                  data: "",
+                  success: function(data){
+                    if (data.errors) {
+                        Materialize.toast(data.errors, 4000);
+                      } else {
+                        Materialize.toast(data.flash, 4000);
+                      }
+                  }
+                });
+              }
+            }
+          })
+        }       /* myDroppable(elem) */
+
+
+        /**** Drag task to other user ****/
+        function droppable_task_to_user_all(elem){
+          elem.each(function (e){
+            myDroppable_task_to_user($(this));
+          })
+        }
+
+        function myDroppable_task_to_user(elem){
+          var disabled = !elem.data("draggable-tasks");
+          elem.droppable({
+            hoverClass: 'ui-state-active',
+            tolerance: 'pointer',
+            disabled: disabled,
+            accept: function (event, ui) {
+              return true;
+            },
+            drop: function (event, ui) {
+              var obj;
+              if ($(ui.helper).hasClass('draggable task-box')) {
+                // ui.draggable.css( "color", "red" )
+                // console.log(ui.draggable);
+                var taskId = ui.draggable.data("task-id"),
+                currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
+                userId = elem.parent().data("user-id"),
+                url = "/tasks/"+ taskId +"/changeuser?user_id="+userId;
+                // console.log(url);
+                // ui.draggable.remove();
+                $.ajax({
+                  type: "patch",
+                  url: url,
+                  data: "",
+                  success: function(data){
+                    if (data.errors) {
+                        Materialize.toast(data.errors, 4000);
+                      } else {
+                        Materialize.toast(data.flash, 4000);
+                      }
+                  }
+                });
+              }
+            }
+          })
+        }       /* myDroppable(elem) */
