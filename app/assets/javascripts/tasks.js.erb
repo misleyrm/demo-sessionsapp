@@ -36,8 +36,6 @@ function mySortable(elem){
 }
 
 
-// sortableCollaborationUsers($('#collaboration-users'));
-
 function sortableCollaborationUsers(elem){
  if (elem.is(':visible')){
   elem.sortable({
@@ -62,10 +60,6 @@ function sortableCollaborationUsers(elem){
                      url: $(this).data("url"),
                      data: $(this).sortable('serialize')
                  });
-
-
-
-
           }
     }).disableSelection();
   }

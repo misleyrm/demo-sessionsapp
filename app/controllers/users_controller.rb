@@ -89,16 +89,13 @@ class UsersController < ApplicationController
         if !@token.nil? && !Invitation.find_by_token(@token).blank?
             @invitation = Invitation.find_by_token(@token)
             @list = @invitation.list #find the list_id attached to the invitation
-            # hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
-            # @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
-            # html = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list}).squish
-            # htmlCollaborationsList = ""
-            # ActionCable.server.broadcast 'invitation_channel', status: 'activated', html: html,  user: @user.id, list_id: list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
+
             unless @user.collaboration_lists.include?(@list)
                hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
                @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                @invitation.update_attributes(:active => true)
-               htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": [],"current_user": current_user}).squish
+
+               htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": "","current_user": @user}).squish
                htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
                htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "member": @user }).squish
                htmlCollaborationsList = ""
@@ -227,12 +224,17 @@ class UsersController < ApplicationController
 
   def sort
 
-    # @list = List.find(params[:list_id])
-    # @collaboration_users = Collaboration.where(:user_id=> params[:users], :list_id => params[:list_id])
     # authorize @tasks.first
-    params[:collaboration_user].map!(&:to_i)
+    if  !params[:collaboration_user].blank?
+      collaboration_user = params[:collaboration_user]
+    elsif !params[:list_user].blank?
+      collaboration_user = params[:list_user]
+    end
+
+    collaboration_user.map!(&:to_i)
     active_collaborations = session[:active_collaborations]
-    params[:collaboration_user].each_with_index do |id, index|
+
+    collaboration_user.each_with_index do |id, index|
       if active_collaborations.include?(id)
         value = active_collaborations[index]
         pos = active_collaborations.index(id)
@@ -240,13 +242,15 @@ class UsersController < ApplicationController
         active_collaborations[pos] = value
       end
       Collaboration.where(:user_id=> id, :list_id => params[:list_id]).update_all(position: index + 1)
-  
+
     end
+
     session[:active_collaborations] = active_collaborations
     head :ok
   end
 
   private
+  
   def needs_password?(user, params)
     user.email != params[:user][:email]
   end

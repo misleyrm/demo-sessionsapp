@@ -13,6 +13,7 @@
                               <% end %>
                           <% end %>
                           <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
+                          <%= render partial: "lists/collaboration_user", locals: {collaboration_user: user, active_users: active_users, current_user: user} if !user.owner?(list)%>
                         <!-- </ul> -->
                         <% end%>
                         <ul id="collaboration-menu">
@@ -44,9 +45,9 @@
       <ul>
         <%= render partial: "users/list_user", locals: {user: user, list: list} %>
       </ul>
-      <ul class="sort_c_users">
+      <%= content_tag :ul, class: "sort_c_users", data: {"url" => "#{sort_list_collaboration_users_path(list)}"} do%>
         <%= render partial: "users/list_user", collection: active_users.without(user), as: :user, locals: { list: list } if (!active_users.blank? ) %>
-      </ul>
+      <% end %>
     </section>
     <!--  END SECTION LIST USERS -->
 <% end %>

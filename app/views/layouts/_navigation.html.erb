@@ -19,13 +19,13 @@
         <% end %>
       </ul>
       <ul id="ulCollaborationList" class="user-lists">
-        <% if !user.collaboration_lists.empty? %>
+        <% if (!user.collaboration_lists.empty?) && (user.collaboration_lists_almost_one_active?) %>
             <li class="li-hover title">
               <p>Collaboration lists</p>
             </li>
             <% user.collaboration_lists.each do |collaboration_list| %>
               <% if user.active_collaborator?(collaboration_list.id) %>
-                <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: collaboration_list, user: user, active: current_list?(collaboration_list.id, current_list.id)} %>
+                  <%= render partial: "lists/nav_list_name", layout: "layouts/li_navigation", locals: {list: collaboration_list, user: user, active: current_list?(collaboration_list.id, current_list.id)} %>
               <% end %>
             <% end %>
         <% end %>

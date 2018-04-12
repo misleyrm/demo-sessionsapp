@@ -19,20 +19,10 @@ class User < ApplicationRecord
   before_save :downcase_email
   validates :avatar, presence: true
 
-  # belongs_to :team
-  # has_many :sessions, :dependent => :destroy
-  # has_many :wips, :dependent => :destroy
-  # has_many :completeds, :dependent => :destroy
-  # has_many :blockers, dependent: :destroy
-  # enum role: [:master, :admin, :manager, :employee]
-  # after_initialize :set_default_role, :if => :new_record?
-
   attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password
   before_create :create_activation_digest
 
   after_create :create_settings
-
-
 
   has_attached_file :avatar,
   styles: { :medium => "200x200>", :thumb => "100x100>" }
@@ -154,7 +144,7 @@ class User < ApplicationRecord
   # Returns user's task
   # completed_tasks(list,date)
   def completed_tasks_by_date(list,date)
-# helpers.is_today?(date)
+  # helpers.is_today?(date)
     if (Date.today == date)
       if (list.id == self.all_task.id)
         self.completed_tasks.where(["DATE(completed_at)=?", date] ).order('completed_at')
@@ -361,6 +351,10 @@ class User < ApplicationRecord
     #   waiting_for_confirmation = find_by("unconfirmed_email = ?", email)
     #   return waiting_for_confirmation.present? && waiting_for_confirmation.confirmation_token_valid?
     end
+  end
+
+  def collaboration_lists_almost_one_active?
+    return (Collaboration.where('collaboration_date IS NOT ? and user_id = ?', nil, self.id).count >0)
   end
 
   private

@@ -9,7 +9,11 @@ module UsersHelper
   end
 
   def notification_active?(user,notification_type, divise)
-    return user.notification_settings.find_by(notification_type: notification_type, notification_option_id: divise).active
+    if !user.notification_settings.blank?
+      return user.notification_settings.find_by(notification_type: notification_type, notification_option_id: divise).active
+    else
+      return true
+    end
   end
 
   def all_possible_lists(user_id, current_user_id)
