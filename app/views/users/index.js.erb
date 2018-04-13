@@ -11,7 +11,10 @@ sortableCollaborationUsers($('.sort_c_users'));
 
       <% if (@active_collaborations.count <= 0) %>
           $collaboration_users.each(function(i, obj){
-            $(this).removeClass('active');
+            if (!$(this).hasClass('ms-current-user')){
+                $(this).removeClass('active') ;
+            }
+
           });
           $listUsers.html("");
           text = tooltip.replace("Hide", "Show");
