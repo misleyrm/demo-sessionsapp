@@ -1,0 +1,56 @@
+
+sortableCollaborationUsers($('.sort_c_users'));
+
+<% if params[:type].present? %>
+      var $list = $('[data-list-id = "<%= current_list.id %>"]');
+      var $listUsers = $('#list-users > .sort_c_users',$list);
+      var $collaboration_users = $('#collaboration-users li',$list),
+          $collaboration_menu = $('ul#collaboration-menu',$list);
+      var tooltip = $("a#show_all_collaborators", $collaboration_menu).data("tooltip"),
+          text, $elem;
+
+      <% if (@active_collaborations.count <= 0) %>
+          $collaboration_users.each(function(i, obj){
+            $(this).removeClass('active');
+          });
+          $listUsers.html("");
+          text = tooltip.replace("Hide", "Show");
+          $("a#show_all_collaborators >i", $collaboration_menu).html("visibility");
+          $("a#show_all_collaborators", $collaboration_menu).attr("data-tooltip",text);
+          $('.tooltipped').tooltip({delay: 50});
+
+      <% else %>
+          $collaboration_users.each(function(i, obj){
+            $(this).addClass('active');
+          });
+          var sortedIDs = $("#collaboration-users").sortable("toArray");
+          <% @active_collaborations.each do |id|%>
+            var position = $.inArray( "collaboration_user_<%= id %>", sortedIDs );
+            <% user = User.find(id)%>
+            if ($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")").length >0){
+              $("<%= j render partial: 'users/list_user', locals:{user: user, list: current_list } %>").insertBefore($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")"));
+            }else{
+                $("#list-users > ul.sort_c_users").append("<%= j render partial: 'users/list_user', locals:{user: user, list: current_list } %>");
+            }
+
+            $elem = $("#list_user_<%= id %>");
+
+            myDroppable_task_to_user($elem);
+
+        <% end %>
+          text = tooltip.replace("Show", "Hide");
+
+          $("a#show_all_collaborators", $collaboration_menu).attr("data-tooltip",text);
+          $("a#show_all_collaborators i", $collaboration_menu).html("visibility_off");
+          $('.tooltipped').tooltip({delay: 50});
+          msCollapsible("collapsible");
+          $('div[id^="incomplete_tasks_"]').each(function (){
+            mySortable($(this));
+          });
+
+          droppable_all('li[id^="drop_zone_"]');
+          $('.edit_task').submitOnCheck();
+          deadlineDatepicker($('input.deadline-datepicker'));
+          $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+      <% end %>
+<% end %>
