@@ -14,24 +14,15 @@
               <tr>
                 <th>First name</th>
                 <th>Last name</th>
-                <th>Role</th>
-                <th colspan="3"></th>
               </tr>
             </thead>
             <tbody>
 
+              <% @users.each do |u|%>
+              <%= u %>
               <tr>
-                <td><%= current_user.first_name %><%= current_user.id %></td>
-                <td><%= current_user.last_name %></td>
-                <%= form_for current_user do |u|%>
-                 <td data='<%= current_user.id %>' id='roleUpdate' class='selected_role'>
-                  <div class="input-field" >
-
-                  </div>
-                </td>
-                <td><%= u.submit 'Save' %></td>
-                <td><%= link_to 'Edit', edit_user_path(current_user) %></td>
-                <td><%= link_to 'Destroy', current_user, method: :delete %></td>
+                <td><%= u.first_name %><%= u.id %></td>
+                <td><%= u.last_name %></td>
 
               </tr>
               <% end %>

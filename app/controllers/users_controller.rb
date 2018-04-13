@@ -6,15 +6,18 @@ class UsersController < ApplicationController
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_collaborations, only: [:show], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :validate_email_update, only: :updateEmail
   before_action :validate_password_update, only: :updatePassword
 
   def index
-    # this_user = User.find(session[:user_id])
-    # authorize this_user
-    # @team = Team.find(session[:team_id])
-    # @users = @team.users.all
+    # @users = current_list.select(:id).collaboration_users.where.not(id: current_user.id)
+    respond_to do |format|
+      format.json { render json: @active_collaborations }
+      format.js
+    end
+
   end
 
   def roleUpdate
@@ -250,7 +253,7 @@ class UsersController < ApplicationController
   end
 
   private
-  
+
   def needs_password?(user, params)
     user.email != params[:user][:email]
   end
@@ -382,6 +385,23 @@ class UsersController < ApplicationController
     @active_collaborations = session[:active_collaborations]
     @active_collaborations ||= Array.new
     (@active_collaborations.include?(@user.id))? @active_collaborations.delete(@user.id) : @active_collaborations.push(@user.id)
+    session[:active_collaborations] = @active_collaborations
+  end
+
+  def set_active_all_collaborations
+    @users = current_list.collaboration_users.where.not(id: current_user.id)
+    @active_collaborations = session[:active_collaborations]
+    @active_collaborations ||= Array.new
+  
+    flag = @users.ids.index{ |x| !@active_collaborations.include?(x) }
+    if @users.ids.index{ |x| !@active_collaborations.include?(x) }.nil?
+      @active_collaborations = []
+    else
+      @active_collaborations = @users.ids
+      if !current_user.owner?(current_list)
+        @active_collaborations.push(current_list.owner)
+      end
+    end
     session[:active_collaborations] = @active_collaborations
   end
 end

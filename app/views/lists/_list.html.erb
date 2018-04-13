@@ -15,17 +15,19 @@
                           <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
                           <%= render partial: "lists/collaboration_user", locals: {collaboration_user: user, active_users: active_users, current_user: user} if !user.owner?(list)%>
                         <!-- </ul> -->
-                        <% end%>
+                        <% end %>
                         <ul id="collaboration-menu">
                           <% if has_collaborations?(list) %>
                               <li class="chip circle ms-text-green ms-view-all">
-                                <%#= link_to list_collaboration_user_all_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
-                                  <a href="#">
-                                    <%= content_tag :i, class: "material-icons add-user" do%>
-                                      <%= "#{(active_users.count >= list.collaboration_users.count)? 'visibility_off' : 'visibility'}" %>
+                                <%= link_to list_collaboration_users_path(list),id: 'show_all_collaborators',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Show all members', remote: true} do%>
+                                    <%= content_tag :i, class: "material-icons add-user" do %>
+                                      <% if active_users.empty? %>
+                                          <%= "visibility" %>
+                                        <% else%>
+                                          <%= "#{(active_users.count >= list.collaboration_users.count)? 'visibility_off' : 'visibility'}" %>
+                                        <%end%>
                                     <% end %>
-                                  </a>
-                                <%# end %>
+                                <% end %>
                               </li>
                           <% end %>
                           <% if (current_user.owner?(list)) %>
