@@ -108,8 +108,12 @@ class UsersController < ApplicationController
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
         # Please check your email to activate your account.
-        flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-        redirect_to confirmation_page_path
+        if params[:user][:avatar].blank?
+          flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+          redirect_to confirmation_page_path
+        else
+          render :action => "crop"
+        end
       else
         render 'new', layout: "login"
       end
@@ -137,9 +141,10 @@ class UsersController < ApplicationController
 
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
-    if @user.update_attributes(:avatar =>user_params[:avatar])
-      flash[:notice] = "Avatar updated"
-      render :json => {:status => 'success',:image_url => @user.avatar.url}
+    if @user.update_attributes(:image =>user_params[:image])
+      # flash[:notice] = "Avatar updated"
+      # render :json => {:status => 'success',:image_url => @user.avatar.url}
+      render :action => "crop"
     else
       render :json => {:status => 'fail', :errors => @user.errors.full_messages,:email => @user.email}
     end
@@ -287,7 +292,25 @@ class UsersController < ApplicationController
   end
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation, :role, :current_step, :new_email, :new_email_confirmation, :current_password)
+    params.require(:user).permit(
+    :first_name,
+    :last_name,
+    :avatar,
+    :avatar_original_w,
+    :avatar_original_h,
+    :avatar_crop_x,
+    :avatar_crop_y,
+    :avatar_crop_w,
+    :avatar_crop_h,
+    :email,
+    :password,
+    :password_confirmation,
+    :role, :current_step,
+    :new_email,
+    :new_email_confirmation,
+    :current_password)
+
+
   end
   # Remembers a user in the database for use in persistent sessions.
   def remember

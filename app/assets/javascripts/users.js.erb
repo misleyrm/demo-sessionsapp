@@ -29,7 +29,7 @@ $(document).on('turbolinks:load',function(){
 
 
   	formData.append('user[avatar]', $input[0].files[0]);
-
+    //
   	$.ajax({
   	  url: element.parents("#user-edit-avatar").attr("action"),
   	  data: formData,
@@ -38,8 +38,7 @@ $(document).on('turbolinks:load',function(){
   	  processData: false,
   	  type: 'POST',
       success: function(response) {
-          //  Materialize.toast('Avatar Changed', 4000);
-            // return response; // <- I tried that one as well
+
             element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
         }
   	})

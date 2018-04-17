@@ -18,6 +18,7 @@
 //= require jquery.atwho
 //= require rails.validations
 //= require jquery.timeago
+//= require jquery.Jcrop
 //= require turbolinks
 //= require custom/custom
 //= require materialize-sprockets

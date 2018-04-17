@@ -2,6 +2,9 @@ source "https://rubygems.org"
 ruby "2.3.0"
 
 gem 'paperclip', '~> 5.2', '>= 5.2.1'
+
+gem 'carrierwave'
+gem 'mini_magick'
 # Amazon web services
 gem 'aws-sdk', '~> 2'
 

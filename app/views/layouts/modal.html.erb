@@ -1,3 +1,31 @@
+<% content_for(:head) do %>
+    <script type="text/javascript" charset="utf-8">
+        $(function() {
+           $('ul.tabs').tabs();
+            msCollapsible("ms-accordion-section");
+            $('.mentions').mentionUsers();
+
+            function Arrayofemails(e){
+              e.preventDefault();
+              var value = $inputor.val(),
+                  emails = value.match(/@\[((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))\]/g),
+                  arr = new Array(),
+                  arrstring;
+               <!-- //console.log( 'l='+ emails); -->
+               $.each(emails, function( index, value ) {
+                 arr[index] = value.slice(2,-1);
+               })
+               arrstring = arr.join(',');
+               <!-- $('#tags_emails').val( arrstring ); -->
+
+              }
+
+              $('select').material_select();
+        });
+    </script>
+<% end %>
+
+
 <!-- Modal Structure -->
   <div id="ms-modal-dialog" class="modal">
     <div class="valign-wrapper" style="height:100%">
@@ -9,31 +37,3 @@
       </div>
 		</div>
   </div>
-
-<%= javascript_tag do %>
-
-$(function() {
- $('ul.tabs').tabs();
-  msCollapsible("ms-accordion-section");
-  $('.mentions').mentionUsers();
-
-function Arrayofemails(e){
-  e.preventDefault();
-  var value = $inputor.val(),
-      emails = value.match(/@\[((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})))\]/g),
-      arr = new Array(),
-      arrstring;
-   <!-- //console.log( 'l='+ emails); -->
-   $.each(emails, function( index, value ) {
-     arr[index] = value.slice(2,-1);
-   })
-   arrstring = arr.join(',');
-   <!-- $('#tags_emails').val( arrstring ); -->
-
-}
-
-$('select').material_select();
-
-});
-
-<% end %>
