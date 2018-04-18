@@ -108,11 +108,11 @@ class UsersController < ApplicationController
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
         # Please check your email to activate your account.
-        if params[:user][:avatar].blank?
+        if params[:user][:image].blank?
           flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
           redirect_to confirmation_page_path
         else
-          render :action => "crop"
+          render :action => "crop", layout: "modal"
         end
       else
         render 'new', layout: "login"
@@ -296,12 +296,13 @@ class UsersController < ApplicationController
     :first_name,
     :last_name,
     :avatar,
-    :avatar_original_w,
-    :avatar_original_h,
-    :avatar_crop_x,
-    :avatar_crop_y,
-    :avatar_crop_w,
-    :avatar_crop_h,
+    :image,
+    :image_original_w,
+    :image_original_h,
+    :image_crop_x,
+    :image_crop_y,
+    :image_crop_w,
+    :image_crop_h,
     :email,
     :password,
     :password_confirmation,

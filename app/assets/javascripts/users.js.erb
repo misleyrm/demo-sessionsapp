@@ -13,7 +13,7 @@ $(document).on('turbolinks:load',function(){
       });
   });
 
-  $(document).on("change", 'input#user_avatar', uploadAvatar);
+  $(document).on("change", 'input#user_image', uploadAvatar);
   // CHANGE IMAGE IN USER NEW FILE UPLOAD
   $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
   $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
@@ -24,11 +24,11 @@ $(document).on('turbolinks:load',function(){
   $(document).on("click","a#btn-user-avatar-upload",function(){
       // e.preventDefault();
     var formData = new FormData(),
-      $input = $("#user_avatar"),
+      $input = $("#user_image"),
       element = $(this);
 
 
-  	formData.append('user[avatar]', $input[0].files[0]);
+  	formData.append('user[image]', $input[0].files[0]);
     //
   	$.ajax({
   	  url: element.parents("#user-edit-avatar").attr("action"),
@@ -38,7 +38,6 @@ $(document).on('turbolinks:load',function(){
   	  processData: false,
   	  type: 'POST',
       success: function(response) {
-
             element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
         }
   	})
