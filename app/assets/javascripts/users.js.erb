@@ -15,20 +15,23 @@ $(document).on('turbolinks:load',function(){
 
   $(document).on("change", 'input#user_image', uploadAvatar);
   // CHANGE IMAGE IN USER NEW FILE UPLOAD
-  $(document).on("mouseout", 'label[for="user_avatar"]', mouseOutAvatar);
-  $(document).on("mouseover", 'label[for="user_avatar"]', mouseOverAvatar);
+  $(document).on("mouseout", 'label[for="user_image"]', mouseOutAvatar);
+  $(document).on("mouseover", 'label[for="user_image"]', mouseOverAvatar);
 
 
   /*************** CHANGE AVATAR *************/
 
-  $(document).on("click","a#btn-user-avatar-upload",function(){
-      // e.preventDefault();
+  $(document).on("click","a#btn-user-avatar-upload",function(e){
+    e.preventDefault();
     var formData = new FormData(),
       $input = $("#user_image"),
       element = $(this);
 
 
   	formData.append('user[image]', $input[0].files[0]);
+    // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
+    // console.log(element.parents("#user-edit-avatar").attr("action"));
+    // element.parents("#user-edit-avatar").trigger('submit.rails');
     //
   	$.ajax({
   	  url: element.parents("#user-edit-avatar").attr("action"),

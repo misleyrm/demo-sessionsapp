@@ -2,10 +2,10 @@
     <%= render :partial => 'shared/error_messages', :locals => {:object => @user} %>
     <div class="row">
         <div class="col s12">
-              <%= f.hidden_field :current_step, :value => "createAccount" %>
+              <%= f.hidden_field :current_step, :value => "createAccount",:id => "current_step_createAccount" %>
               <div class="valign-wrapper ms-upload-avatar">
-                  <%= f.file_field :avatar %>
-                  <label for="user_avatar">
+                  <%= f.file_field :image %>
+                  <label for="user_imahe">
                   <div class="mousehover <%= (current_user.nil?)? 'hover': '' %> ">
                     <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar</label>
                   </div>

@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include UsersHelper
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
@@ -80,6 +80,10 @@ class UsersController < ApplicationController
 
   end
 
+  def settings
+    render layout: 'modal'
+  end
+
   def create
 
     if (@user = User.find_by_email(user_params[:email]))
@@ -120,6 +124,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def crop
+
+  end
+
   def update
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
@@ -138,16 +146,22 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
-    if @user.update_attributes(:image =>user_params[:image])
+
+    if @user.update(image: user_params[:image])
       # flash[:notice] = "Avatar updated"
       # render :json => {:status => 'success',:image_url => @user.avatar.url}
-      render :action => "crop"
+      if user_params[:image].present?
+        render :action => 'crop', layout: 'layouts/modal'
+      else
+        redirect_to @user, notice: "Successfully updated user."
+      end
+
     else
       render :json => {:status => 'fail', :errors => @user.errors.full_messages,:email => @user.email}
     end
+
   end
 
 
@@ -295,7 +309,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(
     :first_name,
     :last_name,
-    :avatar,
     :image,
     :image_original_w,
     :image_original_h,
@@ -306,7 +319,7 @@ class UsersController < ApplicationController
     :email,
     :password,
     :password_confirmation,
-    :role, :current_step,
+    :current_step,
     :new_email,
     :new_email_confirmation,
     :current_password)

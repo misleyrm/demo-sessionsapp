@@ -3,12 +3,12 @@
     <%= hidden_field_tag :email, @user.email %>
     <i class="material-icons prefix">lock_outline</i>
     <%= f.label :password %>
-    <%= f.password_field :password, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+    <%= f.password_field :password, class: 'form-control',id: 'icon_prefix' %>
   </div>
   <div class="input-field">
     <i class="material-icons prefix">lock_outline</i>
     <%= f.label :password_confirmation, "Confirmation" %>
-    <%= f.password_field :password_confirmation, class: 'form-control',id: 'password_reset_email icon_prefix' %>
+    <%= f.password_field :password_confirmation, class: 'form-control',id: 'icon_prefix' %>
   </div>
   <div class="input-field center-align">
    <a class="waves-effect waves-light btn-large col s12 submit"><%= submit_tag "Reset password" %></a>

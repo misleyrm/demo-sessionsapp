@@ -1,6 +1,6 @@
 <div class="chip">
-	<% if user.avatar.exists? %>
-		<%= image_tag(user.avatar(:medium), class: 'circle', size: "50x50") %>
+	<% if !user.image.nil? %>
+		<%= image_tag(user.image_url(:medium), class: 'circle', size: "50x50") %>
 	<% else %>
 		<span><%= user.first_name[0]%></span>
 	<% end%>

@@ -22,6 +22,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     resize_to_fill(100, 100)
   end
 
+  version :medium do
+    resize_to_fill(200, 200)
+  end
+
   def crop
     if model.crop_x.present?
       resize_to_limit(600, 600)

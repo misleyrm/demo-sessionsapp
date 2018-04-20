@@ -116,7 +116,9 @@ nav {
 
 .avatar-list .chip,
 .navigationbar .chip,
-.list_avatar_name .chip{
+.list_avatar_name .chip,
+.avatar-user .chip
+{
   background: none;
   font-weight: 100;
   display: table;
@@ -138,7 +140,8 @@ nav .chip > i{
   line-height: inherit!important;
 }
 
-.nav-main .avatar-list .chip{
+.nav-main .avatar-list .chip,
+.nav-main .avatar-user .chip{
   font-size: 20px;
   display: table;
   position: relative;
@@ -148,21 +151,82 @@ nav .chip > i{
   font-size: 13px;
 }
 
+.nav-main ul.dropdown-content{
+  	min-width: 130px;
+    border: 0.5px solid #525D6A;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(44,49,52,0.21);
+    top: 55px!important;
+}
+
+.nav-main ul.dropdown-content li{
+  min-height: 40px;
+  padding: 0px 15px;
+  position: relative;
+}
+
+.nav-main ul.dropdown-content li:hover a{
+  color: #223042;
+  font-weight: 500;
+}
+
+.nav-main ul.dropdown-content li:hover{
+  background: none;
+}
+
+.nav-main ul.dropdown-content li .material-icons{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+  line-height: 40px;
+  height: 40px;
+  display: inline-block;
+  font-size: 6px;
+  position: absolute;
+  right: 15px;
+  top: 0;
+
+}
+
+.nav-main ul.dropdown-content li:hover .material-icons{
+  visibility: visible;
+  opacity: 1;
+}
+
+.nav-main ul.dropdown-content li a{
+  color: #525D6A;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 14px;
+  padding: 13px 5px 13px 0;
+}
+
+.nav-main ul.dropdown-content li + li a {
+  border-top: 0.5px solid #525D6A;
+}
+
 .nav-main .avatar-list .chip,
-.nav-main .avatar-list .chip p{
+.nav-main .avatar-list .chip p,
+.nav-main .avatar-user .chip,
+.nav-main .avatar-user .chip p{
   text-transform: capitalize;
   height: 100%;
   color: #fff;
   line-height: 75px;
 }
 
-.nav-main .avatar-list .chip p{
+.nav-main .avatar-list .chip p,
+.nav-main .avatar-user .chip p{
   font-size: 18px;
 }
 
 .nav-main .avatar-list >.chip >img,
 .nav-main .avatar-list >.chip >i,
-.nav-main .avatar-list >.chip >span{
+.nav-main .avatar-list >.chip >span,
+.nav-main .avatar-user >.chip >img,
+.nav-main .avatar-user >.chip >i,
+.nav-main .avatar-user >.chip >span{
   height: 35px;
   width: 35px;
   margin: 0 22px 0 -11px;
@@ -175,7 +239,9 @@ nav .chip > i{
 .chip i.add-user,
 .navigationbar .chip span,
 .list_avatar_name .chip span,
-.list_avatar_name .chip i{
+.list_avatar_name .chip i,
+.nav-main .avatar-user .chip i,
+.nav-main .avatar-user .chip span{
   border-radius: 50%;
   background-color: #fff;
   text-align: center;
@@ -193,6 +259,7 @@ nav .chip > i{
 }
 
 .nav-main .avatar-list .chip span,
+.nav-main .avatar-user .chip span,
 .navigationbar .chip span,
 .list_avatar_name .chip span{
   text-transform: uppercase;
@@ -201,6 +268,7 @@ nav .chip > i{
 .navigationbar .chip span,
 .list_avatar_name .chip span,
 .nav-main .avatar-list .chip span,
+.nav-main .avatar-user .chip span,
 .navigationbar .chip span,
 .list_avatar_name .chip span,.navigationbar .chip i,
 .chip i.add-user,
@@ -208,12 +276,11 @@ nav .chip > i{
   line-height: 35px;
 }
 
-.nav-main .avatar-list .chip span {
-  line-height: 35px;
-}
 
 .nav-main .avatar-list .chip i,
 .nav-main .avatar-list .chip span,
+.nav-main .avatar-user .chip i,
+.nav-main .avatar-user .chip span,
 .navigationbar .chip i,
 .navigationbar .chip span,
 .list_avatar_name .chip i,
@@ -251,6 +318,7 @@ nav .chip > i{
 }
 
 .nav-main .avatar-list .chip img,
+.nav-main .avatar-user .chip img
 .navigationbar .chip img,
 .list_avatar_name .chip img{
   background: white;
@@ -858,7 +926,7 @@ ul#bar-user-informations li.bar-user-info a> div{
   }
 
   .ms-tabsSetting-content .ms-upload-avatar input[type="file"],
-  .ms-tabsSetting-content .ms-upload-avatar label[for="user_avatar"],
+  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"],
   .ms-tabsSetting-content .ms-upload-avatar label[for="list_avatar"],
   .ms-tabsSetting-content .ms-upload-avatar{
     width: 95px;
@@ -898,21 +966,21 @@ ul#bar-user-informations li.bar-user-info a> div{
     height: 100px;
     width: 100px;
   }
-  .ms-upload-avatar label[for="user_avatar"]> div.mousehover,
+  .ms-upload-avatar label[for="user_image"]> div.mousehover,
   .ms-upload-avatar label[for="list_avatar"]> div.mousehover,
-  .ms-tabsSetting-content .ms-upload-avatar label[for="user_avatar"]> div.mousehover{
+  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"]> div.mousehover{
     transition: all 1s;
   }
 
-  .ms-upload-avatar label[for="user_avatar"]> div.mousehover,
+  .ms-upload-avatar label[for="user_image"]> div.mousehover,
   .ms-upload-avatar label[for="list_avatar"]> div.mousehover{
     padding: 20px 0;
   }
-  .ms-tabsSetting-content .ms-upload-avatar label[for="user_avatar"]> div.mousehover{
+  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"]> div.mousehover{
     padding: 0.8rem 0;
   }
 
-  .ms-upload-avatar label[for="user_avatar"]> div.mousehover:not(.hover),
+  .ms-upload-avatar label[for="user_image"]> div.mousehover:not(.hover),
   .ms-upload-avatar label[for="list_avatar"]> div.mousehover:not(.hover){
     opacity: 0;
     visibility:hidden;

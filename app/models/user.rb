@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   attr_writer :current_step
-  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password
+  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password, :image
 
   mount_uploader :image, AvatarUploader
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
@@ -336,10 +336,10 @@ class User < ApplicationRecord
   end
 
   def broadcast_update
-    if (self.previous_changes.key?(:avatar_file_name) &&
-       self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
+    if (self.previous_changes.key?(:image) &&
+       self.previous_changes[:image].first != self.previous_changes[:image].last)
        status = 'changeavatar'
-       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url, name: self.first_name
+       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.image.url, name: self.first_name
     elsif (self.previous_changes.key?(:email) &&
           self.previous_changes[:email].first != self.previous_changes[:email].last)
           status = 'changeemail'

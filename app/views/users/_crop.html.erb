@@ -1,9 +1,9 @@
 <h1>Crop Avatar</h1>
 
-<%= image_tag @user.image_url(:large), id: "cropbox" %>
+<%= image_tag @user.image.url(:large), id: "cropbox" %>
 
 <h4>Preview</h4>
-<div class= "image_preview">
+<div class="image-preview">
   <%= image_tag @user.image.url(:large), :id => "preview" %>
 </div>
 
