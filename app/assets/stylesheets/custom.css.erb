@@ -345,8 +345,8 @@ i.small {
 
 .user-initial{
   position: absolute;
-  height: 32px;
-  width: 32px;
+  height: 35px;
+  width: 35px;
   cursor: pointer;
   margin: 0px;
   background-color: #fff;
@@ -953,6 +953,10 @@ a.ui-button:active,
   position: absolute;
 }
 
+#list-users .chip >img{
+  margin: 0 8px 0 -12px;
+}
+
 #list-users .ms-user-tasks {
   margin-left: 50px;
   padding: 30px;
@@ -1005,24 +1009,35 @@ ul#bar-user-informations li.bar-user-info > a > img,
     margin-top: .8rem;
 }
 
-#list-users .chip ::after {
-    text-decoration: none;
-    font-family: "Material Icons";
-    content: "\E061 ";
-    font-size: 6pt;
-    line-height: 6pt;
-    background-color: #fff;
-    color: #77B44E;
-    position: relative;
-    z-index: 1;
-    border-radius: 50%;
-    padding: 0;
-    left: 25px;
-    top: -22px;
-    opacity: 1;
-    transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
+#list-users .chip ::after,
+#collaboration-users .chip:after {
+  font-family: "Material Icons";
+  content: "\E061 ";
+  font-size: 6pt;
+  line-height: 6pt;
+  background-color: #fff;
+  color: #77B44E;
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  padding: 0;
+  text-decoration: none;
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+#list-users .chip::after {
+  top: 22px;
+  opacity: 1;
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+#collaboration-users .chip:after {
+  opacity: 0;
+  margin: -9px 7px;
 }
 
 .su-btn input{

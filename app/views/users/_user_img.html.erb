@@ -1,8 +1,8 @@
 <% msinactive = "" %>
 <% msinactive =  !user.active_collaborator?(current_list.id)? "ms-inactive" : "" %>
 <%= content_tag :div, class: "chip user-img #{msinactive}", id: "#{user.id}" do %>
-    <% if !user.image.nil? %>
-       <%= image_tag(user.image.url(:medium), class: 'circle', alt: "#{user.first_name}", title:"#{user.first_name}") %>
+    <% if !user.image.blank? %>
+       <%= image_tag(user.image_url(:medium), class: 'circle', alt: "#{user.first_name}", title:"#{user.first_name}") %>
     <% else %>
        <span class="user-initial circle"><%= initials(user.id) %></span>
     <% end %>

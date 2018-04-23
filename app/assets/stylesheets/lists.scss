@@ -83,7 +83,8 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
 
 .list-collaboration-users .chip{
   background: none;
-  padding: 0 8px 0 0;
+  margin: 0 8px 0 0;
+  padding: 0;
 }
 
 #collaboration-users {
@@ -95,11 +96,38 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
 }
 
 #collaboration-users a {
-  position: relative;
+  display: block;
+  height: 35px;
+  width: 35px;
 
 }
 
-#collaboration-users .chip:before {
+#collaboration-users a span.user-initial{
+  line-height: 35px;
+  font-size: 16px;
+  color: white;
+  background: #c0bfbf;
+  display: block;
+}
+
+#collaboration-users .chip:after {
+ //  text-decoration: none;
+ //  font-family: "Material Icons";
+ //  content: "\E061 ";
+ //  font-size: 6pt;
+ //  line-height: 6pt;
+ //  background-color: #fff;
+ //  color: #77B44E;
+ //  z-index: 1;
+ //  border-radius: 50%;
+ //  padding: 0;
+ //  margin: 1.6rem 0 0 1.6rem;
+ //  position: absolute;
+ //  opacity: 0;
+ //  transition: opacity .25s ease-in-out;
+ // -moz-transition: opacity .25s ease-in-out;
+ // -webkit-transition: opacity .25s ease-in-out;
+  opacity: 0;
   text-decoration: none;
   font-family: "Material Icons";
   content: "\E061 ";
@@ -110,31 +138,32 @@ form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > s
   z-index: 1;
   border-radius: 50%;
   padding: 0;
-  margin: 1.6rem 0 0 1.6rem;
+  margin: -9px 7px;
   position: absolute;
-  opacity: 0;
   transition: opacity .25s ease-in-out;
- -moz-transition: opacity .25s ease-in-out;
- -webkit-transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
 }
 
-#collaboration-users .chip.active:before {
+#collaboration-users .chip.active:after {
     opacity:1;
     transition: opacity .25s ease-in-out;
    -moz-transition: opacity .25s ease-in-out;
    -webkit-transition: opacity .25s ease-in-out;
 }
 
-.list-collaboration-users #collaboration-users li,
-ul.invited_users li {
-  // padding: 0px 4px 0px!important;
-  float: left;
+.list-collaboration-users #collaboration-users li{
+    float: left;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
 }
 
-.list-collaboration-users ul li,
+
 ul.invited_users li {
   // padding: 0px 4px 0px!important;
   display: inline-block;
+  float: left;
 }
 
 p.label {
