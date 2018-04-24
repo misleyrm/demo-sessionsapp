@@ -430,9 +430,12 @@ class UsersController < ApplicationController
     @active_collaborations = session[:active_collaborations]
     @active_collaborations ||= Array.new
 
+    byebug
     if @users.ids.index{ |x| !@active_collaborations.include?(x) }.nil?
+      byebug
       @active_collaborations = []
     else
+      byebug
       @active_collaborations = @users.ids
       if !current_user.owner?(current_list)
         @active_collaborations.push(current_list.user_id)
