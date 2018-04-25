@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
   before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings]
-  attr_accessor :email, :name, :password, :password_confirmation, :avatar
+  attr_accessor :email, :name, :password, :password_confirmation, :avatar, :image
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
@@ -430,12 +430,9 @@ class UsersController < ApplicationController
     @active_collaborations = session[:active_collaborations]
     @active_collaborations ||= Array.new
 
-    byebug
     if @users.ids.index{ |x| !@active_collaborations.include?(x) }.nil?
-      byebug
       @active_collaborations = []
     else
-      byebug
       @active_collaborations = @users.ids
       if !current_user.owner?(current_list)
         @active_collaborations.push(current_list.user_id)

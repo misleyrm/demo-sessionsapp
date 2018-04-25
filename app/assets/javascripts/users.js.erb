@@ -84,7 +84,7 @@ $(document).on('turbolinks:load',function(){
   $('#new_user').validate({
       debug: true,
       rules: {
-      'user[avatar]': {required: true},
+      'user[image]': {required: true},    /*avatar*/
       'user[first_name]': {required: true},
       'user[last_name]': {required: true},
       'user[email]': {required: true, email: true},

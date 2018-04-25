@@ -13,6 +13,8 @@ sortableCollaborationUsers($('.sort_c_users'));
           $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
           $('.tooltipped').tooltip({delay: 50});
           $user.remove();
+          $("a#show_all_collaborators >i", $collaboration_menu).html("visibility");
+          $("a#show_all_collaborators", $collaboration_menu).attr("data-tooltip",text);
         } else {
           $collaboration_user.addClass('active');
           text = tooltip.replace("Show", "Hide");
@@ -44,5 +46,11 @@ sortableCollaborationUsers($('.sort_c_users'));
           $('.edit_task').submitOnCheck();
           deadlineDatepicker($('input.deadline-datepicker'));
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+
+          if (sortedIDs.length == $("#list-users > ul.sort_c_users").length) {
+            $("a#show_all_collaborators >i", $collaboration_menu).html("visibility_off");
+            $("a#show_all_collaborators", $collaboration_menu).attr("data-tooltip",text);
+            $('.tooltipped').tooltip({delay: 50});
+          }
        }
 <% end %>

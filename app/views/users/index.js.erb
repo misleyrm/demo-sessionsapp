@@ -12,9 +12,8 @@ sortableCollaborationUsers($('.sort_c_users'));
       <% if (@active_collaborations.count <= 0) %>
           $collaboration_users.each(function(i, obj){
             if (!$(this).hasClass('ms-current-user')){
-                $(this).removeClass('active') ;
+                $(this).removeClass('active');
             }
-
           });
           $listUsers.html("");
           text = tooltip.replace("Hide", "Show");
@@ -27,20 +26,26 @@ sortableCollaborationUsers($('.sort_c_users'));
             $(this).addClass('active');
           });
           var sortedIDs = $("#collaboration-users").sortable("toArray");
+
           <% @active_collaborations.each do |id|%>
-            var position = $.inArray( "collaboration_user_<%= id %>", sortedIDs );
-            <% user = User.find(id)%>
-            if ($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")").length >0){
-              $("<%= j render partial: 'users/list_user', locals:{user: user, list: current_list } %>").insertBefore($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")"));
-            }else{
-                $("#list-users > ul.sort_c_users").append("<%= j render partial: 'users/list_user', locals:{user: user, list: current_list } %>");
+              var position = $.inArray( "collaboration_user_<%= id %>", sortedIDs );
+              var $listUsersId = $("#list_user_<%= id %>");
+              <% user = User.find(id) %>
+
+               if ($listUsersId.length == 0) {
+                if ($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")").length > 0){
+                  $("<%= j render partial: 'users/list_user', locals:{user: user, list: current_list } %>").insertBefore($("#list-users > ul.sort_c_users").children("li:eq(" + position + ")"));
+                } else {
+                  $("#list-users > ul.sort_c_users").append("<%= j render partial: 'users/list_user', locals:{user: user, list: current_list } %>");
+                }
+
+              $elem = $("#list_user_<%= id %>");
+
+              myDroppable_task_to_user($elem);
             }
 
-            $elem = $("#list_user_<%= id %>");
+          <% end %>
 
-            myDroppable_task_to_user($elem);
-
-        <% end %>
           text = tooltip.replace("Show", "Hide");
 
           $("a#show_all_collaborators", $collaboration_menu).attr("data-tooltip",text);
