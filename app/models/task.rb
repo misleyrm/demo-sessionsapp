@@ -173,6 +173,7 @@ class Task < ApplicationRecord
       data["list_all_task_id"] = self.user.all_task.id
       if (self.completed?)
         data["num_completed_tasks_date"] = self.user.num_completed_tasks_by_date(self.list, self.completed_at.to_date)
+        data["collapsible_date"] = TasksController.render(partial: "shared/collapsible_completed_task", locals: {:date => self.completed_at.to_date, :i => 0, :user => self.user, :list => self.list }).squish
         # data['date'] = 0
       else
         data["num_completed_tasks_date"] = self.user.num_completed_tasks_by_date(self.list, self.previous_changes[:completed_at].first.to_date)

@@ -873,10 +873,9 @@ a.ui-button:active,
 /********* Modal *********/
 #ms-modal-dialog.modal,
 #ms-modal-confirm.modal {
-  /* width:100%;
-  max-height:100vh; */
-  /* top:0!important; */
-  /* height:100vh; */
+  border: 0.5px solid #50C2BB;
+  background-color: #FFFFFF;
+  max-width: 500px;
 }
 
 #ms-modal-confirm.modal {
@@ -887,8 +886,8 @@ a.ui-button:active,
 #ms-modal-dialog.modal .modal-close,
 #ms-modal-confirm.modal .modal-close.ms-close-x{
   position: relative;
-  top: -25px;
-  right: -64px;
+  top: -10.5px;
+  right: -9.5px;
   z-index: 999;
   padding: 0;
 }
@@ -910,23 +909,27 @@ a.ui-button:active,
 .modal-action.modal-close.btn-flat:hover i {
     color: #55C2B9!important;
 }
-#ms-modal-dialog.modal .modal-close i,
-#ms-modal-dialog.modal .modal-content,
-#ms-modal-confirm.modal .modal-content,
-#ms-modal-confirm.modal .modal-close.ms-close-x i {
-    border: 1px solid #9e9e9e;
-    background-color: #F6F6F9;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
+#ms-modal-dialog.modal .modal-close.btn-flat i,
+#ms-modal-confirm.modal .modal-close.ms-close-x.btn-flat i {
+    /* border: 1px solid #9e9e9e;
+    background-color: #F6F6F9; */
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+
+    box-sizing: border-box;
+    height: 21px;
+    width: 21px;
+    border: 1px solid #50C2BB;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);}
 }
 
-#ms-modal-dialog.modal .modal-close i,
-#ms-modal-confirm.modal .modal-close.ms-close-x i{
-  font-size: 2rem;
+#ms-modal-dialog.modal .modal-close.btn-flat i,
+#ms-modal-confirm.modal .modal-close.ms-close-x.btn-flat i{
+  font-size: 1rem;
   font-weight: 100;
-  color: #9e9e9e;
-  line-height: 2rem;
+  color:#50C2BB;
+  line-height: 21px;
 }
 
 #ms-modal-confirm a.btn-large {
@@ -937,12 +940,15 @@ a.ui-button:active,
 #ms-modal-dialog.modal input#detail{
   min-width: 100%;
 }
-#ms-modal-dialog.modal .modal-content,
-#ms-modal-confirm.modal .modal-content{
-  margin: 0 auto;
-  width: 540px;
 
+
+#ms-modal-dialog.modal .modal-content,
+#ms-modal-confirm.modal .modal-content {
+  margin: 0 auto;
+  width: 100%;
 }
+
+
 /********* End Modal *********/
 /********** User Img *********/
 #list-users .chip.user-img{

@@ -20,6 +20,7 @@
       $nav = $('[data-nav-id = "' + data.user + '"]')
       $listNav = $('[data-nav-list-id = "' + data.list_id + '"]', $nav)
       $listAllTaskNav = $('[data-nav-list-id = "' + data.list_all_task_id + '"]', $nav)
+
       if (data.status == 'changelist')
         $changeListMainCenter = $('[data-list-id = "' + data.list_change + '"]', $pageContent)
         $listChangeNav = $('[data-nav-list-id = "' + data.list_change + '"]', $nav)
@@ -114,13 +115,12 @@
           when 'completed'
             $("#task_"+ data.id + " #menu .tooltipped", $incomplete ).tooltip('remove')
             $task.remove()
-            console.log($('[data-date = "0"]', $divCompleted).length == 0)
             if ($('[data-date = "0"]', $divCompleted).length == 0)
-              $divCompleted.prepend '<div class="week-days" data-date="0"><span>Today</span><i class="material-icons md-18 ms-open-button" style="transform: rotate(90deg);">keyboard_arrow_right</i></div>'
+               $divCompleted.prepend data["collapsible_date"]
             $insertCollapsible = $('[data-date = "0"]', $divCompleted).parent()
-            console.log($insertCollapsible)
             $insertCompleted = $insertCollapsible.siblings(".collapsible-body")
             $insertCompleted.prepend(html)
+            msCollapsible("collapsible");
             $('.tooltipped').tooltip({delay: 50})
             if ($('.divider', $user).hasClass('no-active'))
               $('.divider', $user).removeClass('no-active')

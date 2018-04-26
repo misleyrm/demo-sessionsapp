@@ -514,17 +514,16 @@ jQuery.fn.mentionUsers = function(){
         };
 
         function msCollapsible(clase){
-          $('.'+ clase).each(function(){
-            console.log($(this));
-            $(this).collapsible({
-              onOpen: function(el) {
-                var $this = el,
-                $panel_headers = $this.find('div.collapsible-header'),
-                $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-                $arrow.animateRotate(0,90, 250, "linear");
-              },
-              onClose: collapsibleClose
-            });
+          $('.'+ clase).each(function(){    
+              $(this).collapsible({
+                onOpen: function(el) {
+                  var $this = el,
+                  $panel_headers = $this.find('div.collapsible-header'),
+                  $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+                  $arrow.animateRotate(0,90, 250, "linear");
+                },
+                onClose: collapsibleClose
+              });
 
         })
       }
