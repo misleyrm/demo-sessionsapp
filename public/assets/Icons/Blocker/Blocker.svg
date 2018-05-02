@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Blocker</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Blocker" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="alert-triangle" transform="translate(0.500000, 0.750000)" stroke="#223042">
+            <path d="M6.42965911,1.34179213 L0.567526423,11.7800891 C0.321580977,12.2343836 0.320112541,12.7937606 0.563668988,13.249517 C0.807225435,13.7052734 1.25922487,13.9889551 1.75102665,13.9947207 L13.475292,13.9947207 C13.9670938,13.9889551 14.4190932,13.7052734 14.6626497,13.249517 C14.9062061,12.7937606 14.9047377,12.2343836 14.6587923,11.7800891 L8.79665956,1.34179213 C8.54572591,0.900549902 8.09700065,0.63108436 7.61315934,0.63108436 C7.12931802,0.63108436 6.68059276,0.900549902 6.42965911,1.34179213 Z" id="Shape"></path>
+            <g id="Group-8" transform="translate(6.250000, 5.404188)">
+                <path d="M1.36315934,0.028340081 L1.36315934,2.84173721" id="Shape"></path>
+                <path d="M1.36315934,5.65513434 L1.36315934,5.90967979" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

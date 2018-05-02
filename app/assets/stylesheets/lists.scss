@@ -24,13 +24,6 @@ form.edit_list .select-wrapper input.select-dropdown{
 .secondary-content {
     color: #9e9e9e!important;
 }
-#collaboration-users .chip img, .invited_user .chip img{
-  border-radius: 50%;
-  border: 2px solid #C0BFBF;
-  background-color: #C0BFBF;
-  height: 35px;
-  width: 35px;
-}
 
 .invitation-user-settings li{
    padding: 10px 0 0;
@@ -68,62 +61,6 @@ form.edit_list ul.dropdown-content li{
 form.edit_list .dropdown-content li > a, form.edit_list .dropdown-content li > span{
   line-height: 1rem;
   padding: 12px 10px;
-}
-
-#collaboration-users .chip a:hover img,
-.list-collaboration-users .chip a:hover i.add-user{
-  border-color: #55c2b9;
-  color: #55c2b9;
-}
-
-.list-collaboration-users .chip img {
-  margin: 0!important;
-  float: none;
-}
-
-.list-collaboration-users .chip{
-  background: none;
-  margin: 0 8px 0 0;
-  padding: 0;
-}
-
-#collaboration-users {
-  float: left;
-}
-
-#collaboration-users, #collaboration-menu {
-  display: inline-block;
-}
-
-#collaboration-users a {
-  display: block;
-  height: 35px;
-  width: 35px;
-
-}
-
-#collaboration-users a span.user-initial{
-  line-height: 35px;
-  font-size: 16px;
-  color: white;
-  background: #c0bfbf;
-  display: block;
-}
-
-
-
-#collaboration-users .chip.active:after {
-    opacity:1;
-    transition: opacity .25s ease-in-out;
-   -moz-transition: opacity .25s ease-in-out;
-   -webkit-transition: opacity .25s ease-in-out;
-}
-
-.list-collaboration-users #collaboration-users li{
-    float: left;
-    display: inline-block;
-    width: 35px;
-    height: 35px;
 }
 
 
@@ -304,4 +241,100 @@ p.label {
 
 #list_manage_invitation.collapsible-body{
   padding: .6rem 0 2rem;
+}
+
+
+/* List of collaboration-users */
+
+#collaboration-users .chip img, .invited_user .chip img{
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+}
+
+// #collaboration-users .chip a:hover,
+// .list-collaboration-users .chip a:hover i.add-user{
+//   border: 1px solid #223042;
+//   box-shadow: 0 2px 4px 0 rgba(44,49,52,0.21);
+// }
+
+.list-collaboration-users .chip img {
+  margin: 0!important;
+  float: none;
+}
+
+.list-collaboration-users .chip{
+  background: none;
+  margin: 0 8px 0 0;
+  padding: 0;
+}
+
+#collaboration-users {
+  float: left;
+}
+
+#collaboration-users, #collaboration-menu {
+  display: inline-block;
+}
+
+#collaboration-users a {
+  display: block;
+  background-color: #B2B3BF;
+}
+
+#collaboration-users a,
+#show_all_collaborators,
+.list-collaboration-users #collaboration-users li{
+  height: 35px;
+  width: 35px;
+}
+
+
+#collaboration-users span.user-initial{
+  line-height: 35px;
+  font-size: 14px;
+  color: white;
+  background:  #B2B3BF;
+  display: block;
+  position: relative;
+}
+
+
+
+#collaboration-users .chip.active:after {
+    opacity:1;
+    transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+}
+
+.list-collaboration-users #collaboration-users li{
+    float: left;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+}
+
+#show_all_collaborators {
+  border: 0.5px solid #FFC4AC;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+#show_all_collaborators i {
+  color: #FF9D9D;
+  font-size: 20px;
+  line-height: 35px;
+
+}
+
+a#show_all_collaborators:hover i {
+  color: #223042;
+}
+
+
+#collaboration-users a,
+#show_all_collaborators {
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);
+  border-radius: 50%;
 }

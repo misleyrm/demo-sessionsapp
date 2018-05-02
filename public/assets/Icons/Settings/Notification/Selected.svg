@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Notification / Selected</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Notification-/-Selected" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Box:-Selected" transform="translate(3.000000, 3.000000)" stroke="#223042">
+            <polyline id="Shape" points="3.33000006 4.44000008 4.95000009 6.10500011 10.3500002 0.55500001"></polyline>
+            <path d="M9.65454561,5.86057737 L9.65454561,8.79636378 C9.65454561,9.40362597 9.17426924,9.89590925 8.58181832,9.89590925 L1.07272729,9.89590925 C0.480276367,9.89590925 0,9.40362597 0,8.79636378 L0,1.09954547 C-1.19096654e-16,0.492283276 0.480276367,0 1.07272729,0 L3.93690915,0" id="Shape-Copy"></path>
+        </g>
+    </g>
+</svg>

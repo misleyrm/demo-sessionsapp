@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #223042;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Exit / UserMenu</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Exit-/-UserMenu" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Icon:-Exit" transform="translate(1.500000, 1.500000)" stroke="#FFFFFF">
+            <path d="M7,0 L0,7" id="Shape"></path>
+            <path d="M0,0 L7,7" id="Shape"></path>
+        </g>
+    </g>
+</svg>

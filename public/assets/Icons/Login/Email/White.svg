@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #223042;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Email / White</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Email-/-White" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M2.01666667,2.5 C1.45864237,2.5 1,2.95864237 1,3.51666667 L1,12.6166667 C1,13.174691 1.45864237,13.6333333 2.01666667,13.6333333 L14.15,13.6333333 C14.7080243,13.6333333 15.1666667,13.174691 15.1666667,12.6166667 L15.1666667,3.51666667 C15.1666667,2.95864237 14.7080243,2.5 14.15,2.5 L2.01666667,2.5 Z" id="Shape" stroke="#FFFFFF"></path>
+        <polyline id="Shape" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" points="14.5833333 3.51666667 8.08333333 7.74166667 1.58333333 3.51666667"></polyline>
+    </g>
+</svg>

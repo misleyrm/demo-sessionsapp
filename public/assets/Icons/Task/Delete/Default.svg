@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon / Task / Delete / Default</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icon-/-Task-/-Delete-/-Default" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="trash-2" transform="translate(1.000000, 0.500000)" stroke="#525D6A">
+            <polyline id="Shape" points="0 1.5 1.11111111 1.5 10 1.5"></polyline>
+            <path d="M8.88888889,2.2 L8.88888889,9.9 C8.88888889,10.5075132 8.3914275,11 7.77777778,11 L2.22222222,11 C1.6085725,11 1.11111111,10.5075132 1.11111111,9.9 L1.11111111,2.2 M2.77777778,1.5 L2.77777778,0.75 C2.77777778,0.335786438 3.27523917,0 3.88888889,0 L6.11111111,0 C6.72476083,0 7.22222222,0.335786438 7.22222222,0.75 L7.22222222,1.5" id="Shape"></path>
+            <path d="M3.88888889,4.95 L3.88888889,8.25" id="Shape"></path>
+            <path d="M6.11111111,4.95 L6.11111111,8.25" id="Shape"></path>
+        </g>
+    </g>
+</svg>

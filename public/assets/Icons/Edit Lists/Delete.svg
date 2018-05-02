@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Delete</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Delete" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="trash-2" transform="translate(1.500000, 1.000000)" stroke="#223042">
+            <polyline id="Shape" points="0 2.82222222 1.41111111 2.82222222 12.7 2.82222222"></polyline>
+            <path d="M11.2888889,2.82222222 L11.2888889,12.7 C11.2888889,13.4793351 10.6571129,14.1111111 9.87777778,14.1111111 L2.82222222,14.1111111 C2.04288708,14.1111111 1.41111111,13.4793351 1.41111111,12.7 L1.41111111,2.82222222 M3.52777778,2.82222222 L3.52777778,1.41111111 C3.52777778,0.631775964 4.15955374,0 4.93888889,0 L7.76111111,0 C8.54044626,0 9.17222222,0.631775964 9.17222222,1.41111111 L9.17222222,2.82222222" id="Shape"></path>
+            <path d="M4.93888889,6.35 L4.93888889,10.5833333" id="Shape"></path>
+            <path d="M7.76111111,6.35 L7.76111111,10.5833333" id="Shape"></path>
+        </g>
+    </g>
+</svg>

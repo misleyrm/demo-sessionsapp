@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Exit / Settings / Default</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Exit-/-Settings-/-Default" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-/-Exit-/-Default" stroke="#50C2BB">
+            <circle id="Oval" cx="10" cy="10" r="9.5"></circle>
+            <path d="M13,7 L7,13.2757648" id="Shape" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M7,7 L13,13.2757648" id="Shape" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </g>
+</svg>

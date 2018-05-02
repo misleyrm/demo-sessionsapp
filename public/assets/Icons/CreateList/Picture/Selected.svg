@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #525D6A;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Picture / Selected</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Picture-/-Selected" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Group" transform="translate(0.500000, 1.000000)" stroke="#FFFFFF">
+            <g id="image" transform="translate(1.806452, 9.032258)">
+                <circle id="Oval" cx="4.8172043" cy="2.10752688" r="1.80645161"></circle>
+                <polyline id="Shape" points="19.8709677 9.93548387 13.8494624 3.91397849 0.602150538 17.1612903"></polyline>
+            </g>
+            <path d="M21.6800003,12.8378495 L21.6800003,23.7849462 C21.6800003,25.1151805 20.601504,26.1935484 19.2711114,26.1935484 L2.40888892,26.1935484 C1.07849631,26.1935484 0,25.1151805 0,23.7849462 L0,6.92473118 C-2.67440395e-16,5.59449695 1.07849631,4.51612903 2.40888892,4.51612903 L16.0672891,4.51612903" id="Shape-Copy"></path>
+            <polygon id="Shape" points="24.7419355 0 27 2.25806452 21.1290323 8.12903226 18.8709677 8.12903226 18.8709677 5.87096774"></polygon>
+        </g>
+    </g>
+</svg>

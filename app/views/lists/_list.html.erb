@@ -20,7 +20,7 @@
                           <% if has_collaborations?(list) %>
                               <li class="chip circle ms-text-green ms-view-all">
                                 <%= link_to list_collaboration_users_path(list),id: 'show_all_collaborators',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Show all members', remote: true} do%>
-                                    <%= content_tag :i, class: "material-icons add-user" do %>
+                                    <%= content_tag :i, class: "material-icons" do %>
                                       <% if active_users.empty? %>
                                           <%= "visibility" %>
                                         <% else%>
@@ -33,7 +33,8 @@
                           <% if (current_user.owner?(list)) %>
                               <li class="chip circle ms-text-green ms-add">
                                 <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
-                                    <i class="material-icons add-user">add</i>
+                                    <!-- <i class="material-icons add-user">add</i> -->
+                                    <%= image_tag(asset_path('assets/icons/members/adduser/default.svg')) %>
                                 <% end %>
                               </li>
                           <% end %>

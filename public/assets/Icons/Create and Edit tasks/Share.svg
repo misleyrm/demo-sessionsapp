@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / SHARE</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-SHARE" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="share-2" transform="translate(1.500000, 0.750000)" stroke="#223042">
+            <ellipse id="Oval" cx="10.8333333" cy="2.18171296" rx="2.16666667" ry="2.18171296"></ellipse>
+            <ellipse id="Oval" cx="2.16666667" cy="7.27237654" rx="2.16666667" ry="2.18171296"></ellipse>
+            <ellipse id="Oval" cx="10.8333333" cy="12.3630401" rx="2.16666667" ry="2.18171296"></ellipse>
+            <path d="M4.03722222,8.3705054 L8.97,11.2649113" id="Shape"></path>
+            <path d="M8.96277778,3.27984182 L4.03722222,6.17424769" id="Shape"></path>
+        </g>
+    </g>
+</svg>

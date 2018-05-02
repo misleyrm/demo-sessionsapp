@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Arrow / Category</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Arrow-/-Category" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Arrow" transform="translate(8.000000, 3.000000)" stroke="#223042">
+            <polyline id="Arrow:-Minimized" transform="translate(4.750000, 5.000000) rotate(90.000000) translate(-4.750000, -5.000000) " points="0.25 2.75 4.75 7.25 9.25 2.75"></polyline>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #223042;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / RememberMe / Selected</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-RememberMe-/-Selected" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Box" stroke="#FAFAFA" stroke-width="0.5" x="1.25" y="1.25" width="7.5" height="7.5" rx="2"></rect>
+        <circle id="Marker" fill="#FFC4AC" cx="5" cy="5" r="2"></circle>
+    </g>
+</svg>

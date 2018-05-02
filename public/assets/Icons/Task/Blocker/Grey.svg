@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon / Task / Blocker / Default / Grey</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icon-/-Task-/-Blocker-/-Default-/-Grey" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="alert-triangle" stroke="#A4ACB6">
+            <path d="M5.14372729,1.07461722 L0.454021139,9.24401914 C0.257264782,9.59956701 0.256090033,10.0373564 0.45093519,10.3940484 C0.645780348,10.7507404 1.0073799,10.9727604 1.40082132,10.9772727 L10.7802336,10.9772727 C11.173675,10.9727604 11.5352746,10.7507404 11.7301197,10.3940484 C11.9249649,10.0373564 11.9237902,9.59956701 11.7270338,9.24401914 L7.03732765,1.07461722 C6.83658073,0.729284543 6.47760052,0.518390725 6.09052747,0.518390725 C5.70345442,0.518390725 5.34447421,0.729284543 5.14372729,1.07461722 Z" id="Shape"></path>
+            <path d="M6.09052747,4.04425837 L6.09052747,6.35526316" id="Shape"></path>
+            <path d="M6.09052747,8.66626794 L6.09052747,8.87535885" id="Shape"></path>
+        </g>
+    </g>
+</svg>

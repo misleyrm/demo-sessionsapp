@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / RemoveMember / Red</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-RemoveMember-/-Red" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <polyline id="Shape" stroke="#FF5858" points="3 4.56962963 4.08547009 4.56962963 12.7692308 4.56962963"></polyline>
+        <path d="M11.6837607,4.56962963 L11.6837607,11.8133333 C11.6837607,12.3848458 11.1977792,12.8481481 10.5982906,12.8481481 L5.17094017,12.8481481 C4.5714516,12.8481481 4.08547009,12.3848458 4.08547009,11.8133333 L4.08547009,4.56962963 M5.71367521,4.56962963 L5.71367521,3.53481481 C5.71367521,2.96330237 6.19965672,2.5 6.7991453,2.5 L8.97008547,2.5 C9.56957404,2.5 10.0555556,2.96330237 10.0555556,3.53481481 L10.0555556,4.56962963" id="Shape" stroke="#FF5858"></path>
+        <path d="M6.7991453,7.15666667 L6.7991453,10.2611111" id="Shape" stroke="#FF5858"></path>
+        <path d="M8.97008547,7.15666667 L8.97008547,10.2611111" id="Shape" stroke="#FF5858"></path>
+    </g>
+</svg>
