@@ -343,6 +343,21 @@ i.small {
   text-transform: capitalize!important;
 }
 
+.member-avatar {
+    position: relative;
+    display: inline-block;
+    line-height: 35px;
+    width: 35px;
+    height: 35px;
+    white-space: nowrap;
+    border-radius: 1000px;
+  }
+
+.member-avatar img{
+  width: 100%;
+  height: 100%;
+}
+
 .user-initial{
   position: absolute;
   height: 35px;
@@ -668,8 +683,12 @@ a.ui-button:active,
 /********* MODAL ********/
 
 .modal-title{
-  font-size: 30px;
-  color: #55C2B9!important;
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0.57px;
+  line-height: 20px;
+  text-align: center;
 }
 
 /****** New list and Setting List *******/
@@ -679,11 +698,12 @@ a.ui-button:active,
 
 }
 
-.modal-text{
-  line-height: 22px;
-  font-size: 18px;
-  color: #848994;
-  font-weight: 100;
+.modal-text {
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
 }
 
 .input-field label:not(.label-icon).active {
@@ -906,31 +926,33 @@ a.ui-button:active,
     background: none;
     box-shadow: none;
 }
-.modal-action.modal-close.btn-flat:hover i {
-    color: #55C2B9!important;
+#ms-modal-dialog.modal .modal-close.btn-flat:hover i{
+    color: #525D6A;
+    border-color: #525D6A;
+    /* box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07); */
 }
+
+.modal-action.modal-close.btn-flat {
+    height: 21px;
+    line-height: 21px;
+}
+
 #ms-modal-dialog.modal .modal-close.btn-flat i,
 #ms-modal-confirm.modal .modal-close.ms-close-x.btn-flat i {
-    /* border: 1px solid #9e9e9e;
-    background-color: #F6F6F9; */
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-
+    font-size: 12px;
+    text-align: center;
+    font-weight: 100;
     box-sizing: border-box;
     height: 21px;
     width: 21px;
     border: 1px solid #50C2BB;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);}
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);
+    color: #50C2BB;
 }
 
-#ms-modal-dialog.modal .modal-close.btn-flat i,
-#ms-modal-confirm.modal .modal-close.ms-close-x.btn-flat i{
-  font-size: 1rem;
-  font-weight: 100;
-  color:#50C2BB;
-  line-height: 21px;
-}
 
 #ms-modal-confirm a.btn-large {
     height: 35px;
@@ -1017,7 +1039,7 @@ ul#bar-user-informations li.bar-user-info > a > img,
 }
 
 /* #list-users .chip ::after, */
-#collaboration-users .chip:after {
+#collaboration-user li:after {
   font-family: "Material Icons";
   content: "\E061 ";
   font-size: 6pt;
@@ -1042,7 +1064,7 @@ ul#bar-user-informations li.bar-user-info > a > img,
   -webkit-transition: opacity .25s ease-in-out;
 } */
 
-#collaboration-users .chip:after {
+#collaboration-users li:after {
   opacity: 0;
   margin: -9px 7px;
 }

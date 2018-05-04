@@ -68,6 +68,8 @@ jQuery.fn.mentionUsers = function(){
 
 
   $(document).on('turbolinks:load',function(){
+
+   svg();
     var $table_of_task = $(".table-of-task"),
         c = 0,
         $li_list_user = $('li[id^="list_user_"]')
@@ -514,7 +516,7 @@ jQuery.fn.mentionUsers = function(){
         };
 
         function msCollapsible(clase){
-          $('.'+ clase).each(function(){    
+          $('.'+ clase).each(function(){
               $(this).collapsible({
                 onOpen: function(el) {
                   var $this = el,
@@ -627,3 +629,30 @@ jQuery.fn.mentionUsers = function(){
             }
           })
         }       /* myDroppable(elem) */
+
+        /* replace img for svg */
+  function svg(){
+        $('img[src$=".svg"]').each(function() {
+            var $img = jQuery(this);
+            var imgURL = $img.attr('src');
+            var attributes = $img.prop("attributes");
+
+            $.get(imgURL, function(data) {
+                // Get the SVG tag, ignore the rest
+                var $svg = jQuery(data).find('svg');
+
+                // Remove any invalid XML tags
+                $svg = $svg.removeAttr('xmlns:a');
+
+                // Loop through IMG attributes and apply on SVG
+                $.each(attributes, function() {
+                    $svg.attr(this.name, this.value);
+                });
+
+                // Replace IMG with SVG
+                $img.replaceWith($svg);
+            }, 'xml');
+        });
+
+}
+      /* end */

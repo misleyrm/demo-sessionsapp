@@ -903,18 +903,19 @@ ul#bar-user-informations li.bar-user-info a> div{
   }
 
   .ms-upload-avatar, .ms-avatar-all-task{
-    width: 100px;
-    height: 100px;
+    width: 78px;
+    height: 78px;
     text-align: center;
-    margin: 0 auto 20px;
+    margin: 0 auto;
     border-radius: 50%;
     background-color: #606262;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    border: 1px solid #606262;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);
     background-image: url("");
   }
+
   .ms-upload-avatar{
     cursor: pointer;
   }
@@ -937,6 +938,7 @@ ul#bar-user-informations li.bar-user-info a> div{
   .ms-tabsSetting-content .ms-upload-avatar{
     margin: 0 27px 61px 0px;
     display: inline-block;
+    /* margin: 0 auto; */
 
   }
   .ms-tabsSetting-content .ms-update-avatar a.su-btn.btn-flat {
@@ -945,8 +947,8 @@ ul#bar-user-informations li.bar-user-info a> div{
   }
 
   .ms-upload-avatar input[type="file"]{
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     position: absolute;
     z-index: -9999;
     text-indent: -99999px;
@@ -963,8 +965,7 @@ ul#bar-user-informations li.bar-user-info a> div{
     display: block;
     line-height: 13px;
     letter-spacing: 1px;
-    height: 100px;
-    width: 100px;
+
   }
   .ms-upload-avatar label[for="user_image"]> div.mousehover,
   .ms-upload-avatar label[for="list_avatar"]> div.mousehover,
