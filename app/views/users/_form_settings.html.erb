@@ -17,8 +17,12 @@
                 <!-- </div> -->
               </div>
 
-              <div class="input-field capitalize">
-                  <i class="material-icons prefix">person_outline</i>
+              <div class="input-field capitalize ">
+                  <!-- <i class="material-icons prefix">person_outline</i> -->
+                  <span class="prefix valign-wrapper">
+                      <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
+                  </span>
+
                   <%= f.text_field :first_name, class: 'validate'%>
                   <%= f.label :first_name, id: 'icon_prefix', class: 'active' %>
               </div>

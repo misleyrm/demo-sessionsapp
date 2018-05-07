@@ -1,13 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
-    <title>Icons / Members</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Icons-/-Members" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <g id="user-check" transform="translate(2.000000, 1.500000)" stroke="#223042">
-            <circle id="Oval" cx="6" cy="3" r="3"></circle>
-            <path d="M11.7085714,12.952381 L11.7085714,11.4285714 C11.7085714,9.74541791 10.3441059,8.38095238 8.66095235,8.38095238 L3.32761902,8.38095238 C1.6444655,8.38095238 0.279999971,9.74541791 0.279999971,11.4285714 L0.279999971,12.952381" id="Shape"></path>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#223042;}
+</style>
+<title>Icons / Members</title>
+<desc>Created with Sketch.</desc>
+<g>
+	<path class="st0" d="M8,8c1.9,0,3.5-1.6,3.5-3.5S9.9,1,8,1S4.5,2.6,4.5,4.5S6.1,8,8,8z M8,2c1.4,0,2.5,1.1,2.5,2.5S9.4,7,8,7
+		C6.6,7,5.5,5.9,5.5,4.5S6.6,2,8,2z"/>
+	<path class="st0" d="M10.7,9.4H5.3c-2,0-3.5,1.6-3.5,3.5v1.5C1.8,14.7,2,15,2.3,15s0.5-0.2,0.5-0.5v-1.5c0-1.4,1.1-2.5,2.5-2.5h5.3
+		c1.4,0,2.5,1.1,2.5,2.5v1.5c0,0.3,0.2,0.5,0.5,0.5s0.5-0.2,0.5-0.5v-1.5C14.2,11,12.6,9.4,10.7,9.4z"/>
+</g>
 </svg>
