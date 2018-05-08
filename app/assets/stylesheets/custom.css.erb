@@ -69,7 +69,7 @@ body{
  }
 h1, h2, h3, h4, h5, h6 {
   font-weight: lighter!important;
-  color: #808080 !important;
+  color: #223042;  /* #808080; */
   margin: 0.82rem 0 2rem;
   font-family: 'ProximaNova-Light'!important;
 }
@@ -731,6 +731,7 @@ a.ui-button:active,
     box-shadow: 0 1px 0 0 #55C2B9;
     width: 96.5%;
 }
+
 
 /******** TABS ************/
 
@@ -1470,6 +1471,14 @@ button.close {
   padding-left: 2.5rem;
 }
 
+.modal-content h2.modal-title {
+  margin-bottom: 36px;
+}
+
+.modal-content .row {
+  margin-bottom: 0px;
+}
+
 .modal-content .input-field .prefix ~ input,
 .modal-content .input-field .prefix ~ textarea,
 .modal-content .input-field .prefix ~ label,
@@ -1479,8 +1488,12 @@ button.close {
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
+    width: calc(100% - 30px);
 }
 
+.modal-content .input-field label:not(.label-icon).active {
+  transform: translateY(-4px) scale(0.8);
+}
 
 
 .modal-content input:not([type]),
@@ -1496,7 +1509,7 @@ button.close {
 .modal-content input[type=number]:not(.browser-default),
 .modal-content input[type=search]:not(.browser-default),
 .modal-content textarea.materialize-textarea {
-  border-bottom: 0.5px solid #223042;
+  border-bottom: 2px solid #2230426e;  /*  border-bottom: 0.5px solid #223042; */
 }
 
 
@@ -1507,20 +1520,34 @@ button.close {
 
 }
 
+.modal-content .input-field .prefix ~ label,
+.modal-content .input-field .prefix ~ .validate ~ label {
+  margin-left: 30px;
+}
+
+
+
 .modal-content .input-field .prefix ~ input,
 .modal-content .input-field .prefix ~ textarea,
-.modal-content .input-field .prefix ~ label,
-.modal-content .input-field .prefix ~ .validate ~ label,
 .modal-content .input-field .prefix ~ .autocomplete-content {
   margin-left: 0;
 }
 
+.modal-content .ms-upload-avatar,
+.modal-content .ms-avatar-all-task{
+
+}
+
 .modal-content .input-field span.prefix{
-  width: 1.2rem;
+  width: 14px;
   height: 48px;
   display: inline-flex;
   position: absolute;
 
+}
+
+.modal-content .ms-upload-avatar label{
+  display: block;
 }
 
 .modal-content .input-field span.prefix img{

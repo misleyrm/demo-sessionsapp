@@ -4,30 +4,26 @@
         <div class="col s12">
               <%= f.hidden_field :current_step, :value => "createAccount",:id => "current_step_createAccount" %>
               <div class="valign-wrapper ms-upload-avatar">
-                <!-- <div class="input-field"> -->
-                    <%= f.file_field :image %>
-                    <label for="user_image">
-                      <div class="mousehover <%= (current_user.nil?)? 'hover': '' %> ">
-                        <span class="circle-icon valign-wrapper">
-                            <%= image_tag(asset_path('assets/icons/CreateList/Picture/Default.svg')) %>
-                        </span>
-                        <!-- <i class="material-icons">camera_alt</i> -->
-                      </div>
-                    </label>
-                <!-- </div> -->
+                  <%= f.file_field :image %>
+                  <label for="user_image">
+                    <div class="mousehover <%= (current_user.nil?)? 'hover': '' %> ">
+                      <span class="circle-icon valign-wrapper">
+                          <%= image_tag(asset_path('assets/icons/CreateList/Picture/Default.svg')) %>
+                      </span>
+                    </div>
+                  </label>
               </div>
-
               <div class="input-field capitalize ">
-                  <!-- <i class="material-icons prefix">person_outline</i> -->
                   <span class="prefix valign-wrapper">
                       <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
                   </span>
-
                   <%= f.text_field :first_name, class: 'validate'%>
                   <%= f.label :first_name, id: 'icon_prefix', class: 'active' %>
               </div>
               <div class="input-field capitalize">
-                  <i class="material-icons prefix">person_outline</i>
+                  <span class="prefix valign-wrapper">
+                      <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
+                  </span>
                   <%= f.text_field :last_name %>
                   <%= f.label :last_name, id: 'icon_prefix',class: 'active'  %>
               </div>
@@ -35,33 +31,36 @@
               <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="change_email">
                 <li>
                   <div class="collapsible-header">
-                    <div class="ms-form-title"><i class="material-icons prefix">email</i><span>E-MAIL</span>
-                       <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                    <div class="ms-form-title input-field capitalize">
+                      <span class="prefix valign-wrapper">
+                          <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
+                      </span>
+                      <%= f.text_field :email %>
+                      <%= content_tag(:p, @user.email) %>
+                      <%= label_tag 'email', 'E-EMAIL', class: 'active', id: 'icon_prefix'  %>
+                      <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
                     </div>
-                    <div class="clearfix"></div>
-                       <p>Your email address is <span class="ms-strong" id="current-user-email"><%= @user.email%></span></p>
-                    </div>
+                    <!-- <div class="clearfix"></div>
+                         <p>Your email address is <span class="ms-strong" id="current-user-email"><%= @user.email%></span></p>
+                    </div> -->
                     <div class="collapsible-body" id="user_email_change">
-                      <div id="errors">
-                         <%= render partial: "shared/flash_messages", locals: {user: @user} %>
-                      </div>
-                      <%= f.hidden_field :id, :value => @user.id %>
-                      <div class="input-field">
-                        <%= f.email_field :new_email, placeholder: 'New Email Address ' %>
-                      </div>
-                      <div class="input-field">
-                        <%= f.email_field :new_email_confirmation, placeholder: 'Confirmation of new Email address ' %>
-                      </div>
-                      <div class="input-field">
-                        <%= f.password_field :current_password, placeholder: 'Current Password' %>
-                      </div>
-
+                        <div id="errors">
+                           <%= render partial: "shared/flash_messages", locals: {user: @user} %>
+                        </div>
+                        <%= f.hidden_field :id, :value => @user.id %>
+                        <div class="input-field">
+                          <%= f.email_field :new_email, placeholder: 'New Email Address ' %>
+                        </div>
+                        <div class="input-field">
+                          <%= f.email_field :new_email_confirmation, placeholder: 'Confirmation of new Email address ' %>
+                        </div>
+                        <div class="input-field">
+                          <%= f.password_field :current_password, placeholder: 'Current Password' %>
+                        </div>
                   </div>
                 </li>
               </ul>
               <!-- End of Change Email -->
-
-
               <div class="input-field center-align">
                  <a class="waves-effect waves-light btn-large col s12 submit"><%= f.submit "Sign Up" %></a>
              </div>
