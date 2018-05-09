@@ -1,8 +1,10 @@
 <% content_for(:head) do %>
     <script type="text/javascript" charset="utf-8">
-        $(function() {
+        $(document).on('turbolinks:load',function(){
+          console.log("wwinnn");
            $('ul.tabs').tabs();
-            msCollapsible("ms-accordion-section");
+            msCollapsible("collapsible");
+            // msCollapsible("");
             $('.mentions').mentionUsers();
 
             function Arrayofemails(e){

@@ -3,16 +3,17 @@
     <div class="row">
         <div class="col s12">
               <%= f.hidden_field :current_step, :value => "createAccount",:id => "current_step_createAccount" %>
-              <div class="valign-wrapper ms-upload-avatar">
+
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: url(#{(!@user.image.blank?)? @user.image_url : ''})") do %>
                   <%= f.file_field :image %>
                   <label for="user_image">
-                    <div class="mousehover <%= (current_user.nil?)? 'hover': '' %> ">
+                    <div class="mousehover <%= (current_user.image.nil?)? 'hover': 'active' %> ">
                       <span class="circle-icon valign-wrapper">
-                          <%= image_tag(asset_path('assets/icons/CreateList/Picture/Default.svg')) %>
+                          <%= image_tag(asset_path('assets/icons/CreateList/Picture/Selected.svg')) %>
                       </span>
                     </div>
                   </label>
-              </div>
+              <% end%>
               <div class="input-field capitalize ">
                   <span class="prefix valign-wrapper">
                       <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
@@ -33,12 +34,12 @@
                   <div class="collapsible-header">
                     <div class="ms-form-title input-field capitalize">
                       <span class="prefix valign-wrapper">
-                          <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
+                          <%= image_tag(asset_path('assets/icons/Settings/Email/Blue.svg'), class: 'prefix') %>
                       </span>
-                      <%= f.text_field :email %>
-                      <%= content_tag(:p, @user.email) %>
+                      <%= f.text_field :email, disabled: true%>
+                      <%#= content_tag(:p, @user.email) %>
                       <%= label_tag 'email', 'E-EMAIL', class: 'active', id: 'icon_prefix'  %>
-                      <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                      <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
                     </div>
                     <!-- <div class="clearfix"></div>
                          <p>Your email address is <span class="ms-strong" id="current-user-email"><%= @user.email%></span></p>
@@ -62,7 +63,7 @@
               </ul>
               <!-- End of Change Email -->
               <div class="input-field center-align">
-                 <a class="waves-effect waves-light btn-large col s12 submit"><%= f.submit "Sign Up" %></a>
+                 <a class="waves-effect waves-light btn-large col s12 submit"><%= f.submit "Save Updates" %></a>
              </div>
         </div>
   </div>

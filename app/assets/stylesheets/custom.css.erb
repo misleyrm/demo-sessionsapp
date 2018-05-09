@@ -121,14 +121,14 @@ div .card{
   margin-bottom: 0px;
   font-size: 2rem!important;
   text-transform: uppercase;
-  color: #55C2B9!important;
+  color: #50C2BB!important;
   line-height: 1.5rem;
 }
 .container .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating) {
   color: #989797;
 }
 .container .card .card-action a:not(.btn):not(.btn-large):not(.btn-floating):hover {
-  color: #55C2B9;
+  color: #50C2BB;
 }
 
 .container{
@@ -144,9 +144,12 @@ div .card{
 /* END STYLE FOR CARD ELEMENT */
 /* STYLE FOR BUTTON*/
 .btn, .btn-large, .btn-floating.btn-medium {
-  background-color: #55C2B9!important;
+  background-color: #50C2BB!important;
   color: #fff!important;
   }
+.btn, .btn-large, .btn-flat {
+  border-radius: 0!important;
+}
 .su-btn.btn-flat:not(.btn-delete) {
   color: #989797;
   background-color: #fff;
@@ -211,11 +214,11 @@ div .card{
 .container input[type=number]:focus:not([readonly]),
 .container input[type=search]:focus:not([readonly]),
 .container textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #55C2B9;
-  box-shadow: 0 1px 0 0 #55C2B9;
-  -moz-box-shadow: 0 1px 0 0 #55C2B9;
+  border-bottom: 1px solid #50C2BB;
+  box-shadow: 0 1px 0 0 #50C2BB;
+  -moz-box-shadow: 0 1px 0 0 #50C2BB;
   /* for Safari y Chrome*/
-  -webkit-box-shadow: 0 1px 0 0 #55C2B9;
+  -webkit-box-shadow: 0 1px 0 0 #50C2BB;
 
 }
 
@@ -232,7 +235,7 @@ div .card{
 .container input[type=number]:focus:not([readonly]) + label,
 .container input[type=search]:focus:not([readonly]) + label,
 .container textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: #55C2B9;
+  color: #50C2BB;
 }
 .container [type="checkbox"]:checked+label.md-today :before {
   border-right: 2px solid rgba(86, 194, 187, 1);
@@ -249,12 +252,12 @@ div .card{
 }
 
 .container [type="checkbox"]:checked+label:hover:before {
-  border-right-color: #55c2b9;
-  border-bottom-color: #55c2b9;
+  border-right-color: #50C2BB;
+  border-bottom-color: #50C2BB;
 }
 
 .container .input-field .prefix.active {
-  color: #55C2B9;
+  color: #50C2BB;
 }
 /** END CHANGE COLOR IN FOCUS (MATERIALIZE) **/
 
@@ -727,8 +730,8 @@ a.ui-button:active,
   }
 
   textarea.materialize-textarea:focus:not([readonly]) {
-    border: 1px solid #55C2B9;
-    box-shadow: 0 1px 0 0 #55C2B9;
+    border: 1px solid #50C2BB;
+    box-shadow: 0 1px 0 0 #50C2BB;
     width: 96.5%;
 }
 
@@ -770,7 +773,7 @@ a.ui-button:active,
 }
 
 .tabs .tab a:hover, .tabs .tab a.active {
-  color: #55c2b9;
+  color: #50C2BB;
 
 }
 
@@ -905,7 +908,7 @@ a.ui-button:active,
 }
 
 #ms-modal-dialog.modal .modal-close,
-#ms-modal-confirm.modal .modal-close.ms-close-x{
+#ms-modal-confirm.modal .modal-close.ms-close-x {
   position: relative;
   top: -10.5px;
   right: -9.5px;
@@ -913,14 +916,26 @@ a.ui-button:active,
   padding: 0;
 }
 
-#ms-modal-confirm.modal .modal-close.ms-close-x{
+#ms-modal-confirm.modal .modal-close.ms-close-x {
     padding-left: 1px;
   }
 
-#ms-modal-confirm.modal .modal-content p{
+#ms-modal-confirm.modal .modal-content p {
   font-size: 19px;
   color: #90908f;
   padding: 10px 0 20px;
+}
+
+.modal-content .btn-large input[type="submit"] {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 19px;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
 }
 
 .modal-action.modal-close.btn-flat:hover {
@@ -971,6 +986,14 @@ a.ui-button:active,
   width: 100%;
 }
 
+.modal .modal-content a.btn-large{
+  border: 0.50px solid #223042;
+  min-width: 100%;
+}
+
+.modal .modal-content {
+  padding: 20px 20px 88px;
+}
 
 /********* End Modal *********/
 /********** User Img *********/
@@ -1132,8 +1155,8 @@ input[type=search].valid:not(.browser-default),
 input[type=search]:focus.valid:not(.browser-default),
 textarea.materialize-textarea.valid:not(.browser-default),
 textarea.materialize-textarea:focus.valid:not(.browser-default) {
-    border-bottom: 1px solid #55C2B9;
-    box-shadow: 0 1px 0 0 #55C2B9;
+    border-bottom: 1px solid #50C2BB;
+    box-shadow: 0 1px 0 0 #50C2BB;
 }
 
 
@@ -1179,12 +1202,12 @@ li.ms-deadline.active{
 }
 /****** Autocomplete with at.js *******/
 .atwho-view strong {
-    color: #55C2B9;
+    color: #50C2BB;
     font-weight: 700;
 }
 
 .atwho-view .cur {
-    background: #55C2B9;
+    background: #50C2BB;
 }
 
 .atwho-view-ul span.img, .atwho-view-ul span.text {
@@ -1217,7 +1240,7 @@ li.ms-deadline.active{
 
 #inputor{
   height: 34px;
-  border-bottom: 1px solid #55C2B9;
+  border-bottom: 1px solid #50C2BB;
 
 }
 
@@ -1255,7 +1278,7 @@ li.ms-deadline.active{
     line-height: 1.5em;
     word-break: break-all;
     background-color: #bef0ec!important;
-    border: 1px solid #55C2B9;
+    border: 1px solid #50C2BB;
     padding: 10px 25px;
     font-size: 1rem;
     font-weight: 300;
@@ -1329,7 +1352,7 @@ li.ms-deadline.active{
 }
 
 .ms-alert.ms-alert_notice {
-    border-left-color: #55c2b9;
+    border-left-color: #50C2BB;
 }
 
 .ms-alert.ms-alert_alert {
@@ -1363,7 +1386,7 @@ li.ms-deadline.active{
 }
 
 .close:focus, .close:hover {
-    color: #55c2b9;
+    color: #50C2BB;
     text-decoration: none;
     opacity: .75;
 }
@@ -1429,7 +1452,7 @@ button.close {
 }
 
 .edit_list .collapsible-header.active .ms-form-title span{
-    color: #55c2b9;
+    color: #50C2BB;
 }
 
 .edit_list .collapsible-header .ms-form-title span{
@@ -1450,9 +1473,13 @@ button.close {
 }
 
 .ms-form-title .material-icons.prefix,
-.collapsible.ms-accordion-section i,
 .ms-tabsSetting-content .section.ms-form i{
   font-size: 1.6rem;
+}
+
+.collapsible.ms-accordion-section i{
+  font-size: 1.3rem;
+  font-weight: 100;
 }
 
 .ms-tabsSetting-content .section.ms-form .input-field i.prefix{
@@ -1479,16 +1506,35 @@ button.close {
   margin-bottom: 0px;
 }
 
+.modal-content .row .col{
+  padding: 0px;
+}
+
+.modal-content .form {
+  max-width: 325px;
+  margin: 0 auto;
+}
+
+
+
 .modal-content .input-field .prefix ~ input,
 .modal-content .input-field .prefix ~ textarea,
-.modal-content .input-field .prefix ~ label,
-.modal-content .input-field .prefix ~ .validate ~ label,
 .modal-content .input-field .prefix ~ .autocomplete-content {
   	color: #223042;
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
     width: calc(100% - 30px);
+}
+
+.modal-content .input-field .prefix ~ label,
+.modal-content .input-field .prefix ~ .validate ~ label,
+.modal-content  input[type=text]:not(.browser-default):disabled + label {
+    color: #50C2BB;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 1.2px;
 }
 
 .modal-content .input-field label:not(.label-icon).active {
@@ -1533,17 +1579,16 @@ button.close {
   margin-left: 0;
 }
 
-.modal-content .ms-upload-avatar,
-.modal-content .ms-avatar-all-task{
-
-}
-
 .modal-content .input-field span.prefix{
   width: 14px;
   height: 48px;
   display: inline-flex;
   position: absolute;
 
+}
+
+.modal-content span.circle-icon {
+  height: 100%;
 }
 
 .modal-content .ms-upload-avatar label{
@@ -1558,19 +1603,6 @@ button.close {
 .ms-tabsSetting-content .ms-form  .input-field .prefix ~ label {
     margin-left: 2.5rem;
 }
-
-.modal-content .input-field .prefix ~ label, .modal-content .input-field .prefix ~ .validate ~ label{
-    color: #50C2BB;
-    font-family: "Proxima Nova";
-    font-size: 12px;
-    line-height: 12px;
-    letter-spacing: 1.2px;
-}
-
-	color: #223042;
-  font-family: "Proxima Nova";
-  font-size: 14px;
-  line-height: 17px;
 
 
 .ms-tabsSetting-content .ms-form .row{
@@ -1631,7 +1663,7 @@ button.close {
 .edit_list .ms-form-title span{
     line-height: 2.2rem;
     letter-spacing: .6px;
-    color: #55c2b9;
+    color: #50C2BB;
 }
 .ms-form-title span{
     letter-spacing: .6px;
@@ -1727,9 +1759,18 @@ li.ms-accepted-invitation.row{
   display: block;
 }
 
-.collapsible.ms-accordion-section i.right{
+.modal-content .collapsible.ms-accordion-section i.right{
   margin-right: 0;
   width: 1.5rem;
+
+  top: 10px;
+  position: absolute;
+  right: 0;
+}
+
+
+.modal-content input[type=email]:not(.browser-default):disabled + label{
+
 }
 
 .collapsible.ms-accordion-section .collapsible-body{

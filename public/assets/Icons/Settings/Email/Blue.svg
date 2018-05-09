@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
-    <title>Icons / Email / Blue</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Icons-/-Email-/-Blue" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M2,2.5 C1.45114237,2.5 1,2.95114237 1,3.5 L1,12.5 C1,13.0488576 1.45114237,13.5 2,13.5 L14,13.5 C14.5488576,13.5 15,13.0488576 15,12.5 L15,3.5 C15,2.95114237 14.5488576,2.5 14,2.5 L2,2.5 Z" id="Shape" stroke="#223042"></path>
-        <polyline id="Shape" stroke="#223042" stroke-linecap="round" stroke-linejoin="round" points="14.5833333 3.51666667 8.08333333 7.74166667 1.58333333 3.51666667"></polyline>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#223042;}
+</style>
+<title>Icons / Email / Blue</title>
+<desc>Created with Sketch.</desc>
+<path class="st0" d="M14,2H2C1.2,2,0.5,2.7,0.5,3.5v9C0.5,13.3,1.2,14,2,14h12c0.8,0,1.5-0.7,1.5-1.5v-9C15.5,2.7,14.8,2,14,2z
+	 M14,3c0.1,0,0.2,0,0.3,0.1l-6.2,4l-6.2-4c0,0-0.1,0-0.1,0C1.8,3,1.9,3,2,3H14z M14,13H2c-0.3,0-0.5-0.2-0.5-0.5V4.1l6.3,4.1
+	C7.9,8.2,8,8.2,8.1,8.2s0.2,0,0.3-0.1l6.1-4v8.3C14.5,12.8,14.3,13,14,13z"/>
 </svg>
