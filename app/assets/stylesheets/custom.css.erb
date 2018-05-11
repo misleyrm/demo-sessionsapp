@@ -900,6 +900,7 @@ a.ui-button:active,
   border: 0.5px solid #50C2BB;
   background-color: #FFFFFF;
   max-width: 500px;
+  max-height: 100%;
 }
 
 #ms-modal-confirm.modal {
@@ -932,12 +933,31 @@ a.ui-button:active,
   line-height: 19px;
   text-align: center;
   height: 100%;
-  width: 100%;
+  /* width: 100%; */
   padding: 0;
   margin: 0;
 
 }
 
+.modal-content input:not([type]),
+.modal-content input[type=text]:not(.browser-default),
+.modal-content input[type=password]:not(.browser-default),
+.modal-content input[type=email]:not(.browser-default),
+.modal-content input[type=url]:not(.browser-default),
+.modal-content input[type=time]:not(.browser-default),
+.modal-content input[type=date]:not(.browser-default),
+.modal-content input[type=datetime]:not(.browser-default),
+.modal-content input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default),
+.modal-content input[type=number]:not(.browser-default),
+.modal-content input[type=search]:not(.browser-default),
+.modal-content textarea.materialize-textarea {
+   margin: 0 0 10px 0;
+}
+
+
+.modal-content .collapsible {
+  margin: 25px 0 30px 0;
+}
 .modal-action.modal-close.btn-flat:hover {
     background: none;
     box-shadow: none;
@@ -993,6 +1013,10 @@ a.ui-button:active,
 
 .modal .modal-content {
   padding: 20px 20px 88px;
+}
+
+.modal .collapsible-body {
+  border: 0;
 }
 
 /********* End Modal *********/
@@ -1519,12 +1543,34 @@ button.close {
 
 .modal-content .input-field .prefix ~ input,
 .modal-content .input-field .prefix ~ textarea,
-.modal-content .input-field .prefix ~ .autocomplete-content {
+.modal-content .input-field .prefix ~ .autocomplete-content,
+.modal-content .collapsible-body .input-field .prefix ~ input,
+.modal-content .collapsible-body .input-field .prefix ~ textarea,
+.modal-content .collapsible-body .input-field .prefix ~ .autocomplete-content {
   	color: #223042;
     font-family: "Proxima Nova";
     font-size: 14px;
     line-height: 17px;
     width: calc(100% - 30px);
+}
+
+::-webkit-input-placeholder { /* Chrome */
+  color: #223042;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #223042;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #223042;
+  opacity: 1;
+}
+:-moz-placeholder { /* Firefox 4 - 18 */
+  color: #223042;
+  opacity: 1;
+}
+
+.model-content .collapsible {
+    margin: 25px 0 30px 0;
 }
 
 .modal-content .input-field .prefix ~ label,
@@ -1759,10 +1805,10 @@ li.ms-accepted-invitation.row{
   display: block;
 }
 
+
 .modal-content .collapsible.ms-accordion-section i.right{
   margin-right: 0;
   width: 1.5rem;
-
   top: 10px;
   position: absolute;
   right: 0;
@@ -1771,6 +1817,14 @@ li.ms-accepted-invitation.row{
 
 .modal-content input[type=email]:not(.browser-default):disabled + label{
 
+}
+
+.modal-content .ms-accordion-section .collapsible-header {
+  padding: 0;
+}
+
+.modal-content .collapsible.ms-accordion-section .collapsible-body {
+  padding: 0;
 }
 
 .collapsible.ms-accordion-section .collapsible-body{
@@ -1800,4 +1854,60 @@ li.ms-accepted-invitation.row{
    width: 200px;
    height: 200px;
    overflow: hidden;
+}
+
+
+/* Popup */
+
+.popupcrop {
+    position: absolute;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    top: 20%;
+    left: 62.5%;
+    z-index: 99999;
+
+}
+
+.popupcrop {
+  width: 830px;
+background: #ffff;
+}
+/* The actual popup */
+.popupcrop-text {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 20px 0;
+    position: absolute;
+    z-index: 1;
+
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popupcrop-text::after {
+    content: "";
+    position: relative;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
 }

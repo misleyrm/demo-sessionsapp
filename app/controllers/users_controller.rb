@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include UsersHelper
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings, :crop]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar, :image
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
           flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
           redirect_to confirmation_page_path
         else
-          render :action => "crop", layout: "modal"
+          render "crop", layout: "modal"
         end
       else
         render 'new', layout: "login"
@@ -125,14 +125,29 @@ class UsersController < ApplicationController
   end
 
   def crop
-
+    render layout: 'popupcrop'
   end
 
   def update
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
-    if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
-        flash[:notice] = "Profile updated"
+    @user.crop_x = params[:user][:crop_x]
+    @user.crop_y = params[:user][:crop_y]
+    @user.crop_w = params[:user][:crop_w]
+    @user.crop_h = params[:user][:crop_h]
+    if @user.update_attributes(user_params)
+      # @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
+        # if user_params[:image].present?
+          # if params[:user][:avatar].present?
+          #   render :crop
+          # else
+          flash[:notice] = "Profile updated"
+          respond_to do |format|
+            format.html { }
+            format.js {   }
+          end
+         # end
+
         # render :nothing => true, :status => 'success', :content_type => 'text/html'
       else
         render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
@@ -146,16 +161,14 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    gon.current_step = @user.current_step
+    # @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    # gon.current_step = @user.current_step
 
     if @user.update(image: user_params[:image])
       # flash[:notice] = "Avatar updated"
       # render :json => {:status => 'success',:image_url => @user.avatar.url}
       if user_params[:image].present?
-        render :action => 'crop', layout: 'layouts/modal'
-      else
-        redirect_to @user, notice: "Successfully updated user."
+        render 'crop'
       end
 
     else
@@ -322,7 +335,7 @@ class UsersController < ApplicationController
     :current_step,
     :new_email,
     :new_email_confirmation,
-    :current_password)
+    :current_password).reject { |_, v| v.blank? }
 
 
   end

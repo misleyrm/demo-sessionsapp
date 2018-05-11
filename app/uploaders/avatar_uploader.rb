@@ -1,29 +1,29 @@
 class AvatarUploader < CarrierWave::Uploader::Base
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
-
-  # Choose what kind of storage to use for this uploader:
   storage :file
-  # storage :fog
+
 
   # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
-  def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
-
-  version :large do
-    resize_to_limit(600, 600)
-  end
+    # This is a sensible default for uploaders that are meant to be mounted:
+    def store_dir
+      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    end
 
   version :thumb do
     process :crop
     resize_to_fill(100, 100)
   end
 
+  version :tiny, from_version: :thumb do
+    process resize_to_fill: [20, 20]
+  end
+
+  version :large do
+    resize_to_limit(600, 600)
+  end
+
   version :medium do
-    resize_to_fill(200, 200)
+    resize_to_limit(200, 200)
   end
 
   def crop
@@ -34,7 +34,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
         y = model.crop_y.to_i
         w = model.crop_w.to_i
         h = model.crop_h.to_i
-        img.crop!(x, y, w, h)
+        # [[w, h].join('x'),[x, y].join('+')].join('+') => "wxh+x+y"
+        img.crop([[w, h].join('x'),[x, y].join('+')].join('+'))
       end
     end
   end

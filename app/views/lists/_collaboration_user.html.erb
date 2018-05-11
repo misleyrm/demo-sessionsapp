@@ -9,7 +9,7 @@
         <% if (collaboration_user.id == current_user.id)%>
             <% if !collaboration_user.image.blank? %>
                <span class="member-avatar avatar-online">
-                  <%= image_tag(collaboration_user.image_url(:medium), class: 'circle') %>
+                  <%= image_tag(collaboration_user.image_url(:thumb), class: 'circle') %>
                </span>
             <% else %>
                <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
@@ -18,7 +18,7 @@
             <%= link_to list_collaboration_user_path(current_list,collaboration_user),class: "tooltipped", id:"#{collaboration_user.id}",remote: true,:data => { :'tooltip'=>"Show tasks for #{collaboration_user.first_name}" }  do %>
                 <% if !collaboration_user.image.blank? %>
                     <span class="member-avatar avatar-online">
-                       <%= image_tag(collaboration_user.image_url(:medium), class: 'circle') %>
+                       <%= image_tag(collaboration_user.image_url(:thumb), class: 'circle') %>
                        <!-- <img src="equilateral.png" alt="triangle with equal sides" srcset="equilateral.svg"> -->
                     </span>
                 <% else %>

@@ -84,6 +84,7 @@ Rails.application.routes.draw do
         post :updateEmail
         post :updatePassword
         get :settings
+        get :crop
       end
     end
 

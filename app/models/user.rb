@@ -7,7 +7,7 @@ class User < ApplicationRecord
   after_update :crop_avatar
 
  def crop_avatar
-   avatar.recreate_versions! if crop_x.present?
+   image.recreate_versions! if crop_x.present?
  end
 
   validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }

@@ -5,6 +5,7 @@ gem 'paperclip', '~> 5.2', '>= 5.2.1'
 
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'rails-assets-jcrop', source: 'https://rails-assets.org'
 # Amazon web services
 gem 'aws-sdk', '~> 2'
 

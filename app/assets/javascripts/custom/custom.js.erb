@@ -157,7 +157,9 @@
       $.get(location, function(data) {
         $(modal_holder_selector).html(data);
         $('.modal').modal();
+        msCollapsible("collapsible");
         return $("#ms-modal-dialog").modal("open");
+
       })
       return false;
     })
@@ -356,10 +358,44 @@
 
           // When loaded, set image data as background of div
           reader.onloadend = function(){
+            // $("#imagecrop img").attr("src", this.result);
             element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
             element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
             element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
             element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
+
+
+            var formData = new FormData(),
+              $input = $("#user_image");
+              // element = $(this);
+
+
+            formData.append('user[image]', $input[0].files[0]);
+            // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
+            // console.log(element.parents("#user-edit-avatar").attr("action"));
+            // element.parents("#user-edit-avatar").trigger('submit.rails');
+            //
+            $.ajax({
+              url: element.parents(".ms-upload-avatar").data("url"),
+              data: formData,
+              cache: false,
+              contentType: false,
+              processData: false,
+              type: 'POST',
+              success: function(response) {
+                var location;
+                location = element.parents(".ms-upload-avatar").data("url-crop");
+                $.get(location, function(data) {
+                  var modal_holder_selector;
+                  modal_holder_selector = "#popupcrop_holder";
+                  $(modal_holder_selector).html(data);
+                  return new AvatarCrop();
+                })
+                    // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+                      // $("#imagecrop img").attr("src", response.image_url(:large));
+
+                }
+            })
           }
         }
       }
@@ -511,13 +547,13 @@
     function msCollapsible(clase){
 
       $('.'+ clase).each(function(){
+          console.log($(this));
           $(this).collapsible({
             onOpen: function(el) {
-              console.log("open");
               var $this = el,
               $panel_headers = $this.find('div.collapsible-header'),
               $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-              $arrow.animateRotate(0,90, 250, "linear");
+              $arrow.animateRotate(0,-90, 250, "linear");
             },
             onClose: collapsibleClose
           });
@@ -530,7 +566,7 @@
       $panel_headers = $this.find('div.collapsible-header'),
       $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
       // $arrow.css('transform-origin','center');
-      $arrow.animateRotate(90,0, 250, "linear");
+      $arrow.animateRotate(-90,0, 250, "linear");
     }
 
 
