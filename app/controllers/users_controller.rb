@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   include UsersHelper
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings, :crop]
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings, :crop, :notifications]
   attr_accessor :email, :name, :password, :password_confirmation, :avatar, :image
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
@@ -81,6 +81,12 @@ class UsersController < ApplicationController
   end
 
   def settings
+    render layout: 'modal'
+  end
+
+  def notifications
+    @notification_options = NotificationOption.all.order(id: :asc)
+    @notification = @user.notification_setting_texts
     render layout: 'modal'
   end
 

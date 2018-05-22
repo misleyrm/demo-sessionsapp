@@ -11,7 +11,18 @@
           <% end %>
         </div>
         <!-- COMPLETED TASKS -->
+        <div class="row">
+          <div class="col s12">
+            <select class="pink-button">
+              <option value="" disabled selected>Select</option>
+              <option value="1">Option 1</option>
+              <option value="2">Option 2</option>
+              <option value="3">Option 3</option>
+            </select>
+          </div>
+        </div>
         <div class="tasks table-of-task complete_tasks" id="complete_tasks_<%= user.id%>">
+
           <% 5.times do |i| %>
             <% date = current_date - i.days %>
             <% if !user.completed_tasks_by_date(list,date).blank? %>

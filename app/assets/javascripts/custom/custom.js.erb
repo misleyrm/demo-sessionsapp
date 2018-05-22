@@ -78,6 +78,8 @@
     msCollapsible("collapsible");
     sortableCollaborationUsers($('.sort_c_users'));
 
+    $('select').material_select();
+
     droppable_task_to_user_all($div_user_tasks);
     // dropdown(".dropdown-button",false);
     $('#ms-modal-dialog').modal('close');
@@ -158,8 +160,8 @@
         $(modal_holder_selector).html(data);
         $('.modal').modal();
         msCollapsible("collapsible");
+        $(".edit_notification_setting").submitOnCheck();
         return $("#ms-modal-dialog").modal("open");
-
       })
       return false;
     })
@@ -191,8 +193,6 @@
       startingTop: '4%', // Starting top style attribute
       endingTop: '150px', // Ending top style attribute
       ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
-        console.log(modal, trigger);
-        console.log("modal, trigger");
 
       },
       complete: function() {  } // Callback for Modal close

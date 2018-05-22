@@ -94,9 +94,9 @@
                 <!-- Dropdown Structure -->
                 <ul id='dropdownUser' class='dropdown-content'>
                   <li><%= link_to "User Settings", settings_user_url(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
-                  <li><%= link_to "Security Settings", edit_user_path(current_user),class: "hide-nav",remote: true %><i class="material-icons">fiber_manual_record</i></li>
-                  <li><%= link_to "Invitations", edit_user_path(current_user),class: "hide-nav",remote: true %><i class="material-icons">fiber_manual_record</i></li>
-                  <li><%= link_to "Notifications", edit_user_path(current_user),class: "hide-nav",remote: true %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><%= link_to "Security Settings", edit_user_path(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><%= link_to "Invitations", edit_user_path(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><%= link_to "Notifications", notifications_user_path(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
                   <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %><i class="material-icons">fiber_manual_record</i></li>
                 </ul>
               </li>

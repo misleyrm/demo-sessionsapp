@@ -19,7 +19,6 @@
                               <li class="ms-view-all">
                                 <%= link_to list_collaboration_users_path(list),id: 'show_all_collaborators',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Show all members', remote: true} do%>
                                     <span class="circle-icon valign-wrapper">
-
                                       <% if active_users.empty? %>
                                               <%= image_tag(asset_path('assets/icons/members/show-all/Default.svg')) %>
                                         <% else%>
