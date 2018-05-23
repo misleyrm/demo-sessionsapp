@@ -141,17 +141,17 @@ nav .chip > i{
 }
 
 .nav-main .avatar-list .chip,
-.nav-main .avatar-user .chip{
+.nav-main .avatar-user .chip {
   font-size: 20px;
   display: table;
   position: relative;
 }
 
-.nav-main .dropdown-button{
+.nav-main .dropdown-button {
   font-size: 13px;
 }
 
-.nav-main ul.dropdown-content{
+ul.dropdown-content {    /* .nav-main */
   	min-width: 130px;
     border: 0.5px solid #525D6A;
     background-color: #FFFFFF;
@@ -159,22 +159,22 @@ nav .chip > i{
     top: 55px!important;
 }
 
-.nav-main ul.dropdown-content li{
+ul.dropdown-content li {   /* .nav-main */
   min-height: 40px;
   padding: 0px 15px;
   position: relative;
 }
 
-.nav-main ul.dropdown-content li:hover a{
+ul.dropdown-content li:hover a {   /* .nav-main */
   color: #223042;
   font-weight: 500;
 }
 
-.nav-main ul.dropdown-content li:hover{
+ul.dropdown-content li:hover {  /* .nav-main */
   background: none;
 }
 
-.nav-main ul.dropdown-content li .material-icons{
+ul.dropdown-content li .material-icons {   /* .nav-main */
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s linear;
@@ -188,21 +188,31 @@ nav .chip > i{
 
 }
 
-.nav-main ul.dropdown-content li:hover .material-icons{
+ul.dropdown-content li:hover .material-icons {    /* .nav-main */
   visibility: visible;
   opacity: 1;
 }
 
-.nav-main ul.dropdown-content li a{
-  color: #525D6A;
+ul.dropdown-content li a,
+ul.dropdown-content li.disabled {    /* .nav-main */
   font-family: "Proxima Nova";
   font-size: 12px;
   font-weight: 300;
   line-height: 14px;
-  padding: 13px 5px 13px 0;
 }
 
-.nav-main ul.dropdown-content li + li a {
+ul.dropdown-content li a {    /* .nav-main */
+  padding: 13px 5px 13px 0;
+  color: #525D6A;
+}
+
+
+ul.dropdown-content li.disabled {
+  color: #223042;
+  padding: 13px 15px 13px 15px;
+}
+
+ul.dropdown-content li + li a {    /* .nav-main */
   border-top: 0.5px solid #525D6A;
 }
 
@@ -1033,6 +1043,10 @@ ul#bar-user-informations li.bar-user-info a> div{
 
   }
 
+  .relative {
+    position: relative;
+  }
+
   /* STYLE FOR LOGIN AND MS-FORM*/
   #ms-login, #ms-reset-password{
     padding-top: 0px;
@@ -1411,46 +1425,77 @@ ul#bar-user-informations li.bar-user-info a> div{
     padding-bottom: 20px;
   }
 
-  .select-wrapper.pink-button {
-    	border: 0.5px solid #FF9D9D;
-      background-color: #FFFFFF;
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);
-      padding: 0;
+  ul.dropdown-content li .material-icons.close {
+    opacity: 1;
+    visibility: visible;
+    font-size: 10px;
+  }
+
+  .select-wrapper.pink-button,
+  a.pink-button {
+  	border: 0.5px solid #FF9D9D;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);
+    padding: 0;
+    display: block;
   }
 
   .select-wrapper.pink-button span.caret{
     right: 13px;
   }
 
-  .select-wrapper.pink-button input.select-dropdown{
-    border: none;
-    margin: 0;
+  a.pink-button,
+  .select-wrapper.pink-button input.select-dropdown {
     color: #525D6A;
     font-family: "Proxima Nova";
     font-size: 12px;
     font-weight: 300;
-    line-height: 15px;
     height: 30px;
     padding-left: 10px;
+
   }
 
-  .pink-button ul {
-  	border: 0.5px solid #FFC4AC;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 4px 0 rgba(44,49,52,0.21);
+  a.pink-button,
+  a.pink-button i{
+    line-height: 28px;
   }
 
-  .pink-button .dropdown-content li {
-    line-height: 40px;
-    min-height: 40px;
-    color: #525D6A;
-    font-family: "Proxima Nova";	
-    font-size: 12px;	
-    font-weight: 300;	
+  a.pink-button
+  .select-wrapper.pink-button input.select-dropdown {
     line-height: 15px;
+    border: none;
+    margin: 0;
   }
 
+  .pink-button ~ ul.dropdown-content {
+  	border: 0.5px solid #FFC4AC;
+  }
 
+  .pink-button {
+    width: 130px;
+  }
+
+  .pink-button ~ ul.dropdown-content li + li a {
+    border-top: 0.5px solid #FFC4AC;
+  }
+
+  .relative .pink-button ~ ul.dropdown-content {
+    top: 0!important;
+  }
+
+  .pink-button ~ ul.dropdown-content li {   /* .nav-main */
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+.pink-button .dropdown-content li> span,
+.pink-button .dropdown-content li {
+  color: #525D6A;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 15px;
+}
 
   /********************** MEDIA ********************/
 

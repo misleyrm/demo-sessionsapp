@@ -67,6 +67,15 @@
   });
 
 
+  $(document).on('click','a[data-behavior="hide-content"]', {}, function(event) {
+    event.preventDefault();
+    var $divTCompleted =   $('#'+ $(this).data('id'));
+        $span = $('a[data-activates= "'+$(this).parents('ul.dropdown-content').attr('id')+'"] span');
+
+    $span.html('Hide');
+    $divTCompleted.html("");
+  });
+
   $(document).on('turbolinks:load',function(){
 
     svg();
@@ -101,6 +110,7 @@
       // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
       setTimeout(function(){ div.style.display = "none"; }, 600);
     };
+
 
     $('ul.tabs').tabs();
 
@@ -547,7 +557,6 @@
     function msCollapsible(clase){
 
       $('.'+ clase).each(function(){
-          console.log($(this));
           $(this).collapsible({
             onOpen: function(el) {
               var $this = el,
