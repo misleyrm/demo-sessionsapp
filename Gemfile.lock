@@ -334,7 +334,7 @@ DEPENDENCIES
   rails-ujs
   rails_12factor
   rails_autolink
-  redis (~> 3.0)
+  redis
   rspec-rails
   ruby-prof
   sass-rails (~> 5.0)
