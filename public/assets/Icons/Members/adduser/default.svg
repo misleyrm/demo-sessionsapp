@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Members / Add User / Default</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Members-/-Add-User-/-Default" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.7299995,13.3499999 L10.7299995,12.1499999 C10.7299995,10.8245166 9.50863239,9.75 8.00199966,9.75 L3.22799988,9.75 C1.72136715,9.75 0.5,10.8245166 0.5,12.1499999 L0.5,13.3499999" id="Shape" stroke="#FF9D9D"></path>
+        <ellipse id="Oval" stroke="#FF9D9D" cx="5.61363636" cy="4.52777778" rx="2.72727273" ry="2.77777778"></ellipse>
+        <path d="M12.4545455,5.22222222 L12.4545455,9.38888889" id="Shape" stroke="#FF9D9D" stroke-width="0.75"></path>
+        <path d="M14.5,7.30555556 L10.4090909,7.30555556" id="Shape" stroke="#FF9D9D" stroke-width="0.75"></path>
+    </g>
+</svg>

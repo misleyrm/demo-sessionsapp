@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Invitations</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Invitations" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="check-circle-copy" transform="translate(1.250000, 0.500000)" stroke="#223042">
+            <path d="M13.4642457,6.82085714 L13.4642457,7.44017337 C13.462541,10.421431 11.5000099,13.0464749 8.64091624,13.8917662 C5.78182259,14.7370574 2.70724997,13.6012336 1.08451294,11.1002423 C-0.538224085,8.59925098 -0.322562637,5.32886981 1.61454592,3.06259864 C3.55165447,0.79632748 6.74875874,0.0740297166 9.47209629,1.28740128" id="Shape"></path>
+            <polyline id="Shape" points="14.1637294 2.12455941 7.08186469 9.21350596 4.95730528 7.08894655"></polyline>
+        </g>
+    </g>
+</svg>

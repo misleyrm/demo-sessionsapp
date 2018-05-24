@@ -2,6 +2,10 @@ source "https://rubygems.org"
 ruby "2.3.0"
 
 gem 'paperclip', '~> 5.2', '>= 5.2.1'
+
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'rails-assets-jcrop', source: 'https://rails-assets.org'
 # Amazon web services
 gem 'aws-sdk', '~> 2'
 
@@ -9,7 +13,7 @@ gem 'rails-erd'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 gem 'puma'
-gem 'redis', '~> 3.0'
+gem 'redis'
 
 gem 'materialize-sass'
 

@@ -32,6 +32,7 @@ dropdown("[id^=dropdown_list_]","false");
 msCollapsible("collapsible");
 
 $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+svg();
 $('.nav-main li.avatar-list').hasClass('avatar-user').removeClass('avatar-user');
 $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
 sortableCollaborationUsers($('.sort_c_users'));

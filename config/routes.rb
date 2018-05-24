@@ -83,6 +83,10 @@ Rails.application.routes.draw do
         post :updateAvatar
         post :updateEmail
         post :updatePassword
+        get :settings
+        get :notifications
+        get :crop
+        get :showCompletedTask
       end
     end
 

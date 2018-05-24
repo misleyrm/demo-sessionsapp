@@ -4,9 +4,10 @@
   }
   $('body').addClass('expand-header');
   $('body.expand-header .nav-main ul.right').addClass('hide');
-  $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+  $('.nav-main li.avatar-list').html('<%= j render partial: "users/nav_user_name", locals: {"user": @user} %>');
   $('.nav-main li.avatar-list').addClass('avatar-user');
-  $('.nav-main li.avatar-user').attr('data-topnavbar-user-id', "<%= @user.id %>" );
+  $('.nav-main li.avatar-user').removeClass('avatar-list');
+  $('.nav-main li.avatar-user').attr('data-topnavbar-user-id', "<%= @user.id %>");
   setTimeout(RenderSettingTabs, 200);
 
   $('nav a.button-collapse').css('display','block');
@@ -14,7 +15,7 @@
 
 
 function RenderSettingTabs(){
-  $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
+  $('#ms-user-nav-setting').html('<%= j render partial: "users/tabsSetting", locals: {"user": @user} %>');
   $('#page-content').html('<%= j render "edit" %>');
   $('ul.tabs').tabs();
   msCollapsible("ms-accordion-section");

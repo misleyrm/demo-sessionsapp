@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon / Task / List / Default</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icon-/-Task-/-List-/-Default" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="file-text" transform="translate(1.500000, 0.000000)" stroke="#525D6A">
+            <path d="M7.12435415,0.75 L1.125,0.75 C0.503679656,0.75 0,1.22010101 0,1.8 L0,10.2 C0,10.779899 0.503679656,11.25 1.125,11.25 L7.875,11.25 C8.49632034,11.25 9,10.779899 9,10.2 L9,2.85 L7.12435415,0.75 Z" id="Shape"></path>
+            <polyline id="Shape" points="6.5 7.75 4.5 7.75 2.5 7.75"></polyline>
+            <polyline id="Shape" points="6.5 4.75 4.5 4.75 2.5 4.75"></polyline>
+        </g>
+    </g>
+</svg>

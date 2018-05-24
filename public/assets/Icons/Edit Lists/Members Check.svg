@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Members Check</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Members-Check" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="user-check" transform="translate(0.000000, 1.500000)" stroke="#223042">
+            <path d="M11.9285714,12.952381 L11.9285714,11.4285714 C11.9285714,9.74541791 10.5641059,8.38095238 8.88095238,8.38095238 L3.54761905,8.38095238 C1.86446552,8.38095238 0.5,9.74541791 0.5,11.4285714 L0.5,12.952381" id="Shape"></path>
+            <circle id="Oval" cx="6.04761905" cy="3.04761905" r="3.04761905"></circle>
+            <polyline id="Shape" points="11 5.33333333 12.5238095 6.85714286 15.5714286 3.80952381"></polyline>
+        </g>
+    </g>
+</svg>

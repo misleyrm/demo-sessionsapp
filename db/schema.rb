@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.integer "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.string "remember_digest"
+    t.string "image"
     t.index ["team_id"], name: "index_users_on_team_id"
   end
 

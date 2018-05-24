@@ -6,34 +6,34 @@
                 <div class="list-collaboration-users">
                     <div class="right">
                         <%= content_tag :ul, id: "collaboration-users", class: "sort_c_users", data: {"url" => "#{sort_list_collaboration_users_path(list)}"} do%>
-                        <!-- <ul id="collaboration-users" class="sort_c_users" data-url="<%= sort_list_collaboration_users_path(list)%>"> -->
-                          <% if has_collaborations?(list) %>
-                              <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
-                                 <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', user.id]).order('position ASC'), as: :collaboration_user, locals: { active_users: active_users,current_user: user }%>
+                              <% if has_collaborations?(list) %>
+                                  <% if  list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
+                                     <%= render partial: "lists/collaboration_user", collection: list.collaboration_users.where(['user_id != ?', user.id]).order('position ASC'), as: :collaboration_user, locals: { active_users: active_users,current_user: user }%>
+                                  <% end %>
                               <% end %>
-                          <% end %>
-                          <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
-                          <%= render partial: "lists/collaboration_user", locals: {collaboration_user: user, active_users: active_users, current_user: user} if !user.owner?(list)%>
-                        <!-- </ul> -->
+                              <%= render partial: "lists/collaboration_user", locals: {collaboration_user: list.owner, active_users: active_users, current_user: user} %>
+                              <%= render partial: "lists/collaboration_user", locals: {collaboration_user: user, active_users: active_users, current_user: user} if !user.owner?(list)%>
                         <% end %>
                         <ul id="collaboration-menu">
                           <% if has_collaborations?(list) %>
-                              <li class="chip circle ms-text-green ms-view-all">
+                              <li class="ms-view-all">
                                 <%= link_to list_collaboration_users_path(list),id: 'show_all_collaborators',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Show all members', remote: true} do%>
-                                    <%= content_tag :i, class: "material-icons add-user" do %>
+                                    <span class="circle-icon valign-wrapper">
                                       <% if active_users.empty? %>
-                                          <%= "visibility" %>
+                                              <%= image_tag(asset_path('assets/icons/members/show-all/Default.svg')) %>
                                         <% else%>
-                                          <%= "#{(active_users.count >= list.collaboration_users.count)? 'visibility_off' : 'visibility'}" %>
+                                          <%= (active_users.count >= list.collaboration_users.count)? image_tag(asset_path('assets/icons/members/hide-all/Default.svg')) : image_tag(asset_path('assets/icons/members/show-all/Default.svg')) %>
                                         <%end%>
-                                    <% end %>
+                                    </span>
                                 <% end %>
                               </li>
                           <% end %>
                           <% if (current_user.owner?(list)) %>
-                              <li class="chip circle ms-text-green ms-add">
+                              <li class="ms-add">
                                 <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
-                                    <i class="material-icons add-user">add</i>
+                                    <span class="circle-icon valign-wrapper">
+                                        <%= image_tag(asset_path('assets/icons/members/adduser/Default_.svg')) %>
+                                    </span>
                                 <% end %>
                               </li>
                           <% end %>

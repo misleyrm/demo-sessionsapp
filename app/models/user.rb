@@ -1,5 +1,14 @@
 class User < ApplicationRecord
   attr_writer :current_step
+  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password, :image
+
+  mount_uploader :image, AvatarUploader
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  after_update :crop_avatar
+
+ def crop_avatar
+   image.recreate_versions! if crop_x.present?
+ end
 
   validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }
   validates_presence_of :avatar, :if => lambda { |o| o.current_step == "avatar" || o.current_step == steps.first }
@@ -19,18 +28,19 @@ class User < ApplicationRecord
   before_save :downcase_email
   validates :avatar, presence: true
 
-  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password
   before_create :create_activation_digest
 
   after_create :create_settings
 
+
   has_attached_file :avatar,
-  styles: { :medium => "200x200>", :thumb => "100x100>" }
+  styles: { :medium => "200x200>", :thumb => "100x100>", :large =>"500x500>" }
   validates_attachment_content_type :avatar,
                                     :content_type => /^image\/(png|gif|jpeg|jpg)/,
                                     :message => "must be .png, .jpg or .jpeg or .gif files"
   validates_attachment_size :avatar, :less_than => 5.megabytes,
                                     :message => "must be smaller than 5 MB (megabytes)."
+
 
   has_many :notifications, foreign_key: :recipient_id
   has_many :created_lists, class_name: "List", :dependent => :destroy
@@ -326,10 +336,10 @@ class User < ApplicationRecord
   end
 
   def broadcast_update
-    if (self.previous_changes.key?(:avatar_file_name) &&
-       self.previous_changes[:avatar_file_name].first != self.previous_changes[:avatar_file_name].last)
+    if (self.previous_changes.key?(:image) &&
+       self.previous_changes[:image].first != self.previous_changes[:image].last)
        status = 'changeavatar'
-       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.avatar.url, name: self.first_name
+       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.image.url, name: self.first_name
     elsif (self.previous_changes.key?(:email) &&
           self.previous_changes[:email].first != self.previous_changes[:email].last)
           status = 'changeemail'
@@ -356,6 +366,8 @@ class User < ApplicationRecord
   def collaboration_lists_almost_one_active?
     return (Collaboration.where('collaboration_date IS NOT ? and user_id = ?', nil, self.id).count >0)
   end
+
+
 
   private
 

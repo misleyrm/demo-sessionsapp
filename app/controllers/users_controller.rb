@@ -2,8 +2,8 @@ class UsersController < ApplicationController
   include UsersHelper
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword]
-  attr_accessor :email, :name, :password, :password_confirmation, :avatar
+  before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings, :crop, :notifications,]
+  attr_accessor :email, :name, :password, :password_confirmation, :avatar, :image
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
@@ -80,6 +80,29 @@ class UsersController < ApplicationController
 
   end
 
+  def settings
+    render layout: 'modal'
+  end
+
+  def notifications
+    @notification_options = NotificationOption.all.order(id: :asc)
+    @notification = @user.notification_setting_texts
+    render layout: 'modal'
+  end
+
+  def showCompletedTask
+    @user = User.find(params[:id])
+    gon.behavior = @behavior = params[:behavior]
+    @current_date = current_date
+    @list = current_list
+    respond_to do |format|
+      format.html { }
+      format.json {  }
+      format.js { }
+    end
+
+  end
+
   def create
 
     if (@user = User.find_by_email(user_params[:email]))
@@ -108,19 +131,42 @@ class UsersController < ApplicationController
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
         # Please check your email to activate your account.
-        flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-        redirect_to confirmation_page_path
+        if params[:user][:image].blank?
+          flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+          redirect_to confirmation_page_path
+        else
+          render "crop", layout: "modal"
+        end
       else
         render 'new', layout: "login"
       end
     end
   end
 
+  def crop
+    render layout: 'popupcrop'
+  end
+
   def update
     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
     gon.current_step = @user.current_step
-    if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
-        flash[:notice] = "Profile updated"
+    @user.crop_x = params[:user][:crop_x]
+    @user.crop_y = params[:user][:crop_y]
+    @user.crop_w = params[:user][:crop_w]
+    @user.crop_h = params[:user][:crop_h]
+    if @user.update_attributes(user_params)
+      # @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
+        # if user_params[:image].present?
+          # if params[:user][:avatar].present?
+          #   render :crop
+          # else
+          flash[:notice] = "Profile updated"
+          respond_to do |format|
+            format.html { }
+            format.js {   }
+          end
+         # end
+
         # render :nothing => true, :status => 'success', :content_type => 'text/html'
       else
         render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
@@ -134,15 +180,20 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
+    # @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    # gon.current_step = @user.current_step
 
-    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    gon.current_step = @user.current_step
-    if @user.update_attributes(:avatar =>user_params[:avatar])
-      flash[:notice] = "Avatar updated"
-      render :json => {:status => 'success',:image_url => @user.avatar.url}
+    if @user.update(image: user_params[:image])
+      # flash[:notice] = "Avatar updated"
+      # render :json => {:status => 'success',:image_url => @user.avatar.url}
+      if user_params[:image].present?
+        render 'crop'
+      end
+
     else
       render :json => {:status => 'fail', :errors => @user.errors.full_messages,:email => @user.email}
     end
+
   end
 
 
@@ -287,7 +338,25 @@ class UsersController < ApplicationController
   end
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :avatar, :email, :password, :password_confirmation, :role, :current_step, :new_email, :new_email_confirmation, :current_password)
+    params.require(:user).permit(
+    :first_name,
+    :last_name,
+    :image,
+    :image_original_w,
+    :image_original_h,
+    :image_crop_x,
+    :image_crop_y,
+    :image_crop_w,
+    :image_crop_h,
+    :email,
+    :password,
+    :password_confirmation,
+    :current_step,
+    :new_email,
+    :new_email_confirmation,
+    :current_password).reject { |_, v| v.blank? }
+
+
   end
   # Remembers a user in the database for use in persistent sessions.
   def remember

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Description</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Description" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <ellipse id="Oval" stroke="#223042" stroke-linecap="round" stroke-linejoin="round" cx="8.08388995" cy="8" rx="6.83388995" ry="6.75"></ellipse>
+        <path d="M8,10.5148551 L8,7.86775362" id="Shape" stroke="#223042" stroke-linecap="round" stroke-linejoin="round"></path>
+        <circle id="Oval-2" fill="#223042" cx="8.00500011" cy="5.625" r="1"></circle>
+    </g>
+</svg>

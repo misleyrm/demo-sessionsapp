@@ -4,9 +4,9 @@
   <div class="row">
     <div class="col s12">
       <div class="field">
-        <%= f.hidden_field :current_step, :value => "avatar" %>
-        <%= f.label :avatar %></br>
-        <%= f.file_field :avatar %>
+        <%= f.hidden_field :current_step, :value => "image",:id => "current_step_avatar" %>
+        <%= f.label :image %></br>
+        <%= f.file_field :image %>
       </div>
       <div class="actions">
         <%= f.submit 'Update Avatar' %>

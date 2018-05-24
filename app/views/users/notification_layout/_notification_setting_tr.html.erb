@@ -6,9 +6,16 @@
     <%= content_tag :td, data: {:'notification_option_id'=> "#{n.notification_option_id}"}, class: "center-align" do%>
         <%= form_for n,:method => :PUT, remote: true do |f|%>
           <%= check_box_tag "setting_option[#{n.id}]", "#{n.active}", n.active,:class => "filled-in" %>
-          <%= content_tag(:label, nil, :for => "setting_option_#{n.id}")%>
+          <%= content_tag(:label, nil, :for => "setting_option_#{n.id}",:class => "square") do%>
+            <div></div>
+          <% end%>
           <%= f.submit "Update" %>
         <% end%>
     <% end %>
   <% end %>
+<% end %>
+<%= content_tag :tr, class: "divider" do%>
+   <td></td>
+   <td></td>
+   <td></td>
 <% end %>

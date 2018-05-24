@@ -1,0 +1,10 @@
+<ul class="collapsible">
+  <li class="active">
+    <div class="collapsible-header active">
+      <%= render :partial => "shared/date", :locals =>{ :date => date, :i => i } %>
+    </div>
+    <div class="collapsible-body">
+      <%= yield %>
+    </div>
+  </li>
+</ul>

@@ -5,17 +5,22 @@
           <% active = (active_users.include?(collaboration_user)) ? "active" : "" %>
       <% end %>
       <% msinactive =  !collaboration_user.active_collaborator?(current_list.id)? "ms-inactive" : "" %>
-      <%= content_tag :li, class: "chip #{(collaboration_user.id == current_user.id)? "active ms-current-user" : active} #{msinactive} #{(collaboration_user.id == current_user.id)? 'disabled': ''}" , id: "collaboration_user_#{collaboration_user.id}", data: {:'chip-user-id'=> "#{collaboration_user.id}"} do%>
+      <%= content_tag :li, class: " #{(collaboration_user.id == current_user.id)? "active ms-current-user" : active} #{msinactive} #{(collaboration_user.id == current_user.id)? 'disabled': ''}" , id: "collaboration_user_#{collaboration_user.id}", data: {:'chip-user-id'=> "#{collaboration_user.id}"} do%>
         <% if (collaboration_user.id == current_user.id)%>
-            <% if !collaboration_user.avatar.nil? %>
-               <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>
+            <% if !collaboration_user.image.blank? %>
+               <span class="member-avatar avatar-online">
+                  <%= image_tag(collaboration_user.image_url(:thumb), class: 'circle') %>
+               </span>
             <% else %>
                <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
             <% end %>
         <% else %>
             <%= link_to list_collaboration_user_path(current_list,collaboration_user),class: "tooltipped", id:"#{collaboration_user.id}",remote: true,:data => { :'tooltip'=>"Show tasks for #{collaboration_user.first_name}" }  do %>
-                <% if !collaboration_user.avatar.nil? %>
-                   <%= image_tag(collaboration_user.avatar(:medium), class: 'circle') %>
+                <% if !collaboration_user.image.blank? %>
+                    <span class="member-avatar avatar-online">
+                       <%= image_tag(collaboration_user.image_url(:thumb), class: 'circle') %>
+                       <!-- <img src="equilateral.png" alt="triangle with equal sides" srcset="equilateral.svg"> -->
+                    </span>
                 <% else %>
                    <span class="user-initial circle"><%= initials(collaboration_user.id) %></span>
                 <% end %>

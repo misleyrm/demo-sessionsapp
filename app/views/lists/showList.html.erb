@@ -1,23 +1,20 @@
-
-    <div class="valign-wrapper ms-upload-avatar" style="<% if (!@list.new_record?) %>background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
+<div class="valign-wrapper ms-upload-avatar" style="<% if (!@list.new_record?) %>background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
+</div>
+<div class="input-field">
+  List Name: <%= @list.name.capitalize %>
+</div>
+<div class="input-field">
+  List Description: <%= (!@list.description.present?) ? "No Description" : @list.description%>
+</div>
+<div class="input-field">
+  List Owner: <% unless @list.owner.nil? %><%= "#{@list.owner.first_name.capitalize} #{@list.owner.last_name.capitalize}" %> <% end%>
+</div>
+<div class="divider"></div>
+<div class="row">
+	<div class="col s6">
+	</div>
+  <div class="col s6">
+    <div class="input-field center-align">
     </div>
-    <div class="input-field">
-      List Name: <%= @list.name.capitalize %>
-    </div>
-    <div class="input-field">
-      List Description: <%= (!@list.description.present?) ? "No Description" : @list.description%>
-    </div>
-    <div class="input-field">
-      List Owner: <% unless @list.owner.nil? %><%= "#{@list.owner.first_name.capitalize} #{@list.owner.last_name.capitalize}" %> <% end%>
-    </div>
-    <div class="divider"></div>
-	 <div class="row">
-				<div class="col s6">
-
-				</div>
-        <div class="col s6">
-          <div class="input-field center-align">
-
-          </div>
-        </div>
-    </div>
+  </div>
+</div>

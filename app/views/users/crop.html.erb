@@ -1,0 +1,38 @@
+<div class='row'>
+  <div class='col s12'>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Crop Avatar</h3>
+      </div>
+      <div class="panel-body">
+        <%= image_tag @user.image_url(:large), id: "cropbox" %>
+        <br>
+        <%= simple_form_for(@user) do |f| %>
+          <% %w[x y w h].each do |attribute| %>
+            <%= f.input "crop_#{attribute}", as: :hidden %>
+          <% end %>
+
+          <div class="form-actions">
+            <%= f.button :submit %>
+          </div>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class='col s3'>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Preview</h3>
+      </div>
+      <div class="panel-body">
+        <div style="width:100px; height:100px; overflow:hidden">
+          <%= image_tag @user.image_url(:large), id: "preview" %>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>

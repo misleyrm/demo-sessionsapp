@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons / Tag </title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icons-/-Tag-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="tag" transform="translate(7.750000, 8.500000) scale(-1, 1) translate(-7.750000, -8.500000) translate(0.750000, 1.500000)" stroke="#223042">
+            <path d="M12.9935003,7.87919339 L7.98202115,12.8304481 C7.71981908,13.0897876 7.36402154,13.2355072 6.99300539,13.2355072 C6.62198924,13.2355072 6.2661917,13.0897876 6.00398964,12.8304481 L0,6.90551568 L0,0 L6.98951064,0 L12.9935003,5.93183797 C13.5354999,6.47051992 13.5354999,7.34051144 12.9935003,7.87919339 Z" id="Shape"></path>
+            <ellipse id="Oval" cx="3.60769231" cy="3.30887681" rx="1.28846154" ry="1.27264493"></ellipse>
+        </g>
+    </g>
+</svg>

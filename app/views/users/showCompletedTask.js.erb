@@ -1,0 +1,20 @@
+var behavior = "<%= @behavior%>"
+    $divTCompleted = $("#complete_tasks_<%= @user.id%>")
+    $span = $('a[data-activates="dropdownCompleted_<%= @user.id%>"] span');
+console.log("<%= @user.id%>");
+switch(behavior) {
+    case 'five_days':
+        $span.html('5 Days');
+        $divTCompleted.html("<%= j render :partial => 'users/completed_task_select/five_days', :locals =>{ :user => @user, :list => @list, :current_date => @current_date} %>");
+        break;
+    case 'today':
+        $span.html('Today Only');
+        $divTCompleted.html("<%= j render :partial => 'users/completed_task_select/todays', :locals =>{ :user => @user, :list => @list, :current_date => @current_date} %>");
+        break;
+    case 'all_week':
+        $span.html('All Week');
+        $divTCompleted.html("<%= j render :partial => 'users/completed_task_select/all_week', :locals =>{ :user => @user, :list => @list, :current_date => @current_date} %>");
+        break;
+}
+msCollapsible("collapsible");
+$('.dropdown-button').dropdown('close');

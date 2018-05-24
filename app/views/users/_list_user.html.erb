@@ -11,8 +11,25 @@
           <% end %>
         </div>
         <!-- COMPLETED TASKS -->
+        <div class="relative right">
+          <%= content_tag :a, :href => "#", :data => {'activates'=> "dropdownCompleted_#{user.id}",'hover'=>"false" }, :class=>"dropdown-button pink-button" do %>
+              <span>Select:</span>
+              <i class="material-icons md-15 right">expand_moren</i>
+          <% end %>
+          <!-- <a class='dropdown-button pink-button' href='#' data-activates='dropdownCompleted_<%= "#{user.id}"%>' data-hover="false">
+            <span>Select:</span>
+            <i class="material-icons md-15 right">expand_moren</i>
+          </a> -->
+          <%= content_tag :ul, :class=> "dropdown-content", :id=>"dropdownCompleted_#{user.id}" do%>
+            <li class="disabled">Select<i class="material-icons close">clear</i></li>
+            <li><%= link_to "5 days", showCompletedTask_user_path(user, :behavior => "five_days"),class: "hide-nav",data: {behavior: "five_days"},remote: true %><i class="material-icons">fiber_manual_record</i></li>
+            <li><%= link_to "Today Only", showCompletedTask_user_path(user,:behavior => "today"),class: "hide-nav",data: {behavior: "today"},remote: true %><i class="material-icons">fiber_manual_record</i></li>
+            <li><%= link_to "All Week", showCompletedTask_user_path(user,:behavior => "all_week"),class: "hide-nav",data: {behavior: "all_week"},remote: true %><i class="material-icons">fiber_manual_record</i></li>
+            <li><%= link_to "Hide", "#",class: "hide-nav",data: {behavior: "hide-content", id: "complete_tasks_#{user.id}" } %><i class="material-icons">fiber_manual_record</i></li>
+          <% end %>
+        </div>
         <div class="tasks table-of-task complete_tasks" id="complete_tasks_<%= user.id%>">
-           <%= render :partial => "users/completed_task", :locals =>{ :user => user, :list => list,:current_date => current_date} %>
+            <%= render :partial => "users/completed_task_select/five_days", :locals =>{ :user => user, :list => list, :current_date => current_date} %>
         </div>
     <% end%>
     <div class="clearfix"></div>

@@ -60,9 +60,9 @@
             </li>
             <li id='application-date'>
               <%= form_tag(root_path, method: :get) do%>                                                           <%#= form_for current_list, method: :get,remote: true do |f| %>
-              <input type="hidden" name="date" id="form_date">
-              <input type="hidden" name="mention_by" id="active-collaborators">
-              <input type="date" class="datepicker right-align">
+                <input type="hidden" name="date" id="form_date">
+                <input type="hidden" name="mention_by" id="active-collaborators">
+                <input type="date" class="datepicker right-align">
               <% end %>
             </li>
             <li>
@@ -93,8 +93,11 @@
                 </a>
                 <!-- Dropdown Structure -->
                 <ul id='dropdownUser' class='dropdown-content'>
-                  <li><%= link_to "Settings", edit_user_path(current_user),class: "hide-nav",remote: true %></li>
-                  <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %></li>
+                  <li><%= link_to "User Settings", settings_user_url(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><%= link_to "Security Settings", edit_user_path(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><%= link_to "Invitations", edit_user_path(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><%= link_to "Notifications", notifications_user_path(current_user),class: "hide-nav",data: {behavior: "modal"} %><i class="material-icons">fiber_manual_record</i></li>
+                  <li><% if logged_in? %><%= link_to "Logout", '/logout' %><% else %><%= link_to "Login", '/login' %><% end %><i class="material-icons">fiber_manual_record</i></li>
                 </ul>
               </li>
             </ul>

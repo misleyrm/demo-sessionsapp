@@ -1,9 +1,9 @@
 <div class="user-info">
   <div class="valign-wrapper ms-upload-avatar">
-    <%= f.file_field :avatar %>
+    <%= f.file_field :image %>
     <label for="user_avatar"> <i class="material-icons">camera_alt</i><%= (current_user.nil?)? "Upload": "Change" %> your Avatar</label>
   </div>
-    <%= image_tag(current_user.avatar(:medium), class: 'circle responsive-img center valign profile-image',alt: current_user.first_name, title:current_user.first_name) %>
+    <%= image_tag(current_user.image(:medium), class: 'circle responsive-img center valign profile-image',alt: current_user.first_name, title:current_user.first_name) %>
     <div >
       <h3 class="user-name"><%= current_user.first_name %></h3>
       <div class="user-email"><%=current_user.email%></div>

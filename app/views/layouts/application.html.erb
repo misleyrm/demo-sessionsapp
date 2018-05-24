@@ -11,8 +11,7 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track'=>'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track'=> 'reload' %>
   <%= stylesheet_link_tag "https://fonts.googleapis.com/icon?family=Material+Icons", media: "all", "data-turbolinks-track" => "reload" %>
-
-  <style><%= yield :stylesheets %></style>
+  <!-- <style><%= yield :stylesheets %></style> -->
   <%= csrf_meta_tags %>
 
 </head>
@@ -20,5 +19,6 @@
     <%= yield %>
     <%= include_gon(:init => true) %>
     <%= Gon::Base.render_data({}) %>
+    <%= yield(:head) %>
 </body>
 </html>
