@@ -53,6 +53,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.asset_host = 'http://localhost:3000'
+
+  ENV["REDISTOGO_URL"] = 'redis://redistogo:818e796c6f1da601e562ec3cad60b359@soldierfish.redistogo.com:11475/'
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
