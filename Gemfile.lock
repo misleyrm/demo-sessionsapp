@@ -347,6 +347,7 @@ DEPENDENCIES
   rails-ujs
   rails_12factor
   rails_autolink
+  rails_serve_static_assets
   redis (~> 3.2)
   rspec-rails
   ruby-prof
@@ -368,4 +369,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
