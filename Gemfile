@@ -18,6 +18,7 @@ gem 'redis', '~> 3.2'
 
 gem 'materialize-sass'
 
+gem 'rails_serve_static_assets'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 # gem 'hirb'
