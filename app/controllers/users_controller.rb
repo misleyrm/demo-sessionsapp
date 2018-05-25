@@ -184,9 +184,13 @@ class UsersController < ApplicationController
     # gon.current_step = @user.current_step
 
     if @user.update(image: user_params[:image])
-      # flash[:notice] = "Avatar updated"
       # render :json => {:status => 'success',:image_url => @user.avatar.url}
       if user_params[:image].present?
+        flash[:notice] = "Avatar updated"
+        # respond_to do |format|
+        #   format.html { }
+        #   format.js { render 'crop' }
+        # end
         render 'crop'
       end
 
