@@ -2,6 +2,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   storage :file
 
+  def extension_whitelist
+      %w(jpg jpeg gif png)
+  end
+
   def cache_dir
     "#{Rails.root}/tmp/uploads"
   end
