@@ -18,14 +18,15 @@
 
               <div class="input-field capitalize ">
                   <span class="prefix valign-wrapper">
-                      <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
+                      <%= image_tag(asset_path('assets/icons/settings/members.svg'), class: 'prefix') %>
+                      <%= image_tag(asset_path('assets/members.svg'), class: 'prefix') %>
                   </span>
                   <%= f.text_field :first_name, class: 'validate'%>
                   <%= f.label :first_name, id: 'icon_prefix', class: 'active' %>
               </div>
               <div class="input-field capitalize">
                   <span class="prefix valign-wrapper">
-                      <%= image_tag(asset_path('assets/icons/Settings/Members.svg'), class: 'prefix') %>
+                      <%= image_tag(asset_path('assets/icons/settings/members.svg'), class: 'prefix') %>
                   </span>
                   <%= f.text_field :last_name %>
                   <%= f.label :last_name, id: 'icon_prefix',class: 'active'  %>
