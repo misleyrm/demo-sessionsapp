@@ -7,6 +7,7 @@ gem 'carrierwave'
 gem 'mini_magick'
 gem 'rails-assets-jcrop', source: 'https://rails-assets.org'
 gem 'fog', '0.5.3'
+gem "fog-aws"
 # Amazon web services
 gem 'aws-sdk', '~> 2'
 

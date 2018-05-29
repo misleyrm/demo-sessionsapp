@@ -1,11 +1,12 @@
+  $('#popupcrop').modal('close');
 
   // if(!$('#ms-user-nav-setting').length){
   //
   //       $('header .nav-wrapper').append('<div id="ms-user-nav-setting"></div>');
   //   };
   //
-  //   $('#ms-user-nav-setting').html('<%= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
-  //   $('.nav-main li.avatar-list').html('<%= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
+  //   $('#ms-user-nav-setting').html('<%#= j render partial: 'users/tabsSetting', locals: {"user": @user} %>');
+  //   $('.nav-main li.avatar-list').html('<%#= j render partial: 'users/nav_user_name', locals: {"user": @user} %>');
   //
   //   $('body').addClass('expand-header');
   //   $('nav a.button-collapse').css('display','block');
@@ -18,10 +19,10 @@
   //
   //    <% if @user.errors.blank? %>
   //       console.log("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
-  //        $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
+  //        $('.ms-tabsSetting-content').prepend("<%#= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
   //   <% else%>
   //       console.log("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
-  //        $('.ms-tabsSetting-content').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
+  //        $('.ms-tabsSetting-content').prepend("<%#= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
   //    <% end %>
   //
   //    $('#change_email').collapsible({

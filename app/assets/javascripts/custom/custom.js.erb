@@ -396,9 +396,27 @@
                 var location;
                 location = element.parents(".ms-upload-avatar").data("url-crop");
                 $.get(location, function(data) {
-                  var modal_holder_selector;
+                  var modal_holder_selector,
+                      popupcrop,
+                      z_index = $("#ms-modal-dialog").css('z-index') ,
+                      top = $("#ms-modal-dialog").offset();
+
+                  console.log(top);
                   modal_holder_selector = "#popupcrop_holder";
+                  popupcrop = "#popupcrop";
                   $(modal_holder_selector).html(data);
+
+                  $(popupcrop).css('top', '12%');
+
+                  // $(modal_holder_selector).attr('top', $("#ms-modal-dialog").attr('top') + 3%);
+                  $(popupcrop).css('display', 'block');
+                  $(popupcrop).css('position', 'absolute');
+                  $(popupcrop).css('opacity', 1);
+                  $(popupcrop).css('z-index', parseInt(z_index)+1);
+                  $(popupcrop).css('transform', 'scaleX(1)');
+
+                  // $('#popupcrop').modal();
+                  // $('#popupcrop').modal('open');
                   return new AvatarCrop();
                 })
                     // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
