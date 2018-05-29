@@ -3,9 +3,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # storage :file
   storage :fog
 
-  include CarrierWave::MimeTypes
-  process :set_content_type
-
   def cache_dir
     "#{Rails.root}/tmp/uploads"
   end
