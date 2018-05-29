@@ -729,12 +729,36 @@ a.ui-button:active,
       /*text-transform: uppercase;*/
   }
 
-  textarea.materialize-textarea:focus:not([readonly]) {
+textarea.materialize-textarea:focus:not([readonly]) {
     border: 1px solid #50C2BB;
     box-shadow: 0 1px 0 0 #50C2BB;
     width: 96.5%;
 }
 
+#popupcrop {
+    max-width: 525px;
+    border: 0.5px solid #50C2BB;
+    margin: 0 61.5%;
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: #fafafa;
+    padding: 0;
+    min-height: 200px;
+    width: 400px;
+    overflow-y: auto;
+    border-radius: 2px;
+    will-change: top, opacity;
+}
+
+#popupcrop .jcrop-active{
+  margin: auto;
+}
+
+#popupcrop .form-actions{
+  text-align: center;
+}
 
 /******** TABS ************/
 
@@ -909,7 +933,8 @@ a.ui-button:active,
 }
 
 #ms-modal-dialog.modal .modal-close,
-#ms-modal-confirm.modal .modal-close.ms-close-x {
+#ms-modal-confirm.modal .modal-close.ms-close-x,
+#popupcrop a.modal-close.ms-close-x{
   position: relative;
   top: -10.5px;
   right: -9.5px;
@@ -974,7 +999,8 @@ a.ui-button:active,
 }
 
 #ms-modal-dialog.modal .modal-close.btn-flat i,
-#ms-modal-confirm.modal .modal-close.ms-close-x.btn-flat i {
+#ms-modal-confirm.modal .modal-close.ms-close-x.btn-flat i,
+#popupcrop .modal-content a.modal-close.btn-flat i {
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -1004,6 +1030,11 @@ a.ui-button:active,
 #ms-modal-confirm.modal .modal-content {
   margin: 0 auto;
   width: 100%;
+}
+
+#popupcrop .modal-content {
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .modal .modal-content a.btn-large{

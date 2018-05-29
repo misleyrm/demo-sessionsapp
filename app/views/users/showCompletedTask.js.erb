@@ -1,7 +1,7 @@
 var behavior = "<%= @behavior%>"
     $divTCompleted = $("#complete_tasks_<%= @user.id%>")
     $span = $('a[data-activates="dropdownCompleted_<%= @user.id%>"] span');
-console.log("<%= @user.id%>");
+
 switch(behavior) {
     case 'five_days':
         $span.html('5 Days');
