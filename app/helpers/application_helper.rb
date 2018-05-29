@@ -21,6 +21,10 @@ module ApplicationHelper
     end
   end
 
+  def public_path(path)
+      "#{ Rails.env.development? ? 'http://localhost:3000/' : 'https://demo-sessionsapp.herokuapp.com/' }#{ path }"
+  end
+
   # def task_created(task)
   #   created = (task.created_at.to_date.today?)? 'today' : 'before'
   #   return created
