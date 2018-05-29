@@ -10,7 +10,7 @@
                 <label for="user_image">
                   <div class="mousehover <%= (current_user.image.nil?)? 'hover': 'active' %> ">
                     <span class="circle-icon valign-wrapper">
-                        <%= image_tag(asset_path('assets/icons/CreateList/Picture/Selected.svg')) %>
+                        <%= image_tag(public_path('assets/icons/CreateList/Picture/Selected.svg')) %>
                     </span>
                   </div>
                 </label>
@@ -18,15 +18,15 @@
 
               <div class="input-field capitalize ">
                   <span class="prefix valign-wrapper">
-                      <%= image_tag(asset_path('assets/icons/settings/members.svg'), class: 'prefix') %>
-                      <%= image_tag(asset_path('assets/members.svg'), class: 'prefix') %>
+                      <%= image_tag(public_path('assets/icons/settings/members.svg'), class: 'prefix') %>
+                      <%= image_tag(public_path('assets/members.svg'), class: 'prefix') %>
                   </span>
                   <%= f.text_field :first_name, class: 'validate'%>
                   <%= f.label :first_name, id: 'icon_prefix', class: 'active' %>
               </div>
               <div class="input-field capitalize">
                   <span class="prefix valign-wrapper">
-                      <%= image_tag(asset_path('assets/icons/settings/members.svg'), class: 'prefix') %>
+                      <%= image_tag(public_path('assets/icons/settings/members.svg'), class: 'prefix') %>
                   </span>
                   <%= f.text_field :last_name %>
                   <%= f.label :last_name, id: 'icon_prefix',class: 'active'  %>
@@ -37,7 +37,7 @@
                     <div class="collapsible-header">
                       <div class="ms-form-title input-field capitalize">
                         <span class="prefix valign-wrapper">
-                            <%= image_tag(asset_path('assets/icons/Settings/Email/Blue.svg'), class: 'prefix') %>
+                            <%= image_tag(public_path('assets/icons/settings/Email/Blue.svg'), class: 'prefix') %>
                         </span>
                         <%= f.text_field :email, disabled: true%>
                         <%= label_tag 'email', 'E-EMAIL', class: 'active', id: 'icon_prefix'  %>
@@ -52,19 +52,19 @@
 
                         <div class="input-field">
                           <span class="prefix valign-wrapper">
-                              <%= image_tag(asset_path('assets/icons/Settings/Email/Blue.svg'), class: 'prefix') %>
+                              <%= image_tag(public_path('assets/icons/settings/Email/Blue.svg'), class: 'prefix') %>
                           </span>
                           <%= f.email_field :new_email, placeholder: 'New email address'%>
                         </div>
                         <div class="input-field">
                           <span class="prefix valign-wrapper">
-                              <%= image_tag(asset_path('assets/icons/Settings/Email/Blue.svg'), class: 'prefix') %>
+                              <%= image_tag(public_path('assets/icons/settings/Email/Blue.svg'), class: 'prefix') %>
                           </span>
                           <%= f.email_field :new_email_confirmation, placeholder: 'Confirmation new email address '%>
                         </div>
                         <div class="input-field">
                           <span class="prefix valign-wrapper">
-                              <%= image_tag(asset_path('assets/icons/Settings/Password.svg'), class: 'prefix') %>
+                              <%= image_tag(public_path('assets/icons/settings/Password.svg'), class: 'prefix') %>
                           </span>
                           <%= password_field_tag :password, '', placeholder: 'Current password (for security reason)' %>
                         </div>
