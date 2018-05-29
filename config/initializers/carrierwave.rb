@@ -1,5 +1,8 @@
 # Carrierwave work on Heroku
 # config/initializers/carrierwave.rb
+require 'carrierwave/storage/abstract'
+require 'carrierwave/storage/file'
+require 'carrierwave/storage/fog'
 
 CarrierWave.configure do |config|
   config.fog_credentials = {
