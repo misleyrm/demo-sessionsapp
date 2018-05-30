@@ -20,9 +20,9 @@
                                 <%= link_to list_collaboration_users_path(list),id: 'show_all_collaborators',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Show all members', remote: true} do%>
                                     <span class="circle-icon valign-wrapper">
                                       <% if active_users.empty? %>
-                                              <%= image_tag(asset_path('assets/icons/members/show-all/Default.svg')) %>
+                                              <%= image_tag(asset_path('assets/showAll.svg')) %>
                                         <% else%>
-                                          <%= (active_users.count >= list.collaboration_users.count)? image_tag(asset_path('assets/icons/members/hide-all/Default.svg')) : image_tag(asset_path('assets/icons/members/show-all/Default.svg')) %>
+                                          <%= (active_users.count >= list.collaboration_users.count)? image_tag(asset_path('assets/hideAll.svg')) : image_tag(asset_path('assets/showAll.svg')) %>
                                         <%end%>
                                     </span>
                                 <% end %>
@@ -32,7 +32,7 @@
                               <li class="ms-add">
                                 <%= link_to new_list_invitation_path(list),id: 'new_invitation_link',class:"tooltipped", data: {behavior: 'modal', tooltip: 'Invite a new member', remote: true} do%>
                                     <span class="circle-icon valign-wrapper">
-                                        <%= image_tag(asset_path('assets/icons/members/adduser/Default_.svg')) %>
+                                        <%= image_tag(asset_path('assets/adduser.svg')) %>
                                     </span>
                                 <% end %>
                               </li>
