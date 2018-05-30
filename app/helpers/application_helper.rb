@@ -22,7 +22,7 @@ module ApplicationHelper
   end
 
   def public_path(path)
-      "#{ Rails.env.development? ? 'http://localhost:3000/' : 'https://demo-sessionsapp.herokuapp.com/' }#{ path }"
+      "#{ Rails.env.development? ? 'http://localhost:3000/' : 'http://demo-sessionsapp.herokuapp.com/' }#{ path }"
   end
 
   # def task_created(task)
