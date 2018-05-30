@@ -22,8 +22,8 @@ User.all.each do |user|
   u = user
   u.crop_y=0
   u.crop_x=0
-  u.crop_w=600
-  u.crop_h=600
+  u.crop_w=2000
+  u.crop_h=2000
 
 
   u.remote_image_url = u.avatar.url
