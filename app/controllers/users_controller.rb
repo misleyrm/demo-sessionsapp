@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include ApplicationHelper
   before_action :require_logged_in, only: [:index,:show, :edit, :update, :destroy]
   before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings, :crop, :notifications,]
-  attr_accessor :email, :name, :password, :password_confirmation, :avatar, :image
+  attr_accessor :email, :name, :password, :password_confirmation, :image
   skip_before_action :verify_authenticity_token
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
@@ -127,6 +127,8 @@ class UsersController < ApplicationController
                htmlCollaborationsList = ""
                ActionCable.server.broadcast "invitation_channel", status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end
+            @collaboration = Collaboration.find_by(list_id: @list.id,user_id: @user.id)
+            @collaboration.update_attributes(:collaboration_date => Time.now)
         end
         @user.send_activation_email
         # UserMailer.account_activation(@user).deliver_now
@@ -134,7 +136,7 @@ class UsersController < ApplicationController
 
         flash[:success] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
         redirect_to confirmation_page_path
-    
+
       else
         render 'new', layout: "login"
       end

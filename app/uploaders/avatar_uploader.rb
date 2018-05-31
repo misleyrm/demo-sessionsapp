@@ -46,6 +46,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
         # [[w, h].join('x'),[x, y].join('+')].join('+') => "wxh+x+y"
         img.crop([[w, h].join('x'),[x, y].join('+')].join('+'))
       end
+      # ActionCable.server.broadcast 'user_channel', status: 'changeavatar', user: model.id, image: model.image.store_dir, name: model.first_name
     end
   end
 
@@ -54,7 +55,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   #   # For Rails 3.1+ asset pipeline compatibility:
   #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
   #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
+  #   # "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
 
   # Process files as they are uploaded:

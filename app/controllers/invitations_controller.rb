@@ -55,6 +55,7 @@ class InvitationsController < ApplicationController
   def update
     @user = current_user
     @token = params[:invitation_token]
+
     if (!@token.nil?) && (@user == @invitation.recipient)
         # @list = List.find(@invitation.list_id)
         @invitation.update_attributes(:active => true)

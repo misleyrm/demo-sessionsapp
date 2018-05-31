@@ -34,10 +34,10 @@ App.user = App.cable.subscriptions.create "UserChannel",
     switch data.status
       when 'changeavatar'
         # Materialize.toast($name, 4000);
-        $barUserAvatar.attr('src',data.avatar )
-        $contentUserAvatar.attr('src',data.avatar )
-        $collaborationUserAvatar.attr('src',data.avatar )
-        $chipList.attr('src',data.avatar )
+        $barUserAvatar.attr('src',data.image )
+        $contentUserAvatar.attr('src',data.image )
+        $collaborationUserAvatar.attr('src',data.image )
+        $chipList.attr('src',data.image )
       when 'changeemail'
         $userEmail.html(data.email)
         $inputEmail = $('input[name="user[email]"]', $userEditPassword)

@@ -5,9 +5,9 @@
 
   jQuery.fn.mentionUsers = function(){
     var $inputor = $('#mentionsBlocker'),
-    $mention = $(this),
-    listId = $mention.data('list_id'),
-    userId = $mention.data('user_id');
+        $mention = $(this),
+        listId = $mention.data('list_id'),
+        userId = $mention.data('user_id');
 
   $mention.atwho({
     at: "+",
@@ -19,6 +19,7 @@
       remoteFilter: function(query, callback) {
         if (query.length >= 1) {
           $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
+            console.log(data);
             callback(data)
           });
         }
@@ -614,8 +615,7 @@
         },
         drop: function (event, ui) {
           var obj;
-          console.log($(ui.helper).hasClass('draggable task-box'));
-          console.log($(ui.helper));
+
           if ($(ui.helper).hasClass('draggable task-box')) {
             // ui.draggable.css( "color", "red" )
             // console.log(ui.draggable);
@@ -623,9 +623,7 @@
                 currentlistId = ui.draggable.parents("div#current-list").data("list-id"),
                 listId = elem.data("nav-list-id"),
                 url = "/tasks/"+ taskId +"/changelist?currentList="+ currentlistId +"&list_id="+listId;
-            // console.log(url);
-            // ui.draggable.remove();
-            console.log(url);
+
             $.ajax({
               type: "patch",
               url: url,

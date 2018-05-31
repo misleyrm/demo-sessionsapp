@@ -60,8 +60,6 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
         $userAcceptedInvitations.prepend data['htmlUserAcceptedInvitation']
         if $collaboratorUserOwner.length > 0
           $collaboratorUserOwner.removeClass("ms-inactive")
-          console.log "activated"
-          console.log $(".user-img",$collaboratorShowInList)
           $(".user-img",$collaboratorShowInList).removeClass("ms-inactive")
         else
           $collaboration_users.append data.htmlCollaborationUser

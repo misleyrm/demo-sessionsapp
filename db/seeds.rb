@@ -22,13 +22,12 @@ User.all.each do |user|
   u = user
   u.crop_y=0
   u.crop_x=0
-  u.crop_w=76
-  u.crop_h=76
+  u.crop_w=600
+  u.crop_h=600
 
-
-  u.remote_image_url = u.avatar.url
+  url = u.avatar.url
+  u.remote_image_url = url
   u.save
-
 
 end
 

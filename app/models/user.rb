@@ -3,6 +3,7 @@ class User < ApplicationRecord
   attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password, :image
 
   mount_uploader :image, AvatarUploader
+  serialize :images, JSON # If you use SQLite, add this line.
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
   after_update :crop_avatar
 
@@ -11,7 +12,7 @@ class User < ApplicationRecord
  end
 
   validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }
-  validates_presence_of :avatar, :if => lambda { |o| o.current_step == "avatar" || o.current_step == steps.first }
+  validates_presence_of :image, :if => lambda { |o| o.current_step == "avatar" || o.current_step == steps.first }
 
   validates :first_name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -336,10 +337,11 @@ class User < ApplicationRecord
   end
 
   def broadcast_update
+
     if (self.previous_changes.key?(:image) &&
        self.previous_changes[:image].first != self.previous_changes[:image].last)
        status = 'changeavatar'
-       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, avatar: self.image.url, name: self.first_name
+       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, image: self.image.url, name: self.first_name
     elsif (self.previous_changes.key?(:email) &&
           self.previous_changes[:email].first != self.previous_changes[:email].last)
           status = 'changeemail'

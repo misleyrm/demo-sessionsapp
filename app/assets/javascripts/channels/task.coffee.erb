@@ -155,7 +155,6 @@
             $menuAddBlocker.siblings('i[data-hasblockers]').attr("data-hasblockers","true")
             $('.edit_task').submitOnCheck()
         else
-          console.log $incomplete
           $incomplete.prepend html
           $("#list_user_#{data['user']} .new_task input#task_detail").val('');
           if (data.num != '')
