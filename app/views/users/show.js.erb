@@ -13,7 +13,7 @@ sortableCollaborationUsers($('.sort_c_users'));
           $("a.tooltipped", $collaboration_user).attr("data-tooltip",text);
           $('.tooltipped').tooltip({delay: 50});
           $user.remove();
-          var url = "<%= asset_path('assets/icons/members/show-all/Default.svg') %>";
+          var url = "<%= asset_path('assets/showAll.svg') %>";
           var x = document.createElement("IMG");
            x.setAttribute("src", url);
            x.setAttribute("width", "15");
@@ -57,7 +57,7 @@ sortableCollaborationUsers($('.sort_c_users'));
           $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
           if (sortedIDs.length == $("#list-users > ul.sort_c_users").length) {
-            var url = "<%= asset_path('assets/icons/members/hide-all/Default.svg') %>";
+            var url = "<%= asset_path('assets/hideAll.svg') %>";
             var x = document.createElement("IMG");
              x.setAttribute("src", url);
              x.setAttribute("width", "15");
