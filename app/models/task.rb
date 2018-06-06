@@ -125,7 +125,7 @@ class Task < ApplicationRecord
       data["list_all_task_id"] = self.user.all_task.id
     end
 
-    # TasksWorker.perform_async(self.id,data,list_id)
+    TasksWorker.perform_async(self.id,data,list_id)
     # TaskRelayJob.perform_later(self,data,list)
 
   end
