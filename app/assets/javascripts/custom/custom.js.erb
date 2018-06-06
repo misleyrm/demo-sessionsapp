@@ -177,6 +177,13 @@
       return false;
     })
 
+    // Modal Close button
+    $(document).on("click", ".modal-action.modal-close", function(e) {
+        e.preventDefault();
+        $(this).parent(".modal").modal("close");
+
+    })
+
     return $(document).on("ajax:success", "[data-behavior='modal-form']", function(event, data, status, xhr) {
       var url;
       url = xhr.getResponseHeader("Location");

@@ -5,20 +5,20 @@ class User < ApplicationRecord
   mount_uploader :image, AvatarUploader
   serialize :images, JSON # If you use SQLite, add this line.
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_update :crop_avatar
+  after_update :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? }
 
  def crop_avatar
    image.recreate_versions! if crop_x.present?
  end
 
-  validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }
+  # validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }
   validates_presence_of :image, :if => lambda { |o| o.current_step == "avatar" || o.current_step == steps.first }
 
   validates :first_name, presence: true, length: { maximum: 50 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
   format: { with: VALID_EMAIL_REGEX },
-  uniqueness: { case_sensitive: false }
+  uniqueness: { case_sensitive: false } ,:if => lambda { |o| o.current_step != "avatar" || o.current_step != steps.first }
   has_secure_password
 
   validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "security" ||  o.current_step == "createAccount" }
