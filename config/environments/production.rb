@@ -83,10 +83,14 @@ Rails.application.configure do
 
   # Action Cable endpoint configuration
    config.action_cable.url = 'wss://demo-sessionsapp.herokuapp.com/cable'
+   config.web_socket_server_url = "wss://demo-sessionsapp.herokuapp.com/cable"
    config.action_cable.allowed_request_origins = [ 'https://demo-sessionsapp.herokuapp.com', /http:\/\/demo-sessionsapp.herokuapp.com.*/ ]
 
   config.action_mailer.default_url_options = { :host => 'demo-sessionsapp.herokuapp.com' }
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  # config/environments/production.rb
+
+
 
 end
