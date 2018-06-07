@@ -240,7 +240,77 @@
       }
       // console.log('in');
     });
+
+
+//     $('#edit_user').validate({
+//       debug: true,
+//       rules: {
+//         'user[first_name]': {required: true},
+//         'user[new_email_confirmation]': {
+//           required:{
+//           depends: function(element) {
+//             return ($.trim($('#user_new_email').val())!='' )
+//           }}},
+//         'user[password]': {required: {  depends: function(element) {
+//             return ($.trim($('#user_new_email').val())!='' )
+//           }}}
+//       }
+// });
+
+
   }); /* end of $(document).on('turbolinks:load',function(){*/
+
+
+
+$(document).on("click","a#user_settings",function(){
+    // var element = $(this),
+    //     formData = new FormData();
+    // // console.log("in #user_settings");
+    // // console.log(element.parents(".edit_user").attr('action'));
+    // // console.log(element.parents(".edit_user").serialize());
+    // event.preventDefault();
+    //
+    // formData.append('user[first_name]', $("input[name='user[first_name]']").val());
+    // formData.append('user[last_name]', $("input[name='user[last_name]']").val());
+    // formData.append('user[new_email]', $("input[name='user[new_email]']").val());
+    // formData.append('user[new_email_confirmation]', $("input[name='user[new_email_confirmation]']").val());
+    // formData.append('user[password]', $("input[name='user[password]']").val());
+    // element.parents(".edit_user").submit();
+
+    //
+    // $.ajax({
+    //   url: element.parents(".edit_user").attr('action'),
+    //   data: formData,
+    //   cache: false,
+    //   contentType: false,
+    //   processData: false,
+    //   type: 'PUT',
+    //   success: function(data, textStatus, jqXHR) {
+    //       console.log(data);
+    //         console.log(textStatus);
+    //           console.log( jqXHR);
+    //       // $('.edit_user').prepend(data.notice);
+    //   },
+    //   error: function(xhr){
+    //
+    //       // if ($("#change_ownership .collapsible-body .ms-alert").length >0){
+    //       //     $("#change_ownership .collapsible-body .ms-alert").remove();
+    //       //   }
+    //       // var $collapsibleBody = $("#change_ownership .collapsible-body");
+    //       // $collapsibleBody.prepend('<div class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+    //       var //$divError = $(".ms-alert ul", $collapsibleBody),
+    //           errors = $.parseJSON(xhr.responseText).errors;
+    //         console.log(errors );
+    //       // jQuery.each( errors, function( i, val ) {
+    //       //     $divError.append ('<li>' + val[0].message + '</li>')
+    //       //   });
+    //   }
+    // })
+
+});
+
+
+
 
   $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
@@ -409,7 +479,6 @@
                       z_index = $("#ms-modal-dialog").css('z-index') ,
                       top = $("#ms-modal-dialog").offset();
 
-                  console.log(top);
                   modal_holder_selector = "#popupcrop_holder";
                   popupcrop = "#popupcrop";
                   $(modal_holder_selector).html(data);

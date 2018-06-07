@@ -1,10 +1,10 @@
-<%= form_for @user ,validate: true, remote: true do |f| %>
+<%= form_for @user ,data: { src: user_path(@user) }, validate: true, remote: true do |f| %>
     <%= render :partial => 'shared/error_messages', :locals => {:object => @user} %>
     <div class="row">
         <div id="imagecrop"><img src="" /></div>
         <div class="col s12">
             <%#= f.hidden_field :current_step, :value => "personal",:id => "current_step_personal" %>
-            <%= f.hidden_field :current_step, :value => "image",:id => "current_step_avatar" %>
+            <%#= f.hidden_field :current_step, :value => "image",:id => "current_step_avatar" %>
             <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: url(#{(!@user.image.blank?)? @user.image_url(:thumb) : ''})", :data=>{"url": "#{updateAvatar_user_path(@user)}", "url-crop": "#{crop_user_path(@user)}"},id: "preview") do %>
                 <%= f.file_field :image %>
                 <label for="user_image">
@@ -44,11 +44,6 @@
                       </div>
                     </div>
                     <div class="collapsible-body" id="user_email_change">
-                        <div id="errors">
-                           <%= render partial: "shared/flash_messages", locals: {user: @user} %>
-                        </div>
-                        <%#= f.hidden_field :id, :value => @user.id %>
-
                         <div class="input-field">
                           <span class="prefix valign-wrapper">
                               <%= image_tag(public_path('assets/emailBlue.svg'), class: 'prefix') %>
@@ -65,14 +60,14 @@
                           <span class="prefix valign-wrapper">
                               <%= image_tag(public_path('assets/password.svg'), class: 'prefix') %>
                           </span>
-                          <%= password_field_tag :password, '', placeholder: 'Current password (for security reason)' %>
+                          <%= f.password_field :current_password, placeholder: 'Current password (for security reason)' %>
                         </div>
                   </div>
                 </li>
               </ul>
               <!-- End of Change Email -->
               <div class="input-field center-align">
-                 <a class="waves-effect waves-light btn-large col s12 submit"><%= f.submit "Save Updates" %></a>
+                 <a class="waves-effect waves-light btn-large col s12 submit" id="user_settings"><%= f.submit "Save Updates",data: { disable_with: "Please wait..." }%></a>
              </div>
         </div>
   </div>

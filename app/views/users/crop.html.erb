@@ -6,13 +6,16 @@
 <div class="row">
     <%= image_tag @user.image_url(:large), id: "cropbox" %>
     <br>
-    <%= simple_form_for @user, remote: true do |f| %>
+    <%= simple_form_for @user, :url => setCoord_user_path(), :method => :get, remote: true do |f| %>
         <% %w[x y w h].each do |attribute| %>
             <%= f.input "crop_#{attribute}", as: :hidden %>
         <% end %>
         <%= f.hidden_field :current_step, :value => "crop_image",:id => "current_step_avatar" %>
         <div class="form-actions">
-          <%= f.button :submit %>
+          <%= button_tag "Update Avatar", data: { disable_with: "Please wait..." }, action: "set_coord" %>
+         <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat center" >
+            "Set Coord"
+          </a> -->
         </div>
     <% end %>
 

@@ -81,18 +81,18 @@ $(document).on('turbolinks:load',function(){
   });
   /* form for change email in user settings */
 
-  $('#new_user').validate({
-      debug: true,
-      rules: {
-      'user[image]': {required: true},    /*avatar*/
-      'user[first_name]': {required: true},
-      'user[last_name]': {required: true},
-      'user[email]': {required: true, email: true},
-      'user[password]': {required: true, minlength: 6},
-      'user[password_confirmation]': {required: true, equalTo: '#user_password'}
-      }
-      // console.log('in');
-    });
+  // $('#new_user').validate({
+  //     debug: true,
+  //     rules: {
+  //     'user[image]': {required: true},    /*avatar*/
+  //     'user[first_name]': {required: true},
+  //     'user[last_name]': {required: true},
+  //     'user[email]': {required: true, email: true},
+  //     'user[password]': {required: true, minlength: 6},
+  //     'user[password_confirmation]': {required: true, equalTo: '#user_password'}
+  //     }
+  //     // console.log('in');
+  //   });
 
     // jQuery('#search').click(submit_search);
     // jQuery('#nestedform').find('input').keydown(keypressed);
@@ -211,7 +211,7 @@ AvatarCrop = (function() {
     var height, width;
     width = parseInt($('#preview').width());
     height = parseInt($('#preview').height());
-    
+
     $('#cropbox').Jcrop({
       aspectRatio: 1,
       setSelect: [0, 0, width, height],
