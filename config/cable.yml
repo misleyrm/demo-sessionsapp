@@ -8,7 +8,7 @@ test:
 
 production:
   adapter: redis
-  url: redis://h:p79df61a8ef69dadf4343b2505cdbae27004a8ee8b2a24adcb8f86783a75b4b04@ec2-52-2-220-105.compute-1.amazonaws.com:9789
+  url: redis://h:p79df61a8ef69dadf4343b2505cdbae27004a8ee8b2a24adcb8f86783a75b4b04@ec2-35-170-218-206.compute-1.amazonaws.com:6899
   # url: redis://h:p20db914e3b75543b89f35ae961ae2af9838ee73bedac244002df13a2f27e3dad@ec2-52-203-111-130.compute-1.amazonaws.com:9549
 
   # redis://h:p6a6073d542a984e42852922206ab2b5e01e2bd9c67069d02c476fbc13f41f2c5@ec2-34-204-242-91.compute-1.amazonaws.com:13459
