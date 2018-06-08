@@ -28,7 +28,7 @@ class List < ApplicationRecord
   end
 
   def collaborations?
-    !self.collaborations.blank?
+    self.collaborations.count != 0
   end
 
   # Methods for set current list for access from model

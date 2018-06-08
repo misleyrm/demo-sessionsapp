@@ -78,9 +78,9 @@
 					</li>
 					<li>
 						<% if !task.completed? %>
-							 <i class="material-icons md-18 md-red" data-hasblockers="<%= !task.t_blockers.blank? %>" >warning</i>
+							 <i class="material-icons md-18 md-red" data-hasblockers="<%= task.t_blockers.count!=0 %>" >warning</i>
 							 <%= link_to new_task_t_blocker_path(list_id: task.list_id, task_id: task.id,user_id: task.user_id),id: "link-blocker_#{task.id}", remote: true, data: { behavior: 'modal' }  do %>
-									<%= content_tag :i, class: "tooltipped material-icons md-9rem md-#{(!task.t_blockers.blank?) ? 'red' : 'grey'}", data: {"position"=> "top", "delay"=>"50","tooltip"=>"Add blocker", "hasblockers"=>"#{!task.t_blockers.blank?}"} do%>
+									<%= content_tag :i, class: "tooltipped material-icons md-9rem md-#{(task.t_blockers.count!=0) ? 'red' : 'grey'}", data: {"position"=> "top", "delay"=>"50","tooltip"=>"Add blocker", "hasblockers"=>"#{task.t_blockers.count!=0}"} do%>
 											warning
 									<% end %>
 							 <% end %>

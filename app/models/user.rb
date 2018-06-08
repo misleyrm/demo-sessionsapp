@@ -8,7 +8,6 @@ class User < ApplicationRecord
   after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? }
 
  def crop_avatar
-   byebug
    image.recreate_versions! if crop_x.present?
  end
 
@@ -144,7 +143,7 @@ class User < ApplicationRecord
     self.created_lists << self.created_lists.create(name: "All Tasks", all_tasks: true)
     @notification_types = NotificationType.all
     @notification_types.each do |notification_type|
-      NotificationOption.all.each do |notification_option|
+      NotificationOption.find_each do |notification_option|
         self.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
       end
     end

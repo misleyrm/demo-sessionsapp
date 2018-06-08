@@ -1,6 +1,6 @@
 <% 7.times do |i| %>
   <% date = current_date - i.days %>
-  <% if !user.completed_tasks_by_date(list,date).blank? %>
+  <% if user.completed_tasks_by_date(list,date).count!=0 %>
       <%#= render :partial => "shared/collapsible_completed_task", :locals =>{ :date => date, :i => i, :user => user, :list => list, :current_date => current_date} %>
       <%= render partial: "users/completed_task", layout: "shared/collapsible_completed_task", locals: {  :date => date, :i => i, :user => user, :list => list, :current_date => current_date} %>
   <% end %>
