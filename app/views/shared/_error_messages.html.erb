@@ -5,7 +5,7 @@
         </button>
         <ul>
            <% object.errors.messages.each do |key,value| %>
-            <li><%= "#{key} #{value[0]} "%></li>
+            <li><%= "#{key}: #{value[0]} "%></li>
           <% end %>
         </ul>
     </div>

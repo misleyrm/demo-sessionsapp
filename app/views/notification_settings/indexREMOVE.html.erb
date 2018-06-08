@@ -4,7 +4,7 @@
         <thead>
           <tr>
               <th></th>
-              <% NotificationOption.all.each do |notification_option| %>
+              <% NotificationOption.find_each do |notification_option| %>
                   <th><%= notification_option.name %></th>
               <% end %>
           </tr>

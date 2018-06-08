@@ -18,7 +18,7 @@ sortableCollaborationUsers($('.sort_c_users'));
           $listUsers.html("");
           text = tooltip.replace("Hide", "Show");
           // $("a#show_all_collaborators >i", $collaboration_menu).html("visibility");
-          var url = "<%= asset_path('assets/showAll.svg') %>";
+          var url = "<%= asset_path('assets/showAll.svg',skip_pipeline: true) %>";
           var x = document.createElement("IMG");
            x.setAttribute("src", url);
            x.setAttribute("width", "15");
@@ -58,7 +58,7 @@ sortableCollaborationUsers($('.sort_c_users'));
           text = tooltip.replace("Show", "Hide");
 
           $("a#show_all_collaborators", $collaboration_menu).attr("data-tooltip",text);
-          var url = "<%= asset_path('assets/hideAll.svg') %>";
+          var url = "<%= asset_path('assets/hideAll.svg',skip_pipeline: true) %>";
           var x = document.createElement("IMG");
            x.setAttribute("src", url);
            x.setAttribute("width", "15");

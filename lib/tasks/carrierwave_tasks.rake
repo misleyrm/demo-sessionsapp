@@ -94,7 +94,6 @@ namespace :carrierwave do
     ##
     # Run through all records
     records.each do |record|
-      byebug
       ##
       # Set the mounted uploader object
       # If it has a one-to-one association (singular) then that object
