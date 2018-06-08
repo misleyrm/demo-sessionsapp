@@ -8,7 +8,7 @@
       <div class="error_message"></div>
       <div class="tab-pane fade show active" id="pending-invitations">
         <%= content_tag :ul, class:"collapsible ms-accordion-section ms-border-top-bottom" do%>
-          <% if !@pending_invitations.blank? %>
+          <% if @pending_invitations.count!=0 %>
               <%  @pending_invitations.each do |pending_invitation| %>
                   <%= render partial: "users/pending_invitation", locals: {pending_invitation: pending_invitation} %>
               <% end%>
@@ -17,7 +17,7 @@
       </div>
       <div class="tab-pane fade show" id="accepted-invitations">
         <%= content_tag :ul, class:"collapsible ms-accordion-section ms-border-top-bottom" do%>
-          <% if !@accepted_invitations.blank? %>
+          <% if @accepted_invitations.count!=0 %>
               <%  @accepted_invitations.each do |accepted_invitation| %>
                   <%= render partial: "users/accepted_invitation", locals: {accepted_invitation: accepted_invitation} %>
               <% end%>

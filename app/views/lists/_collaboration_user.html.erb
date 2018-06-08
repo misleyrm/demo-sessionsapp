@@ -1,7 +1,7 @@
 <% if (!collaboration_user.blank?) %>
   <%  if ((!collaboration_user.active_collaborator?(current_list.id) && current_user.owner?(current_list)) || collaboration_user.active_collaborator?(current_list.id))%>
       <% active = "" %>
-      <% if (!active_users.blank?) %>
+      <% if (active_users.count!=0) %>
           <% active = (active_users.include?(collaboration_user)) ? "active" : "" %>
       <% end %>
       <% msinactive =  !collaboration_user.active_collaborator?(current_list.id)? "ms-inactive" : "" %>

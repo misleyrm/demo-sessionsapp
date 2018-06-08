@@ -1,6 +1,6 @@
 $('#popupcrop').css('display', 'none');
 $('#popupcrop').css('opacity', 1);
-<% if @user.errors.blank? %>
+<% if @user.errors.count==0 %>
    $('#form_updateAvatar').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
 <% else %>
    $('#form_updateAvatar').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");

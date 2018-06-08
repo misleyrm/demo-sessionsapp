@@ -31,7 +31,6 @@ module TasksHelper
    def can_change_user?(task)
      user_before = task.user
      user_after = task.user_after
-     byebug
      current_user.owner?(task.list) && (task.list.collaboration_users.include?(user_after) || (current_user.id == user_after.id))
    end
 end

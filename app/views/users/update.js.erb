@@ -7,7 +7,7 @@ if ($("#error_explanation").length > 0){
 $("#error_explanation").remove();
 }
 
-<% if @user.errors.blank? %>
+<% if @user.errors.count==0 %>
  $("#edit_user_<%= @user.id%> input").removeClass("invalid");
  $('#form_updateAvatar').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
 <% else %>

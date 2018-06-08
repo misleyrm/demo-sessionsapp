@@ -52,7 +52,7 @@ class Task < ApplicationRecord
   end
 
   def has_blockers?
-    !self.t_blockers.blank?
+    self.t_blockers.count!=0
   end
 
   def mention_emails
