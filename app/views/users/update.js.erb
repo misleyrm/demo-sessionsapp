@@ -9,12 +9,12 @@ $("#error_explanation").remove();
 
 <% if @user.errors.blank? %>
  $("#edit_user_<%= @user.id%> input").removeClass("invalid");
- $('#edit_user_<%= @user.id%>').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
+ $('#form_updateAvatar').prepend("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @user} %>");
 <% else %>
    <% @user.errors.messages.each do |key,value| %>
          $("#edit_user_<%= @user.id%> input[name*='user[<%= key %>]']").addClass("invalid");
    <% end %>
-   $('#edit_user_<%= @user.id%>').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
+   $('#form_updateAvatar').prepend("<%= j render :partial => 'shared/error_messages', :locals => {:object => @user} %>");
 <% end %>
 //
 //    $('#change_email').collapsible({

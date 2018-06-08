@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_collaborations, only: [:show], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
-  # before_action :validate_update, only: :update
+  before_action :validate_update, only: :update
   before_action :validate_password_update, only: :updatePassword
 
   def index
@@ -153,16 +153,29 @@ class UsersController < ApplicationController
     @user.crop_y = user_params[:crop_y] #params[:user][:crop_y]
     @user.crop_w = user_params[:crop_w] #params[:user][:crop_w]
     @user.crop_h = user_params[:crop_h] #params[:user][:crop_h]
-    @user.save!
+    if @user.save!
+      respond_to do |format|
+        flash[:notice] = "Avatar updated"
+        format.html {  }
+        format.js {  }
+      end
+    end
   end
 
   def update
-    if validate_update
-      if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
-          flash[:notice] = "Profile updated"
+    # if validate_update
+      # byebug
+      if !user_params[:new_email].blank?
+        if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+          @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email])
+        end
+      else
+        @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
       end
-    end
+    # end
+
     respond_to do |format|
+      flash[:notice] = "Profile updated"
       format.html {  }
       format.js {  }
     end
@@ -187,11 +200,11 @@ class UsersController < ApplicationController
 
   def updateEmail
     # if resource.email != params[:email] || params[:password].present?
-    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    gon.current_step = @user.current_step
+    # @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+    # gon.current_step = @user.current_step
     if @user && @user.authenticate(user_params[:current_password]) && @user.activated
         if @user.update_attributes(:email => user_params[:new_email])
-          flash[:notice] = "Email updated"
+          # flash[:notice] = "Email updated"
           render :json => {:status => 'success', :email => @user.email}
         else
           render :edit => {:status => 'fail',  :errors => @user.errors.full_messages,:email => @user.email}
@@ -258,7 +271,7 @@ class UsersController < ApplicationController
     # @user.activation_token = User.new_token
     # @user.create_activation_digest
     # @user.send_activation_email
-    UserMailer.account_activation(@user).deliver_now
+    UserMailer.account_activation(@user).deliver_later
     flash[:info] = "Please check your email to activate your account."
     redirect_to login_url
   end

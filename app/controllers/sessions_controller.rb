@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       blockers = []
       email = user.email
       user.blockers.where(user_id: user.id, session_id: @latest_session.id).each { |b| blockers << b.blocker  }
-      WeeklyUpdate.send_mail(email, blockers).deliver_now
+      WeeklyUpdate.send_mail(email, blockers).deliver_later
     end
 
   end

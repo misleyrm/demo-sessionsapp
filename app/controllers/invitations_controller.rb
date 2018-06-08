@@ -28,7 +28,7 @@ class InvitationsController < ApplicationController
               @url = login_url(:invitation_token => @invitation.token)
               @recipient = @invitation.recipient
               #send a notification email
-              InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
+              InvitationMailer.existing_user_invite(@invitation, @url).deliver_later
               unless @invitation.recipient.collaboration_lists.include?(@list)
                  @recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                  htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {list: @list,"member": @recipient }).squish
@@ -39,7 +39,7 @@ class InvitationsController < ApplicationController
               end
             else
               @url = sign_up_url(:invitation_token => @invitation.token)
-              InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite data to our mailer to deliver the email
+              InvitationMailer.send_invitation(@invitation, @url).deliver_later #send the invite data to our mailer to deliver the email
               htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
               ActionCable.server.broadcast 'invitation_channel', status: 'created',id: @invitation.id, htmlInvitationSetting: htmlInvitationSetting, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id,owner: @list.owner.id, existing_user_invite: false
             end
@@ -88,11 +88,11 @@ class InvitationsController < ApplicationController
       @url = login_url(:invitation_token => @invitation.token)
       # @recipient = @invitation.recipient
       #send a notification email
-      InvitationMailer.existing_user_invite(@invitation, @url).deliver_now
+      InvitationMailer.existing_user_invite(@invitation, @url).deliver_later
       flash[:notice] = "The invitation was re-sent."
     else
       @url = sign_up_url(:invitation_token => @invitation.token)
-      InvitationMailer.send_invitation(@invitation, @url).deliver_now #send the invite
+      InvitationMailer.send_invitation(@invitation, @url).deliver_later #send the invite
       flash[:notice] = "The invitation was re-sent."
      end
      respond_to do |format|

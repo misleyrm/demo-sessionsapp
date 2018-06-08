@@ -8,13 +8,14 @@ class User < ApplicationRecord
   after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? }
 
  def crop_avatar
+   byebug
    image.recreate_versions! if crop_x.present?
  end
 
   # validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }
   validates_presence_of :image, :if => lambda { |o| o.current_step == "avatar" || o.current_step == steps.first }
 
-  validates :first_name, presence: true, length: { maximum: 50 },:if => lambda { |o| o.current_step != "avatar" || o.current_step != steps.first }
+  validates :first_name, presence: true, length: { maximum: 50 },:if => lambda { |o| o.current_step != "avatar" }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, length: { maximum: 255 },
   format: { with: VALID_EMAIL_REGEX },
@@ -22,7 +23,7 @@ class User < ApplicationRecord
   has_secure_password
 
   validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "security" ||  o.current_step == "createAccount" }
-  validates_confirmation_of :password
+  validates_confirmation_of :password,:on => :create
   validates_presence_of :password, :on => :create
   validates_presence_of :email, :on => :create
   validates_presence_of :first_name, :on => :create
@@ -36,13 +37,13 @@ class User < ApplicationRecord
   after_create :create_settings
 
 
-  has_attached_file :avatar,
-  styles: { :medium => "200x200>", :thumb => "100x100>", :large =>"500x500>" }
-  validates_attachment_content_type :avatar,
-                                    :content_type => /^image\/(png|gif|jpeg|jpg)/,
-                                    :message => "must be .png, .jpg or .jpeg or .gif files"
-  validates_attachment_size :avatar, :less_than => 5.megabytes,
-                                    :message => "must be smaller than 5 MB (megabytes)."
+  # has_attached_file :avatar,
+  # styles: { :medium => "200x200>", :thumb => "100x100>", :large =>"500x500>" }
+  # validates_attachment_content_type :avatar,
+  #                                   :content_type => /^image\/(png|gif|jpeg|jpg)/,
+  #                                   :message => "must be .png, .jpg or .jpeg or .gif files"
+  # validates_attachment_size :avatar, :less_than => 5.megabytes,
+  #                                   :message => "must be smaller than 5 MB (megabytes)."
 
 
   has_many :notifications, foreign_key: :recipient_id
@@ -71,8 +72,8 @@ class User < ApplicationRecord
   has_many :notification_types, through: :notification_settings
   # attr_writer :current_step
 
-  validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
-  validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
+  # validates_presence_of :shipping_name, :if => lambda { |o| o.current_step == "shipping" }
+  # validates_presence_of :billing_name, :if => lambda { |o| o.current_step == "billing" }
 
   # after_destroy :broadcast_delete
   after_commit :broadcast_update
@@ -226,7 +227,7 @@ class User < ApplicationRecord
 
   # Sends activation email.
   def send_activation_email
-    UserMailer.account_activation(self).deliver_now
+    UserMailer.account_activation(self).deliver_later
   end
 
   # Returns true if the given token matches the digest.
@@ -263,7 +264,7 @@ class User < ApplicationRecord
   end
 
   def send_password_reset_email
-    UserMailer.password_reset(self).deliver_now
+    UserMailer.password_reset(self).deliver_later
   end
 
   # Invitations to user.
@@ -371,15 +372,10 @@ class User < ApplicationRecord
     return (Collaboration.where('collaboration_date IS NOT ? and user_id = ?', nil, self.id).count >0)
   end
 
-
-
   private
 
   def downcase_email
     self.email = self.email.delete(' ').downcase
   end
-
-
-
 
 end
