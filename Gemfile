@@ -92,6 +92,7 @@ group :production do
   gem 'pg','~> 0.18'
   gem 'bcrypt'
   gem 'whenever', require: false
+  # gem 'activerecord-postgresql-adapter'
 
 end
 
