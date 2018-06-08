@@ -86,6 +86,7 @@ Rails.application.routes.draw do
         get :settings
         get :notifications
         get :crop
+        get :setCoord
         get :showCompletedTask
       end
     end

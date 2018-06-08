@@ -1635,6 +1635,37 @@ button.close {
   border-bottom: 2px solid #2230426e;  /*  border-bottom: 0.5px solid #223042; */
 }
 
+.modal-content input.invalid:not([type]),
+.modal-content input.invalid:not([type]):focus,
+.modal-content input[type=text].invalid:not(.browser-default),
+.modal-content input[type=text].invalid:not(.browser-default):focus,
+.modal-content input[type=password].invalid:not(.browser-default),
+.modal-content input[type=password].invalid:not(.browser-default):focus,
+.modal-content input[type=email].invalid:not(.browser-default),
+.modal-content input[type=email].invalid:not(.browser-default):focus,
+.modal-content input[type=url].invalid:not(.browser-default),
+.modal-content input[type=url].invalid:not(.browser-default):focus,
+.modal-content input[type=time].invalid:not(.browser-default),
+.modal-content input[type=time].invalid:not(.browser-default):focus,
+.modal-content input[type=date].invalid:not(.browser-default),
+.modal-content input[type=date].invalid:not(.browser-default):focus,
+.modal-content input[type=datetime].invalid:not(.browser-default),
+.modal-content input[type=datetime].invalid:not(.browser-default):focus,
+.modal-content input[type=datetime-local].invalid:not(.browser-default),
+.modal-content input[type=datetime-local].invalid:not(.browser-default):focus,
+.modal-content input[type=tel].invalid:not(.browser-default),
+.modal-content input[type=tel].invalid:not(.browser-default):focus,
+.modal-content input[type=number].invalid:not(.browser-default),
+.modal-content input[type=number].invalid:not(.browser-default):focus,
+.modal-content input[type=search].invalid:not(.browser-default),
+.modal-content input[type=search].invalid:not(.browser-default):focus,
+.modal-content textarea.materialize-textarea.invalid,
+.modal-content textarea.materialize-textarea.invalid:focus,
+.modal-content .select-wrapper.invalid > input.select-dropdown {
+    border-bottom: 1px solid #f23d5c;
+    box-shadow: 0 1px 0 0 #f23d5c;
+}
+
 
 .modal-content .input-field span.prefix ~ input,
 .modal-content .input-field span.prefix ~ textarea,

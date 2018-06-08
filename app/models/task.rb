@@ -84,8 +84,8 @@ class Task < ApplicationRecord
       data["numBlockers"] = self.t_blockers.count
     end
 
-    TasksWorker.perform_async(self.id,data,list_id)
-    # TaskRelayJob.perform_later(self,data,List.current)
+    # TasksWorker.perform_async(self.id,data,list_id)
+    TaskRelayJob.perform_now(self,data,List.current)
     # ActionCable.server.broadcast "task_list_#{list}",{
     #   status: 'deleted',
     #   id: self.id,
@@ -125,8 +125,8 @@ class Task < ApplicationRecord
       data["list_all_task_id"] = self.user.all_task.id
     end
 
-    TasksWorker.perform_async(self.id,data,list_id)
-    # TaskRelayJob.perform_later(self,data,list)
+    # TasksWorker.perform_async(self.id,data,list_id)
+    TaskRelayJob.perform_now(self,data,list)
 
   end
 
@@ -223,7 +223,8 @@ class Task < ApplicationRecord
 
     end
 
-    TasksWorker.perform_async(self.id,data,list_id)
+    # TasksWorker.perform_async(self.id,data,list_id)
+     TaskRelayJob.perform_now(self,data,List.current)
   end
 
   private
