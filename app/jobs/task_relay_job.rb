@@ -31,12 +31,12 @@ class TaskRelayJob < ApplicationJob
 
 
 
-def perform(task,data,list)
+def perform(task,data,list_id)
 
   if (data["status"]!= 'deleted')
     # task = Task.find(task_id)
     current_list = List.find(data["current_list"])
-    # list = List.find(data["list_id"])
+    list = List.find(data["list_id"])
     current_user = User.find(data["current_user_id"])
     html = (!current_list.blank?)? render_task(task,current_list,data["partial"],list,current_user) : ""
 

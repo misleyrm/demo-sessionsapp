@@ -85,7 +85,7 @@ class Task < ApplicationRecord
     end
 
     # TasksWorker.perform_async(self.id,data,list_id)
-    TaskRelayJob.perform_now(self,data,List.current)
+    TaskRelayJob.perform_now(self,data,list_id)
     # ActionCable.server.broadcast "task_list_#{list}",{
     #   status: 'deleted',
     #   id: self.id,
@@ -126,7 +126,7 @@ class Task < ApplicationRecord
     end
 
     # TasksWorker.perform_async(self.id,data,list_id)
-    TaskRelayJob.perform_now(self,data,list)
+    TaskRelayJob.perform_now(self,data,list_id)
 
   end
 
@@ -224,7 +224,7 @@ class Task < ApplicationRecord
     end
 
     # TasksWorker.perform_async(self.id,data,list_id)
-     TaskRelayJob.perform_now(self,data,List.current)
+     TaskRelayJob.perform_now(self,data,list_id)
   end
 
   private
