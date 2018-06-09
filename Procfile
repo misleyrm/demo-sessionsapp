@@ -1,2 +1,3 @@
+web: bundle exec puma -C config/puma.rb
+worker: bundle exec sidekiq -e production -C config/sidekiq.yml
 taskworker: bundle exec sidekiq -C config/sidekiq.yml
-web: bundle exec unicorn -p $PORT -E $RACK_ENV -c ./config/unicorn.rb
