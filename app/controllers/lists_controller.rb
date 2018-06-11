@@ -24,7 +24,7 @@ class ListsController < ApplicationController
   def search
     # result = User.connection.select_all("SELECT  'users'.* FROM 'users' INNER JOIN 'collaborations' ON 'users'.'id' = 'collaborations'.'user_id' WHERE 'collaborations'.'list_id' = #{@list.id} UNION SELECT  'users'.* FROM 'users' INNER JOIN 'lists' ON 'users'.'id' = 'lists'.'user_id' WHERE 'lists'.'id' = #{@list.id}")
     @collaboration_users = @list.collaboration_users
-    user = User.where('id'=> params[:userid])
+    user = User.where('id'=> params[:user_id])
     owner  =  User.where('id' => @list.user_id)
     @users_mention = @collaboration_users.search(params[:term]) + owner.search(params[:term]) -  user.search(params[:term])
 

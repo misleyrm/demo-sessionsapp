@@ -4,10 +4,11 @@
   };
 
   jQuery.fn.mentionUsers = function(){
-    var $inputor = $('#mentionsBlocker'),
-        $mention = $(this),
-        listId = $mention.data('list_id'),
-        userId = $mention.data('user_id');
+    var $mention = $(this),
+        listId = $mention.data('list-id'),
+        user_id = $mention.data('user-id');
+        // $inputor = $('#mentionsBlocker'),
+  console.log($mention.data('list_id'));
 
   $mention.atwho({
     at: "+",
@@ -18,8 +19,7 @@
     callbacks: {
       remoteFilter: function(query, callback) {
         if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query, id:listId, userid: userId }, function(data) {
-            console.log(data);
+          $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
             callback(data)
           });
         }
@@ -91,9 +91,19 @@
     $('select').material_select();
 
     droppable_task_to_user_all($div_user_tasks);
-    // dropdown(".dropdown-button",false);
-    $('#ms-modal-dialog').modal('close');
+
     dropdown("[id^=dropdown_list_]","false");
+
+    $("#dropdown-button-name").dropdown({
+            inDuration: 300,
+            outDuration: 225,
+            hover: false, // Activate on hover
+            constrainWidth: false,
+            belowOrigin: true,
+            belowOrigin: true, // Displays dropdown below the button
+            alignment: 'right' // Displays dropdown with edge aligned to the left of button
+          });
+
     deadlineDatepicker($('input.deadline-datepicker'));
 
     $('.mentions').mentionUsers();
@@ -115,9 +125,6 @@
 
     $('ul.tabs').tabs();
 
-    $("form#user-edit-avatar").submit(function(e){
-      // e.preventDefault(e);
-    });
 
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
@@ -129,49 +136,29 @@
       $(this).removeClass("active");
     });
 
-    // window.addEventListener("beforeunload", function (e) {
-    //     var confirmationMessage = "\o/";
-    //     var object = [1,2];
-    //     // localStorage['collaborator_users'] = object;
-    //
-    //     (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
-    //     return confirmationMessage;                                //Webkit, Safari, Chrome etc.
-    //   });
-
-    // dropdown-button
-    // $(document).on("click", '.dropdown-button2',function(e){
-    //    e.preventDefault();
-    //    var id = "#"+ $(this).data('activates');
-    //    $('.dropdown-list').not($(id)).removeClass('show');
-    //    $(id).toggleClass('show');
-    // })
-    //
-    // // Close the dropdown menu if the user clicks outside of it
-    // window.onclick = function(event) {
-    //   if (!($(event.target).parent('.dropdown-button2').size() > 0)) {
-    //     var dropdowns = document.getElementsByClassName("dropdown-list");
-    //     var i;
-    //     for (i = 0; i < dropdowns.length; i++) {
-    //       var openDropdown = dropdowns[i];
-    //       if (openDropdown.classList.contains('show')) {
-    //         openDropdown.classList.remove('show');
-    //       }
-    //     }
-    //   }
-    // }
-
     // Modal for view
-    var modal_holder_selector;
-    modal_holder_selector = "#modal-holder";
+    var $modal_holder_selector = $("#modal-holder");
 
     $(document).on("click", "[data-behavior='modal']", function() {
       var location;
       location = $(this).attr("href");
       $.get(location, function(data) {
-        $(modal_holder_selector).html(data);
-        $('.modal').modal();
+        $modal_holder_selector.html(data);
+        $('.modal',$modal_holder_selector).modal({
+          dismissible: false, // Modal can be dismissed by clicking outside of the modal
+          ready: function(){
+                $("#dropdown-button-name").dropdown("close");
+                $('.mentions').mentionUsers();
+          }, // Callback for Modal open
+          complete: function() {
+            $('#popupcrop').css('display', 'none');
+            $('#popupcrop').css('opacity', 1);
+           } // Callback for Modal close
+        });
+
         msCollapsible("collapsible");
         $(".edit_notification_setting").submitOnCheck();
+
         return $("#ms-modal-dialog").modal("open");
       })
       return false;
@@ -240,23 +227,6 @@
       }
       // console.log('in');
     });
-
-
-//     $('#edit_user').validate({
-//       debug: true,
-//       rules: {
-//         'user[first_name]': {required: true},
-//         'user[new_email_confirmation]': {
-//           required:{
-//           depends: function(element) {
-//             return ($.trim($('#user_new_email').val())!='' )
-//           }}},
-//         'user[password]': {required: {  depends: function(element) {
-//             return ($.trim($('#user_new_email').val())!='' )
-//           }}}
-//       }
-// });
-
 
   }); /* end of $(document).on('turbolinks:load',function(){*/
 
@@ -479,11 +449,13 @@ $(document).on("click","a#user_settings",function(){
                       z_index = $("#ms-modal-dialog").css('z-index') ,
                       top = $("#ms-modal-dialog").offset();
 
+
                   modal_holder_selector = "#popupcrop_holder";
                   popupcrop = "#popupcrop";
                   $(modal_holder_selector).html(data);
 
                   $(popupcrop).css('top', '12%');
+                  $(popupcrop).css('right', '60%');
 
                   // $(modal_holder_selector).attr('top', $("#ms-modal-dialog").attr('top') + 3%);
                   $(popupcrop).css('display', 'block');
@@ -495,12 +467,9 @@ $(document).on("click","a#user_settings",function(){
                   // $('#popupcrop').modal();
                   // $('#popupcrop').modal('open');
                   return new AvatarCrop();
-                })
-                    // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
-                      // $("#imagecrop img").attr("src", response.image_url(:large));
+                })}
+              })
 
-                }
-            })
           }
         }
       }
