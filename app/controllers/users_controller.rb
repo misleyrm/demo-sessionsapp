@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_collaborations, only: [:show], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   # before_action :validate_email_update, only: :updateEmail
-  before_action :validate_update, only: :update
+  # before_action :validate_update, only: :update
   before_action :validate_password_update, only: :updatePassword
 
   def index
@@ -163,31 +163,45 @@ class UsersController < ApplicationController
   end
 
   def update
+    # if validate_update
 
-    if !user_params[:new_email].blank?
-      @user.current_step = 'email'
-      @user.current_password = user_params[:current_password]
-      if @user && @user.authenticate(user_params[:current_password]) && @user.activated
-
-        if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email])
-          flash[:notice] = "Profile updated"
+        if !user_params[:new_email].blank?
+          @user.current_step = 'email'
+          @user.current_password = user_params[:current_password]
+          @user.email_confirmation = user_params[:new_email_confirmation]
+          if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+            if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email])
+              flash[:notice] = "First name, last name and email were updated"
+              respond_to do |format|
+                format.html {  }
+                format.js {  }
+              end
+            else
+              render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+            end
+          else
+            @user.errors.add(:password, :incorrect,message: "is not correct.") 
+            render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+          end
         else
-          render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+          if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
+            flash[:notice] = "First name and last name were updated"
+            respond_to do |format|
+              format.html {  }
+              format.js {  }
+            end
+          else
+             render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+          end
         end
-      end
-    else
-      if @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
-        flash[:notice] = "Profile updated"
-      else
-        render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
-      end
-    end
 
-    respond_to do |format|
-      flash[:notice] = "Profile updated"
-      format.html {  }
-      format.js {  }
-    end
+
+    # end
+      # else
+      #    render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+      # end
+
+
   end
 
   def updateAvatar
@@ -392,7 +406,6 @@ class UsersController < ApplicationController
       #   @user.errors.add(:new_email,message: "Email cannot be blank")
       #   numberoferror += 1
       # end
-
           if @new_email_confirmation.blank?
             @user.errors.add(:new_email_confirmation, :blank, message: "confirmation Email cannot be blank")
             numberoferror += 1
@@ -431,11 +444,20 @@ class UsersController < ApplicationController
             #   numberoferror += 1
             # end
           end
-
       end
 
+      if numberoferror != 0
+
+        # render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+        return false
+
+         #redirect_to  settings_user_path(@user) and return
+          # return render json: { status: 'invalid',:errors => @user.errors.messages }, status: :bad_request
+      else
+        return true
+      end
       # if numberoferror != 0
-        @validate_update = true if (numberoferror == 0 )        #render json: { status: 'invalid',:errors => @user.errors.messages }, status: :bad_request
+        # @validate_update = true if ( numberoferror == 0 )    #render json: { status: 'invalid',:errors => @user.errors.messages }, status: :bad_request
       # end
 
   end
@@ -522,7 +544,7 @@ class UsersController < ApplicationController
       end
 
       if numberoferror != 0
-        return render edit: { status: 'invalid',:errors => @user.errors.full_messages }, status: :bad_request
+        return render edit: { status: 'invalid',:errors => @user.errors.full_messages }
       end
   end
 
