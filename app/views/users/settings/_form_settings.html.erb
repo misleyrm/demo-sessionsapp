@@ -52,7 +52,7 @@
                             <span class="prefix valign-wrapper">
                                 <%= image_tag(public_path('assets/emailBlue.svg'), class: 'prefix') %>
                             </span>
-                            <%= f.email_field :new_email, placeholder: 'New email address', :autocomplete => :off%>
+                            <%= f.email_field :new_email, placeholder: 'New email address', :autocomplete => "new-email" %>
                           </div>
                           <div class="input-field">
                             <span class="prefix valign-wrapper">
@@ -64,7 +64,7 @@
                             <span class="prefix valign-wrapper">
                                 <%= image_tag(public_path('assets/password.svg'), class: 'prefix') %>
                             </span>
-                            <%= f.password_field :current_password, placeholder: 'Current password (for security reason)', :autocomplete => :off %>
+                            <%= f.password_field :current_password, placeholder: 'Current password (for security reason)', :autocomplete => "new-password" %>
                           </div>
                         </div>
                       </li>

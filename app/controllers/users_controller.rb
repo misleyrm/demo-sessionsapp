@@ -180,7 +180,7 @@ class UsersController < ApplicationController
               render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
             end
           else
-            @user.errors.add(:password, :incorrect,message: "is not correct.") 
+            @user.errors.add(:password, :incorrect,message: "is not correct.")
             render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
           end
         else
