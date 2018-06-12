@@ -148,29 +148,40 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    gon.current_step = @user.current_step
-    @user.crop_x = params[:user][:crop_x]
-    @user.crop_y = params[:user][:crop_y]
-    @user.crop_w = params[:user][:crop_w]
-    @user.crop_h = params[:user][:crop_h]
-    if @user.update_attributes(user_params)
-      # @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
-        # if user_params[:image].present?
-          # if params[:user][:avatar].present?
-          #   render :crop
-          # else
-          flash[:notice] = "Profile updated"
-          respond_to do |format|
-            format.html { }
-            format.js {   }
-          end
-         # end
 
-        # render :nothing => true, :status => 'success', :content_type => 'text/html'
-      else
-        render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+
+    if !user_params[:new_email].blank?
+      if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+        @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email])
       end
+    else
+      @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
+    end
+
+#     @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
+#     gon.current_step = @user.current_step
+#     @user.crop_x = params[:user][:crop_x]
+#     @user.crop_y = params[:user][:crop_y]
+#     @user.crop_w = params[:user][:crop_w]
+#     @user.crop_h = params[:user][:crop_h]
+#     if @user.update_attributes(user_params)
+#       # @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name])
+#         # if user_params[:image].present?
+#           # if params[:user][:avatar].present?
+#           #   render :crop
+#           # else
+#           flash[:notice] = "Profile updated"
+#           respond_to do |format|
+#             format.html { }
+#             format.js {   }
+#           end
+#          # end
+
+#         # render :nothing => true, :status => 'success', :content_type => 'text/html'
+#       else
+#         render :edit => {:status => 'fail',  :errors => @user.errors.full_messages}
+#       end
+
 
     # respond_to do |format|
     #   format.html { }
@@ -180,12 +191,9 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-    # @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    # gon.current_step = @user.current_step
-
-    if @user.update(image: user_params[:image])
-      # render :json => {:status => 'success',:image_url => @user.avatar.url}
-      if user_params[:image].present?
+    if user_params[:image].present?
+      @user.current_step = 'avatar'
+      if @user.update_attributes(image: user_params[:image])
         flash[:notice] = "Avatar updated"
         # respond_to do |format|
         #   format.html { }
@@ -193,7 +201,6 @@ class UsersController < ApplicationController
         # end
         render 'crop'
       end
-
     else
       render :json => {:status => 'fail', :errors => @user.errors.full_messages,:email => @user.email}
     end
@@ -281,7 +288,6 @@ class UsersController < ApplicationController
 
 
   def sort
-
     # authorize @tasks.first
     if  !params[:collaboration_user].blank?
       collaboration_user = params[:collaboration_user]
