@@ -4,8 +4,6 @@
     <div class="row">
         <div id="imagecrop"><img src="" /></div>
         <div class="col s12">
-            <%#= f.hidden_field :current_step, :value => "personal",:id => "current_step_personal" %>
-            <%#= f.hidden_field :current_step, :value => "image",:id => "current_step_avatar" %>
             <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: url(#{(!@user.image.blank?)? @user.image_url(:thumb) : ''})", :data=>{"url": "#{updateAvatar_user_path(@user)}", "url-crop": "#{crop_user_path(@user)}"},id: "preview") do %>
                 <%= g.file_field :image %>
                 <label for="user_image">
@@ -54,25 +52,25 @@
                             <span class="prefix valign-wrapper">
                                 <%= image_tag(public_path('assets/emailBlue.svg'), class: 'prefix') %>
                             </span>
-                            <%= f.email_field :new_email, placeholder: 'New email address'%>
+                            <%= f.email_field :new_email, placeholder: 'New email address', :autocomplete => :off%>
                           </div>
                           <div class="input-field">
                             <span class="prefix valign-wrapper">
                                 <%= image_tag(public_path('assets/emailBlue.svg'), class: 'prefix') %>
                             </span>
-                            <%= f.email_field :new_email_confirmation, placeholder: 'Confirmation new email address '%>
+                            <%= f.email_field :new_email_confirmation, placeholder: 'Confirmation new email address', :autocomplete => :off%>
                           </div>
                           <div class="input-field">
                             <span class="prefix valign-wrapper">
                                 <%= image_tag(public_path('assets/password.svg'), class: 'prefix') %>
                             </span>
-                            <%= f.password_field :current_password, placeholder: 'Current password (for security reason)' %>
+                            <%= f.password_field :current_password, placeholder: 'Current password (for security reason)', :autocomplete => :off %>
                           </div>
                         </div>
                       </li>
                     </ul>
                     <!-- End of Change Email -->
-                    <div class="input-field center-align form-actions"> 
+                    <div class="input-field center-align form-actions">
                        <a class="waves-effect waves-light btn-large col s12 submit" id="user_settings"><%= f.submit "Save Updates", data: { disable_with: "Please wait..." }%></a>
                    </div>
                <% end %>
