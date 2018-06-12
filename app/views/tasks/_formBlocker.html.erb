@@ -4,7 +4,7 @@
 	<%= hidden_field_tag 'tags_emails'  %>
 	    <div class="col s12">
 					<div class="input-field">
-							<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor mentions",data: {:'list_id'=> @task.list_id, :'user_id' => @task.user_id} %>
+							<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor mentions",data: {:list_id=> "#{@task.list_id}", :user_id=> "#{@task.user_id}"},autocomplete: "off"  %>
 					    <label for="mentionsBlocker">New Blocker</label>
 				  </div>
 					<div class="col s6 input-field center-align">

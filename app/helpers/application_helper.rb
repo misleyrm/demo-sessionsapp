@@ -17,7 +17,7 @@ module ApplicationHelper
       users = list.collaboration_users.where(id: session[:active_collaborations]).order('position ASC')
       @active_collaborator = users
     else
-      @active_collaborator = ''
+      @active_collaborator = []
     end
   end
 

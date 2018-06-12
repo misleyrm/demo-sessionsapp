@@ -50,7 +50,7 @@
         <%= render partial: "users/list_user", locals: {user: user, list: list} %>
       </ul>
       <%= content_tag :ul, class: "sort_c_users", data: {"url" => "#{sort_list_collaboration_users_path(list)}"} do%>
-        <%= render partial: "users/list_user", collection: active_users.without(user), as: :user, locals: { list: list } if (active_users.count!=0 ) %>
+        <%= render partial: "users/list_user", collection: active_users.without(user), as: :user, locals: { list: list } if (!active_users.blank? ) %>
       <% end %>
     </section>
     <!--  END SECTION LIST USERS -->

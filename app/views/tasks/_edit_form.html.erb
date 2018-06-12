@@ -2,12 +2,12 @@
 <%= form_for(@task, :remote => true,:html => {:"data-behavior" => 'modal-form'}) do |f| %>
 	<div class="input-field col">
 		<% if @task.is_blocker? %>
-		  <%#= hidden_field_tag 'tags_emails'  %>
-			<%= f.text_field :detail, id: "mentionsBlocker", class: "inputor mentions", 'data-list_id'=> @task.parent_task.list_id, 'data-user_id'=>  @task.parent_task.user_id%>
-			<label for="mentionsBlocker" class="active">Edit Blocker</label>
+			  <%#= hidden_field_tag 'tags_emails'  %>
+				<%= f.text_field :detail, id: "mentionsBlocker_#{@task.id}", class: "inputor mentions", data: {:list_id=>"#{@task.parent_task.list_id}", :user_id => "#{@task.parent_task.user_id}"}, autocomplete: "off"  %>
+				<label for="mentionsBlocker_<%= @task.id%>" class="active">Edit Blocker</label>
 		<% else %>
-			<%= f.text_field :detail, id: "detail", class: "inputor mentions", 'data-list_id'=> @task.list_id, 'data-user_id'=>  @task.user_id %>
-			<label for="detail" class="active">Edit Task</label>
+			<%= f.text_field :detail, id: "detail_#{@task.id}", class: "inputor mentions", 'data-list_id'=> @task.list_id, 'data-user_id'=>  @task.user_id %>
+			<label for="detail_<%= @task.id%>" class="active">Edit Task</label>
 		<% end %>
   </div>
 	<div class="row">

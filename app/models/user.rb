@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
  def crop_avatar
    image.recreate_versions! if crop_x.present?
+   broadcast_update_avatar
  end
 
   # validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }
@@ -76,6 +77,7 @@ class User < ApplicationRecord
 
   # after_destroy :broadcast_delete
   after_commit :broadcast_update
+  # after_save :broadcast_update, on: :setCoord
   # after_create :broadcast_save
 
     # Methods for set current user for access from model
@@ -338,21 +340,22 @@ class User < ApplicationRecord
     self.invitations.where("active":true).order('updated_at DESC')
   end
 
+  def broadcast_update_avatar
+     status = 'changeavatar'
+     ActionCable.server.broadcast "user_channel_#{self.id}", status: status, user: self.id, image: self.image_url(:thumb), name: self.first_name
+  end
+
   def broadcast_update
 
-    if (self.previous_changes.key?(:image) &&
-       self.previous_changes[:image].first != self.previous_changes[:image].last)
-       status = 'changeavatar'
-       ActionCable.server.broadcast 'user_channel', status: status, user: self.id, image: self.image_url(:thumb), name: self.first_name
-    elsif (self.previous_changes.key?(:email) &&
+    if (self.previous_changes.key?(:email) &&
           self.previous_changes[:email].first != self.previous_changes[:email].last)
           status = 'changeemail'
-          ActionCable.server.broadcast 'user_channel', status: status, user: self.id, email: self.email
+          ActionCable.server.broadcast "user_channel_#{self.id}", status: status, user: self.id, email: self.email
     elsif (self.previous_changes.key?(:first_name) &&
           self.previous_changes[:first_name].first != self.previous_changes[:first_name].last) || (self.previous_changes.key?(:last_name) &&
           self.previous_changes[:last_name].first != self.previous_changes[:last_name].last)
           status = 'changeprofile'
-          ActionCable.server.broadcast 'user_channel', status: status, user: self.id, name: self.name, first_name: self.first_name
+          ActionCable.server.broadcast "user_channel_#{self.id}", status: status, user: self.id, name: self.name, first_name: self.first_name, last_name: self.last_name
     end
   end
 
