@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   attr_writer :current_step
-  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password, :image
+  attr_accessor :remember_token, :activation_token, :reset_token, :new_email, :new_email_confirmation, :current_password, :image,:email_confirmation
 
   mount_uploader :image, AvatarUploader
   serialize :images, JSON # If you use SQLite, add this line.
@@ -16,6 +16,11 @@ class User < ApplicationRecord
   validates_presence_of :image, :if => lambda { |o| o.current_step == "avatar" || o.current_step == steps.first }
 
   validates :first_name, presence: true, length: { maximum: 50 },:if => lambda { |o| o.current_step != "avatar" }
+  validates_presence_of :email, :if => lambda { |o| o.current_step == "createAccount" }
+
+  validates :email, presence: true, :confirmation => true, :if => lambda { |o| o.current_step == "email" }
+  validates :email_confirmation, :presence => true, :if => lambda { |o| o.current_step == "email" }
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, length: { maximum: 255 },
   format: { with: VALID_EMAIL_REGEX },
@@ -24,11 +29,11 @@ class User < ApplicationRecord
 
   validates :password, presence: true, length: { minimum: 6 }, :if => lambda { |o| o.current_step == "createAccount" }
   validates_confirmation_of :password,:on => :create
-  validates_presence_of :email, :if => lambda { |o| o.current_step == "email" ||  o.current_step == "createAccount" }
-  # validates_presence_of :first_name, :on => :create
   validates_presence_of :current_password, :on => :update, :if => lambda { |o| o.current_step == "email" }
   validates_presence_of :current_password, :on => :updatePassword
-  # before_save :downcase_email
+  before_save :downcase_email
+
+
   # validates :image, presence: true
 
   before_create :create_activation_digest
