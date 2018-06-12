@@ -1,0 +1,60 @@
+<%= form_for(@list,remote: true) do |f| %>
+      <!-- <input type='hidden' name='_method' value="<%=(@list.new_record?) ? "post" : "put"%>"> -->
+      <%= content_tag "div", id: "error_message_list" do%>
+         <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
+      <% end %>
+      <!-- <div class="valign-wrapper ms-upload-avatar" style="<% if ((!@list.new_record?) && @list.avatar?) %> background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
+            <%= f.file_field :avatar %>
+            <label for="list_avatar">
+              <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
+                  <i class="material-icons">camera_alt</i>Upload your Avatar
+              </div>
+            </label>
+      </div> -->
+
+      <div class="row">
+          <div id="imagecrop_list"><img src="" /></div>
+          <div class="col s12">
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: ") do %>
+                  <%= f.file_field :avatar %>
+                  <label for="list_avatar">
+                      <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
+                          <span class="circle-icon valign-wrapper">
+                              <%= image_tag(public_path('assets/createListB.svg')) %>
+                          </span>
+                      </div>
+                  </label>
+              <% end%>
+          </div>
+      </div>
+
+
+
+      <div class="col s12">
+          <div class="input-field">
+              <%= f.text_field :name ,id: "list_name"%>
+              <%= f.label :name%>
+          </div>
+      </div>
+      <div class="divider col s12"></div>
+      <div class="col s12">
+          <div class="input-field">
+              <%= f.text_area :description,class:'materialize-textarea', id: 'list_description' %>
+              <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
+          </div>
+     </div>
+     <div class="divider col s12"></div>
+
+    <div class="row">
+        <div class="col s6">
+          <div class="input-field center-align">
+            <a href="#!" class="modal-action waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12" >Cancel</a>
+          </div>
+        </div>
+        <div class="col s6">
+          <div class="input-field center-align">
+            <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= f.submit "Create"  %></a>
+          </div>
+        </div>
+      </div>
+<% end %>
