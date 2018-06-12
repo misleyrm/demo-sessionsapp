@@ -163,16 +163,14 @@ class UsersController < ApplicationController
   end
 
   def update
-    # if validate_update
-      # byebug
-      if !user_params[:new_email].blank?
-        if @user && @user.authenticate(user_params[:current_password]) && @user.activated
-          @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email])
-        end
-      else
-        @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
+
+    if !user_params[:new_email].blank?
+      if @user && @user.authenticate(user_params[:current_password]) && @user.activated
+        @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email])
       end
-    # end
+    else
+      @user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name]) #@user.update_attributes(:first_name => user_params[:first_name],:last_name => user_params[:last_name], :email => user_params[:new_email]) #@user.update_attributes(user_params)
+    end
 
     respond_to do |format|
       flash[:notice] = "Profile updated"
@@ -182,12 +180,9 @@ class UsersController < ApplicationController
   end
 
   def updateAvatar
-    # @user.current_step = (user_params[:current_step].present?)? user_params[:current_step] : ""
-    # gon.current_step = @user.current_step
+
     if user_params[:image].present?
       @user.current_step = 'avatar'
-      # gon.current_step = @user.current_step
-
       if @user.update_attributes(image: user_params[:image])
         flash[:notice] = "Avatar updated"
         render 'crop'
@@ -278,7 +273,6 @@ class UsersController < ApplicationController
 
 
   def sort
-
     # authorize @tasks.first
     if  !params[:collaboration_user].blank?
       collaboration_user = params[:collaboration_user]
