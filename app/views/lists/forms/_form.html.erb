@@ -11,24 +11,25 @@
               </div>
             </label>
       </div> -->
-
       <div class="row">
           <div id="imagecrop_list"><img src="" /></div>
           <div class="col s12">
-              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: ") do %>
-                  <%= f.file_field :avatar %>
-                  <label for="list_avatar">
-                      <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
-                          <span class="circle-icon valign-wrapper">
-                              <%= image_tag(public_path('assets/createListB.svg')) %>
+                <%#= "#{crop_list_path(@list)}"%>
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],:data=>{:url=> "#{}", :url_crop =>"#{crop_list_path(@list)}"}) do %>
+                  <%= f.file_field :image %>
+                  <label for="list_image">
+                      <div class="mousehover hover empty">
+                          <span class="circle-icon valign-wrapper create">
+                              <%= image_tag(public_path('assets/createList.svg')) %>
+                          </span>
+                          <span class="circle-icon valign-wrapper hover">
+                              <%= image_tag(public_path('assets/createListHover.svg')) %>
                           </span>
                       </div>
                   </label>
               <% end%>
           </div>
       </div>
-
-
 
       <div class="col s12">
           <div class="input-field">

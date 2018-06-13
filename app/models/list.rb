@@ -5,6 +5,8 @@ class List < ApplicationRecord
   styles: { :medium => "200x200>", :thumb => "100x100>" }
   validates_attachment_content_type :avatar, :content_type => /^image\/(png|gif|jpeg|jpg)/
 
+  mount_uploader :image, AvatarUploader
+
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
 
   # has_many :approved_comments, -> { where(approved: true) }, class_name: 'Comment'
@@ -21,6 +23,11 @@ class List < ApplicationRecord
   before_destroy :tasks_delete
 
   before_save :capitalize_name
+
+  def crop_avatar
+    image.recreate_versions! if crop_x.present?
+    broadcast_update_avatar if !self.new_record?
+  end
 
 
   def owner_name

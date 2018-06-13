@@ -8,7 +8,6 @@
         listId = $mention.data('list-id'),
         user_id = $mention.data('user-id');
         // $inputor = $('#mentionsBlocker'),
-  console.log($mention.data('list_id'));
 
   $mention.atwho({
     at: "+",
@@ -149,6 +148,7 @@
           ready: function(){
                 $("#dropdown-button-name").dropdown("close");
                 $('.mentions').mentionUsers();
+                svg();
           }, // Callback for Modal open
           complete: function() {
             $('#popupcrop').css('display', 'none');
@@ -404,6 +404,10 @@ $(document).on("click","a#user_settings",function(){
       // If no files were selected, or no FileReader support, return
       if ( !files.length || !window.FileReader ) {
         element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+        element.parents(".ms-upload-avatar").css('background-image','none');
+        if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
+          element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
+        }
         return} ;
 
         // Only proceed if the selected file is an image
@@ -418,17 +422,20 @@ $(document).on("click","a#user_settings",function(){
           reader.onloadend = function(){
             // $("#imagecrop img").attr("src", this.result);
             element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
-            element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+            // element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+            if (element.parents(".ms-upload-avatar").find('div.mousehover').hasClass('empty')){
+              element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
+            }
             element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
             element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
-
+            console.log(element);
 
             var formData = new FormData(),
-              $input = $("#user_image");
+                $input =   element;     //$("#user_image");
               // element = $(this);
 
 
-            formData.append('user[image]', $input[0].files[0]);
+            formData.append($input.attr("name"), $input[0].files[0]);
             // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
             // console.log(element.parents("#user-edit-avatar").attr("action"));
             // element.parents("#user-edit-avatar").trigger('submit.rails');

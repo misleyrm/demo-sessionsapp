@@ -913,7 +913,6 @@ ul#bar-user-informations li.bar-user-info a> div{
   }
 
   .ms-upload-avatar, .ms-avatar-all-task{
-
     text-align: center;
     margin: 0 auto;
     border-radius: 50%;
@@ -921,11 +920,23 @@ ul#bar-user-informations li.bar-user-info a> div{
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    /* box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);*/
-    background-image: url("");
-    border: 1px solid #525D6A;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07);
+    background-image: url("");
+    padding: 0;
+    margin: 0 auto;
+    /* border: 1px solid #525D6A;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.07); */
   }
+
+  .edit_user .ms-upload-avatar {
+    width: 91px;
+    height: 91px;
+  }
+
+   .new_list .ms-upload-avatar {
+     width: 82px;
+     height: 82px;
+   }
 
   .ms-avatar-all-task {
     width: 78px;
@@ -942,21 +953,38 @@ ul#bar-user-informations li.bar-user-info a> div{
 
   }
 
-  .ms-tabsSetting-content .ms-upload-avatar input[type="file"],
-  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"],
-  .ms-tabsSetting-content .ms-upload-avatar label[for="list_avatar"],
-  .ms-tabsSetting-content .ms-upload-avatar{
+
+  /* .ms-tabsSetting-content .ms-upload-avatar{
     width: 95px;
     height: 95px;
+  } */
+
+  .ms-tabsSetting-content .ms-upload-avatar input[type="file"],
+  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"],
+  .ms-upload-avatar input[type="file"],
+  .ms-upload-avatar label[for="user_image"],
+  .ms-upload-avatar label[for="list_image"],
+  .ms-upload-avatar label[for="list_image"]> div.mousehover,
+  .ms-upload-avatar label[for="user_image"]> div.mousehover {
+    width: 100%;
+    height: 100%;
+
   }
 
+  .ms-upload-avatar label[for="user_image"],
+  .ms-upload-avatar label[for="list_image"]{
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid #223042;
+    border-radius: 50%;
+  }
 
   .ms-tabsSetting-content .ms-upload-avatar{
     margin: 0 27px 61px 0px;
     display: inline-block;
     /* margin: 0 auto; */
-
   }
+
   .ms-tabsSetting-content .ms-update-avatar a.su-btn.btn-flat {
     border: 1px solid rgba(111, 115, 126, 0.3)!important;
     min-width: 100px;
@@ -970,66 +998,105 @@ ul#bar-user-informations li.bar-user-info a> div{
     text-indent: -99999px;
     opacity: 0;
   }
-  .ms-upload-avatar label[for="list_avatar"]{
+
+  .ms-upload-avatar label[for="list_image"]{
     z-index: 1;
   }
-  .ms-upload-avatar,
-  .ms-upload-avatar label[for="user_avatar"],
-  .ms-upload-avatar label[for="list_avatar"]{
-    font-size: .75rem;
-    cursor: pointer;
-    display: block;
-    line-height: 13px;
-    letter-spacing: 1px;
 
+  .ms-upload-avatar span.circle-icon {
+    /* border-radius: 50%;
+    padding: 1px; */
   }
+
+
+  .ms-upload-avatar,
+  .ms-upload-avatar label[for="user_image"],
+  .ms-upload-avatar label[for="list_image"] {
+    /* font-size: .75rem; */
+    cursor: pointer;
+    /* display: block;
+    line-height: 13px;
+    letter-spacing: 1px; */
+  }
+
   .ms-upload-avatar label[for="user_image"]> div.mousehover,
-  .ms-upload-avatar label[for="list_avatar"]> div.mousehover,
-  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"]> div.mousehover{
+  .ms-upload-avatar label[for="list_image"]> div.mousehover,
+  .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"]> div.mousehover {
     transition: all 1s;
   }
 
-  .ms-upload-avatar label[for="user_image"]> div.mousehover  {
-    /* padding: 20px 0; */
-
-    border-radius: 50%;
-    background-color: #223042;
-  }
-
- .edit_user .ms-upload-avatar,
- .ms-upload-avatar label[for="user_image"]> div.mousehover {
-   width: 90px;
-   height: 90px;
- }
-
-  .new_list .ms-upload-avatar,
-  .ms-upload-avatar label[for="list_avatar"]> div.mousehover {
-    width: 81px;
-    height: 81px;
-  }
-
   .ms-tabsSetting-content .ms-upload-avatar label[for="user_image"]> div.mousehover{
-    padding: 0.8rem 0;
+    padding: 0.8rem 0px;
   }
 
-  .ms-upload-avatar label[for="user_image"]> div.mousehover:not(.hover),
-  .ms-upload-avatar label[for="list_avatar"]> div.mousehover:not(.hover){
+  .ms-upload-avatar label[for="user_image"]:hover> div.mousehover.empty .circle-icon.create,
+  .ms-upload-avatar label[for="list_image"]:hover> div.mousehover.empty .circle-icon.create,
+  .ms-upload-avatar label[for="user_image"]> div.mousehover .circle-icon.hover,
+  .ms-upload-avatar label[for="list_image"]> div.mousehover .circle-icon.hover,
+  .ms-upload-avatar label[for="user_image"]> div.mousehover:not(.empty) .circle-icon.create,
+  .ms-upload-avatar label[for="list_image"]> div.mousehover:not(.empty) .circle-icon.create{
     opacity: 0;
     visibility:hidden;
-
   }
+
+  .ms-upload-avatar label[for="user_image"]> div.mousehover .circle-icon.hover,
+  .ms-upload-avatar label[for="list_image"]> div.mousehover .circle-icon.hover {
+    position: absolute;
+    width: 100%;
+    top: 0;
+  }
+
+  .ms-upload-avatar label[for="user_image"]:hover> div.mousehover .circle-icon.hover,
+  .ms-upload-avatar label[for="list_image"]:hover> div.mousehover .circle-icon.hover,
+  .ms-upload-avatar label[for="user_image"]> div.mousehover.empty .circle-icon.create,
+  .ms-upload-avatar label[for="list_image"]> div.mousehover.empty .circle-icon.create {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .ms-upload-avatar label[for="user_image"]:hover > div.mousehover svg path,
+  .ms-upload-avatar label[for="list_image"]:hover > div.mousehover svg path {
+   fill: white;
+  }
+
+  .ms-upload-avatar label[for="user_image"] > div.mousehover svg ,
+  .ms-upload-avatar label[for="list_image"] > div.mousehover svg,
+  .ms-upload-avatar label[for="user_image"] > div.mousehover img,
+  .ms-upload-avatar label[for="list_image"] > div.mousehover img {
+    width: 29px;
+  }
+
+  .ms-upload-avatar label[for="user_image"]:hover > div.mousehover:not(.empty) .circle-icon,
+  .ms-upload-avatar label[for="list_image"]:hover > div.mousehover:not(.empty) .circle-icon {
+     background-color: rgba(34, 48, 66, 0.4);
+  }
+
+  .ms-upload-avatar label[for="user_image"]:hover > div.mousehover.empty,
+  .ms-upload-avatar label[for="list_image"]:hover > div.mousehover.empty {
+     background-color: #223042;
+  }
+
+  .ms-upload-avatar label[for="user_image"] > div.mousehover,
+  .ms-upload-avatar label[for="list_image"] > div.mousehover {
+    border-radius: 50%;
+  }
+
+
   .ms-upload-avatar label i{
     display: block;
     padding-bottom: 2px;
     font-size: 2.2rem!important;
   }
+
   .ms-upload-avatar label i,
   .ms-upload-avatar label{
     color: white;
   }
+
   #ms-user-new .input-field{
     margin-top: 0rem;
   }
+
   .text-green{
     color: #55C2B9!important;
   }

@@ -105,9 +105,12 @@ Rails.application.routes.draw do
       end
       get :search, :on => :collection
       member do
+        post :updateAvatar
+        post :updateOwnership
         patch :num_incompleted_tasks
         get :complete_users
-        post :updateOwnership
+        get :crop
+        get :setCoord
       end
     end
 

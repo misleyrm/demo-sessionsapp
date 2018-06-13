@@ -4,12 +4,12 @@
     <div class="row">
         <div id="imagecrop"><img src="" /></div>
         <div class="col s12">
-            <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: url(#{(!@user.image.blank?)? @user.image_url(:thumb) : ''})", :data=>{"url": "#{updateAvatar_user_path(@user)}", "url-crop": "#{crop_user_path(@user)}"},id: "preview") do %>
+            <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"], :style=> "background-image: url(#{(!@user.image.blank?)? @user.image_url(:thumb) : ''})", :data=>{"url": "#{updateAvatar_user_path(@user)}", "url_crop": "#{crop_user_path(@user)}"},id: "preview") do %>
                 <%= g.file_field :image %>
                 <label for="user_image">
                     <div class="mousehover <%= (current_user.image.nil?)? 'hover': 'active' %> ">
                         <span class="circle-icon valign-wrapper">
-                            <%= image_tag(public_path('assets/createList.svg')) %>
+                            <%= image_tag(public_path('assets/createListHover.svg')) %>
                         </span>
                     </div>
                 </label>

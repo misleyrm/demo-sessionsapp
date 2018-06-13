@@ -6,7 +6,7 @@ class ListsController < ApplicationController
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership, :create]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership]
+  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :updateAvatar, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership, :setCoord, :crop]
   before_action :validate_ownership_update, only: [:updateOwnership]
 
   def index
@@ -125,6 +125,24 @@ class ListsController < ApplicationController
     end
   end
 
+  def updateAvatar
+    if user_params[:image].present?
+      @list.current_step = 'avatar'
+      if @list.update_attributes(image: user_params[:image])
+        flash[:notice] = "Avatar updated"
+        # respond_to do |format|
+        #   format.html { }
+        #   format.js { render 'crop' }
+        # end
+        render 'crop'
+      end
+    else
+      render :json => {:status => 'fail', :errors => @list.errors.full_messages}
+    end
+
+  end
+
+
   def update
     gon.list = @list
     saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
@@ -162,6 +180,25 @@ class ListsController < ApplicationController
     redirect_to root_path(@list)
 
   end
+
+  def crop
+    render layout: 'popupcrop'
+  end
+
+  def setCoord
+    @list.crop_x = user_params[:crop_x]  #params[:user][:crop_x]
+    @list.crop_y = user_params[:crop_y] #params[:user][:crop_y]
+    @list.crop_w = user_params[:crop_w] #params[:user][:crop_w]
+    @list.crop_h = user_params[:crop_h] #params[:user][:crop_h]
+    if @list.save!
+      respond_to do |format|
+        flash[:notice] = "Avatar updated"
+        format.html {  }
+        format.js {  }
+      end
+    end
+  end
+
 
   def destroy
     if @list.destroy
@@ -253,6 +290,7 @@ class ListsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
 
   def list_params
-    params.require(:list).permit(:name, :description, :avatar, :date)
+    params.require(:list).permit(:name, :description, :avatar, :date, :image,:crop_x, :crop_y, :crop_w, :crop_h )
+
   end
 end
