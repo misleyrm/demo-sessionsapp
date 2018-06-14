@@ -1,21 +1,14 @@
-<%= form_for(@list,remote: true) do |f| %>
+<%= form_for( @list, url: {action: "create"},remote: true, method: "POST") do |f| %>
       <!-- <input type='hidden' name='_method' value="<%=(@list.new_record?) ? "post" : "put"%>"> -->
-      <%= content_tag "div", id: "error_message_list" do%>
+      <%= hidden_field_tag 'id', "#{@list.id}"%>
+      <%= content_tag "div", id: "error_message_list" do %>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
-      <!-- <div class="valign-wrapper ms-upload-avatar" style="<% if ((!@list.new_record?) && @list.avatar?) %> background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
-            <%= f.file_field :avatar %>
-            <label for="list_avatar">
-              <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
-                  <i class="material-icons">camera_alt</i>Upload your Avatar
-              </div>
-            </label>
-      </div> -->
       <div class="row">
           <div id="imagecrop_list"><img src="" /></div>
           <div class="col s12">
                 <%#= "#{crop_list_path(@list)}"%>
-              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],:data=>{:url=> "#{}", :url_crop =>"#{crop_list_path(@list)}"}) do %>
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],:data=>{:url=> "#{updateAvatar_list_path(@list)}", :url_crop =>"#{crop_list_path(@list)}"},id: "preview") do %>
                   <%= f.file_field :image %>
                   <label for="list_image">
                       <div class="mousehover hover empty">

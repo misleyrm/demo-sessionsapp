@@ -48,8 +48,8 @@
 								 <i class="tooltipped material-icons md-9rem md-grey" data-position="top" data-delay="50" data-tooltip="Change task to another list">view_list</i>
 							 <% end %>
 							 <ul id="dropdownlist_<%= task.id%>" class="dropdown-list">
-			 		     	<% @current_all_lists = all_possible_lists(task.user_id, currentUser.id) %>
-			 					<% @current_all_lists.each do |list| %>
+			 		     	<% possible_all_lists = all_possible_lists(task.user_id, currentUser.id) %>
+			 					<% possible_all_lists.each do |list| %>
 			 					    <% if (list.id != task.list_id) %>
 			 							    <li>
 													<%= link_to changelist_task_path(list_id: list.id, id: task.id, currentList: current_list), remote: true, :method=> :patch  do%>

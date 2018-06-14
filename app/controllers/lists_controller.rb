@@ -11,10 +11,11 @@ class ListsController < ApplicationController
 
   def index
     @all_tasks = current_user.tasks.where(:completed_at => nil).order('created_at')
-    @lists = current_user.created_lists.all.order('created_at')
-    @collaboration_lists = current_user.collaboration_lists.all
+    @lists = current_user.created_lists.where("name not null").order('created_at')
+    @collaboration_lists = current_user.collaboration_lists.where("name not null")
+    # @created_lists =
     respond_to do |format|
-      format.html{redirect_to root_path}
+      format.html{}
       format.json
       format.js
     end
@@ -90,51 +91,87 @@ class ListsController < ApplicationController
       @c_users['value'] =   user.id
       @c_users['label'] =   user.first_name
     end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
     @list = current_user.created_lists.build
-    render layout: 'modal'
+    @list.save
+    # render layout: 'modal'
+    respond_to do |format|
+      format.html { render layout: 'modal'}
+      format.js
+    end
   end
 
   def edit
     @pending_invitations = @list.pending_invitation
-    render layout: 'modal'
-  end
-
-  def create
-    @list = current_user.created_lists.build(list_params)
-    if @list.save
-      flash[:notice] = "List was successfully created."
-      @_current_list = session[:list_id] = List.current = nil
-      session[:list_id] = @list.id
-      gon.startDate = startDate
-      # respond_to do |format|
-      #   format.html { redirect_to root_path(@list) }
-      #   format.js
-      # end
-      redirect_to root_path(@list)
-
-    else
-      flash[:danger] = "We can't create the list."
-      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      respond_to do |format|
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js { render :action => "new" }
-      end
+    respond_to do |format|
+      format.html { render layout: 'modal'}
+      format.js
     end
   end
 
+  def create
+
+    if !params[:id].blank?
+      @list = List.find(params[:id])
+    else
+      @list = current_user.created_lists.build()
+    end
+    @list.skip_validation = false
+    if @list.update_attributes(list_params)
+      current_user.created_lis.push(@list)
+      flash[:notice] = "List created"
+      respond_to do |format|
+        format.html { redirect_to root_path(@list) }
+        format.js
+      end
+    else
+      # flash[:danger] = "We can't update the list."
+      # @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      respond_to do |format|
+        format.html {render :action => "new"}
+        format.js
+      end
+    end
+
+    # # @list = current_user.created_lists.build(list_params)
+    # if @list.save
+    #   flash[:notice] = "List was successfully created."
+    #   @_current_list = session[:list_id] = List.current = nil
+    #   session[:list_id] = @list.id
+    #   gon.startDate = startDate
+    #   respond_to do |format|
+    #     format.html { redirect_to root_path(@list) }
+    #     format.js
+    #   end
+    #
+    #
+    # else
+    #   flash[:danger] = "We can't create the list."
+    #   @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+    #   respond_to do |format|
+    #     format.json { render :json => {:htmlerrors => @htmlerrors }}
+    #     format.js { render :action => "new" }
+    #   end
+    # end
+  end
+
   def updateAvatar
-    if user_params[:image].present?
+    if list_params[:image].present?
       @list.current_step = 'avatar'
-      if @list.update_attributes(image: user_params[:image])
+      @list.skip_validation = true
+      if @list.update_attributes(image: list_params[:image])
         flash[:notice] = "Avatar updated"
-        # respond_to do |format|
-        #   format.html { }
-        #   format.js { render 'crop' }
-        # end
-        render 'crop'
+        respond_to do |format|
+          format.html { render 'crop'}
+          format.js
+        end
+
       end
     else
       render :json => {:status => 'fail', :errors => @list.errors.full_messages}
@@ -146,21 +183,17 @@ class ListsController < ApplicationController
   def update
     gon.list = @list
     saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
-    if saved
-      flash[:notice] = "List was successfully updated."
-
-      respond_to do |format|
-        format.html {}
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js {  }
-      end
-    else
-      flash[:danger] = "We can't update the list."
-      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      respond_to do |format|
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js { render :action => "edit" }
-      end
+    respond_to do |format|
+      if saved
+          flash[:notice] = "List was successfully updated."
+          format.html
+          format.js
+      else
+          flash[:danger] = "We can't update the list."
+          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+          format.json { render :json => {:htmlerrors => @htmlerrors }}
+          format.js { }
+        end
     end
   end
 
@@ -186,14 +219,15 @@ class ListsController < ApplicationController
   end
 
   def setCoord
-    @list.crop_x = user_params[:crop_x]  #params[:user][:crop_x]
-    @list.crop_y = user_params[:crop_y] #params[:user][:crop_y]
-    @list.crop_w = user_params[:crop_w] #params[:user][:crop_w]
-    @list.crop_h = user_params[:crop_h] #params[:user][:crop_h]
+    @list.crop_x = list_params[:crop_x]  #params[:user][:crop_x]
+    @list.crop_y = list_params[:crop_y] #params[:user][:crop_y]
+    @list.crop_w = list_params[:crop_w] #params[:user][:crop_w]
+    @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
+    @list.skip_validation = true
     if @list.save!
       respond_to do |format|
         flash[:notice] = "Avatar updated"
-        format.html {  }
+        # format.html {  }
         format.js {  }
       end
     end

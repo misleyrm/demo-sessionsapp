@@ -156,7 +156,7 @@ class UsersController < ApplicationController
     if @user.save!
       respond_to do |format|
         flash[:notice] = "Avatar updated"
-        format.html {  }
+        # format.html {  }
         format.js {  }
       end
     end
@@ -262,7 +262,7 @@ class UsersController < ApplicationController
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
       @collaboration.destroy
       Collaboration.reset_pk_sequence
-      @created_list = @user.created_lists.build(:name =>@list.name, :description => @list.description, :avatar => @list.avatar)
+      @created_list = @user.created_lists.build(:name =>@list.name, :description => @list.description, :image => @list.image)
       if @created_list.save
         @created_list.tasks << @list.tasks.where(user_id:@user.id)
       end

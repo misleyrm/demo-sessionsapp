@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
  def crop_avatar
    image.recreate_versions! if crop_x.present?
-   broadcast_update_avatar !self.new_record?
+   broadcast_update_avatar if !new_record?
  end
 
   # validates_presence_of :first_name, :if => lambda { |o| o.current_step == "personal" || o.current_step == steps.first }

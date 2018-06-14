@@ -46,7 +46,9 @@ class LoginController < ApplicationController
     end
 
     def destroy
+
       log_out if logged_in?
+
       flash[:success] = 'Logged out successfully.'
       redirect_to confirmation_page_url
     end

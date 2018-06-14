@@ -440,6 +440,7 @@ $(document).on("click","a#user_settings",function(){
             // console.log(element.parents("#user-edit-avatar").attr("action"));
             // element.parents("#user-edit-avatar").trigger('submit.rails');
             //
+            console.log(element.parents(".ms-upload-avatar").data("url"));
             $.ajax({
               url: element.parents(".ms-upload-avatar").data("url"),
               data: formData,

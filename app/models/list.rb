@@ -1,11 +1,13 @@
 class List < ApplicationRecord
-  validates :name, presence: true
-  attr_accessor :num_incompleted_tasks
+  validates :name, presence: true, unless: :skip_validation?
+  attr_accessor :num_incompleted_tasks, :crop_x, :crop_y, :crop_w, :crop_h, :current_step, :skip_validation
   has_attached_file :avatar,
   styles: { :medium => "200x200>", :thumb => "100x100>" }
   validates_attachment_content_type :avatar, :content_type => /^image\/(png|gif|jpeg|jpg)/
 
   mount_uploader :image, AvatarUploader
+  after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? &&  not_new_record?}
+
 
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
 
@@ -19,16 +21,19 @@ class List < ApplicationRecord
 
   has_many :invitations, dependent: :destroy
 
-  after_commit :broadcast_update,on: [:update]
+  after_commit :broadcast_update, on: [:update], unless: :skip_validation? 
   before_destroy :tasks_delete
 
-  before_save :capitalize_name
+  before_save :capitalize_name, unless: :skip_validation?
 
   def crop_avatar
     image.recreate_versions! if crop_x.present?
-    broadcast_update_avatar if !self.new_record?
+    # broadcast_update_avatar if !self.new_record?
   end
 
+  def skip_validation?
+    new_record? || skip_validation
+  end
 
   def owner_name
     self.owner.name
