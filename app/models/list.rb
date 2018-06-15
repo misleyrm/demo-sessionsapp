@@ -6,8 +6,8 @@ class List < ApplicationRecord
   validates_attachment_content_type :avatar, :content_type => /^image\/(png|gif|jpeg|jpg)/
 
   mount_uploader :image, AvatarUploader
-  after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? &&  not_new_record?}
-
+  # after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? &&  not_new_record?}
+  after_save :crop_avatar, on: [:create, :update]
 
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
 
@@ -21,7 +21,7 @@ class List < ApplicationRecord
 
   has_many :invitations, dependent: :destroy
 
-  after_commit :broadcast_update, on: [:update], unless: :skip_validation? 
+  after_commit :broadcast_update, on: [:update], unless: :skip_validation?
   before_destroy :tasks_delete
 
   before_save :capitalize_name, unless: :skip_validation?
@@ -32,7 +32,7 @@ class List < ApplicationRecord
   end
 
   def skip_validation?
-    new_record? || skip_validation
+    skip_validation
   end
 
   def owner_name

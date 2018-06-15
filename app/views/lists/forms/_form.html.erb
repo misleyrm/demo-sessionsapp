@@ -1,14 +1,11 @@
-<%= form_for( @list, url: {action: "create"},remote: true, method: "POST") do |f| %>
-      <!-- <input type='hidden' name='_method' value="<%=(@list.new_record?) ? "post" : "put"%>"> -->
-      <%= hidden_field_tag 'id', "#{@list.id}"%>
+<%= form_for( @list, remote: true) do |f| %>
       <%= content_tag "div", id: "error_message_list" do %>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
       <div class="row">
           <div id="imagecrop_list"><img src="" /></div>
           <div class="col s12">
-                <%#= "#{crop_list_path(@list)}"%>
-              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],:data=>{:url=> "#{updateAvatar_list_path(@list)}", :url_crop =>"#{crop_list_path(@list)}"},id: "preview") do %>
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview") do %>
                   <%= f.file_field :image %>
                   <label for="list_image">
                       <div class="mousehover hover empty">
@@ -20,6 +17,9 @@
                           </span>
                       </div>
                   </label>
+                  <% %w[x y w h].each do |attribute| %>
+                      <%= f.hidden_field  "crop_#{attribute}",:class =>"crop_#{attribute}", :id =>"f_crop_#{attribute}" ,as: :hidden %>
+                  <% end %>
               <% end%>
           </div>
       </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="col s6">
           <div class="input-field center-align">
-            <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= f.submit "Create"  %></a>
+            <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit">Create</a>
           </div>
         </div>
       </div>

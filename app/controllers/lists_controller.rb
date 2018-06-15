@@ -1,5 +1,4 @@
 class ListsController < ApplicationController
-
   include LoginHelper
   include ApplicationHelper
   skip_before_action :verify_authenticity_token
@@ -98,13 +97,11 @@ class ListsController < ApplicationController
   end
 
   def new
-    @list = current_user.created_lists.build
-    @list.save
+    # @list = current_user.created_lists.build
+    # @list.save
     # render layout: 'modal'
-    respond_to do |format|
-      format.html { render layout: 'modal'}
-      format.js
-    end
+    @list = current_user.created_lists.build
+    render layout: 'modal'
   end
 
   def edit
@@ -116,49 +113,24 @@ class ListsController < ApplicationController
   end
 
   def create
-
-    if !params[:id].blank?
-      @list = List.find(params[:id])
-    else
-      @list = current_user.created_lists.build()
-    end
-    @list.skip_validation = false
-    if @list.update_attributes(list_params)
-      current_user.created_lis.push(@list)
-      flash[:notice] = "List created"
+    @list = current_user.created_lists.build(list_params)
+    if @list.save
+      flash[:notice] = "List was successfully created."
+      @_current_list = session[:list_id] = List.current = nil
+      session[:list_id] = @list.id
+      gon.startDate = startDate
       respond_to do |format|
         format.html { redirect_to root_path(@list) }
         format.js
       end
     else
-      # flash[:danger] = "We can't update the list."
-      # @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      # flash[:danger] = "We can't create the list."
+      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
       respond_to do |format|
-        format.html {render :action => "new"}
+        format.json { render :json => {:htmlerrors => @htmlerrors } }
         format.js
       end
     end
-
-    # # @list = current_user.created_lists.build(list_params)
-    # if @list.save
-    #   flash[:notice] = "List was successfully created."
-    #   @_current_list = session[:list_id] = List.current = nil
-    #   session[:list_id] = @list.id
-    #   gon.startDate = startDate
-    #   respond_to do |format|
-    #     format.html { redirect_to root_path(@list) }
-    #     format.js
-    #   end
-    #
-    #
-    # else
-    #   flash[:danger] = "We can't create the list."
-    #   @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-    #   respond_to do |format|
-    #     format.json { render :json => {:htmlerrors => @htmlerrors }}
-    #     format.js { render :action => "new" }
-    #   end
-    # end
   end
 
   def updateAvatar

@@ -26,6 +26,29 @@
     }
   })}
 
+  $.fn.autosubmit = function() {
+      this.submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+        $.ajax({
+          type: form.attr('method'),
+          url: form.attr('action'),
+          data: form.serialize()
+        }).done(function(data) {
+          // Optionally alert the user of success here...
+        }).fail(function(data) {
+          console.log("data");
+          if ($("#error_explanation").length >0){
+                  $("#error_explanation").remove();
+              }
+          console.log(data);
+
+
+        });
+      });
+      return this;
+  }
+
   function handler(ev) {
     var target = $(ev.target);
     var elId = target.attr('id');
@@ -76,7 +99,16 @@
     $divTCompleted.html("");
   });
 
+
+  $(document).on('click','a#btn-list-form-submit',function(event) {
+    $("form#new_list").autosubmit();
+
+  });
+
   $(document).on('turbolinks:load',function(){
+    // CREATE LIST
+
+
 
     svg();
     var $table_of_task = $(".table-of-task"),
@@ -121,9 +153,7 @@
       setTimeout(function(){ div.style.display = "none"; }, 600);
     };
 
-
     $('ul.tabs').tabs();
-
 
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
 
@@ -202,6 +232,7 @@
       },
       complete: function() {  } // Callback for Modal close
     })
+
 
     var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
     $("#stand-up ul li a").each(function(){
@@ -317,6 +348,7 @@ $(document).on("click","a#user_settings",function(){
   });
 
 
+
   // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
 
   $(document).on("keyup","#change_ownership_password",function(){
@@ -428,12 +460,10 @@ $(document).on("click","a#user_settings",function(){
             }
             element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
             element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
-            console.log(element);
 
             var formData = new FormData(),
                 $input =   element;     //$("#user_image");
               // element = $(this);
-
 
             formData.append($input.attr("name"), $input[0].files[0]);
             // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
@@ -450,13 +480,12 @@ $(document).on("click","a#user_settings",function(){
               type: 'POST',
               success: function(response) {
                 var location;
-                location = element.parents(".ms-upload-avatar").data("url-crop");
+                location = element.parents(".ms-upload-avatar").data("crop");
                 $.get(location, function(data) {
                   var modal_holder_selector,
                       popupcrop,
-                      z_index = $("#ms-modal-dialog").css('z-index') ,
+                      z_index = $("#ms-modal-dialog").css('z-index'),
                       top = $("#ms-modal-dialog").offset();
-
 
                   modal_holder_selector = "#popupcrop_holder";
                   popupcrop = "#popupcrop";
@@ -765,3 +794,138 @@ $(document).on("click","a#user_settings",function(){
 
   }
         /* end */
+/*** Crop Avatar ****/
+
+
+var AvatarCrop,
+  bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+$(function() {
+  return new AvatarCrop();
+});
+
+AvatarCrop = (function() {
+  function AvatarCrop() {
+    this.updatePreview = bind(this.updatePreview, this);
+    this.update = bind(this.update, this);
+    var height, width;
+    width = parseInt($('#preview').width());
+    height = parseInt($('#preview').height());
+
+    $('#cropbox').Jcrop({
+      aspectRatio: 1,
+      setSelect: [0, 0, width, height],
+      onSelect: this.update,
+      onChange: this.update
+    });
+  }
+
+  AvatarCrop.prototype.update = function(coords) {
+    $('#crop_x').val(coords.x);
+    $('#crop_y').val(coords.y);
+    $('#crop_w').val(coords.w);
+    $('#crop_h').val(coords.h);
+    return this.updatePreview(coords);
+  };
+
+  AvatarCrop.prototype.updatePreview = function(coords) {
+    var rx, ry;
+    rx = 100 / coords.w;
+    ry = 100 / coords.h;
+    return $('#preview').css({
+      "background-size": Math.round(rx * $('#cropbox').width()) + 'px' + " " +Math.round(ry * $('#cropbox').height()) + 'px',
+      "background-position": '-' + Math.round(rx * coords.x) + 'px' +" "+ '-' + Math.round(ry * coords.y) + 'px'
+    });
+
+
+  };
+
+  return AvatarCrop;
+
+})();
+
+
+
+/*************** CROP AVATAR WHEN CREATE********************/
+function uploadAvatarCreate(){
+
+  // Get a reference to the fileList
+  var files = !!this.files ? this.files : [];
+  var element = $(this);
+
+  // If no files were selected, or no FileReader support, return
+  if ( !files.length || !window.FileReader ) {
+    // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+    element.parents(".ms-upload-avatar").css('background-image','none');
+    if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
+      element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
+    }
+    return} ;
+
+    // Only proceed if the selected file is an image
+    if ( /^image/.test( files[0].type ) ) {
+      // Create a new instance of the FileReader
+      var reader = new FileReader();
+
+      // Read the local file as a DataURL
+      reader.readAsDataURL( files[0] );
+
+      // When loaded, set image data as background of div
+      reader.onloadend = function(){
+        // $("#imagecrop img").attr("src", this.result);
+        element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
+        // element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+        if (element.parents(".ms-upload-avatar").find('div.mousehover').hasClass('empty')){
+          element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
+        }
+        element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
+
+        var modal_holder_selector,
+            popupcrop,
+            z_index = $("#ms-modal-dialog").css('z-index'),
+            top = $("#ms-modal-dialog").offset();
+
+        $popupcrop = $("#popupcrop");
+        $("#cropbox",$popupcrop).attr('src', this.result);
+
+        $popupcrop.css('top', '12%');
+        $popupcrop.css('right', '60%');
+
+        $('#popupcrop').modal({
+          dismissible: false, // Modal can be dismissed by clicking outside of the modal
+          opacity: .5, // Opacity of modal background
+          inDuration: 200, // Transition in duration
+          outDuration: 100, // Transition out duration
+          startingTop: '4%', // Starting top style attribute
+          endingTop: '150px', // Ending top style attribute
+          ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+          },
+          complete: function() {  } // Callback for Modal close
+        });
+        $('#popupcrop').modal('open');
+        return new AvatarCrop();
+      }
+    }
+  }
+
+/*************** END AVATAR WHILE CREATE********************/
+
+$(document).on('submit','#popupcrop form',function(e){
+   e.preventDefault();
+   var crop_x = $("#crop_x", this),
+       crop_y = $("#crop_y", this),
+       crop_w = $("#crop_w", this),
+       crop_h = $("#crop_h", this),
+       $ms_upload_avatar = $(".ms-upload-avatar"),
+       f_crop_x = $("#f_crop_x", $ms_upload_avatar),
+       f_crop_y = $("#f_crop_y", $ms_upload_avatar),
+       f_crop_w = $("#f_crop_w", $ms_upload_avatar),
+       f_crop_h = $("#f_crop_h", $ms_upload_avatar);
+
+  f_crop_x.val(crop_x.val());
+  f_crop_y.val(crop_y.val());
+  f_crop_w.val(crop_w.val());
+  f_crop_h.val(crop_h.val());
+
+  $('#popupcrop').modal('close');
+});

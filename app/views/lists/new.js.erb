@@ -1,1 +1,7 @@
   $("#error_message_list").html("<%= j render :partial => 'layouts/error_message', :locals => {:model => @list} %>");
+
+  var modal_holder_selector = "#popupcrop_holder",
+  popupcrop = "#popupcrop";
+  // $(modal_holder_selector).html("<%#= j render :partial => 'shared/crop',:layout => 'cropPopUp' %>");
+
+$(modal_holder_selector).html(' <%= j render partial: "shared/crop",:layout => "shared/cropPopUp" %>');
