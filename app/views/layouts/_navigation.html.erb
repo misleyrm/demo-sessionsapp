@@ -10,10 +10,10 @@
             <% end %>
         <% end %>
         <li class="li-hover"></li>
-        <%= content_tag :li, class: "bold" do %>
+        <%= content_tag :li, class: "bold", id: "ms-add" do %>
             <%= link_to new_list_path, data: { behavior: 'modal' },class: "waves-effect waves-cyan", remote: true do %>
               <div class="chip">
-                <i class="material-icons add-list">add</i>Add List
+                  <i class="material-icons add-list">add</i>Add List
               </div>
             <% end %>
         <% end %>

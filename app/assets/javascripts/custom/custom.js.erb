@@ -26,28 +26,28 @@
     }
   })}
 
-  $.fn.autosubmit = function() {
-      this.submit(function(event) {
-        event.preventDefault();
-        var form = $(this);
-        $.ajax({
-          type: form.attr('method'),
-          url: form.attr('action'),
-          data: form.serialize()
-        }).done(function(data) {
-          // Optionally alert the user of success here...
-        }).fail(function(data) {
-          console.log("data");
-          if ($("#error_explanation").length >0){
-                  $("#error_explanation").remove();
-              }
-          console.log(data);
-
-
-        });
-      });
-      return this;
-  }
+  // jQuery.fn.autosubmit = function() {
+  //     this.submit(function(event) {
+  //       event.preventDefault();
+  //       var form = $(this);
+  //       $.ajax({
+  //         type: form.attr('method'),
+  //         url: form.attr('action'),
+  //         data: form.serialize()
+  //       }).done(function(data) {
+  //         // Optionally alert the user of success here...
+  //       }).fail(function(data) {
+  //         console.log("data");
+  //         if ($("#error_explanation").length >0){
+  //                 $("#error_explanation").remove();
+  //             }
+  //         console.log(data);
+  //
+  //
+  //       });
+  //     });
+  //     return this;
+  // }
 
   function handler(ev) {
     var target = $(ev.target);
@@ -59,12 +59,10 @@
     var $this = $(this);
     if (!$this.parent().is("#ms-add")){
 
-
       $("ul.user-lists li.active").removeClass('active');
       $this.parent().addClass('active');
 
       var id = $this.attr('id');
-
 
       $("#form_date").attr('action', '/lists/' + id);
       var date = $('#form_date').val() ? $('#form_date').val(): new Date();
@@ -100,15 +98,63 @@
   });
 
 
-  $(document).on('click','a#btn-list-form-submit',function(event) {
-    $("form#new_list").autosubmit();
+  $(document).on('submit','form#new_list', {}, function(event){
+        var form = $(this);
+        var formData = new FormData(),
+            val =0;
 
+        event.preventDefault();
+
+        if ($("#list_image").val() != 0){
+          formData.append($("#list_image").attr("name"), $("#list_image")[0].files[0]);
+        }
+
+        formData.append($("#list_name").attr("name"), $("#list_name").val());
+        formData.append($("#list_description").attr("name"), $("#list_description").val());
+
+
+        if ($("#list_name").val()!= ""){
+          $.ajax({
+            url: form.attr('action'),
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(response) {
+              console.log(response);
+            },
+            error: function(xhr) {
+              console.log("errors");
+            }
+          })
+        } else{ alert("You need to fill the name!");}
   });
 
   $(document).on('turbolinks:load',function(){
     // CREATE LIST
-
-
+    //
+    // $("form#new_list").submit(function(event) {
+    //   alert("a#btn-list-form-submit");
+    //   event.preventDefault();
+    //
+    //     var form = $(this);
+    //     // $.ajax({
+    //     //   type: form.attr('method'),
+    //     //   url: form.attr('action'),
+    //     //   data: form.serialize()
+    //     // }).done(function(data) {
+    //     //   console.log("data");
+    //     //   // Optionally alert the user of success here...
+    //     // }).fail(function(data) {
+    //     //   console.log("data");
+    //     //   if ($("#error_explanation").length >0) {
+    //     //       $("#error_explanation").remove();
+    //     //     }
+    //     //   console.log(data);
+    //     //
+    //     // });
+    //   });
 
     svg();
     var $table_of_task = $(".table-of-task"),
@@ -258,6 +304,15 @@
       }
       // console.log('in');
     });
+
+    $('#list_new').validate({
+      debug: true,
+      rules: {
+        'list[name]': {required: true},
+      }
+      // console.log('in');
+    });
+
 
   }); /* end of $(document).on('turbolinks:load',function(){*/
 
@@ -929,3 +984,103 @@ $(document).on('submit','#popupcrop form',function(e){
 
   $('#popupcrop').modal('close');
 });
+
+
+
+/*******list validation******/
+function list_validation() {
+  var name = document.getElementById("list_name").value;
+
+  if (name === '' ) {
+    alert("Please fill name!");
+    return false;
+  } else{
+    return true;
+  }
+}
+
+
+
+function fileSerealize(file){
+
+  // Get a reference to the fileList
+  var files = !!this.files ? this.files : [];
+  var element = $(this);
+
+  // If no files were selected, or no FileReader support, return
+  if ( !files.length || !window.FileReader ) {
+    element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+    element.parents(".ms-upload-avatar").css('background-image','none');
+    if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
+      element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
+    }
+    return} ;
+
+    // Only proceed if the selected file is an image
+    if ( /^image/.test( files[0].type ) ) {
+      // Create a new instance of the FileReader
+      var reader = new FileReader();
+
+      // Read the local file as a DataURL
+      reader.readAsDataURL( files[0] );
+
+      // When loaded, set image data as background of div
+      reader.onloadend = function(){
+        // $("#imagecrop img").attr("src", this.result);
+        element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
+        // element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+        if (element.parents(".ms-upload-avatar").find('div.mousehover').hasClass('empty')){
+          element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
+        }
+        element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
+        element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
+
+        var formData = new FormData(),
+            $input =   element;     //$("#user_image");
+          // element = $(this);
+
+        formData.append($input.attr("name"), $input[0].files[0]);
+        // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
+        // console.log(element.parents("#user-edit-avatar").attr("action"));
+        // element.parents("#user-edit-avatar").trigger('submit.rails');
+        //
+        console.log(element.parents(".ms-upload-avatar").data("url"));
+        $.ajax({
+          url: element.parents(".ms-upload-avatar").data("url"),
+          data: formData,
+          cache: false,
+          contentType: false,
+          processData: false,
+          type: 'POST',
+          success: function(response) {
+            var location;
+            location = element.parents(".ms-upload-avatar").data("crop");
+            $.get(location, function(data) {
+              var modal_holder_selector,
+                  popupcrop,
+                  z_index = $("#ms-modal-dialog").css('z-index'),
+                  top = $("#ms-modal-dialog").offset();
+
+              modal_holder_selector = "#popupcrop_holder";
+              popupcrop = "#popupcrop";
+              $(modal_holder_selector).html(data);
+
+              $(popupcrop).css('top', '12%');
+              $(popupcrop).css('right', '60%');
+
+              // $(modal_holder_selector).attr('top', $("#ms-modal-dialog").attr('top') + 3%);
+              $(popupcrop).css('display', 'block');
+              $(popupcrop).css('position', 'absolute');
+              $(popupcrop).css('opacity', 1);
+              $(popupcrop).css('z-index', parseInt(z_index)+1);
+              $(popupcrop).css('transform', 'scaleX(1)');
+
+              // $('#popupcrop').modal();
+              // $('#popupcrop').modal('open');
+              return new AvatarCrop();
+            })}
+          })
+
+      }
+    }
+  }
