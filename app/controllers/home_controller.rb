@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   # before_action :set_current_list, only: [:dashboard ]
 
   def dashboard
+  
     @user = current_user
     gon.current_user = @user
     gon.current_list = @list = current_list

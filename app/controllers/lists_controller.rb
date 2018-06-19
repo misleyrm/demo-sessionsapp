@@ -114,13 +114,19 @@ class ListsController < ApplicationController
 
   def create
     @list = current_user.created_lists.build(list_params)
-
-    respond_to do |format|
-      if @list.save!
-        flash[:notice] = "List was successfully created."
-        @_current_list = session[:list_id] = List.current = nil
-        session[:list_id] = @list.id
-        gon.startDate = startDate
+    @list.crop_x = list_params[:crop_x]  #params[:user][:crop_x]
+    @list.crop_y = list_params[:crop_y] #params[:user][:crop_y]
+    @list.crop_w = list_params[:crop_w] #params[:user][:crop_w]
+    @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
+    # @list.skip_validation = false
+    if @list.save
+      flash[:notice] = "List was successfully created."
+      @_current_list = session[:list_id] = List.current = nil
+      session[:list_id] = @list.id
+      gon.startDate = startDate
+      session[:active_collaborations] = Array.new
+      session[:active_collaborations][0] = current_user.id
+      respond_to do |format|
         format.html { redirect_to root_path(@list) }
         format.js
       else
@@ -132,6 +138,14 @@ class ListsController < ApplicationController
           # render :json => {:status => 'fail', :errors => @list.errors.full_message }
         end
       end
+    else
+      # flash[:danger] = "We can't create the list."
+      # render 'new'
+      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors.full_messages }
+      # render :json => {:status => 'fail', :errors => @list.errors.full_messages}
+
+    end
   end
 
   def updateAvatar
@@ -298,7 +312,7 @@ class ListsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
 
   def list_params
-    params.require(:list).permit(:name, :description, :avatar, :date, :image,:crop_x, :crop_y, :crop_w, :crop_h )
+    params.require(:list).permit(:name, :description, :date, :image,:crop_x, :crop_y, :crop_w, :crop_h )
 
   end
 end

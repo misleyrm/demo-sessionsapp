@@ -124,7 +124,7 @@ module LoginHelper
 
   # Logs out the current user.
   def log_out
-    current_user.created_list.where("name is null").delete_all
+    # current_user.created_lists.where("name is null").delete_all
     forget(current_user)
     session.delete(:user_id)
     # sessions.delete(:team_id)
