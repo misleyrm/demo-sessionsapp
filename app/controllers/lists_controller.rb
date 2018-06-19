@@ -114,23 +114,24 @@ class ListsController < ApplicationController
 
   def create
     @list = current_user.created_lists.build(list_params)
-    if @list.save
-      flash[:notice] = "List was successfully created."
-      @_current_list = session[:list_id] = List.current = nil
-      session[:list_id] = @list.id
-      gon.startDate = startDate
-      respond_to do |format|
+
+    respond_to do |format|
+      if @list.save!
+        flash[:notice] = "List was successfully created."
+        @_current_list = session[:list_id] = List.current = nil
+        session[:list_id] = @list.id
+        gon.startDate = startDate
         format.html { redirect_to root_path(@list) }
         format.js
+      else
+          # flash[:danger] = "We can't create the list."
+          # @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+          # render :new => {:htmlerrors => @htmlerrors }
+          format.html  { render :new }
+          format.json  { render json: { :errors => @list.errors.full_messages} }
+          # render :json => {:status => 'fail', :errors => @list.errors.full_message }
+        end
       end
-    else
-      # flash[:danger] = "We can't create the list."
-      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      respond_to do |format|
-        format.json { render :json => {:htmlerrors => @htmlerrors } }
-        format.js
-      end
-    end
   end
 
   def updateAvatar
@@ -146,6 +147,7 @@ class ListsController < ApplicationController
 
       end
     else
+
       render :json => {:status => 'fail', :errors => @list.errors.full_messages}
     end
 

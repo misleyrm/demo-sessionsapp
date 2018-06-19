@@ -28,7 +28,6 @@
   }
 
   function keypressed(event) {
-    alert("keypressed");
     var charcode = (event.which) ? event.which : window.event.keyCode;
     if (charcode == 13) {
       return submit_ownership_change(event);

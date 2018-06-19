@@ -3,51 +3,62 @@
     return this;
   };
 
+  $.fn.autosubmit = function() {
+      console.log("data1");
+      var form1 = $(this);
+      //
+      // console.log(form);
+      // form[0].submit();
+
+      form1[0].submit(function(event) {
+        var form = $(this);
+        event.preventDefault();
+
+        $.getJSON(form.attr('action'), form.serialize(), function(data) {
+          console.log(data);
+        });
+        // $.ajax({
+        //   type: form.attr('method'),
+        //   url: form.attr('action'),
+        //   data: form.serialize()
+        // }).done(function(data) {
+        //   // Optionally alert the user of success here...
+        // }).fail(function(data) {
+        //   if ($("#error_explanation").length >0){
+        //           $("#error_explanation").remove();
+        //       }
+        //   console.log(data);
+        //
+        //
+        // });
+      });
+      return this;
+  };
+
   jQuery.fn.mentionUsers = function(){
     var $mention = $(this),
         listId = $mention.data('list-id'),
         user_id = $mention.data('user-id');
         // $inputor = $('#mentionsBlocker'),
 
-  $mention.atwho({
-    at: "+",
-    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
-    insertTpl: function(){
-      return '${atwho-at}${email}'
-    },
-    callbacks: {
-      remoteFilter: function(query, callback) {
-        if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
-            callback(data)
-          });
+    $mention.atwho({
+      at: "+",
+      displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+      insertTpl: function(){
+        return '${atwho-at}${email}'
+      },
+      callbacks: {
+        remoteFilter: function(query, callback) {
+          if (query.length >= 1) {
+            $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
+              callback(data)
+            });
+          }
         }
       }
-    }
-  })}
-
-  $.fn.autosubmit = function() {
-      this.submit(function(event) {
-        event.preventDefault();
-        var form = $(this);
-        $.ajax({
-          type: form.attr('method'),
-          url: form.attr('action'),
-          data: form.serialize()
-        }).done(function(data) {
-          // Optionally alert the user of success here...
-        }).fail(function(data) {
-          console.log("data");
-          if ($("#error_explanation").length >0){
-                  $("#error_explanation").remove();
-              }
-          console.log(data);
+    })}
 
 
-        });
-      });
-      return this;
-  }
 
   function handler(ev) {
     var target = $(ev.target);
@@ -100,13 +111,38 @@
   });
 
 
-  $(document).on('click','a#btn-list-form-submit',function(event) {
-    $("form#new_list").autosubmit();
-
-  });
 
   $(document).on('turbolinks:load',function(){
     // CREATE LIST
+    $(document).on('click','a#btn-list-form-submit',function(event) {
+
+      console.log($(this).parents('form').attr('action'));
+      var form = $(this).parents('form');
+
+      $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function(){
+          console.log("success");
+        },
+        error: function(xhr){
+
+           // var errors = $.parseJSON(xhr.responseText).errors;
+           console.log('errors');
+          form.prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
+          var $menssageError = $("#error_explanation ul");
+          var errors = $.parseJSON(xhr.responseText).errors,
+           message;
+
+       jQuery.each( errors, function( i, val ) {
+           $menssageError.append ('<li>' + val[0].message + '</li>')
+         });
+        }
+
+      })
+
+    });
 
 
 
