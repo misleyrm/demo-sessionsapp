@@ -97,11 +97,9 @@ class ListsController < ApplicationController
   end
 
   def new
-    # @list = current_user.created_lists.build
-    # @list.save
-    # render layout: 'modal'
     @list = current_user.created_lists.build
     render layout: 'modal'
+
   end
 
   def edit
@@ -120,21 +118,20 @@ class ListsController < ApplicationController
     @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
     # @list.skip_validation = false
     if @list.save
+
       flash[:notice] = "List was successfully created."
       @_current_list = session[:list_id] = List.current = nil
       session[:list_id] = @list.id
       gon.startDate = startDate
       session[:active_collaborations] = Array.new
       session[:active_collaborations][0] = current_user.id
-      respond_to do |format|
-        format.html { redirect_to root_path(@list) }
-        format.js
-      end
+      redirect_to root_path(@list) 
+
     else
       # flash[:danger] = "We can't create the list."
-      # render 'new'
-      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors.full_messages }
+      render "new", layout: 'modal'
+      # @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      # render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors.full_messages }
       # render :json => {:status => 'fail', :errors => @list.errors.full_messages}
 
     end

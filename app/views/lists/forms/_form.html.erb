@@ -46,8 +46,10 @@
           </div>
         </div>
         <div class="col s6">
+          <a class="waves-effect waves-light btn btn-medium su-btn btn-flat lowercase col s12">123
+          </a>
           <div class="input-field center-align">
-            <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= f.submit "Create"%></a>
+             <%= f.submit("Create", data: {disable_with: false} ) %>
           </div>
         </div>
     </div>

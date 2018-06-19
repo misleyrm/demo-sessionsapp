@@ -1,30 +1,30 @@
-  jQuery.fn.submitOnCheck = function() {
-    this.find('input[type=submit]').remove();
-    return this;
-  };
+jQuery.fn.submitOnCheck = function() {
+  this.find('input[type=submit]').remove();
+  return this;
+};
 
-  jQuery.fn.mentionUsers = function(){
-    var $mention = $(this),
-        listId = $mention.data('list-id'),
-        user_id = $mention.data('user-id');
-        // $inputor = $('#mentionsBlocker'),
+jQuery.fn.mentionUsers = function(){
+  var $mention = $(this),
+      listId = $mention.data('list-id'),
+      user_id = $mention.data('user-id');
+      // $inputor = $('#mentionsBlocker'),
 
-  $mention.atwho({
-    at: "+",
-    displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
-    insertTpl: function(){
-      return '${atwho-at}${email}'
-    },
-    callbacks: {
-      remoteFilter: function(query, callback) {
-        if (query.length >= 1) {
-          $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
-            callback(data)
-          });
-        }
+$mention.atwho({
+  at: "+",
+  displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+  insertTpl: function(){
+    return '${atwho-at}${email}'
+  },
+  callbacks: {
+    remoteFilter: function(query, callback) {
+      if (query.length >= 1) {
+        $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
+          callback(data)
+        });
       }
     }
-  })}
+  }
+})}
 
   // jQuery.fn.autosubmit = function() {
   //     this.submit(function(event) {
@@ -49,89 +49,98 @@
   //     return this;
   // }
 
-  function handler(ev) {
-    var target = $(ev.target);
-    var elId = target.attr('id');
-  };
+function handler(ev) {
+  var target = $(ev.target);
+  var elId = target.attr('id');
+};
 
-  $(document).on('click','ul.user-lists li a', {}, function(event){
-    event.preventDefault();
-    var $this = $(this);
-    if (!$this.parent().is("#ms-add")){
+$(document).on('click','input[type=checkbox]', {}, function(event){
+  $(this).parent('form').submit();
+});
 
-      $("ul.user-lists li.active").removeClass('active');
-      $this.parent().addClass('active');
+$(document).on('click','a[data-behavior="hide-content"]', {}, function(event) {
+  event.preventDefault();
+  var $divTCompleted =   $('#'+ $(this).data('id'));
+      $span = $('a[data-activates= "'+$(this).parents('ul.dropdown-content').attr('id')+'"] span');
 
-      var id = $this.attr('id');
+  $span.html('Hide');
+  $divTCompleted.html("");
+});
 
-      $("#form_date").attr('action', '/lists/' + id);
-      var date = $('#form_date').val() ? $('#form_date').val(): new Date();
+/*******************  CREATE LIST **********************/
+$(document).on('submit','form#new_list', {}, function(event){
+      var form = $(this);
+      var formData = new FormData(),
+          val =0;
 
-      $.ajax({
-        complete:function(request){
-          $('.tooltipped').tooltip({delay: 50});
-          $('div[id^="incomplete_tasks_"]').each(function (){
-            mySortable($(this));
-          })
-        },
-        data:'date='+ date,
-        dataType:'script',
-        type:'get',
-        url: $this.attr('data-href')
-      })
-    }
+      event.preventDefault();
 
-  });
+      if ($("#list_image").val() != 0){
+        formData.append($("#list_image").attr("name"), $("#list_image")[0].files[0]);
+      }
 
-  $(document).on('click','input[type=checkbox]', {}, function(event){
-    $(this).parent('form').submit();
-  });
+      formData.append($("#list_name").attr("name"), $("#list_name").val());
+      formData.append($("#list_description").attr("name"), $("#list_description").val());
 
 
-  $(document).on('click','a[data-behavior="hide-content"]', {}, function(event) {
-    event.preventDefault();
-    var $divTCompleted =   $('#'+ $(this).data('id'));
-        $span = $('a[data-activates= "'+$(this).parents('ul.dropdown-content').attr('id')+'"] span');
-
-    $span.html('Hide');
-    $divTCompleted.html("");
-  });
-
-
-  $(document).on('submit','form#new_list', {}, function(event){
-        var form = $(this);
-        var formData = new FormData(),
-            val =0;
-
-        event.preventDefault();
-
-        if ($("#list_image").val() != 0){
-          formData.append($("#list_image").attr("name"), $("#list_image")[0].files[0]);
-        }
-
-        formData.append($("#list_name").attr("name"), $("#list_name").val());
-        formData.append($("#list_description").attr("name"), $("#list_description").val());
+      // if ($("#list_name").val()!= ""){
+      //
+      //   $.ajax({
+      //     url: form.attr('action'),
+      //     data: formData,
+      //     cache: false,
+      //     contentType: false,
+      //     processData: false,
+      //     type: 'POST',
+      //     success: function(response) {
+      //       console.log(response);
+      //     },
+      //     error: function(xhr) {
+      //       console.log("errors");
+      //     }
+      //   })
+      // } else { alert("You need to fill the name!");}
+});
 
 
-        if ($("#list_name").val()!= ""){
-          $.ajax({
-            url: form.attr('action'),
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            type: 'POST',
-            success: function(response) {
-              console.log(response);
-            },
-            error: function(xhr) {
-              console.log("errors");
-            }
-          })
-        } else{ alert("You need to fill the name!");}
-  });
 
-  $(document).on('turbolinks:load',function(){
+/******************* END CREATE LIST **********************/
+
+/*******************  OPEN MODAL TO CROP AVATAR ***********/
+$(document).on("change", ".ms-upload-avatar input[type='file']", avatarCropModal);
+  // $(document).on("change", 'input#list_image', avatarCropModal);
+
+/******************* SHOW CONTENT IN MODAL **********************/
+$(document).on("click", "[data-behavior='modal']", function(e) {
+    e.preventDefault();
+    var location;
+    var $modal_holder_selector = $("#modal-holder");
+    location = $(this).attr("href");
+
+    $.get(location, function(data) {
+      $modal_holder_selector.html(data);
+      $('.modal',$modal_holder_selector).modal({
+        dismissible: false, // Modal can be dismissed by clicking outside of the modal
+        ready: function(){
+              $("#dropdown-button-name").dropdown("close");
+              $('.mentions').mentionUsers();
+              svg();
+        }, // Callback for Modal open
+        complete: function() {
+
+         } // Callback for Modal close
+      });
+
+      msCollapsible("collapsible");
+      $(".edit_notification_setting").submitOnCheck();
+
+      return $("#ms-modal-dialog").modal("open");
+    })
+    return false;
+})
+
+/******************* END CONTENT IN MODAL **********************/
+$(document).on('turbolinks:load',function(){
     // CREATE LIST
     //
     // $("form#new_list").submit(function(event) {
@@ -187,18 +196,6 @@
     $('.edit_task').submitOnCheck();
     $('.edit_notification_setting').submitOnCheck();
 
-    $(".close").onclick = function(){
-
-      // Get the parent of <span class="closebtn"> (<div class="alert">)
-      var div = this.parentElement;
-
-      // Set the opacity of div to 0 (transparent)
-      div.style.opacity = "0";
-
-      // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
-      setTimeout(function(){ div.style.display = "none"; }, 600);
-    };
-
     $('ul.tabs').tabs();
 
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
@@ -211,41 +208,51 @@
       $(this).removeClass("active");
     });
 
-    // Modal for view
-    var $modal_holder_selector = $("#modal-holder");
-
-    $(document).on("click", "[data-behavior='modal']", function() {
-      var location;
-      location = $(this).attr("href");
-      $.get(location, function(data) {
-        $modal_holder_selector.html(data);
-        $('.modal',$modal_holder_selector).modal({
-          dismissible: false, // Modal can be dismissed by clicking outside of the modal
-          ready: function(){
-                $("#dropdown-button-name").dropdown("close");
-                $('.mentions').mentionUsers();
-                svg();
-          }, // Callback for Modal open
-          complete: function() {
-            $('#popupcrop').css('display', 'none');
-            $('#popupcrop').css('opacity', 1);
-           } // Callback for Modal close
-        });
-
-        msCollapsible("collapsible");
-        $(".edit_notification_setting").submitOnCheck();
-
-        return $("#ms-modal-dialog").modal("open");
-      })
-      return false;
-    })
-
     // Modal Close button
+    $(".close").onclick = function(){
+        var div = this.parentElement;
+        div.style.opacity = "0";
+        // Hide the div after 600ms (the same amount of milliseconds it takes to fade out)
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+    };
+
     $(document).on("click", ".modal-action.modal-close", function(e) {
         e.preventDefault();
         $(this).parent(".modal").modal("close");
+    });
 
-    })
+    /**************** NAVIGATION ********************/
+    $(document).on('click','a[data-behavior="nav-link"]', {}, function(event){
+      event.preventDefault();
+      var $this = $(this),
+          $parent = $this.parent();
+
+      if (!$parent.is($("li#ms-add"))){
+        $("ul.user-lists li.active").removeClass('active');
+        $this.parent().addClass('active');
+
+        var id = $this.attr('id');
+
+        $("#form_date").attr('action', '/lists/' + id);
+        var date = $('#form_date').val() ? $('#form_date').val(): new Date();
+
+        $.ajax({
+          complete:function(request){
+            $('.tooltipped').tooltip({delay: 50});
+            $('div[id^="incomplete_tasks_"]').each(function (){
+              mySortable($(this));
+            })
+          },
+          data:'date='+ date,
+          dataType:'script',
+          type:'get',
+          url: $this.attr('data-href')
+        })
+      }
+
+    });
+
+    /**************** END NAVIGATION ********************/
 
     return $(document).on("ajax:success", "[data-behavior='modal-form']", function(event, data, status, xhr) {
       var url;
@@ -263,7 +270,6 @@
     // Initialize collapse button
     $(".button-collapse").sideNav();
 
-    $('select').material_select();
     $('.modal-trigger').modal();
     // MODAL
     $('#ms-modal-applications').modal({
@@ -280,17 +286,17 @@
     })
 
 
-    var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
-    $("#stand-up ul li a").each(function(){
-      if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
-      $(this).addClass("active");
-    })
-
-    $("#stand-up ul.menu li a").hover(function(){
-      change_img_nav(this);
-    }, function(){
-      change_img_nav(this)
-    });
+    // var pgurl = window.location.href.substr(window.location.href.lastIndexOf("/")+1);
+    // $("#stand-up ul li a").each(function(){
+    //   if($(this).attr("href") == pgurl || $(this).attr("href") == '' )
+    //   $(this).addClass("active");
+    // })
+    //
+    // $("#stand-up ul.menu li a").hover(function(){
+    //   change_img_nav(this);
+    // }, function(){
+    //   change_img_nav(this)
+    // });
 
     $('#new_user').validate({
       debug: true,
@@ -490,7 +496,7 @@ $(document).on("click","a#user_settings",function(){
 
       // If no files were selected, or no FileReader support, return
       if ( !files.length || !window.FileReader ) {
-        element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+        // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
         element.parents(".ms-upload-avatar").css('background-image','none');
         if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
           element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
@@ -514,7 +520,7 @@ $(document).on("click","a#user_settings",function(){
               element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
             }
             element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
-            element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
+            // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
 
             var formData = new FormData(),
                 $input =   element;     //$("#user_image");
@@ -902,7 +908,7 @@ AvatarCrop = (function() {
 
 
 /*************** CROP AVATAR WHEN CREATE********************/
-function uploadAvatarCreate(){
+function avatarCropModal(){
 
   // Get a reference to the fileList
   var files = !!this.files ? this.files : [];
@@ -910,7 +916,6 @@ function uploadAvatarCreate(){
 
   // If no files were selected, or no FileReader support, return
   if ( !files.length || !window.FileReader ) {
-    // element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
     element.parents(".ms-upload-avatar").css('background-image','none');
     if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
       element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
@@ -929,7 +934,7 @@ function uploadAvatarCreate(){
       reader.onloadend = function(){
         // $("#imagecrop img").attr("src", this.result);
         element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
-        // element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+
         if (element.parents(".ms-upload-avatar").find('div.mousehover').hasClass('empty')){
           element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
         }
@@ -988,99 +993,100 @@ $(document).on('submit','#popupcrop form',function(e){
 
 
 /*******list validation******/
-function list_validation() {
-  var name = document.getElementById("list_name").value;
+// function list_validation() {
+//   var name = document.getElementById("list_name").value;
+//
+//   if (name === '' ) {
+//     alert("Please fill name!");
+//     return false;
+//   } else {
+//     return true;
+//   }
+// }
 
-  if (name === '' ) {
-    alert("Please fill name!");
-    return false;
-  } else{
-    return true;
-  }
-}
 
 
-
-function fileSerealize(file){
-
-  // Get a reference to the fileList
-  var files = !!this.files ? this.files : [];
-  var element = $(this);
-
-  // If no files were selected, or no FileReader support, return
-  if ( !files.length || !window.FileReader ) {
-    element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
-    element.parents(".ms-upload-avatar").css('background-image','none');
-    if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
-      element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
-    }
-    return} ;
-
-    // Only proceed if the selected file is an image
-    if ( /^image/.test( files[0].type ) ) {
-      // Create a new instance of the FileReader
-      var reader = new FileReader();
-
-      // Read the local file as a DataURL
-      reader.readAsDataURL( files[0] );
-
-      // When loaded, set image data as background of div
-      reader.onloadend = function(){
-        // $("#imagecrop img").attr("src", this.result);
-        element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
-        // element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
-        if (element.parents(".ms-upload-avatar").find('div.mousehover').hasClass('empty')){
-          element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
-        }
-        element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
-        element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
-
-        var formData = new FormData(),
-            $input =   element;     //$("#user_image");
-          // element = $(this);
-
-        formData.append($input.attr("name"), $input[0].files[0]);
-        // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
-        // console.log(element.parents("#user-edit-avatar").attr("action"));
-        // element.parents("#user-edit-avatar").trigger('submit.rails');
-        //
-        console.log(element.parents(".ms-upload-avatar").data("url"));
-        $.ajax({
-          url: element.parents(".ms-upload-avatar").data("url"),
-          data: formData,
-          cache: false,
-          contentType: false,
-          processData: false,
-          type: 'POST',
-          success: function(response) {
-            var location;
-            location = element.parents(".ms-upload-avatar").data("crop");
-            $.get(location, function(data) {
-              var modal_holder_selector,
-                  popupcrop,
-                  z_index = $("#ms-modal-dialog").css('z-index'),
-                  top = $("#ms-modal-dialog").offset();
-
-              modal_holder_selector = "#popupcrop_holder";
-              popupcrop = "#popupcrop";
-              $(modal_holder_selector).html(data);
-
-              $(popupcrop).css('top', '12%');
-              $(popupcrop).css('right', '60%');
-
-              // $(modal_holder_selector).attr('top', $("#ms-modal-dialog").attr('top') + 3%);
-              $(popupcrop).css('display', 'block');
-              $(popupcrop).css('position', 'absolute');
-              $(popupcrop).css('opacity', 1);
-              $(popupcrop).css('z-index', parseInt(z_index)+1);
-              $(popupcrop).css('transform', 'scaleX(1)');
-
-              // $('#popupcrop').modal();
-              // $('#popupcrop').modal('open');
-              return new AvatarCrop();
-            })}
-          })
-
-      }
-    }
-  }
+//
+// function fileSerealize(file){
+//
+//   // Get a reference to the fileList
+//   var files = !!this.files ? this.files : [];
+//   var element = $(this);
+//
+//   // If no files were selected, or no FileReader support, return
+//   if ( !files.length || !window.FileReader ) {
+//     element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').addClass('disable-links');
+//     element.parents(".ms-upload-avatar").css('background-image','none');
+//     if (element.parents(".ms-upload-avatar").find('div.mousehover').not('.empty')){
+//       element.parents(".ms-upload-avatar").find('div.mousehover').addClass('empty');
+//     }
+//     return} ;
+//
+//     // Only proceed if the selected file is an image
+//     if ( /^image/.test( files[0].type ) ) {
+//       // Create a new instance of the FileReader
+//       var reader = new FileReader();
+//
+//       // Read the local file as a DataURL
+//       reader.readAsDataURL( files[0] );
+//
+//       // When loaded, set image data as background of div
+//       reader.onloadend = function(){
+//         // $("#imagecrop img").attr("src", this.result);
+//         element.parents(".ms-upload-avatar").css("background-image", "url(" + this.result + ")");
+//         // element.parents(".ms-upload-avatar").find('div.mousehover').addClass('active').removeClass('hover');
+//         if (element.parents(".ms-upload-avatar").find('div.mousehover').hasClass('empty')){
+//           element.parents(".ms-upload-avatar").find('div.mousehover').toggleClass('empty');
+//         }
+//         element.parents(".ms-upload-avatar").find('span.ms-avatar-ini').addClass('hidden').removeClass('show');
+//         element.parents("#user-edit-avatar").find('a#btn-user-avatar-upload').removeClass('disable-links');
+//
+//         var formData = new FormData(),
+//             $input =   element;     //$("#user_image");
+//           // element = $(this);
+//
+//         formData.append($input.attr("name"), $input[0].files[0]);
+//         // element.parents("#user-edit-avatar").attr('action',element.parents("#user-edit-avatar").attr("action"));
+//         // console.log(element.parents("#user-edit-avatar").attr("action"));
+//         // element.parents("#user-edit-avatar").trigger('submit.rails');
+//         //
+//         console.log(element.parents(".ms-upload-avatar").data("url"));
+//         $.ajax({
+//           url: element.parents(".ms-upload-avatar").data("url"),
+//           data: formData,
+//           cache: false,
+//           contentType: false,
+//           processData: false,
+//           type: 'POST',
+//           success: function(response) {
+//             var location;
+//             location = element.parents(".ms-upload-avatar").data("crop");
+//             $.get(location, function(data) {
+//               var modal_holder_selector,
+//                   popupcrop,
+//                   z_index = $("#ms-modal-dialog").css('z-index'),
+//                   top = $("#ms-modal-dialog").offset();
+//
+//               modal_holder_selector = "#popupcrop_holder";
+//               popupcrop = "#popupcrop";
+//               $(modal_holder_selector).html(data);
+//
+//               $(popupcrop).css('top', '12%');
+//               $(popupcrop).css('right', '60%');
+//
+//               // $(modal_holder_selector).attr('top', $("#ms-modal-dialog").attr('top') + 3%);
+//               $(popupcrop).css('display', 'block');
+//               $(popupcrop).css('position', 'absolute');
+//               $(popupcrop).css('opacity', 1);
+//               $(popupcrop).css('z-index', parseInt(z_index)+1);
+//               $(popupcrop).css('transform', 'scaleX(1)');
+//
+//               // $('#popupcrop').modal();
+//               // $('#popupcrop').modal('open');
+//               return new AvatarCrop();
+//             })}
+//           })
+//
+//       }
+//     }
+//   }
