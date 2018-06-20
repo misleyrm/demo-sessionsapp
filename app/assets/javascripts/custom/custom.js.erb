@@ -2,25 +2,25 @@
     this.find('input[type=submit]').remove();
     return this;
   };
-
-  $.fn.autosubmit = function() {
-      console.log("data1");
-      var form1 = $(this);
-      //
-      // console.log(form);
-      // form[0].submit();
-
-      form1[0].submit(function(event) {
-        var form = $(this);
-        event.preventDefault();
-
-        $.getJSON(form.attr('action'), form.serialize(), function(data) {
-          console.log(data);
-        });
-
-      });
-      return this;
-  };
+  //
+  // $.fn.autosubmit = function() {
+  //     console.log("data1");
+  //     var form1 = $(this);
+  //     //
+  //     // console.log(form);
+  //     // form[0].submit();
+  //
+  //     form1[0].submit(function(event) {
+  //       var form = $(this);
+  //       event.preventDefault();
+  //
+  //       $.getJSON(form.attr('action'), form.serialize(), function(data) {
+  //         console.log(data);
+  //       });
+  //
+  //     });
+  //     return this;
+  // };
 
   jQuery.fn.mentionUsers = function(){
     var $mention = $(this),
@@ -44,7 +44,7 @@
         }
       }
     }
-  })}
+  })
 
   // jQuery.fn.autosubmit = function() {
   //     this.submit(function(event) {
@@ -76,6 +76,7 @@
   };
 
   $(document).on('click','ul.user-lists li a', {}, function(event){
+
     event.preventDefault();
     var $this = $(this);
     if (!$this.parent().is("#ms-add")){
@@ -123,7 +124,7 @@
     // CREATE LIST
     $(document).on('click','a#btn-list-form-submit',function(event) {
 
-      console.log($(this).parents('form').attr('action'));
+      // console.log($(this).parents('form').attr('action'));
       var form = $(this).parents('form');
 
       $.ajax({
