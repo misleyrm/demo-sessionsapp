@@ -80,3 +80,90 @@ function split(val) {
 function extractLast(term) {
     return split(term).pop();
 }
+
+/*******************  CREATE LIST **********************/
+$(document).on('click','form#new_list a[data-behavior="submit"]', {}, function(event){
+    var $form = $(this).parents('form');
+    var $formData = new FormData(),
+        val = 0;
+
+    event.preventDefault();
+    if ($("input#list_image").val() != 0){
+      $formData.append('list[image]', $("input#list_image")[0].files[0]);
+    }
+
+    $formData.append('list[name]', $("input#list_name").val());
+    $formData.append('list[description]', $("input#list_description").val());
+
+    create_submit($formData,$form);
+
+});
+
+// CHANGE BUTTON TO ACTIVE WHEN LIST NAME IS NOT EMPTY
+function create_submit(submit_values,form) {
+
+  $.ajax({
+    url: form.attr('action'),
+    data: submit_values,
+    cache: false,
+    contentType: false,
+    processData: false,
+    type: 'POST',
+    success: function(response) {
+
+      if (response.status=="success"){
+        form[0].reset();
+        $('label[for="list_name"]').removeClass('active');
+        $('label[for="list_description"]').removeClass('active');
+        $("a[data-behavior='submit']",form).attr("disabled", true);
+        Materialize.toast(response.flash, 4000);
+        $('.ms-upload-avatar').css('background-image','none');
+      } else if (response.status=="fail") {
+          var $divError = $("#error_explanation");
+
+          if ($divError.length > 0){
+              $divError.remove();
+            }
+           form.prepend(response.htmlerrors);
+           $.each(response.errors, function (index, value) {
+              $("#new_list input[name='list["+index+"]']").addClass("invalid");
+           })
+      }
+    },errors: function(xhr){
+          var $divError = $("#error_explanation"),
+          errors = $.parseJSON(xhr.responseText).errors;
+
+          if ($divError.length > 0){
+              $divError.html('');
+            }
+
+          $divError.html('<ul></ul>');
+          jQuery.each( errors, function( i, val ) {
+            $( 'ul', $divError).append ('<li>' + val[0].message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="close_error(event);" ><span aria-hidden="true">&times;</span></button></li>')
+            });
+      }
+  })
+}
+
+function close_error(el){
+console.log($(el).parents('ul'));
+  if ($(el).parent().closest('li').length ==0)
+     $(el).parent().remove();
+  else
+    $(el).parents("#error_explanation").remove();
+}
+$(document).on("keyup","form#new_list #list_name",function(){
+  var $form = $(this).parents("form#new_list");
+
+  if ($.trim($(this).val()).length !=0){
+    $("a[data-behavior='submit']",$form).attr("disabled", false);
+    $(this).removeClass("invalid");
+    $('#error_explanation').remove();}
+  else
+    $("a[data-behavior='submit']",$form).attr("disabled", true);
+})
+
+// END CHANGE BUTTON TO ACTIVE WHEN LIST NAME IS NOT EMPTY
+
+
+/******************* END CREATE LIST **********************/

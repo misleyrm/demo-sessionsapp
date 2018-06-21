@@ -5,7 +5,7 @@ class ListsController < ApplicationController
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership, :create]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :updateAvatar, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership, :setCoord, :crop]
+  before_action :set_list, only: [:index, :show, :create, :showList, :edit, :update, :updateAvatar, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership, :setCoord, :crop]
   before_action :validate_ownership_update, only: [:updateOwnership]
 
   def index
@@ -111,6 +111,7 @@ class ListsController < ApplicationController
   end
 
   def create
+
     @list = current_user.created_lists.build(list_params)
     @list.crop_x = list_params[:crop_x]  #params[:user][:crop_x]
     @list.crop_y = list_params[:crop_y] #params[:user][:crop_y]
@@ -118,20 +119,22 @@ class ListsController < ApplicationController
     @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
     # @list.skip_validation = false
     if @list.save
-
       flash[:notice] = "List was successfully created."
       @_current_list = session[:list_id] = List.current = nil
       session[:list_id] = @list.id
       gon.startDate = startDate
       session[:active_collaborations] = Array.new
       session[:active_collaborations][0] = current_user.id
-      redirect_to root_path(@list) 
+      respond_to do |format|
+        format.json { render :json => {:list => @list,:status => 'success', :flash => flash[:notice] }}
+      end
+      # redirect_to root_path(@list)
 
     else
       # flash[:danger] = "We can't create the list."
-      render "new", layout: 'modal'
-      # @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      # render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors.full_messages }
+      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+      # render "new", layout: 'modal'
+      render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors }
       # render :json => {:status => 'fail', :errors => @list.errors.full_messages}
 
     end

@@ -67,44 +67,6 @@ $(document).on('click','a[data-behavior="hide-content"]', {}, function(event) {
   $divTCompleted.html("");
 });
 
-/*******************  CREATE LIST **********************/
-$(document).on('submit','form#new_list', {}, function(event){
-      var form = $(this);
-      var formData = new FormData(),
-          val =0;
-
-      event.preventDefault();
-
-      if ($("#list_image").val() != 0){
-        formData.append($("#list_image").attr("name"), $("#list_image")[0].files[0]);
-      }
-
-      formData.append($("#list_name").attr("name"), $("#list_name").val());
-      formData.append($("#list_description").attr("name"), $("#list_description").val());
-
-
-      // if ($("#list_name").val()!= ""){
-      //
-      //   $.ajax({
-      //     url: form.attr('action'),
-      //     data: formData,
-      //     cache: false,
-      //     contentType: false,
-      //     processData: false,
-      //     type: 'POST',
-      //     success: function(response) {
-      //       console.log(response);
-      //     },
-      //     error: function(xhr) {
-      //       console.log("errors");
-      //     }
-      //   })
-      // } else { alert("You need to fill the name!");}
-});
-
-
-
-/******************* END CREATE LIST **********************/
 
 /*******************  OPEN MODAL TO CROP AVATAR ***********/
 $(document).on("change", ".ms-upload-avatar input[type='file']", avatarCropModal);

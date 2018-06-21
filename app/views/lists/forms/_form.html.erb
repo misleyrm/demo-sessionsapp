@@ -1,4 +1,4 @@
-<%= form_for( @list, remote: true) do |f| %>
+<%= form_for( @list) do |f| %>
       <%= content_tag "div", id: "error_message_list" do %>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
@@ -42,14 +42,13 @@
     <div class="row">
         <div class="col s6">
           <div class="input-field center-align">
-            <a href="#!" class="modal-action waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12" >Cancel</a>
+            <a href="#!" class="modal-action waves-effect waves-light btn btn-medium lowercase su-btn btn-flat col s12" >Cancel</a>
           </div>
         </div>
         <div class="col s6">
-          <a class="waves-effect waves-light btn btn-medium su-btn btn-flat lowercase col s12">123
-          </a>
           <div class="input-field center-align">
-             <%= f.submit("Create", data: {disable_with: false} ) %>
+              <a class="waves-effect waves-light btn btn-medium su-btn btn-flat lowercase col s12" data-behavior="submit"  >Create List</a>
+               <!-- <%#= f.submit("Create", data: {disable_with: false} ) %> -->
           </div>
         </div>
     </div>
