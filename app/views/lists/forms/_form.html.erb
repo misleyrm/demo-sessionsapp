@@ -3,7 +3,7 @@
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
       <div class="row">
-          <div id="imagecrop_list"><img src="" /></div>
+          <!-- <div id="imagecrop_list"><img src="" /></div> -->
           <div class="col s12">
               <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview") do %>
                   <%= f.file_field :image %>
@@ -26,30 +26,28 @@
 
       <div class="col s12">
           <div class="input-field">
-              <%= f.text_field :name ,id: "list_name"%>
-              <%= f.label :name%>
+              <span class="prefix valign-wrapper">
+                  <%= image_tag(public_path('assets/tag.svg'), class: 'prefix') %>
+              </span>
+              <%= f.text_field :name ,id: "list_name",:autocomplete => :off%>
+              <%= f.label :name, id: 'icon_prefix'%>
           </div>
       </div>
-      <div class="divider col s12"></div>
       <div class="col s12">
           <div class="input-field">
-              <%= f.text_area :description,class:'materialize-textarea', id: 'list_description' %>
-              <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
+              <span class="prefix valign-wrapper">
+                  <%= image_tag(public_path('assets/description.svg'), class: 'prefix') %>
+              </span>
+              <p id="icon_prefix" class="ms-label">Description</p>
+              <%= f.text_area :description,class:'materialize-textarea', id: 'list_description',:autocomplete => :off, :placeholder=>"Describe yourself here..." %>
           </div>
      </div>
-     <div class="divider col s12"></div>
-
-    <div class="row">
-        <div class="col s6">
-          <div class="input-field center-align">
-            <a href="#!" class="modal-action waves-effect waves-light btn btn-medium lowercase su-btn btn-flat col s12" >Cancel</a>
+      <div class="row">
+          <div class="col s12">
+            <div class="input-field center-align">
+                <a class="waves-effect waves-light btn btn-medium su-btn btn-flat uppercase col s12" data-behavior="submit" disabled="disabled">Create List</a>
+                 <!-- <%#= f.submit("Create", data: {disable_with: false} ) %> -->
+            </div>
           </div>
-        </div>
-        <div class="col s6">
-          <div class="input-field center-align">
-              <a class="waves-effect waves-light btn btn-medium su-btn btn-flat lowercase col s12" data-behavior="submit"  >Create List</a>
-               <!-- <%#= f.submit("Create", data: {disable_with: false} ) %> -->
-          </div>
-        </div>
-    </div>
+      </div>
 <% end %>

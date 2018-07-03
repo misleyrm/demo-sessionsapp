@@ -116,8 +116,19 @@ function create_submit(submit_values,form) {
         $('label[for="list_name"]').removeClass('active');
         $('label[for="list_description"]').removeClass('active');
         $("a[data-behavior='submit']",form).attr("disabled", true);
-        Materialize.toast(response.flash, 4000);
+        // Materialize.toast(response.flash, 4000);
         $('.ms-upload-avatar').css('background-image','none');
+        $('.ms-upload-avatar .mousehover.hover').addClass('empty');
+
+        if ($("#error_explanation").length >0){
+              $("#error_explanation ul").html("");
+            } else {
+              $(".new_list").prepend('<div id="error_explanation" class="ms-alert ms-alert_notice left-align fade show alert-dismissible"><ul></ul></div>');
+
+            }
+        var $divError = $("#error_explanation");
+        $( 'ul', $divError).append ('<li>' + response.flash + '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="close_error(this);" ><span aria-hidden="true">&times;</span></button></li>');
+
       } else if (response.status=="fail") {
           var $divError = $("#error_explanation");
 
@@ -139,19 +150,22 @@ function create_submit(submit_values,form) {
 
           $divError.html('<ul></ul>');
           jQuery.each( errors, function( i, val ) {
-            $( 'ul', $divError).append ('<li>' + val[0].message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="close_error(event);" ><span aria-hidden="true">&times;</span></button></li>')
+            $( 'ul', $divError).append ('<li>' + val[0].message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="close_error(this);" ><span aria-hidden="true">&times;</span></button></li>')
             });
       }
   })
 }
 
 function close_error(el){
-console.log($(el).parents('ul'));
-  if ($(el).parent().closest('li').length ==0)
-     $(el).parent().remove();
-  else
+  if ($(el).parent().closest('li').length ==0){
+    $(el).parent().remove();
+    console.log("remove everything");
+  }else{
     $(el).parents("#error_explanation").remove();
+    console.log("remove only li");
+  }
 }
+
 $(document).on("keyup","form#new_list #list_name",function(){
   var $form = $(this).parents("form#new_list");
 
