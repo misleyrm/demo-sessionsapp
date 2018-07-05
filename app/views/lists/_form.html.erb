@@ -8,16 +8,13 @@
       <div class="row">
           <div class="col s12">
               <% background = ((!@list.new_record?) && !@list.image_url.blank?) ? @list.image_url('thumb') : "" %>
-              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview", style: 'background-image: url("#{background}")') do %>
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview", style: "background-image: url(#{background})") do %>
                   <%= f.file_field :image %>
                   <label for="list_image">
-                      <% if ((!@list.new_record?) && (!@list.image_url.blank?)) %>
+                      <% if ((!@list.new_record?) && (@list.image_url.blank?)) %>
                           <span class="ms-avatar-ini show"><%= @list.name[0]%></span>
                       <% end %>
-                      <div class="mousehover hover empty">
-                          <!-- <span class="circle-icon valign-wrapper create">
-                              <%= image_tag(public_path('assets/createList.svg')) %>
-                          </span> -->
+                      <div class="mousehover hover">
                           <span class="circle-icon valign-wrapper hover">
                               <%= image_tag(public_path('assets/createListHover.svg')) %>
                           </span>
@@ -29,95 +26,266 @@
               <% end%>
           </div>
       </div>
-
-
-
-      <% if ((!@list.new_record?) && @list.all_tasks_list?) %>
-          <div class="valign-wrapper ms-avatar-all-task">
-              <i class="material-icons">list</i>
-          </div>
-      <% else %>
-          <div class="valign-wrapper ms-upload-avatar" style="<% if ((!@list.new_record?) && @list.image_url.blank?) %> background-image: url('<%= @list.image_url('thumb') %>');<% end %>">
-                <%= f.file_field :image %>
-                <label for="list_avatar">
-                  <% if ((!@list.new_record?) && (!@list.image_url.blank?)) %>
-                      <span class="ms-avatar-ini show"><%= @list.name[0]%></span>
-                  <% end %>
-                  <div class="mousehover <%= (@list.new_record?)? 'hover': 'active' %> ">
-                      <i class="material-icons">camera_alt</i><%= (@list.new_record?)? "Upload": "Change" %> your Avatar
-                  </div>
-                </label>
-          </div>
-      <% end %>
     <!-- List name and description -->
-      <div class="col s12">
-          <div class="input-field">
-              <%= f.text_field :name ,id: "list_name", disabled: @list.all_tasks_list?%>
-              <%= f.label :name,class: (@list.new_record?)? '': 'active' %>
-          </div>
+      <div class="row">
+        <div class="col s12">
+            <div class="input-field">
+                <span class="prefix valign-wrapper">
+                    <%= image_tag(public_path('assets/tag.svg'), class: 'prefix') %>
+                </span>
+                <%= f.text_field :name ,id: "list_name", disabled: @list.all_tasks_list?,:autocomplete => :off%>
+                <%= f.label :name,class: (@list.new_record?)? '': 'active',id: 'icon_prefix' %>
+            </div>
+        </div>
       </div>
-      <div class="divider col s12"></div>
-      <div class="col s12">
-          <div class="input-field">
-              <%= f.text_area :description,class:'materialize-textarea', id: 'list_description' %>
-              <%= f.label :description, class: (@list.new_record?)? '': 'active' %>
-          </div>
+      <div class="row">
+        <div class="col s12">
+            <div class="input-field">
+                <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="">
+                    <li>
+                        <div class="collapsible-header">
+                            <div class="ms-form-title">
+                                <span class="prefix valign-wrapper">
+                                    <%= image_tag(public_path('assets/description.svg'), class: 'prefix') %>
+                                </span>
+                                <p id="icon_prefix" class="ms-label">Description</p>
+                                <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                              </div>
+                              <div class="divider col s12"></div>
+                          </div>
+                          <div class="collapsible-body" id="user_ownership_change">
+                              <%= f.text_area :description,class:'materialize-textarea', id: 'list_description',:autocomplete => :off %>
+                          </div>
+                      </li>
+                </ul>
+            </div>
+       </div>
      </div>
-     <div class="divider col s12"></div>
-
       <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
       <!-- Change Ownership -->
+      <div class="row">
         <div class="col s12">
-          <ul class="collapsible ms-accordion-section " data-collapsible="accordion" id="change_ownership">
-            <li>
-              <div class="collapsible-header">
-                <div class="ms-form-title"><span class="uppercase">Transfer Ownership</span>
-                    <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+          <div class="input-field">
+            <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="change_ownership">
+              <li>
+                <div class="collapsible-header">
+                    <div class="ms-form-title">
+                        <span class="prefix valign-wrapper">
+                            <%= image_tag(public_path('assets/ownership.svg'), class: 'prefix') %>
+                        </span>
+                        <p id="icon_prefix" class="ms-label">Transfer List Ownership</p>
+                        <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                    </div>
+                    <div class="divider col s12"></div>
                 </div>
-                <p class="details"><i class="material-icons prefix">warning</i><span>Trasfer ownership of this account to another user.</span></p>
-              </div>
-              <div class="collapsible-body" id="user_ownership_change">
-                    <div id="errors">
-                        <%= render partial: "shared/flash_messages", locals: {list: @list} %>
-                    </div>
-                    <%= f.hidden_field :id, :value => @list.id %>
-                    <p class="md-red">You will no longer be able to manage this list setting.</p>
-                    <div class="input-field">
-                      <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
-                          <option value="" disabled selected>Select new owner</option>
-                          <!-- <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option> -->
-                          <% @list.collaboration_users.each do |collaborator_user| %>
-                             <% if collaborator_user.active_collaborator?(@list.id) %>
-                                <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>
-                              <% end %>
-                          <% end %>
-                      </select>
-                    </div>
-                    <div class="input-field ms-explanation">
-                      <%= password_field_tag(:current_password, "", placeholder: "Current Password",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
-                      <span>Enter your password to confirm that you want to transfer list ownership.</span>
-                    </div>
-                    <div class="row ms-button">
-                        <div class="col s6 left">
-                          <div class="input-field center-align">
-                             <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
-                          </div>
-                        </div>
-                        <div class="col s6 right">
-                          <div class="input-field center-align">
-                            <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 disabled", remote: true do %>
-                                 Transfer Ownership
-                            <% end %>
-                          </div>
-                        </div>
+                <div class="collapsible-body" id="user_ownership_change">
+                      <div id="errors">
+                          <%= render partial: "shared/flash_messages", locals: {list: @list} %>
                       </div>
-              </div>
-            </li>
-          </ul>
+                      <%= f.hidden_field :id, :value => @list.id %>
+                      <p class="md-red">You will no longer be able to manage this list setting.</p>
+                      <div class="input-field">
+                        <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
+                            <option value="" disabled selected>Select new owner</option>
+                            <!-- <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option> -->
+                            <% @list.collaboration_users.each do |collaborator_user| %>
+                               <% if collaborator_user.active_collaborator?(@list.id) %>
+                                  <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>
+                                <% end %>
+                            <% end %>
+                        </select>
+                      </div>
+                      <div class="input-field ms-explanation">
+                        <%= password_field_tag(:current_password, "", placeholder: "Current Password",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
+                        <span>Enter your password to confirm that you want to transfer list ownership.</span>
+                      </div>
+                      <div class="row ms-button">
+                          <div class="col s6 left">
+                            <div class="input-field center-align">
+                               <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
+                            </div>
+                          </div>
+                          <div class="col s6 right">
+                            <div class="input-field center-align">
+                              <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 disabled", remote: true do %>
+                                   Transfer Ownership
+                              <% end %>
+                            </div>
+                          </div>
+                      </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
         <!-- End Change Ownership -->
-        <div class="divider col s12"></div>
-        <div class="col s12">
+        <% end%>
+        <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
+        <!-- Members -->
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+              <ul class="collapsible ms-accordion-section" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header">
+                      <div class="ms-form-title">
+                          <span class="prefix valign-wrapper">
+                              <%= image_tag(public_path('assets/members.svg'), class: 'prefix') %>
+                          </span>
+                          <p id="icon_prefix" class="ms-label">Members</p>
+                          <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                      </div>
+                      <div class="divider col s12"></div>
+                  </div>
+                  <div class="collapsible-body" id="user_ownership_change">
+                        <div id="errors">
+                            <%= render partial: "shared/flash_messages", locals: {list: @list} %>
+                        </div>
+                        <%= f.hidden_field :id, :value => @list.id %>
+                        <p class="md-red">You will no longer be able to manage this list setting.</p>
+                        <div class="input-field">
+                          <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
+                              <option value="" disabled selected>Select new owner</option>
+                              <!-- <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option> -->
+                              <% @list.collaboration_users.each do |collaborator_user| %>
+                                 <% if collaborator_user.active_collaborator?(@list.id) %>
+                                    <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>
+                                  <% end %>
+                              <% end %>
+                          </select>
+                        </div>
+                        <div class="input-field ms-explanation">
+                          <%= password_field_tag(:current_password, "", placeholder: "Current Password",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
+                          <span>Enter your password to confirm that you want to transfer list ownership.</span>
+                        </div>
+                        <div class="row ms-button">
+                            <div class="col s6 left">
+                              <div class="input-field center-align">
+                                 <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
+                              </div>
+                            </div>
+                            <div class="col s6 right">
+                              <div class="input-field center-align">
+                                <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 disabled", remote: true do %>
+                                     Transfer Ownership
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+          <!-- End Members -->
+        <% end %>
+        <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
+        <!-- Pending Invitations -->
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+              <ul class="collapsible ms-accordion-section" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header">
+                      <div class="ms-form-title">
+                          <span class="prefix valign-wrapper">
+                              <%= image_tag(public_path('assets/pending-invitations.svg'), class: 'prefix') %>
+                          </span>
+                          <p id="icon_prefix" class="ms-label">Pending Invitations</p>
+                          <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                      </div>
+                      <div class="divider col s12"></div>
+                  </div>
+                  <div class="collapsible-body" id="user_ownership_change">
+                        <div id="errors">
+                            <%= render partial: "shared/flash_messages", locals: {list: @list} %>
+                        </div>
+                        <%= f.hidden_field :id, :value => @list.id %>
+                        <p class="md-red">You will no longer be able to manage this list setting.</p>
+                        <div class="input-field">
+                          <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
+                              <option value="" disabled selected>Select new owner</option>
+                              <!-- <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option> -->
+                              <% @list.collaboration_users.each do |collaborator_user| %>
+                                 <% if collaborator_user.active_collaborator?(@list.id) %>
+                                    <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>
+                                  <% end %>
+                              <% end %>
+                          </select>
+                        </div>
+                        <div class="input-field ms-explanation">
+                          <%= password_field_tag(:current_password, "", placeholder: "Current Password",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
+                          <span>Enter your password to confirm that you want to transfer list ownership.</span>
+                        </div>
+                        <div class="row ms-button">
+                            <div class="col s6 left">
+                              <div class="input-field center-align">
+                                 <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
+                              </div>
+                            </div>
+                            <div class="col s6 right">
+                              <div class="input-field center-align">
+                                <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 disabled", remote: true do %>
+                                     Transfer Ownership
+                                <% end %>
+                              </div>
+                            </div>
+                        </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+          <!-- End Pending Invitations -->
+        <% end%>
+        <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
+        <!-- Delete list -->
+        <div class="row">
+          <div class="col s12">
+            <div class="input-field">
+              <ul class="collapsible ms-accordion-section" data-collapsible="accordion">
+                <li>
+                  <div class="collapsible-header">
+                      <div class="ms-form-title">
+                          <span class="prefix valign-wrapper">
+                              <%= image_tag(public_path('assets/delete.svg'), class: 'prefix') %>
+                          </span>
+                          <p id="icon_prefix" class="ms-label">Delete List</p>
+                          <i class="material-icons right ms-open-button">keyboard_arrow_right</i>
+                      </div>
+                      <div class="divider col s12"></div>
+                  </div>
+                  <div class="collapsible-body">
+                        <div id="errors">
+                            <%= render partial: "shared/flash_messages", locals: {list: @list} %>
+                        </div>
+                        <div class="row">
+                          <div class="input-field center-align col s6">
+                            <%= link_to 'Yes, delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true  %>
+                          </div>
+                          <div class="input-field center-align col s6">
+                            <a href="#!" class="waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12" >
+                      				Yes, Cancel
+                      			</a>
+                          </div>
+                        </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+          <!-- End Delete List -->
+      <% end%>
+
+
+
+
+
+        <!-- <div class="col s12">
             <ul class="tabs my-tabs">
               <li class="tab my-tab nav-link uppercase label"><a href="#members" class="active">Members</a></li>
               <li class="tab my-tab nav-link uppercase label"><a href="#invitations">Pending Invitations</a></li>
@@ -141,24 +309,14 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="divider col s12"></div>
-        <div class="row">
-          <div class="input-field center-align col s12">
-            <%= link_to 'Delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'waves-effect waves-light btn-delete lowercase btn-medium su-btn btn-flat submit col s12', remote: true  %>
-          </div>
-        </div>
-      <% end %>
+        </div> -->
+
+      <%# end %>
       <div class="row">
-          <div class="col s6">
+          <div class="col s12">
             <div class="input-field center-align">
-              <a href="#!" class="modal-action waves-effect waves-light btn btn-medium lowercase su-btn btn-flat submit col s12" >Cancel</a>
+              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= (@list.new_record?)? ( f.submit "Create" ): ( f.submit "Save Updates" ) %></a>
             </div>
           </div>
-          <div class="col s6">
-            <div class="input-field center-align">
-              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= (@list.new_record?)? ( f.submit "Create" ): ( f.submit "Save" ) %></a>
-            </div>
-          </div>
-        </div>
+      </div>
 <% end %>

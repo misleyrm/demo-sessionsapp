@@ -675,7 +675,7 @@ a.ui-button:active,
 }
 
 /****** New list and Setting List *******/
-form#new_list, form#edit_list{
+form#new_list, form.edit_list{
   max-width: 325px;
   margin: 0 auto;
 
@@ -1463,10 +1463,15 @@ button.close {
 
 .ms-upload-avatar{
   position: relative;
+
 }
 
 .ms-upload-avatar .ms-avatar-ini.show{
-  top: 50%;
+  /* top: 50%; */
+  width: 100%;
+  height: 100%;
+  line-height: 90px;
+  color: #7F7F7F;
 }
 
 .ms-upload-avatar input[type="file"]{
@@ -1474,7 +1479,7 @@ button.close {
 }
 
 /************ LIST ***************/
-.list-item{
+.list-item {
   position: relative;
 }
 /*************** FORM TITLE *****************/
@@ -1913,9 +1918,29 @@ textarea.materialize-textarea:focus:not([readonly]) {
     letter-spacing: .6px;
     color: #50C2BB;
 }
-.ms-form-title span{
+.ms-form-title span {
     letter-spacing: .6px;
 }
+
+.collapsible.ms-accordion-section .collapsible-header p.ms-label {
+  padding: 0;
+  margin-right: 40px;
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  line-height: 40px;
+  width: calc(100% - 70px);
+}
+
+.modal-content .edit_list .collapsible {
+  margin: 10px 0;
+}
+
+.modal-content .edit_list .collapsible textarea.materialize-textarea {
+  min-height: 50px;
+}
+
+
 /*************** END FORM TITLE *****************/
 
 /************************************/
@@ -2011,9 +2036,11 @@ li.ms-accepted-invitation.row{
 .modal-content .collapsible.ms-accordion-section i.right{
   margin-right: 0;
   width: 1.5rem;
-  top: 10px;
+  top: 0;
   position: absolute;
   right: 0;
+  display: inline-flex;
+  line-height: 40px;
 }
 
 
