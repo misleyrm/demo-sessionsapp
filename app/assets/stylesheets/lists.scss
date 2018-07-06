@@ -204,24 +204,6 @@ p.label {
 // END LIST OF MEMBERS
 // list of pending invitations
 
-#invitations .collapsible-header i.ms-open-button{
-  float: right;
-  margin-right: 0;
-  font-size: 1.7rem;
-  font-weight: 100;
-  line-height: 2.2rem;
-}
-
-#invitations .list-settings-collection.collection .collection-item{
-  padding: 0;
-}
-
-#invitations .collapsible-header{
-  border: none;
-  min-height: 2rem;
-  line-height: 2rem;
-  padding: 0 .5rem 0 .2rem;
-}
 
 .collection .collection-item.active {
   background: none;

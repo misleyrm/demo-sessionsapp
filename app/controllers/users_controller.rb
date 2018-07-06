@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :updateAvatar, :list_user, :destroy, :updateEmail, :updatePassword, :settings, :crop,:setCoord, :notifications]
   attr_accessor :email, :name, :password, :password_confirmation, :image
   skip_before_action :verify_authenticity_token
-  # before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
+  before_action :set_list, if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_all_collaborations, only: [:index], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   before_action :set_active_collaborations, only: [:show], if: -> { !params[:type].blank? && params[:type]=="collaborator"}
   # before_action :validate_email_update, only: :updateEmail
@@ -121,7 +121,6 @@ class UsersController < ApplicationController
                hasCollaborationsList = @user.collaboration_lists.count > 0 ? true : false
                @user.collaboration_lists.push(@list)  #add this user to the list as a collaborator
                @invitation.update_attributes(:active => true)
-
                htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": "","current_user": @user}).squish
                htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
                htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "member": @user }).squish
@@ -262,10 +261,10 @@ class UsersController < ApplicationController
       @collaboration = Collaboration.find_by(user_id: @user.id, list_id: @list.id)
       @collaboration.destroy
       Collaboration.reset_pk_sequence
-      @created_list = @user.created_lists.build(:name =>@list.name, :description => @list.description, :image => @list.image)
-      if @created_list.save
-        @created_list.tasks << @list.tasks.where(user_id:@user.id)
-      end
+      # @created_list = @user.created_lists.build(:name =>@list.name, :description => @list.description, :image => @list.image)
+      # if @created_list.save
+      #   @created_list.tasks << @list.tasks.where(user_id:@user.id)
+      # end
 
       @invitations = @list.invitations.where(recipient_email: @user.email)
       @invitationId = (Invitation.find_by(recipient_email: @user.email, list_id: @list.id).blank? )? "" : Invitation.find_by(recipient_email: @user.email, list_id: @list.id).id

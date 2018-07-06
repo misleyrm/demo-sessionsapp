@@ -684,8 +684,8 @@ $(document).on("click","a#user_settings",function(){
           $(this).collapsible({
             onOpen: function(el) {
               var $this = el,
-              $panel_headers = $this.find('div.collapsible-header'),
-              $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+              $panel_headers = $this.closest('div.collapsible-header'),
+              $arrow =   $panel_headers.closest('i.material-icons.ms-open-button');
               $arrow.animateRotate(0,-90, 250, "linear");
             },
             onClose: collapsibleClose
@@ -696,9 +696,10 @@ $(document).on("click","a#user_settings",function(){
 
     function collapsibleClose(e){
       var $this = e,
-      $panel_headers = $this.find('div.collapsible-header'),
-      $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+      $panel_headers = $this.closest('div.collapsible-header'),
+      $arrow =   $panel_headers.closest('i.material-icons.ms-open-button');
       // $arrow.css('transform-origin','center');
+      console.log($panel_headers);
       $arrow.animateRotate(-90,0, 250, "linear");
     }
 
