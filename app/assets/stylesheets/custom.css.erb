@@ -147,9 +147,11 @@ div .card{
   background-color: #50C2BB!important;
   color: #fff!important;
   }
+
 .btn, .btn-large, .btn-flat {
   border-radius: 0!important;
 }
+
 .su-btn.btn-flat:not(.btn-delete) {
   color: #989797;
   background-color: #fff;
@@ -197,6 +199,14 @@ div .card{
 }
 .su-btn.btn-medium:not(.btn-floating){
   font-size: 16px;
+}
+
+.ms-btn.disabled {
+  pointer-events: none;
+  background-color: #DFDFDF !important;
+  box-shadow: none;
+  color: #9F9F9F !important;
+  cursor: default;
 }
 
 
@@ -310,8 +320,13 @@ i.small {
 }
 
 /********* HELPER **********/
+
+em {
+  font-style: italic;
+}
+
 .material-icons.md-8rem {
-    font-size: .8rem;
+  font-size: .8rem;
 }
 
 .material-icons.md-1rem { font-size: 1rem;}
@@ -369,6 +384,12 @@ i.small {
 .divider12 {
     height: 12px;
     display: block;
+}
+
+.ms-divider {
+  background-color: #2230424a;
+  height: 2px;
+  overflow: hidden;
 }
 
 .md-jellow{
@@ -947,7 +968,7 @@ form#new_list, form.edit_list{
 
 
 .modal-content .collapsible {
-  margin: 25px 0 30px 0;
+  margin: 0;    /* 25px 0 30px 0 */
 }
 .modal-action.modal-close.btn-flat:hover {
     background: none;
@@ -1707,7 +1728,7 @@ input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
 input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]) {
-  border-bottom: 2px solid #2230426e;
+  border-bottom: 2px solid #2230424a;
   box-shadow: none;
 }
 
@@ -1754,7 +1775,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 
 
-.modal-content input:not([type]),
+/* .modal-content input:not([type]),
 .modal-content input[type=text]:not(.browser-default),
 .modal-content input[type=password]:not(.browser-default),
 .modal-content input[type=email]:not(.browser-default),
@@ -1780,7 +1801,7 @@ input[type=number]:not(.browser-default):focus:not([readonly]),
 input[type=search]:not(.browser-default):focus:not([readonly]) {
   border-bottom: 2px solid #2230426e;
   box-shadow: none;
-}
+} */
 
 /* input:not([type]):focus:not([readonly]),
 input[type=text]:not(.browser-default):focus:not([readonly]),
@@ -1934,11 +1955,15 @@ textarea.materialize-textarea:focus:not([readonly]) {
   width: calc(100% - 70px);
 }
 
-.modal-content .edit_list .collapsible {
-  margin: 0px 0px 10px;
+
+.edit_list .collapsible.ms-accordion-edit-list > li:not(:last-child),
+.modal-content .edit_list input[type=text]:not(.browser-default) {
+  margin-bottom: 26px;
 }
 
-
+.edit_list #btn-list-form-submit {
+  margin-top: 40px;
+}
 /*************** END FORM TITLE *****************/
 
 /************************************/
@@ -2033,7 +2058,7 @@ li.ms-accepted-invitation.row{
 
 .modal-content .collapsible.ms-accordion-section i.right{
   margin-right: 0;
-  width: 1.5rem;
+  width: 1rem;
   top: 0;
   position: absolute;
   right: 0;
@@ -2194,7 +2219,7 @@ background: #ffff;
   line-height: 15px;
 }
 
-.ms-accordion-section .ms-description.active .divider {
+.ms-accordion-section .ms-description.active .ms-divider {
   display: none;
 }
 
@@ -2242,7 +2267,9 @@ background: #ffff;
 
 
 .collection.ms-members .collection-item,
-.collection.ms-members .collection-item:last-child {
+.collection.ms-members .collection-item:last-child,
+.ms-select-owner-list a.collection-item,
+.collection.ms-select-owner-list a.collection-item:last-child {
     border-bottom: 2px solid #22304247;
 }
 
@@ -2269,6 +2296,63 @@ background: #ffff;
 
 .collapsible.ms-pending-invitations .collapsible-header i.ms-open-button {
   padding: 0;
-  font-size: 11px;
+  font-size: 12px;
+  width: .7rem;
+}
 
+.ms-select-owner-list a.collection-item {
+  text-align: left;
+  position: relative;
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+  line-height: 15px;
+  padding: 12px 0;
+}
+
+.ms-select-owner-list.collection a.collection-item > i {
+  text-align: left;
+  font-size: 5px;
+  color: #223042;
+  width: .4rem;
+  opacity: 0;
+  display: none;
+  transition: opacity .28s ease;
+}
+
+.edit_list #select-owner {
+  padding: 26px 0;
+  margin: 0;
+}
+
+.ms-select-owner-list.collection a.collection-item.active {
+  color: #223042;
+}
+
+.ms-select-owner-list.collection a.collection-item.active i {
+  display: block;
+  opacity: 1;
+}
+
+#user_ownership_change .btn-collapsible.action {
+  padding: 13px 52px;
+}
+
+#user_ownership_change .btn-collapsible.cancel {
+  padding: 13px 55px;
+}
+
+
+.modal-content .collapsible .ms-select-owner-list .collection-item i.right {
+  width: .6rem;
+}
+
+#change_ownership #change_ownership_password {
+  margin: 0 0 20px 0;
+}
+
+
+.ms-select-owner-list a.collection-item:not(.active):hover i.right {
+  opacity: 1;
+  display: block;
 }

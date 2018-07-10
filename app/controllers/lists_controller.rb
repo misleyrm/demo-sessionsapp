@@ -178,7 +178,7 @@ class ListsController < ApplicationController
 
   def updateOwnership
     authorize @list
-    @new_owner = User.find(params[:list_owner].to_i)
+    @new_owner = User.find(params[:new_list_owner].to_i)
     @new_owner.collaboration_lists.delete(@list)
     if @invitation = @new_owner.invitations.find_by(list_id: @list.id)
       @invitation.delete

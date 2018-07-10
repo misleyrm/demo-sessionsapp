@@ -41,7 +41,7 @@
       <!-- End List Description -->
       <div class="row">
         <div class="col s12">
-            <ul class="collapsible ms-accordion-section" data-collapsible="accordion">
+            <ul class="collapsible ms-accordion-section ms-accordion-edit-list" data-collapsible="accordion">
               <li class="ms-description">
                   <div class="collapsible-header">
                       <div class="ms-form-title">
@@ -53,7 +53,7 @@
                               <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
                           </div>
                         </div>
-                        <div class="divider col s12"></div>
+                        <div class="ms-divider col s12"></div>
                     </div>
                     <div class="collapsible-body">
                         <%= f.text_area :description,class:'materialize-textarea', id: 'list_description',:autocomplete => :off %>
@@ -72,30 +72,64 @@
                               <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
                             </div>
                         </div>
-                        <div class="divider col s12"></div>
+                        <div class="ms-divider col s12"></div>
                     </div>
                     <div class="collapsible-body" id="user_ownership_change">
                           <div id="errors">
                               <%= render partial: "shared/flash_messages", locals: {list: @list} %>
                           </div>
                           <%= f.hidden_field :id, :value => @list.id %>
-                          <p class="md-red">You will no longer be able to manage this list setting.</p>
+                          <!-- <p class="md-red">You will no longer be able to manage this list setting.</p> -->
+                          <%= hidden_field_tag(:list_owner, value = @list.owner.id ) %>
+                          <%= hidden_field_tag(:new_list_owner, value = nil ) %>
+                          <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="select-owner">
+                              <li>
+                                <div class="collapsible-header">
+                                  <div class="ms-form-title">
+                                    <div class="input-field">
+                                        <span class="prefix valign-wrapper">
+                                            <%= image_tag(public_path('assets/members.svg'), class: 'prefix') %>
+                                        </span>
+                                        <p id="icon_prefix" class="ms-label">Select New Owner</p>
+                                        <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
+                                      </div>
+                                  </div>
+                                  <div class="ms-divider col s12"></div>
+                                </div>
+                                <div class="collapsible-body">
+                                  <div class="clearfix"></div>
+                                  <div class = "collection ms-select-owner-list">
+                                      <%= link_to("#!", data: {"owner-id": "#{@list.owner.id}"},class: "collection-item active" ) do%>
+                                          <%= @list.owner.name%><%= current_user.owner?(@list)? "<em> (you)</em>".html_safe : "" %><i class="material-icons right">fiber_manual_record</i>
+                                      <% end %>
+                                      <% @list.collaboration_users.each do |collaborator_user| %>
+                                          <% if collaborator_user.active_collaborator?(@list.id) %>
+                                              <%= link_to("#!", data: {"owner-id": "#{collaborator_user.id}"},class: "collection-item" ) do %>
+                                                  <%= collaborator_user.name%><i class="material-icons right">fiber_manual_record</i>
+                                              <% end %>
+                                          <% end %>
+                                      <% end %>
+                                   </div>
+                                </div>
+                              </li>
+                          </ul>
                           <div class="input-field">
-                            <select name="list_owner" id="list_owner" data-list-owner= "<%= @list.user_id %>">
-                                <option value="" disabled selected>Select new owner</option>
-                                <!-- <option value= "<%= @list.user_id %>" <%= (current_user.owner?(@list))? "selected" : "" %>><%= @list.owner_name %></option> -->
-                                <% @list.collaboration_users.each do |collaborator_user| %>
-                                   <% if collaborator_user.active_collaborator?(@list.id) %>
-                                      <option value="<%= collaborator_user.id %>"><%= collaborator_user.name %></option>
-                                    <% end %>
-                                <% end %>
-                            </select>
+                              <span class="prefix valign-wrapper">
+                                  <%= image_tag(public_path('assets/password.svg'), class: 'prefix') %>
+                              </span>
+                              <%= password_field_tag(:current_password, "", placeholder: "Current Password (for confirmation)",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
                           </div>
-                          <div class="input-field ms-explanation">
-                            <%= password_field_tag(:current_password, "", placeholder: "Current Password",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
-                            <span>Enter your password to confirm that you want to transfer list ownership.</span>
+                          <div class="row">
+                            <div class="input-field left-align col s6">
+                              <%= link_to 'Transfer',"#",data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change", class: 'ms-btn btn-collapsible action disabled', remote: true  %>
+                            </div>
+                            <div class="input-field right-align col s6">
+                              <a href="#!" class="btn-collapsible cancel ms-btn">Cancel</a>
+                            </div>
+                            <div class="col s12"><p class="ms-caption">Keep in mind that you will not be able to manage this list anymore.</p></div>
                           </div>
-                          <div class="row ms-button">
+
+                          <!-- <div class="row ms-button">
                               <div class="col s6 left">
                                 <div class="input-field center-align">
                                    <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
@@ -108,7 +142,7 @@
                                   <% end %>
                                 </div>
                               </div>
-                          </div>
+                          </div> -->
                     </div>
                 </li>
                 <!-- End Change Ownership -->
@@ -118,13 +152,13 @@
                         <div class="ms-form-title">
                           <div class="input-field">
                               <span class="prefix valign-wrapper">
-                                  <%= image_tag(public_path('assets/members.svg'), class: 'prefix') %>
+                                  <%= image_tag(public_path('assets/members-check.svg'), class: 'prefix') %>
                               </span>
                               <p id="icon_prefix" class="ms-label">Members</p>
                               <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
                             </div>
                         </div>
-                        <div class="divider col s12"></div>
+                        <div class="ms-divider col s12"></div>
                     </div>
                     <div class="collapsible-body" id="members">
                        <div class="row">
@@ -153,7 +187,7 @@
                             <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
                           </div>
                       </div>
-                      <div class="divider col s12"></div>
+                      <div class="ms-divider col s12"></div>
                   </div>
                   <div class="collapsible-body" id="invitations">
                         <div id="errors">
@@ -180,31 +214,27 @@
                               <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
                           </div>
                       </div>
-                      <div class="divider col s12"></div>
+                      <div class="ms-divider col s12"></div>
                   </div>
                   <div class="collapsible-body">
-                      <div class="row">
-                          <div class="divider20"></div>
-                          <div id="errors">
-                            <%= render partial: "shared/flash_messages", locals: {list: @list} %>
-                          </div>
-                          <div class="input-field left-align col s6">
-                            <%= link_to 'Yes, delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'btn-collapsible action', remote: true  %>
-                          </div>
-                          <div class="input-field right-align col s6">
-                            <a href="#!" class="btn-collapsible cancel">Yes, Cancel</a>
-                          </div>
-                          <div class="col s12"><p class="ms-caption">This action cannot be undone. All your information will be lost.</p></div>
+                      <div class="divider20"></div>
+                      <div id="errors">
+                        <%= render partial: "shared/flash_messages", locals: {list: @list} %>
                       </div>
+                      <div class="input-field left-align col s6">
+                        <%= link_to 'Yes, delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'btn-collapsible action', remote: true  %>
+                      </div>
+                      <div class="input-field right-align col s6">
+                        <a href="#!" class="btn-collapsible cancel">Yes, Cancel</a>
+                      </div>
+                      <div class="col s12"><p class="ms-caption">This action cannot be undone. All your information will be lost.</p></div>
                   </div>
                 </li>
                 <!-- End Delete List -->
-                <% end%>
+              <% end%>
             </ul>
         </div>
       </div>
-
-      <%# end %>
       <div class="row">
           <div class="col s12">
             <div class="input-field center-align">
