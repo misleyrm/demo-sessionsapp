@@ -32,7 +32,7 @@
 #
 # end
 
-List.each do |list|
+List.all.each do |list|
   # NotificationType.all.each do |notification_type|
   #   NotificationOption.all.each do |notification_option|
   #     user.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
