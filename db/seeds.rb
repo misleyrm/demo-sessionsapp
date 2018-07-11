@@ -32,13 +32,14 @@
 #
 # end
 
-List.where("all_tasks is?",false).each do |list|
+List.each do |list|
   # NotificationType.all.each do |notification_type|
   #   NotificationOption.all.each do |notification_option|
   #     user.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
   #   end
   # end
 #
+ if !(list.all_tasks)
   l = list
   l.crop_y=0
   l.crop_x=0
@@ -49,6 +50,7 @@ List.where("all_tasks is?",false).each do |list|
   url = l.avatar.url
   l.remote_image_url = url
   l.save
+end
 
 end
 
