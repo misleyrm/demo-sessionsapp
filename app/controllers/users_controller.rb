@@ -123,7 +123,7 @@ class UsersController < ApplicationController
                @invitation.update_attributes(:active => true)
                htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @user, "current_list": @list, "active_users": "","current_user": @user}).squish
                htmlInvitationSetting = ListsController.render(partial: "lists/list_pending_invitation", locals: { "pending_invitation": @invitation, "list": @list }).squish
-               htmlListMembersSettings = ListsController.render(partial: "lists/list_members", locals: {"list": @list, "member": @user }).squish
+               htmlListMembersSettings = ListsController.render(partial: "lists/edit/list_members", locals: {"list": @list, "member": @user }).squish
                htmlCollaborationsList = ""
                ActionCable.server.broadcast "invitation_channel", status: 'activated',id: @invitation.id,  htmlCollaborationUser:  htmlCollaborationUser,htmlInvitationSetting: htmlInvitationSetting, htmlListMembersSettings: htmlListMembersSettings, owner: @list.owner.id, sender:@invitation.sender_id, recipient: @invitation.recipient_id, list_id: @list.id, htmlCollaborationsList: htmlCollaborationsList, hasCollaborationsList: hasCollaborationsList
             end

@@ -376,6 +376,11 @@ em {
   display: block;
 }
 
+.padding40{
+  height: 40px;
+  display: block;
+}
+
 .divider20{
   height: 20px;
   display: block;
@@ -701,7 +706,7 @@ a.ui-button:active,
 }
 
 /****** New list and Setting List *******/
-form#new_list, form.edit_list{
+form#form_list {
   max-width: 325px;
   margin: 0 auto;
 
@@ -1645,13 +1650,10 @@ input[type=search]:not(.browser-default) {
 } */
 
 
-.input-field a.su-btn {
+.input-field a.su-btn.btn {
   line-height: 50px;
   height: 50px;
-  border: 0.25px solid
-
-
-  ;
+  border: 0.25px solid #22304245;
   background-color: #50C2BB;
   box-shadow: 0 1px 4px 0 rgba(34,48,66,0.3)
 }
@@ -1961,7 +1963,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
   margin-bottom: 26px;
 }
 
-.edit_list #btn-list-form-submit {
+.edit_list .btn-list-form-submit {
   margin-top: 40px;
 }
 /*************** END FORM TITLE *****************/
@@ -2269,7 +2271,8 @@ background: #ffff;
 .collection.ms-members .collection-item,
 .collection.ms-members .collection-item:last-child,
 .ms-select-owner-list a.collection-item,
-.collection.ms-select-owner-list a.collection-item:last-child {
+.collection.ms-select-owner-list a.collection-item:last-child,
+.collapsible.ms-pending-invitations  li  {
     border-bottom: 2px solid #22304247;
 }
 
@@ -2355,4 +2358,24 @@ background: #ffff;
 .ms-select-owner-list a.collection-item:not(.active):hover i.right {
   opacity: 1;
   display: block;
+}
+
+a.su-btn.ms-btn-short {
+   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.07);
+   font-size: 10px;
+   line-height: 12px;
+   padding: 5px 13px;
+}
+
+a.su-btn.ms-btn-short.delete {
+  	border: 0.5px solid #FF5858;
+    color: #FF5858;
+}
+
+.ms-pending-invitations a.su-btn.ms-btn-short {
+  margin-right: 15px;
+}
+
+.modal-content .collapsible.ms-accordion-section.ms-pending-invitations .collapsible-body {
+  padding: 0rem 0 2rem;
 }

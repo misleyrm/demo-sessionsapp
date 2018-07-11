@@ -384,35 +384,32 @@ $(document).on("click","a#user_settings",function(){
     deadlineDatepicker($('input.deadline-datepicker'));
   });
 
-  $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
-    $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-    deadlineDatepicker($('input.deadline-datepicker'));
-    $('div[id^="incomplete_tasks_"]').each(function (){
-      mySortable($(this));
-    })
-  });
+  // $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
+  //   alert("#application-date form.edit_list");
+  //   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+  //   deadlineDatepicker($('input.deadline-datepicker'));
+  //   $('div[id^="incomplete_tasks_"]').each(function (){
+  //     mySortable($(this));
+  //   })
+  // });
 
+  // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
 
-
-  // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP     ??????????????????????????????
-  $(document).on("click", "#user_ownership_change a.btn-cancel", function(){
+  $(document).on("click", "#user_ownership_change a.btn-cancel", function() {
     var $select = $(this).closest('form').find('select'),
     value = $select.data("list-owner"),
     $collapsible = $(this).parents($('.collapsible'));
 
     $(this).closest('form').find("input[type=password], current_password").val("");
     $select.find('option[value="'+value+'"]').prop('selected', true);
-    // $select.material_select();
     $collapsible.collapsible('close', 0);
     collapsibleClose($collapsible);
     $("#list_owner").val($("#list_owner option:first").val());
   });
 
-
-
   // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
 
-  $(document).on("keyup","#change_ownership_password",function(){
+  $(document).on("keyup","#change_ownership_password",function() {
     if ($(this).val().length !=0)
     $("#btn-list-ownership-change").removeClass("disabled");
     else
@@ -422,7 +419,8 @@ $(document).on("click","a#user_settings",function(){
   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
 
   // CHANGE BUTTON TO ACTIVE WHEN EMAIL IS NOT EMPTY INVITATION
-  $(document).on("keyup","#recipient_email",function(){
+
+  $(document).on("keyup","#recipient_email",function() {
     var $invitationSubmit = $("#invitation_submit");
     $("#error_message_invitation").html("");
     if ($(this).val().length !=0){
@@ -435,6 +433,7 @@ $(document).on("click","a#user_settings",function(){
   })
 
   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+
   $(document).on('keydown','#new_task >input#task_detail', function(event) {
     if (event.keyCode === 13) {
       $(this).parents("form").submit();
@@ -463,6 +462,7 @@ $(document).on("click","a#user_settings",function(){
     function handlerIn(){
       $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
     };
+    
     function handlerOut(){
       var color;
       if ($(this).next( ".i-btn-datepicker" ).hasClass("md-red")){

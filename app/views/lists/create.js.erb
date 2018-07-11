@@ -3,7 +3,7 @@ $('#ms-modal-dialog').modal('close');
 
 <% if @list.errors.any? %>
     <% @list.errors.messages.each do |key,value| %>
-          $("#new_list input[name*='list[<%= key %>]']").addClass("invalid");
+          $("#form_list input[name*='list[<%= key %>]']").addClass("invalid");
     <% end %>
     $("#error_message_list").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
 <% else %>

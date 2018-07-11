@@ -1,6 +1,6 @@
-<%= form_for(@list,:data => {new: "update"},remote: true) do |f| %>
+<%= form_for(@list, :html => {:id => "form_list"}) do |f| %>
       <%= hidden_field_tag 'id', @list.id%>
-      <!-- <input type='hidden' name='_method' value="<%=(@list.new_record?) ? "post" : "put"%>"> -->
+      <input type='hidden' name='_method' value="put">
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
@@ -75,11 +75,7 @@
                         <div class="ms-divider col s12"></div>
                     </div>
                     <div class="collapsible-body" id="user_ownership_change">
-                          <div id="errors">
-                              <%= render partial: "shared/flash_messages", locals: {list: @list} %>
-                          </div>
                           <%= f.hidden_field :id, :value => @list.id %>
-                          <!-- <p class="md-red">You will no longer be able to manage this list setting.</p> -->
                           <%= hidden_field_tag(:list_owner, value = @list.owner.id ) %>
                           <%= hidden_field_tag(:new_list_owner, value = nil ) %>
                           <ul class="collapsible ms-accordion-section" data-collapsible="accordion" id="select-owner">
@@ -128,21 +124,6 @@
                             </div>
                             <div class="col s12"><p class="ms-caption">Keep in mind that you will not be able to manage this list anymore.</p></div>
                           </div>
-
-                          <!-- <div class="row ms-button">
-                              <div class="col s6 left">
-                                <div class="input-field center-align">
-                                   <a class= "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 btn-gray btn-cancel">Cancel</a>
-                                </div>
-                              </div>
-                              <div class="col s6 right">
-                                <div class="input-field center-align">
-                                  <%= link_to  "", data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change",class: "waves-effect waves-light btn-medium lowercase su-btn btn-flat col s12 disabled", remote: true do %>
-                                       Transfer Ownership
-                                  <% end %>
-                                </div>
-                              </div>
-                          </div> -->
                     </div>
                 </li>
                 <!-- End Change Ownership -->
@@ -169,6 +150,10 @@
                             <% end %>
                             <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
                                 <%= render partial: "lists/edit/list_members", collection: @list.collaboration_users, as: :member, :locals => {:list => @list} %>
+                            <% else %>
+                                <div class="col s12">
+                                  <p class="ms-caption">This list don't have members at this time</p>
+                                </div>
                             <% end %>
                           </ul>
                         </div>
@@ -190,15 +175,18 @@
                       <div class="ms-divider col s12"></div>
                   </div>
                   <div class="collapsible-body" id="invitations">
-                        <div id="errors">
-                            <%= render partial: "shared/flash_messages", locals: {list: @list} %>
-                        </div>
+                     <div class="row">
                         <div class="clearfix"></div>
                         <ul class="collapsible ms-accordion-section ms-pending-invitations" data-collapsible="accordion">
                           <% if  @pending_invitations.count > 0 %>
                                <%= render partial: "lists/edit/list_pending_invitation", collection: @pending_invitations, as: :pending_invitation, locals: {"list": @list} %>
+                          <% else %>
+                              <div class="col s12">
+                                <p class="ms-caption">This list don't have pending invitation at this time</p>
+                              </div>
                           <% end %>
                         </ul>
+                      </div>
                   </div>
                 </li>
                 <!-- End Pending Invitations -->
@@ -219,13 +207,12 @@
                   <div class="collapsible-body">
                       <div class="divider20"></div>
                       <div id="errors">
-                        <%= render partial: "shared/flash_messages", locals: {list: @list} %>
                       </div>
                       <div class="input-field left-align col s6">
                         <%= link_to 'Yes, delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'btn-collapsible action', remote: true  %>
                       </div>
                       <div class="input-field right-align col s6">
-                        <a href="#!" class="btn-collapsible cancel">Yes, Cancel</a>
+                        <a href="#!" class="btn-collapsible cancel">No, Cancel</a>
                       </div>
                       <div class="col s12"><p class="ms-caption">This action cannot be undone. All your information will be lost.</p></div>
                   </div>
@@ -238,7 +225,8 @@
       <div class="row">
           <div class="col s12">
             <div class="input-field center-align">
-              <a class="waves-effect waves-light btn btn-medium submit su-btn btn-flat lowercase col s12" id="btn-list-form-submit"><%= (@list.new_record?)? ( f.submit "Create" ): ( f.submit "Save Updates" ) %></a>
+              <div class="padding40"></div>
+              <a class="waves-effect waves-light btn btn-medium su-btn btn-flat uppercase col s12" data-behavior="submit">Save Updates</a>
             </div>
           </div>
       </div>

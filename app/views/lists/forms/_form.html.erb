@@ -1,4 +1,5 @@
-<%= form_for( @list) do |f| %>
+<%= form_for( @list, :html => {:id => "form_list"}) do |f| %>
+      <input type='hidden' name='_method' value="post">
       <%= content_tag "div", id: "error_message_list" do %>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>

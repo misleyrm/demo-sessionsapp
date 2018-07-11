@@ -158,20 +158,21 @@ class ListsController < ApplicationController
 
   end
 
-
   def update
     gon.list = @list
+    @list.crop_x = list_params[:crop_x]
+    @list.crop_y = list_params[:crop_y]
+    @list.crop_w = list_params[:crop_w]
+    @list.crop_h = list_params[:crop_h]
     saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
     respond_to do |format|
       if saved
           flash[:notice] = "List was successfully updated."
-          format.html
-          format.js
+          format.json { render :json => {:list => @list,:status => 'success', :flash => flash[:notice] }}
       else
           flash[:danger] = "We can't update the list."
           @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-          format.json { render :json => {:htmlerrors => @htmlerrors }}
-          format.js { }
+          format.json { render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors }}
         end
     end
   end
