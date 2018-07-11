@@ -1,10 +1,7 @@
 <%= content_tag :li, class: "bold #{(active)? 'active' : ''}", data: {"name"=>"#{list.name}", "nav-list-id"=>"#{list.id}"}, id: "drop_zone_#{list.id}" do %>
-  <%= content_tag :a, id: "#{list.id}", href: "#",data: {"href"=> "#{list_path(list)}"}, :remote =>"true"  do %>
+  <%= content_tag :a, id: "#{list.id}", href: "#{list_path(list)}",data: {"href"=> "#{list_path(list)}", "behavior"=> "nav-link"}, :remote =>"true"  do %>
       <%= yield %>
       <div class="right">
-        <!-- <% if (list.collaborations?) && (list.collaboration_users.count!=0) %>
-            <i class="material-icons bar-collaboration-icon">group</i>
-        <% end %> -->
         <%= content_tag :span, class: "bar-number-task" do %>
           <% if (list.collaborations?) && (list.collaboration_users.count!=0) %>
               <i class="material-icons bar-collaboration-icon md-15">group</i>

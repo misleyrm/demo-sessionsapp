@@ -44,7 +44,18 @@
   // <% end %>
 =======
 
-    $('#ms-modal-dialog').modal('close');
+$('#ms-modal-dialog').modal('close');
+
+<% if @list.errors.any? %>
+    <% @list.errors.messages.each do |key,value| %>
+          $("#new_list input[name*='list[<%= key %>]']").addClass("invalid");
+    <% end %>
+    $("#error_message_list").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
+<% else %>
+  // $('#ms-modal-dialog').modal('close');
+  $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
+<% end%>
+
 
     // $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
 
