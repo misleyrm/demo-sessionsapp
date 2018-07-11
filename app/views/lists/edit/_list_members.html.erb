@@ -1,0 +1,11 @@
+<% if (!member.blank?) %>
+  <% msinactive =  !member.active_collaborator?(list.id)? "ms-inactive" : "" %>
+  <%= content_tag :li, id:"list_member_#{member.id}", class:"collection-item #{msinactive}", data:{"list-member-id": member.id } do%>
+      <p><%= member.name %></p>
+      <%= link_to list_collaboration_user_path(list, member), method: :delete, data: {confirm: "Are you sure you want to delete it?"},class:"secondary-content", remote: true do %>
+         <span class="valign-wrapper">
+             <%= image_tag(public_path('assets/delete.svg')) %>
+         </span>
+      <% end %>
+  <% end%>
+<% end%>

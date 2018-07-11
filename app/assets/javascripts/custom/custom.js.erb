@@ -1,52 +1,30 @@
+jQuery.fn.submitOnCheck = function() {
+  this.find('input[type=submit]').remove();
+  return this;
+};
 
-  jQuery.fn.submitOnCheck = function() {
-    this.find('input[type=submit]').remove();
-    return this;
-  };
-  //
-  // $.fn.autosubmit = function() {
-  //     console.log("data1");
-  //     var form1 = $(this);
-  //     //
-  //     // console.log(form);
-  //     // form[0].submit();
-  //
-  //     form1[0].submit(function(event) {
-  //       var form = $(this);
-  //       event.preventDefault();
-  //
-  //       $.getJSON(form.attr('action'), form.serialize(), function(data) {
-  //         console.log(data);
-  //       });
-  //
-  //     });
-  //     return this;
-  // };
+jQuery.fn.mentionUsers = function(){
+  var $mention = $(this),
+      listId = $mention.data('list-id'),
+      user_id = $mention.data('user-id');
+      // $inputor = $('#mentionsBlocker'),
 
-  jQuery.fn.mentionUsers = function(){
-    var $mention = $(this),
-        listId = $mention.data('list-id'),
-        user_id = $mention.data('user-id');
-        // $inputor = $('#mentionsBlocker'),
-
-    $mention.atwho({
-      at: "+",
-      displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
-      insertTpl: function(){
-        return '${atwho-at}${email}'
-      },
-      callbacks: {
-        remoteFilter: function(query, callback) {
-          if (query.length >= 1) {
-            $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
-              callback(data)
-            });
-          }
-        }
+$mention.atwho({
+  at: "+",
+  displayTpl: "<li data-id= '${id}'><span class='img'><img src='${image_url}'/></span><span class='text'>${name}<small>${email}</small></span></li>",
+  insertTpl: function(){
+    return '${atwho-at}${email}'
+  },
+  callbacks: {
+    remoteFilter: function(query, callback) {
+      if (query.length >= 1) {
+        $.getJSON("/lists/search", {term: query, id:listId, user_id: user_id }, function(data) {
+          callback(data)
+        });
       }
     }
-  })
-
+  }
+})}
 
   // jQuery.fn.autosubmit = function() {
   //     this.submit(function(event) {
@@ -71,21 +49,10 @@
   //     return this;
   // }
 
-
-  function handler(ev) {
-    var target = $(ev.target);
-    var elId = target.attr('id');
-  };
-
-  $(document).on('click','ul.user-lists li a', {}, function(event){
-
-    event.preventDefault();
-    var $this = $(this);
-    if (!$this.parent().is("#ms-add")){
-
-      $("ul.user-lists li.active").removeClass('active');
-      $this.parent().addClass('active');
-
+function handler(ev) {
+  var target = $(ev.target);
+  var elId = target.attr('id');
+};
 
 $(document).on('click','input[type=checkbox]', {}, function(event){
   $(this).parent('form').submit();
@@ -100,81 +67,6 @@ $(document).on('click','a[data-behavior="hide-content"]', {}, function(event) {
   $divTCompleted.html("");
 });
 
-/*******************  CREATE LIST **********************/
-$(document).on('submit','form#new_list', {}, function(event){
-      var form = $(this);
-      var formData = new FormData(),
-          val =0;
-
-      event.preventDefault();
-
-      if ($("#list_image").val() != 0){
-        formData.append($("#list_image").attr("name"), $("#list_image")[0].files[0]);
-      }
-
-      formData.append($("#list_name").attr("name"), $("#list_name").val());
-      formData.append($("#list_description").attr("name"), $("#list_description").val());
-
-
-      // if ($("#list_name").val()!= ""){
-      //
-      //   $.ajax({
-      //     url: form.attr('action'),
-      //     data: formData,
-      //     cache: false,
-      //     contentType: false,
-      //     processData: false,
-      //     type: 'POST',
-      //     success: function(response) {
-      //       console.log(response);
-      //     },
-      //     error: function(xhr) {
-      //       console.log("errors");
-      //     }
-      //   })
-      // } else { alert("You need to fill the name!");}
-});
-
-
-  $(document).on('turbolinks:load',function(){
-    // CREATE LIST
-    $(document).on('click','a#btn-list-form-submit',function(event) {
-
-      // console.log($(this).parents('form').attr('action'));
-      var form = $(this).parents('form');
-
-      $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(),
-        success: function(){
-          console.log("success");
-        },
-        error: function(xhr){
-
-           // var errors = $.parseJSON(xhr.responseText).errors;
-           console.log('errors');
-          form.prepend('<div id="error_explanation" class="ms-alert ms-alert_error left-align fade show alert-dismissible"><ul></ul></div>');
-          var $menssageError = $("#error_explanation ul");
-          var errors = $.parseJSON(xhr.responseText).errors,
-           message;
-
-       jQuery.each( errors, function( i, val ) {
-           $menssageError.append ('<li>' + val[0].message + '</li>')
-         });
-        }
-
-      })
-
-    });
-
-  $(document).on('submit','form#new_list', {}, function(event){
-        var form = $(this);
-        var formData = new FormData(),
-            val =0;
-
-
-/******************* END CREATE LIST **********************/
 
 /*******************  OPEN MODAL TO CROP AVATAR ***********/
 $(document).on("change", ".ms-upload-avatar input[type='file']", avatarCropModal);
@@ -209,8 +101,43 @@ $(document).on("click", "[data-behavior='modal']", function(e) {
     return false;
 })
 
+/******** SELECT NEW OWNER FOR THE LIST *********/
+$(document).on('click','.ms-select-owner-list > a.collection-item', function(e) {
+  e.preventDefault();
+  var $this = $(this),
+      $new_list_owner =  $('#new_list_owner');
+
+  if (!$this.hasClass("active")){
+      $this.siblings().removeClass('active');
+      $this.addClass('active');
+      $new_list_owner.val($this.data('owner-id'));
+  }
+})
+
+/************END SELECT NEW OWNER FOR THE LIST**********/
+
+
+/******** CANCEL NEW OWNER FOR THE LIST *********/
+$(document).on('click','#user_ownership_change .ms-btn.cancel', function(e) {
+  e.preventDefault();
+  var $new_list_owner =  $('#new_list_owner'),
+      $list_owner = $('#list_owner');
+
+  $('#change_ownership_password').val("");
+  $("#btn-list-ownership-change").addClass("disabled");
+  if ($new_list_owner.val()!= "") {
+      var $owner_select_item = $('#user_ownership_change a[data-owner-id= '+$new_list_owner.val()+']');
+      $owner_select_item.removeClass('active');
+      $('#user_ownership_change a[data-owner-id= '+$list_owner.val()+']').addClass('active');
+      $new_list_owner.val("");
+  }
+})
+/************END SELECT NEW OWNER FOR THE LIST**********/
+
 /******************* END CONTENT IN MODAL **********************/
 $(document).on('turbolinks:load',function(){
+
+
     // CREATE LIST
     //
     // $("form#new_list").submit(function(event) {
@@ -234,6 +161,7 @@ $(document).on('turbolinks:load',function(){
     //     //
     //     // });
     //   });
+
     svg();
     var $table_of_task = $(".table-of-task"),
         c = 0,
@@ -243,7 +171,7 @@ $(document).on('turbolinks:load',function(){
     msCollapsible("collapsible");
     sortableCollaborationUsers($('.sort_c_users'));
 
-    $('select').material_select();
+    $('.select').material_select();
 
     droppable_task_to_user_all($div_user_tasks);
 
@@ -456,32 +384,32 @@ $(document).on("click","a#user_settings",function(){
     deadlineDatepicker($('input.deadline-datepicker'));
   });
 
-  $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
-    $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-    deadlineDatepicker($('input.deadline-datepicker'));
-    $('div[id^="incomplete_tasks_"]').each(function (){
-      mySortable($(this));
-    })
-  });
+  // $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
+  //   alert("#application-date form.edit_list");
+  //   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
+  //   deadlineDatepicker($('input.deadline-datepicker'));
+  //   $('div[id^="incomplete_tasks_"]').each(function (){
+  //     mySortable($(this));
+  //   })
+  // });
+
   // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
-  $(document).on("click", "#user_ownership_change a.btn-cancel", function(){
+
+  $(document).on("click", "#user_ownership_change a.btn-cancel", function() {
     var $select = $(this).closest('form').find('select'),
     value = $select.data("list-owner"),
     $collapsible = $(this).parents($('.collapsible'));
 
     $(this).closest('form').find("input[type=password], current_password").val("");
     $select.find('option[value="'+value+'"]').prop('selected', true);
-    $select.material_select();
     $collapsible.collapsible('close', 0);
     collapsibleClose($collapsible);
     $("#list_owner").val($("#list_owner option:first").val());
   });
 
-
-
   // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
 
-  $(document).on("keyup","#change_ownership_password",function(){
+  $(document).on("keyup","#change_ownership_password",function() {
     if ($(this).val().length !=0)
     $("#btn-list-ownership-change").removeClass("disabled");
     else
@@ -491,7 +419,8 @@ $(document).on("click","a#user_settings",function(){
   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
 
   // CHANGE BUTTON TO ACTIVE WHEN EMAIL IS NOT EMPTY INVITATION
-  $(document).on("keyup","#recipient_email",function(){
+
+  $(document).on("keyup","#recipient_email",function() {
     var $invitationSubmit = $("#invitation_submit");
     $("#error_message_invitation").html("");
     if ($(this).val().length !=0){
@@ -504,6 +433,7 @@ $(document).on("click","a#user_settings",function(){
   })
 
   // END CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY
+
   $(document).on('keydown','#new_task >input#task_detail', function(event) {
     if (event.keyCode === 13) {
       $(this).parents("form").submit();
@@ -532,6 +462,7 @@ $(document).on("click","a#user_settings",function(){
     function handlerIn(){
       $(this).next( ".i-btn-datepicker" ).css("color","#55C2B9 !important");
     };
+
     function handlerOut(){
       var color;
       if ($(this).next( ".i-btn-datepicker" ).hasClass("md-red")){
@@ -600,7 +531,6 @@ $(document).on("click","a#user_settings",function(){
             // console.log(element.parents("#user-edit-avatar").attr("action"));
             // element.parents("#user-edit-avatar").trigger('submit.rails');
             //
-            console.log(element.parents(".ms-upload-avatar").data("url"));
             $.ajax({
               url: element.parents(".ms-upload-avatar").data("url"),
               data: formData,
@@ -791,8 +721,8 @@ $(document).on("click","a#user_settings",function(){
           $(this).collapsible({
             onOpen: function(el) {
               var $this = el,
-              $panel_headers = $this.find('div.collapsible-header'),
-              $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
+              $panel_headers = $this.find('.collapsible-header'),
+              $arrow =   $('i.material-icons.ms-open-button', $panel_headers).first();
               $arrow.animateRotate(0,-90, 250, "linear");
             },
             onClose: collapsibleClose
@@ -803,9 +733,8 @@ $(document).on("click","a#user_settings",function(){
 
     function collapsibleClose(e){
       var $this = e,
-      $panel_headers = $this.find('div.collapsible-header'),
-      $arrow =   $panel_headers.find('i.material-icons.ms-open-button');
-      // $arrow.css('transform-origin','center');
+      $panel_headers = $this.find('.collapsible-header'),
+      $arrow =   $('i.material-icons.ms-open-button',$panel_headers).first();
       $arrow.animateRotate(-90,0, 250, "linear");
     }
 
@@ -966,8 +895,6 @@ AvatarCrop = (function() {
       "background-size": Math.round(rx * $('#cropbox').width()) + 'px' + " " +Math.round(ry * $('#cropbox').height()) + 'px',
       "background-position": '-' + Math.round(rx * coords.x) + 'px' +" "+ '-' + Math.round(ry * coords.y) + 'px'
     });
-
-
   };
 
   return AvatarCrop;
