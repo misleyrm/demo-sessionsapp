@@ -39,7 +39,9 @@ List.all.each do |list|
   #   end
   # end
 #
- if !(list.all_tasks)
+ if (list.all_tasks)
+
+else
   l = list
   l.crop_y=0
   l.crop_x=0
