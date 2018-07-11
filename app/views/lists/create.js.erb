@@ -1,39 +1,44 @@
 
-  <% if @list.errors.any? %>
-    $("#error_message").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
-  <% else %>
-    $('#ms-modal-dialog').modal('close');
+$('#ms-modal-dialog').modal('close');
+
+<% if @list.errors.any? %>
+    <% @list.errors.messages.each do |key,value| %>
+          $("#form_list input[name*='list[<%= key %>]']").addClass("invalid");
+    <% end %>
+    $("#error_message_list").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
+<% else %>
+  // $('#ms-modal-dialog').modal('close');
+  $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
+<% end%>
 
 
-    $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
+    // $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
 
-    var $content = $('#page-content #main_center'),
-        $form =  $('#application-date form'),
-        $nav = $('[data-nav-id = "<%= @user.id%>"]'),
-        $ulCreated = $('ul#ulCreated', $nav),
-        $add = $("#ms-add", $ulCreated);
-
-    $content.html("<%= j render partial: 'lists/list', locals: { list: @list, user: @user, collaboration_users: '' } %>");
-
-    droppable_all('li[id^="drop_zone_"]');
-
-    $("#ms-link-listSetting").html("<%= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
-
-    $form.attr("action","lists/<%= @list.id %>");
-    $form.attr("id","edit_list_<%= @list.id %>");
-
-    $("li", $ulCreated ).removeClass('active');
-
-    $('.edit_task').submitOnCheck();
-    dropdown("[id^=dropdown_list_]","false");
-
-    $('#nav-list').html("<%= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
-    $("<%= j render partial: 'lists/nav_list_name', layout: 'layouts/li_navigation', locals: {'list': @list, 'user': current_user, 'active': 'active'} %>").insertBefore($add);
-    $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
-    $('#application-date .datepicker').pickadate({
-        disable: [
-          { from: [0,0,0], to: gon.startDate }
-        ]
-      });
-
-  <% end %>
+    // var $content = $('#page-content #main_center'),
+    //     $form =  $('#application-date form'),
+    //     $nav = $('[data-nav-id = "<%= @user.id%>"]'),
+    //     $ulCreated = $('ul#ulCreated', $nav),
+    //     $add = $("#ms-add", $ulCreated);
+    //
+    // // $content.html("<%#= j render partial: 'lists/list', locals: { list: @list, user: @user, collaboration_users: [] } %>");
+    //
+    // droppable_all('li[id^="drop_zone_"]');
+    //
+    // $("#ms-link-listSetting").html("<%= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
+    //
+    // $form.attr("action","lists/<%= @list.id %>");
+    // $form.attr("id","edit_list_<%= @list.id %>");
+    //
+    // $("li", $ulCreated ).removeClass('active');
+    //
+    // $('.edit_task').submitOnCheck();
+    // dropdown("[id^=dropdown_list_]","false");
+    //
+    // $('#nav-list').html("<%#= j render partial: 'lists/nav_list_name', locals: {list: @list} %>");
+    // $("<%#= j render partial: 'lists/nav_list_name', layout: 'layouts/li_navigation', locals: {'list': @list, 'user': current_user, 'active': 'active'} %>").insertBefore($add);
+    // $('#nav-list').attr( "data-topnavbar-list-id", "<%= @list.id %>" );
+    // $('#application-date .datepicker').pickadate({
+    //     disable: [
+    //       { from: [0,0,0], to: gon.startDate }
+    //     ]
+    //   });

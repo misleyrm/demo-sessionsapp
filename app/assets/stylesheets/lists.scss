@@ -204,24 +204,6 @@ p.label {
 // END LIST OF MEMBERS
 // list of pending invitations
 
-#invitations .collapsible-header i.ms-open-button{
-  float: right;
-  margin-right: 0;
-  font-size: 1.7rem;
-  font-weight: 100;
-  line-height: 2.2rem;
-}
-
-#invitations .list-settings-collection.collection .collection-item{
-  padding: 0;
-}
-
-#invitations .collapsible-header{
-  border: none;
-  min-height: 2rem;
-  line-height: 2rem;
-  padding: 0 .5rem 0 .2rem;
-}
 
 .collection .collection-item.active {
   background: none;
@@ -239,9 +221,6 @@ p.label {
       padding: 0 0.2rem 0 0;
 }
 
-#list_manage_invitation.collapsible-body{
-  padding: .6rem 0 2rem;
-}
 
 
 /* List of collaboration-users */
@@ -337,13 +316,9 @@ span.circle-icon {
 span.circle-icon svg,
 span.circle-icon img {
   margin: 0 auto;
-  height: 15px;
 }
 
-.ms-upload-avatar span.circle-icon svg,
-.ms-upload-avatar span.circle-icon img {
-  height: 23px;
-}
+
 
 .list-collaboration-users a:hover > span.circle-icon .st0{
   fill: #223042;

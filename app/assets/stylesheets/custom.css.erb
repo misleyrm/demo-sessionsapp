@@ -147,9 +147,11 @@ div .card{
   background-color: #50C2BB!important;
   color: #fff!important;
   }
+
 .btn, .btn-large, .btn-flat {
   border-radius: 0!important;
 }
+
 .su-btn.btn-flat:not(.btn-delete) {
   color: #989797;
   background-color: #fff;
@@ -198,29 +200,15 @@ div .card{
 .su-btn.btn-medium:not(.btn-floating){
   font-size: 16px;
 }
-/* END STYLE FOR BUTTON */
-/* STYLE FOR INPUT */
-/** CHANGE COLOR IN FOCUS (MATERIALIZE) **/
-.container input:not([type]):focus:not([readonly]),
-.container input[type=text]:focus:not([readonly]),
-.container input[type=password]:focus:not([readonly]),
-.container input[type=email]:focus:not([readonly]),
-.container input[type=url]:focus:not([readonly]),
-.container input[type=time]:focus:not([readonly]),
-.container input[type=date]:focus:not([readonly]),
-.container input[type=datetime]:focus:not([readonly]),
-.container input[type=datetime-local]:focus:not([readonly]),
-.container input[type=tel]:focus:not([readonly]),
-.container input[type=number]:focus:not([readonly]),
-.container input[type=search]:focus:not([readonly]),
-.container textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #50C2BB;
-  box-shadow: 0 1px 0 0 #50C2BB;
-  -moz-box-shadow: 0 1px 0 0 #50C2BB;
-  /* for Safari y Chrome*/
-  -webkit-box-shadow: 0 1px 0 0 #50C2BB;
 
+.ms-btn.disabled {
+  pointer-events: none;
+  background-color: #DFDFDF !important;
+  box-shadow: none;
+  color: #9F9F9F !important;
+  cursor: default;
 }
+
 
 .container input:not([type]):focus:not([readonly]) + label,
 .container input[type=text]:focus:not([readonly]) + label,
@@ -237,6 +225,7 @@ div .card{
 .container textarea.materialize-textarea:focus:not([readonly]) + label {
   color: #50C2BB;
 }
+
 .container [type="checkbox"]:checked+label.md-today :before {
   border-right: 2px solid rgba(86, 194, 187, 1);
   border-bottom: 2px solid rgba(86, 194, 187, 1);
@@ -331,8 +320,13 @@ i.small {
 }
 
 /********* HELPER **********/
+
+em {
+  font-style: italic;
+}
+
 .material-icons.md-8rem {
-    font-size: .8rem;
+  font-size: .8rem;
 }
 
 .material-icons.md-1rem { font-size: 1rem;}
@@ -382,9 +376,25 @@ i.small {
   display: block;
 }
 
+.padding40{
+  height: 40px;
+  display: block;
+}
+
+.divider20{
+  height: 20px;
+  display: block;
+}
+
 .divider12 {
     height: 12px;
     display: block;
+}
+
+.ms-divider {
+  background-color: #2230424a;
+  height: 2px;
+  overflow: hidden;
 }
 
 .md-jellow{
@@ -522,6 +532,7 @@ small {
 
 .input-field label {
   left: 0!important;
+  height: calc(100% - 20px);
 }
 
 .clearfix:before,
@@ -695,8 +706,8 @@ a.ui-button:active,
 }
 
 /****** New list and Setting List *******/
-#new-list, #edit-list{
-  max-width: 470px;
+form#form_list {
+  max-width: 325px;
   margin: 0 auto;
 
 }
@@ -711,11 +722,12 @@ a.ui-button:active,
 
 .input-field label:not(.label-icon).active {
     text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 1px;
 }
 
  textarea.materialize-textarea {
     background-color: white;
-    /*border: #9e9e9e;*/
     border: 1px solid #9e9e9e;
     border-radius: 5px;
     margin-top: 2.5rem;
@@ -728,12 +740,6 @@ a.ui-button:active,
       transform: translateY(0%)!important;
       /*text-transform: uppercase;*/
   }
-
-textarea.materialize-textarea:focus:not([readonly]) {
-    border: 1px solid #50C2BB;
-    box-shadow: 0 1px 0 0 #50C2BB;
-    width: 96.5%;
-}
 
 #popupcrop {
     max-width: 525px;
@@ -965,24 +971,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 }
 
-.modal-content input:not([type]),
-.modal-content input[type=text]:not(.browser-default),
-.modal-content input[type=password]:not(.browser-default),
-.modal-content input[type=email]:not(.browser-default),
-.modal-content input[type=url]:not(.browser-default),
-.modal-content input[type=time]:not(.browser-default),
-.modal-content input[type=date]:not(.browser-default),
-.modal-content input[type=datetime]:not(.browser-default),
-.modal-content input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default),
-.modal-content input[type=number]:not(.browser-default),
-.modal-content input[type=search]:not(.browser-default),
-.modal-content textarea.materialize-textarea {
-   margin: 0 0 10px 0;
-}
-
 
 .modal-content .collapsible {
-  margin: 25px 0 30px 0;
+  margin: 0;    /* 25px 0 30px 0 */
 }
 .modal-action.modal-close.btn-flat:hover {
     background: none;
@@ -1044,7 +1035,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .modal .modal-content {
-  padding: 20px 20px 88px;
+  padding: 20px 20px 70px;
 }
 
 .modal .collapsible-body {
@@ -1214,6 +1205,19 @@ textarea.materialize-textarea:focus.valid:not(.browser-default) {
     border-bottom: 1px solid #50C2BB;
     box-shadow: 0 1px 0 0 #50C2BB;
 }
+
+.input-field textarea.materialize-textarea::-webkit-input-placeholder,
+.input-field textarea.materialize-textarea::-moz-placeholder ,
+.input-field textarea.materialize-textarea:-ms-input-placeholder,
+.input-field textarea.materialize-textarea:-moz-placeholder { /* Chrome/Opera/Safari */
+  color: #2230426e;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 14px;
+}
+
 
 
 /***** HIDDEN DATEPICKER ******/
@@ -1487,10 +1491,15 @@ button.close {
 
 .ms-upload-avatar{
   position: relative;
+
 }
 
 .ms-upload-avatar .ms-avatar-ini.show{
-  top: 50%;
+  /* top: 50%; */
+  width: 100%;
+  height: 100%;
+  line-height: 90px;
+  color: #7F7F7F;
 }
 
 .ms-upload-avatar input[type="file"]{
@@ -1498,7 +1507,7 @@ button.close {
 }
 
 /************ LIST ***************/
-.list-item{
+.list-item {
   position: relative;
 }
 /*************** FORM TITLE *****************/
@@ -1555,7 +1564,7 @@ button.close {
 }
 
 .modal-content h2.modal-title {
-  margin-bottom: 36px;
+  margin-bottom: 35px;
 }
 
 .modal-content .row {
@@ -1571,7 +1580,9 @@ button.close {
   margin: 0 auto;
 }
 
-
+.modal-content .input-field .prefix {
+  max-width: 14px;
+}
 
 .modal-content .input-field .prefix ~ input,
 .modal-content .input-field .prefix ~ textarea,
@@ -1584,6 +1595,67 @@ button.close {
     font-size: 14px;
     line-height: 17px;
     width: calc(100% - 30px);
+    letter-spacing: 0.5px;
+}
+
+input:not([type]):focus:not([readonly]) + label,
+input[type=text]:not(.browser-default):focus:not([readonly]) + label,
+input[type=password]:not(.browser-default):focus:not([readonly]) + label,
+input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+input[type=url]:not(.browser-default):focus:not([readonly]) + label,
+input[type=time]:not(.browser-default):focus:not([readonly]) + label,
+input[type=date]:not(.browser-default):focus:not([readonly]) + label,
+input[type=datetime]:not(.browser-default):focus:not([readonly]) + label,
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]) + label,
+input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
+input[type=number]:not(.browser-default):focus:not([readonly]) + label,
+input[type=search]:not(.browser-default):focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: #50C2BB;
+}
+
+
+.modal-content input:not([type]),
+.modal-content input[type=text]:not(.browser-default),
+.modal-content input[type=password]:not(.browser-default),
+.modal-content input[type=email]:not(.browser-default),
+.modal-content input[type=url]:not(.browser-default),
+.modal-content input[type=time]:not(.browser-default),
+.modal-content input[type=date]:not(.browser-default),
+.modal-content input[type=datetime]:not(.browser-default),
+.modal-content input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default),
+.modal-content input[type=number]:not(.browser-default),
+.modal-content input[type=search]:not(.browser-default),
+.modal-content textarea.materialize-textarea {
+   margin: 0 0 10px 0;
+}
+
+input:not([type]),
+input[type=text]:not(.browser-default),
+input[type=password]:not(.browser-default),
+input[type=email]:not(.browser-default),
+input[type=url]:not(.browser-default),
+input[type=time]:not(.browser-default),
+input[type=date]:not(.browser-default),
+input[type=datetime]:not(.browser-default),
+input[type=datetime-local]:not(.browser-default),
+input[type=tel]:not(.browser-default),
+input[type=number]:not(.browser-default),
+input[type=search]:not(.browser-default) {
+    height: 40px;
+}
+
+/* textarea.materialize-textarea {
+    height: 40px;
+} */
+
+
+.input-field a.su-btn.btn {
+  line-height: 50px;
+  height: 50px;
+  border: 0.25px solid #22304245;
+  background-color: #50C2BB;
+  box-shadow: 0 1px 4px 0 rgba(34,48,66,0.3)
 }
 
 ::-webkit-input-placeholder { /* Chrome */
@@ -1607,12 +1679,23 @@ button.close {
 
 .modal-content .input-field .prefix ~ label,
 .modal-content .input-field .prefix ~ .validate ~ label,
-.modal-content  input[type=text]:not(.browser-default):disabled + label {
-    color: #50C2BB;
+.modal-content  input[type=text]:not(.browser-default):disabled + label,
+.input-field .prefix ~ p.ms-label {
+    color: #223042;
     font-family: "Proxima Nova";
     font-size: 12px;
-    line-height: 12px;
     letter-spacing: 1.2px;
+}
+
+.modal-content .input-field .prefix ~ label,
+.modal-content .input-field .prefix ~ .validate ~ label,
+.modal-content  input[type=text]:not(.browser-default):disabled + label {
+  line-height: 10px;
+}
+
+.input-field .prefix ~ p.ms-label {
+  line-height: 40px;
+  margin: 0;
 }
 
 .modal-content .input-field label:not(.label-icon).active {
@@ -1620,6 +1703,9 @@ button.close {
 }
 
 
+/* END STYLE FOR BUTTON */
+/* STYLE FOR INPUT */
+/** CHANGE COLOR IN FOCUS (MATERIALIZE) **/
 .modal-content input:not([type]),
 .modal-content input[type=text]:not(.browser-default),
 .modal-content input[type=password]:not(.browser-default),
@@ -1632,10 +1718,33 @@ button.close {
 .modal-content input[type=tel]:not(.browser-default),
 .modal-content input[type=number]:not(.browser-default),
 .modal-content input[type=search]:not(.browser-default),
-.modal-content textarea.materialize-textarea {
-  border-bottom: 2px solid #2230426e;  /*  border-bottom: 0.5px solid #223042; */
+input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 2px solid #2230424a;
+  box-shadow: none;
 }
 
+.modal-content textarea.materialize-textarea,
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 0.5px solid #2230426e;
+  border-left:  0.5px solid #2230426e;
+  border-right:  0.5px solid #2230426e;
+  border-top: 2px solid #2230426e;
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+.modal-content textarea.materialize-textarea.invalid:focus,
 .modal-content input.invalid:not([type]),
 .modal-content input.invalid:not([type]):focus,
 .modal-content input[type=text].invalid:not(.browser-default),
@@ -1661,25 +1770,88 @@ button.close {
 .modal-content input[type=search].invalid:not(.browser-default),
 .modal-content input[type=search].invalid:not(.browser-default):focus,
 .modal-content textarea.materialize-textarea.invalid,
-.modal-content textarea.materialize-textarea.invalid:focus,
 .modal-content .select-wrapper.invalid > input.select-dropdown {
     border-bottom: 1px solid #f23d5c;
     box-shadow: 0 1px 0 0 #f23d5c;
 }
 
 
+
+/* .modal-content input:not([type]),
+.modal-content input[type=text]:not(.browser-default),
+.modal-content input[type=password]:not(.browser-default),
+.modal-content input[type=email]:not(.browser-default),
+.modal-content input[type=url]:not(.browser-default),
+.modal-content input[type=time]:not(.browser-default),
+.modal-content input[type=date]:not(.browser-default),
+.modal-content input[type=datetime]:not(.browser-default),
+.modal-content input[type=datetime-local]:not(.browser-default),
+.modal-content input[type=tel]:not(.browser-default),
+.modal-content input[type=number]:not(.browser-default),
+.modal-content input[type=search]:not(.browser-default),
+input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 2px solid #2230426e;
+  box-shadow: none;
+} */
+
+/* input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 2px solid #223042;
+  box-shadow: none;
+} */
+
+
 .modal-content .input-field span.prefix ~ input,
 .modal-content .input-field span.prefix ~ textarea,
 .modal-content .input-field span.prefix ~ .autocomplete-content {
   padding-left: 27px;
-
 }
 
 .modal-content .input-field .prefix ~ label,
+.modal-content .input-field .prefix ~ p.ms-label,
 .modal-content .input-field .prefix ~ .validate ~ label {
   margin-left: 30px;
 }
 
+.input-field .prefix ~ p.ms-label {
+  position: relative;
+  width: 100%;
+  top: 0;
+  left: 0;
+  text-align: initial;
+  pointer-events: none;
+  display: inline-flex;
+}
+
+.input-field .prefix ~ input,
+.input-field .prefix ~ textarea,
+.input-field .prefix ~ label,
+.input-field .prefix ~ .validate ~ label,
+.input-field .prefix ~ p.ms-label {
+  width: calc(100% - 30px);
+}
 
 
 .modal-content .input-field .prefix ~ input,
@@ -1690,7 +1862,7 @@ button.close {
 
 .modal-content .input-field span.prefix{
   width: 14px;
-  height: 48px;
+  height: 40px;
   display: inline-flex;
   position: absolute;
 
@@ -1700,9 +1872,6 @@ button.close {
   height: 100%;
 }
 
-.modal-content .ms-upload-avatar label{
-  display: block;
-}
 
 .modal-content .input-field span.prefix img{
   width: 100%;
@@ -1755,7 +1924,7 @@ button.close {
 
 .collapsible.ms-accordion-section .collapsible-header .ms-form-title i.material-icons.prefix,
 .ms-form-title i.material-icons.prefix,
-.collapsible-header p.details i.material-icons.prefix{
+.collapsible-header p.details i.material-icons.prefix {
   /*width: 1rem;*/
   text-align: center;
   margin-right: .5rem;
@@ -1774,8 +1943,28 @@ button.close {
     letter-spacing: .6px;
     color: #50C2BB;
 }
-.ms-form-title span{
+.ms-form-title span {
     letter-spacing: .6px;
+}
+
+.collapsible.ms-accordion-section .collapsible-header p.ms-label {
+  padding: 0;
+  margin-right: 40px;
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  line-height: 40px;
+  width: calc(100% - 70px);
+}
+
+
+.edit_list .collapsible.ms-accordion-edit-list > li:not(:last-child),
+.modal-content .edit_list input[type=text]:not(.browser-default) {
+  margin-bottom: 26px;
+}
+
+.edit_list .btn-list-form-submit {
+  margin-top: 40px;
 }
 /*************** END FORM TITLE *****************/
 
@@ -1871,10 +2060,12 @@ li.ms-accepted-invitation.row{
 
 .modal-content .collapsible.ms-accordion-section i.right{
   margin-right: 0;
-  width: 1.5rem;
-  top: 10px;
+  width: 1rem;
+  top: 0;
   position: absolute;
   right: 0;
+  display: inline-flex;
+  line-height: 40px;
 }
 
 
@@ -1973,4 +2164,218 @@ background: #ffff;
     visibility: visible;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
+}
+
+.ms-caption {
+	color: #FF5858;
+  font-family: "Proxima Nova";
+  font-size: 11px;
+  font-style: italic;
+  line-height: 13px;
+  text-align: center;
+  padding: 10px 0 14px;
+}
+
+/* Buttom in collapsible */
+.btn-collapsible {
+	color: #FFFFFF;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  line-height: 40px;
+  text-align: center;
+  max-width: 152px;
+  height: 40px;
+  padding: 13px 28px;
+  padding-right: 41px;
+  font-weight: 100;
+}
+
+.btn-collapsible.action,
+.btn-collapsible.cancel {
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.07);
+}
+
+.btn-collapsible.action {
+	background-color: #88D081;
+  padding-left: 33px;
+  padding-right: 32.5px;
+}
+
+.btn-collapsible.cancel {
+	background-color: #FF6A6A;
+  padding-left: 41px;
+  padding-right: 41px;
+}
+
+.ms-accordion-section .ms-description textarea.materialize-textarea {
+  min-height: 28px;
+  height: 28px;
+  padding: 10px;
+  width: calc(100% - 20px);
+  margin: 0;
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 15px;
+}
+
+.ms-accordion-section .ms-description.active .ms-divider {
+  display: none;
+}
+
+.ms-members li {
+  padding: 0;
+}
+
+.collection.ms-members  .collection-item p,
+.collapsible.ms-pending-invitations  .collapsible-header p,
+.collapsible.ms-pending-invitations  .collapsible-header span {
+  color: #525D6A;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+}
+
+.collection.ms-members  .collection-item p,
+.collapsible.ms-pending-invitations  .collapsible-header p {
+  padding: 13px 40px 10px 0px;
+  margin: 0;
+  line-height: 17px;
+}
+
+.collapsible.ms-pending-invitations  .collapsible-header p {
+  padding: 13px 60px 10px 0px;
+}
+
+
+.collection.ms-members  .collection-item p {
+  padding: 13px 40px 10px 0px;
+}
+
+.collection.ms-members  .collection-item,
+.collapsible.ms-pending-invitations  li {
+  padding: 0px;
+  position: relative;
+}
+
+.collection.ms-members  .collection-item svg {
+  	height: 11px;
+}
+
+.collection.ms-members  .collection-item a.secondary-content:hover >span .st0{
+  fill: #FF5858;
+}
+
+
+.collection.ms-members .collection-item,
+.collection.ms-members .collection-item:last-child,
+.ms-select-owner-list a.collection-item,
+.collection.ms-select-owner-list a.collection-item:last-child,
+.collapsible.ms-pending-invitations  li  {
+    border-bottom: 2px solid #22304247;
+}
+
+.collection.ms-members .collection-item:last-child {
+    margin-bottom: 15px;
+}
+
+.collection.ms-members  .collection-item a.secondary-content {
+  	height: 40px;
+    position: absolute;
+    display: inline-flex;
+    top: 0;
+    right: 0;
+    padding: 0 6px;
+}
+
+.collapsible.ms-pending-invitations  .collapsible-header span {
+    position: absolute;
+    display: flex;
+    right: 20px;
+    top: 0;
+    line-height: 40px;
+  }
+
+.collapsible.ms-pending-invitations .collapsible-header i.ms-open-button {
+  padding: 0;
+  font-size: 12px;
+  width: .7rem;
+}
+
+.ms-select-owner-list a.collection-item {
+  text-align: left;
+  position: relative;
+  color: #223042;
+  font-family: "Proxima Nova";
+  font-size: 12px;
+  line-height: 15px;
+  padding: 12px 0;
+}
+
+.ms-select-owner-list.collection a.collection-item > i {
+  text-align: left;
+  font-size: 5px;
+  color: #223042;
+  width: .4rem;
+  opacity: 0;
+  display: none;
+  transition: opacity .28s ease;
+}
+
+.edit_list #select-owner {
+  padding: 26px 0;
+  margin: 0;
+}
+
+.ms-select-owner-list.collection a.collection-item.active {
+  color: #223042;
+}
+
+.ms-select-owner-list.collection a.collection-item.active i {
+  display: block;
+  opacity: 1;
+}
+
+#user_ownership_change .btn-collapsible.action {
+  padding: 13px 52px;
+}
+
+#user_ownership_change .btn-collapsible.cancel {
+  padding: 13px 55px;
+}
+
+
+.modal-content .collapsible .ms-select-owner-list .collection-item i.right {
+  width: .6rem;
+}
+
+#change_ownership #change_ownership_password {
+  margin: 0 0 20px 0;
+}
+
+
+.ms-select-owner-list a.collection-item:not(.active):hover i.right {
+  opacity: 1;
+  display: block;
+}
+
+a.su-btn.ms-btn-short {
+   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.07);
+   font-size: 10px;
+   line-height: 12px;
+   padding: 5px 13px;
+}
+
+a.su-btn.ms-btn-short.delete {
+  	border: 0.5px solid #FF5858;
+    color: #FF5858;
+}
+
+.ms-pending-invitations a.su-btn.ms-btn-short {
+  margin-right: 15px;
+}
+
+.modal-content .collapsible.ms-accordion-section.ms-pending-invitations .collapsible-body {
+  padding: 0rem 0 2rem;
 }

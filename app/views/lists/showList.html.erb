@@ -1,4 +1,4 @@
-<div class="valign-wrapper ms-upload-avatar" style="<% if (!@list.new_record?) %>background-image: url('<%= @list.avatar('thumb') %>');<% end %>">
+<div class="valign-wrapper ms-upload-avatar" style="<% if (!@list.new_record?) %>background-image: url('<%= @list.image_url('thumb') %>');<% end %>">
 </div>
 <div class="input-field">
   List Name: <%= @list.name.capitalize %>

@@ -1,14 +1,14 @@
 <div class="chip">
-	<% if !list.avatar_file_name.nil? %>
-		<%= image_tag(list.avatar(:medium), class: 'circle', size: "50x50") %>
+	<% if !list.image.file.nil? %>
+		<%= image_tag(list.image_url(:thumb), class: 'circle', size: "50x50") %>
 	<% else %>
 	    <% if (list.all_tasks_list?) %>
 					<i class="material-icons">list</i>
 			<% else %>
-			  	<span><%= list.name[0]%></span>
+			  	<span><%= list.name[0] if !list.name.blank?%></span>
 			<% end%>
 	<% end %>
 	<%= content_tag "p" do %>
-	  <%= list.name%>
+	  <%= list.name %>
 	<% end %>
 </div>

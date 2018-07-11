@@ -1,0 +1,54 @@
+<%= form_for( @list, :html => {:id => "form_list"}) do |f| %>
+      <input type='hidden' name='_method' value="post">
+      <%= content_tag "div", id: "error_message_list" do %>
+         <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
+      <% end %>
+      <div class="row">
+          <!-- <div id="imagecrop_list"><img src="" /></div> -->
+          <div class="col s12">
+              <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview") do %>
+                  <%= f.file_field :image %>
+                  <label for="list_image">
+                      <div class="mousehover hover empty">
+                          <span class="circle-icon valign-wrapper create">
+                              <%= image_tag(public_path('assets/createList.svg')) %>
+                          </span>
+                          <span class="circle-icon valign-wrapper hover">
+                              <%= image_tag(public_path('assets/createListHover.svg')) %>
+                          </span>
+                      </div>
+                  </label>
+                  <% %w[x y w h].each do |attribute| %>
+                      <%= f.hidden_field  "crop_#{attribute}",:class =>"crop_#{attribute}", :id =>"f_crop_#{attribute}" ,as: :hidden %>
+                  <% end %>
+              <% end%>
+          </div>
+      </div>
+
+      <div class="col s12">
+          <div class="input-field">
+              <span class="prefix valign-wrapper">
+                  <%= image_tag(public_path('assets/tag.svg'), class: 'prefix') %>
+              </span>
+              <%= f.text_field :name ,id: "list_name",:autocomplete => :off%>
+              <%= f.label :name, id: 'icon_prefix'%>
+          </div>
+      </div>
+      <div class="col s12">
+          <div class="input-field">
+              <span class="prefix valign-wrapper">
+                  <%= image_tag(public_path('assets/description.svg'), class: 'prefix') %>
+              </span>
+              <p id="icon_prefix" class="ms-label">Description</p>
+              <%= f.text_area :description,class:'materialize-textarea', id: 'list_description',:autocomplete => :off, :placeholder=>"Describe yourself here..." %>
+          </div>
+     </div>
+      <div class="row">
+          <div class="col s12">
+            <div class="input-field center-align">
+                <a class="waves-effect waves-light btn btn-medium su-btn btn-flat uppercase col s12" data-behavior="submit" disabled="disabled">Create List</a>
+                 <!-- <%#= f.submit("Create", data: {disable_with: false} ) %> -->
+            </div>
+          </div>
+      </div>
+<% end %>

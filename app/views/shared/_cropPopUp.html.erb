@@ -1,0 +1,27 @@
+<!-- Popup Structure -->
+<div id="popupcrop" class="modal">
+  <div class="modal-content">
+       <div class="row">
+         <div class="modal-title center-align uppercase">
+           <h3 class="panel-title">Crop Avatar</h3>
+         </div>
+       </div>
+       <div class="row">
+         <div class= "col s12">
+           <img src="#" alt="" id="cropbox"/>
+         </div>
+       </div>
+       <div class="row">
+         <div class= "col s12">
+           <form>
+               <% %w[x y w h].each do |attribute| %>
+                   <%= hidden_field_tag "crop_#{attribute}", 'none',:class =>"crop_#{attribute}"  %>
+               <% end %>
+               <div class="form-actions">
+                 <%= button_tag "Update Avatar" %>
+               </div>
+           </form>
+         </div>
+       </div>
+  </div>
+</div>

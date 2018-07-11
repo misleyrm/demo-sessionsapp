@@ -12,25 +12,46 @@
 #
 # NotificationOption.create([{name: "Email"},{name: "Web App"}])
 
-User.all.each do |user|
+# User.all.each do |user|
+#   # NotificationType.all.each do |notification_type|
+#   #   NotificationOption.all.each do |notification_option|
+#   #     user.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
+#   #   end
+#   # end
+# #
+#   u = user
+#   u.crop_y=0
+#   u.crop_x=0
+#
+#   u.crop_w=2000
+#   u.crop_h=2000
+#
+#   url = u.avatar.url
+#   u.remote_image_url = url
+#   u.save
+#
+# end
+
+List.where("all_tasks is?",false).each do |list|
   # NotificationType.all.each do |notification_type|
   #   NotificationOption.all.each do |notification_option|
   #     user.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
   #   end
   # end
 #
-  u = user
-  u.crop_y=0
-  u.crop_x=0
+  l = list
+  l.crop_y=0
+  l.crop_x=0
 
-  u.crop_w=2000
-  u.crop_h=2000
+  l.crop_w=2000
+  l.crop_h=2000
 
-  url = u.avatar.url
-  u.remote_image_url = url
-  u.save
+  url = l.avatar.url
+  l.remote_image_url = url
+  l.save
 
 end
+
 
 
     # require File.expand_path 'config/environment'

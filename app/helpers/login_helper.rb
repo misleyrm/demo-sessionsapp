@@ -24,7 +24,7 @@ module LoginHelper
   end
 
   def current_all_lists
-      @lists = current_user.created_lists.all.order('created_at')
+      @lists = current_user.created_lists.where("name not null").order('created_at')
       @collaboration_lists = current_user.collaboration_lists.all
       @current_all_lists ||= @lists + @collaboration_lists
   end
@@ -124,6 +124,7 @@ module LoginHelper
 
   # Logs out the current user.
   def log_out
+    # current_user.created_lists.where("name is null").delete_all
     forget(current_user)
     session.delete(:user_id)
     # sessions.delete(:team_id)

@@ -1,9 +1,13 @@
 class List < ApplicationRecord
   validates :name, presence: true
-  attr_accessor :num_incompleted_tasks
-  has_attached_file :avatar,
-  styles: { :medium => "200x200>", :thumb => "100x100>" }
-  validates_attachment_content_type :avatar, :content_type => /^image\/(png|gif|jpeg|jpg)/
+  attr_accessor :num_incompleted_tasks, :crop_x, :crop_y, :crop_w, :crop_h, :current_step
+  # has_attached_file :avatar,
+  # styles: { :medium => "200x200>", :thumb => "100x100>" }
+  # validates_attachment_content_type :avatar, :content_type => /^image\/(png|gif|jpeg|jpg)/
+
+  mount_uploader :image, AvatarUploader
+  after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? }
+  # after_save :crop_avatar, on: [:create, :update]
 
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
 
@@ -17,11 +21,20 @@ class List < ApplicationRecord
 
   has_many :invitations, dependent: :destroy
 
-  after_commit :broadcast_update,on: [:update]
+  # after_commit :broadcast_update, on: [:update]
   before_destroy :tasks_delete
 
   before_save :capitalize_name
 
+  def crop_avatar
+
+    image.recreate_versions! if crop_x.present?
+    # broadcast_update_avatar if !self.new_record?
+  end
+
+  # def skip_validation?
+  #   skip_validation
+  # end
 
   def owner_name
     self.owner.name
@@ -45,7 +58,7 @@ class List < ApplicationRecord
   end
 
   def avatar?
-    !self.avatar.blank?
+    !self.image_url.blank?
   end
 
 
@@ -68,9 +81,9 @@ class List < ApplicationRecord
     if (self.previous_changes.key?(:user_id) &&
        self.previous_changes[:user_id].first != self.previous_changes[:user_id].last)
        user = User.find(self.user_id)
-       ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,false), htmlChip: render_list_chip(self), status: 'listUpdatedOwner', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, before_owner: self.previous_changes[:user_id].first
+       ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,false), htmlChip: render_list_chip(self), status: 'listUpdatedOwner', id: self.id, user: self.user_id, name: self.name, image: self.image_url(:thumb), before_owner: self.previous_changes[:user_id].first
     elsif !self.previous_changes.keys.nil?
-      ActionCable.server.broadcast "list:#{self.id}", htmlChip: render_list_chip(self), status: 'listUpdated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
+      ActionCable.server.broadcast "list:#{self.id}", htmlChip: render_list_chip(self), status: 'listUpdated', id: self.id, user: self.user_id, name: self.name,  image: self.image_url(:thumb), allTask: self.all_tasks_list?
     end
 
 
@@ -111,7 +124,7 @@ class List < ApplicationRecord
 
   def broadcast_save
       user = User.find(self.user_id)
-      ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, avatar: self.avatar.url, allTask: self.all_tasks_list?
+      ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, image: self.image_url(:thumb), allTask: self.all_tasks_list?
    end
 
   def render_list_chip(list)

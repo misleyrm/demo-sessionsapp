@@ -1,20 +1,20 @@
 class ListsController < ApplicationController
-
   include LoginHelper
   include ApplicationHelper
   skip_before_action :verify_authenticity_token
   before_action :require_logged_in, :except => [:showList_blocker]
   # before_action :current_date,  if: -> { !params[:date].blank? }
   before_action :set_user, only: [:show, :edit, :update, :destroy, :updateOwnership, :create]
-  before_action :set_list, only: [:index, :show, :showList, :edit, :update, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership]
+  before_action :set_list, only: [:index, :show, :create, :showList, :edit, :update, :updateAvatar, :destroy, :complete_users, :search, :showList_blocker, :updateOwnership, :setCoord, :crop]
   before_action :validate_ownership_update, only: [:updateOwnership]
 
   def index
     @all_tasks = current_user.tasks.where(:completed_at => nil).order('created_at')
-    @lists = current_user.created_lists.all.order('created_at')
-    @collaboration_lists = current_user.collaboration_lists.all
+    @lists = current_user.created_lists.where("name not null").order('created_at')
+    @collaboration_lists = current_user.collaboration_lists.where("name not null")
+    # @created_lists =
     respond_to do |format|
-      format.html{redirect_to root_path}
+      format.html{}
       format.json
       format.js
     end
@@ -90,65 +90,96 @@ class ListsController < ApplicationController
       @c_users['value'] =   user.id
       @c_users['label'] =   user.first_name
     end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
     @list = current_user.created_lists.build
     render layout: 'modal'
+
   end
 
   def edit
     @pending_invitations = @list.pending_invitation
-    render layout: 'modal'
+    respond_to do |format|
+      format.html { render layout: 'modal'}
+      format.js
+    end
   end
 
   def create
+
     @list = current_user.created_lists.build(list_params)
+    @list.crop_x = list_params[:crop_x]  #params[:user][:crop_x]
+    @list.crop_y = list_params[:crop_y] #params[:user][:crop_y]
+    @list.crop_w = list_params[:crop_w] #params[:user][:crop_w]
+    @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
+    # @list.skip_validation = false
     if @list.save
       flash[:notice] = "List was successfully created."
       @_current_list = session[:list_id] = List.current = nil
       session[:list_id] = @list.id
       gon.startDate = startDate
-      # respond_to do |format|
-      #   format.html { redirect_to root_path(@list) }
-      #   format.js
-      # end
-      redirect_to root_path(@list)
+      session[:active_collaborations] = Array.new
+      session[:active_collaborations][0] = current_user.id
+      respond_to do |format|
+        format.json { render :json => {:list => @list,:status => 'success', :flash => flash[:notice] }}
+      end
+      # redirect_to root_path(@list)
 
     else
-      flash[:danger] = "We can't create the list."
+      # flash[:danger] = "We can't create the list."
       @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      respond_to do |format|
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js { render :action => "new" }
-      end
+      # render "new", layout: 'modal'
+      render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors }
+      # render :json => {:status => 'fail', :errors => @list.errors.full_messages}
+
     end
+  end
+
+  def updateAvatar
+    if list_params[:image].present?
+      @list.current_step = 'avatar'
+      @list.skip_validation = true
+      if @list.update_attributes(image: list_params[:image])
+        flash[:notice] = "Avatar updated"
+        respond_to do |format|
+          format.html { render 'crop'}
+          format.js
+        end
+
+      end
+    else
+      render :json => {:status => 'fail', :errors => @list.errors.full_messages}
+    end
+
   end
 
   def update
     gon.list = @list
+    @list.crop_x = list_params[:crop_x]
+    @list.crop_y = list_params[:crop_y]
+    @list.crop_w = list_params[:crop_w]
+    @list.crop_h = list_params[:crop_h]
     saved = (@list.all_tasks_list?) ? @list.update_attributes(:description => list_params[:description]) : @list.update_attributes(list_params)
-    if saved
-      flash[:notice] = "List was successfully updated."
-
-      respond_to do |format|
-        format.html {}
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js {  }
-      end
-    else
-      flash[:danger] = "We can't update the list."
-      @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
-      respond_to do |format|
-        format.json { render :json => {:htmlerrors => @htmlerrors }}
-        format.js { render :action => "edit" }
-      end
+    respond_to do |format|
+      if saved
+          flash[:notice] = "List was successfully updated."
+          format.json { render :json => {:list => @list,:status => 'success', :flash => flash[:notice] }}
+      else
+          flash[:danger] = "We can't update the list."
+          @htmlerrors = ListsController.render(partial: "shared/error_messages", locals: {"object": @list}).squish
+          format.json { render :json => {:status => 'fail',:htmlerrors => @htmlerrors, :errors => @list.errors }}
+        end
     end
   end
 
   def updateOwnership
     authorize @list
-    @new_owner = User.find(params[:list_owner].to_i)
+    @new_owner = User.find(params[:new_list_owner].to_i)
     @new_owner.collaboration_lists.delete(@list)
     if @invitation = @new_owner.invitations.find_by(list_id: @list.id)
       @invitation.delete
@@ -162,6 +193,26 @@ class ListsController < ApplicationController
     redirect_to root_path(@list)
 
   end
+
+  def crop
+    render layout: 'popupcrop'
+  end
+
+  def setCoord
+    @list.crop_x = list_params[:crop_x]  #params[:user][:crop_x]
+    @list.crop_y = list_params[:crop_y] #params[:user][:crop_y]
+    @list.crop_w = list_params[:crop_w] #params[:user][:crop_w]
+    @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
+    @list.skip_validation = true
+    if @list.save!
+      respond_to do |format|
+        flash[:notice] = "Avatar updated"
+        # format.html {  }
+        format.js {  }
+      end
+    end
+  end
+
 
   def destroy
     if @list.destroy
@@ -253,6 +304,7 @@ class ListsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
 
   def list_params
-    params.require(:list).permit(:name, :description, :avatar, :date)
+    params.require(:list).permit(:name, :description, :date, :image,:crop_x, :crop_y, :crop_w, :crop_h )
+
   end
 end

@@ -4,6 +4,6 @@
 # end
 json.array!(@collaborators) do |user|
   json.value        user.id
-  json.label        user.first_name 
-  json.image_url    book.image_url
+  json.label        user.first_name
+  json.image_url    user.image_url(:thumb)
 end
