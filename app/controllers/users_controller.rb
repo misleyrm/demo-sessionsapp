@@ -270,7 +270,17 @@ class UsersController < ApplicationController
       @invitationId = (Invitation.find_by(recipient_email: @user.email, list_id: @list.id).blank? )? "" : Invitation.find_by(recipient_email: @user.email, list_id: @list.id).id
       @invitations.delete_all
       Invitation.reset_pk_sequence
-      ActionCable.server.broadcast "invitation_channel", status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id, id: @invitationId
+      invitation_caption_html = ""
+      member_caption_html = ""
+      if (@list.invitations.count == 0)
+        invitation_caption_html = ApplicationController.render(partial:
+                      'layouts/li_caption', locals: {message: "This list don't have pending invitation at this time"})
+      end
+      if (@list.collaboration_users.count == 0)
+        member_caption_html = ApplicationController.render(partial:
+                      'layouts/li_caption', locals: {message: "This list don't have members at this time"})
+      end
+      ActionCable.server.broadcast "invitation_channel", status: 'collaboratorDeleted', email: @user.email, recipient: @user.id, list_id: @list.id, id: @invitationId, invitation_caption_html: invitation_caption_html, member_caption_html: member_caption_html
       flash[:notice] = "#{@user.first_name} was successfully destroyed as collaborator."
     else
       @user.destroy

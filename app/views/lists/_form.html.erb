@@ -151,9 +151,10 @@
                             <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
                                 <%= render partial: "lists/edit/list_members", collection: @list.collaboration_users, as: :member, :locals => {:list => @list} %>
                             <% else %>
-                                <div class="col s12">
+                                <%= render partial: "layouts/li_caption", locals: {"message": "This list don't have members at this time"} %>
+                                <!-- <div class="col s12">
                                   <p class="ms-caption">This list don't have members at this time</p>
-                                </div>
+                                </div> -->
                             <% end %>
                           </ul>
                         </div>
@@ -181,9 +182,10 @@
                           <% if  @pending_invitations.count > 0 %>
                                <%= render partial: "lists/edit/list_pending_invitation", collection: @pending_invitations, as: :pending_invitation, locals: {"list": @list} %>
                           <% else %>
-                              <div class="col s12">
+                              <%= render partial: "layouts/li_caption", locals: {"message": "This list don't have pending invitation at this time"} %>
+                              <!-- <div class="col s12">
                                 <p class="ms-caption">This list don't have pending invitation at this time</p>
-                              </div>
+                              </div> -->
                           <% end %>
                         </ul>
                       </div>
