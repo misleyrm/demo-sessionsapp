@@ -4,12 +4,12 @@
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
-
       <div class="row">
           <div class="col s12">
               <% background = ((!@list.new_record?) && !@list.image_url.blank?) ? @list.image_url('thumb') : "" %>
               <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview", style: "background-image: url(#{background})") do %>
                   <%= f.file_field :image %>
+                  <%= hidden_field_tag  "origin_image_url",background,:id =>"origin-image-url" ,as: :hidden %>
                   <label for="list_image">
                       <% if ((!@list.new_record?) && (@list.image_url.blank?)) %>
                           <span class="ms-avatar-ini show"><%= @list.name[0]%></span>
@@ -26,7 +26,7 @@
               <% end%>
           </div>
       </div>
-    <!-- List name  -->
+      <!-- List name  -->
       <div class="row">
         <div class="col s12">
             <div class="input-field">

@@ -27,7 +27,7 @@ class List < ApplicationRecord
   before_save :capitalize_name
 
   def crop_avatar
-
+    byebug
     image.recreate_versions! if crop_x.present?
     # broadcast_update_avatar if !self.new_record?
   end
