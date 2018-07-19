@@ -1005,9 +1005,8 @@ ul#bar-user-informations li.bar-user-info a> div{
   }
 
 
-  .ms-upload-avatar,
-  .ms-upload-avatar label[for="user_image"],
-  .ms-upload-avatar label[for="list_image"] {
+  .ms-upload-avatar input[name="user_image"]:not(disabled) ~label,
+  .ms-upload-avatar input[name="list_image"]:not(disabled) ~label {
     /* font-size: .75rem; */
     cursor: pointer;
     /* display: block;
@@ -1084,10 +1083,10 @@ ul#bar-user-informations li.bar-user-info a> div{
     font-size: 2.2rem!important;
   }
 
-  .ms-upload-avatar label i,
+  /* .ms-upload-avatar label i,
   .ms-upload-avatar label{
     color: white;
-  }
+  } */
 
   #ms-user-new .input-field{
     margin-top: 0rem;

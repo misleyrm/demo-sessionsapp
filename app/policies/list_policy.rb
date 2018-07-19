@@ -1,9 +1,14 @@
-class ListPolicy < ApplicationPolicy
-  attr_reader :user, :list
+class ListPolicy
+  # attr_reader :user, :list
+  attr_reader :current_user, :resource
+  # def initialize(user, list)
+  #    @user = user
+  #    @list = list
+  # end
 
-  def initialize(user, list)
-     @user = user
-     @list = list
+  def initialize(current_user, resource)
+    @current_user = current_user
+    @resource = resource
   end
 
   def create?
@@ -11,15 +16,23 @@ class ListPolicy < ApplicationPolicy
   end
 
   def update?
-    user.owner?(list)
+    current_user.owner?(resource)
+  end
+
+  def update_name?
+    updateOwnership?
+  end
+
+  def update_avatar?
+    updateOwnership?
   end
 
   def destroy?
-    user.owner?(list)
+    current_user.owner?(resource)
   end
 
   def updateOwnership?
-    user.owner?(list) && !list.all_tasks_list?
+    current_user.owner?(resource) && !resource.all_tasks_list?
   end
 
 

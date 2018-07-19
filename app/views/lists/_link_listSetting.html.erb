@@ -1,8 +1,8 @@
-  <%= link_to (user.owner?(list))? edit_list_path(list) : list_showList_path(list), data: { behavior: 'modal' },remote: true do%>
+  <!-- <%= link_to (user.owner?(list))? edit_list_path(list) : list_showList_path(list), data: { behavior: 'modal' },remote: true do%>
      <i class="material-icons md-15 md-light">settings</i>
-  <% end %>
-  <!-- <% if logged_in? && current_user.owner?(list)%>
-      <li><%= link_to "Edit List", edit_list_path(list), remote: true %></li>
-      <li><%= link_to "Delete list", list, :confirm => 'Are you sure?', :method => :delete, remote: true %></li>
-      <li><%= link_to "New invitations", new_list_invitation_path(list), remote: true %></li>
   <% end %> -->
+  <% if policy(list).update? %>
+    <%= link_to edit_list_path(list), data: { behavior: 'modal' },remote: true do%>
+       <i class="material-icons md-15 md-light">settings</i>
+    <% end %>
+  <% end %>

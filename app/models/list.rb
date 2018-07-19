@@ -7,7 +7,6 @@ class List < ApplicationRecord
 
   mount_uploader :image, AvatarUploader
   after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? }
-  # after_save :crop_avatar, on: [:create, :update]
 
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
 
@@ -22,14 +21,14 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   # after_commit :broadcast_update, on: [:update]
+  # after_create :broadcast_save
   before_destroy :tasks_delete
 
   before_save :capitalize_name
 
   def crop_avatar
-    byebug
     image.recreate_versions! if crop_x.present?
-    # broadcast_update_avatar if !self.new_record?
+
   end
 
   # def skip_validation?
@@ -123,17 +122,18 @@ class List < ApplicationRecord
   end
 
   def broadcast_save
-      user = User.find(self.user_id)
-      ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, image: self.image_url(:thumb), allTask: self.all_tasks_list?
+    data= Hash.new
+    data["status"]= "created"
+    data["id"]= self.id
+    data["user"]= self.user_id
+    data["name"]= self.name
+
+    # data["image"]= self.image_url(:thumb)
+    data["allTask"]= self.all_tasks_list?
+    ListRelayJob.perform_now(self,data)
+
    end
 
-  def render_list_chip(list)
-     ListsController.render(partial: "lists/nav_list_name", locals: {"list": list}).squish
-  end
-
-  def render_list_li(list,user,active)
-     ListsController.render(partial: "lists/nav_list_name",  layout: "layouts/li_navigation", locals: {"list": list, "user": user, "active": active}).squish
-  end
 
   private
 

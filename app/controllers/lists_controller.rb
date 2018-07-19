@@ -111,12 +111,11 @@ class ListsController < ApplicationController
   end
 
   def create
-
     @list = current_user.created_lists.build(list_params)
-    @list.crop_x = list_params[:crop_x]  #params[:user][:crop_x]
-    @list.crop_y = list_params[:crop_y] #params[:user][:crop_y]
-    @list.crop_w = list_params[:crop_w] #params[:user][:crop_w]
-    @list.crop_h = list_params[:crop_h] #params[:user][:crop_h]
+    @list.crop_x = list_params[:crop_x]
+    @list.crop_y = list_params[:crop_y]
+    @list.crop_w = list_params[:crop_w]
+    @list.crop_h = list_params[:crop_h]
     # @list.skip_validation = false
     if @list.save
       flash[:notice] = "List was successfully created."
@@ -125,8 +124,9 @@ class ListsController < ApplicationController
       gon.startDate = startDate
       session[:active_collaborations] = Array.new
       session[:active_collaborations][0] = current_user.id
+      html = ListsController.render(partial: "lists/nav_list_name",  layout: "layouts/li_navigation", locals: {"list": @list, "user": @list.owner, "active": true}).squish
       respond_to do |format|
-        format.json { render :json => {:list => @list,:status => 'success', :flash => flash[:notice] }}
+        format.json { render :json => {:list => @list, :html=> html,:status => 'success', :flash => flash[:notice] }}
       end
       # redirect_to root_path(@list)
 

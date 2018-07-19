@@ -7,7 +7,6 @@ jQuery.fn.mentionUsers = function(){
   var $mention = $(this),
       listId = $mention.data('list-id'),
       user_id = $mention.data('user-id');
-      // $inputor = $('#mentionsBlocker'),
 
 $mention.atwho({
   at: "+",
@@ -101,38 +100,6 @@ $(document).on("click", "[data-behavior='modal']", function(e) {
     return false;
 })
 
-/******** SELECT NEW OWNER FOR THE LIST *********/
-$(document).on('click','.ms-select-owner-list > a.collection-item', function(e) {
-  e.preventDefault();
-  var $this = $(this),
-      $new_list_owner =  $('#new_list_owner');
-
-  if (!$this.hasClass("active")){
-      $this.siblings().removeClass('active');
-      $this.addClass('active');
-      $new_list_owner.val($this.data('owner-id'));
-  }
-})
-
-/************END SELECT NEW OWNER FOR THE LIST**********/
-
-
-/******** CANCEL NEW OWNER FOR THE LIST *********/
-$(document).on('click','#user_ownership_change .ms-btn.cancel', function(e) {
-  e.preventDefault();
-  var $new_list_owner =  $('#new_list_owner'),
-      $list_owner = $('#list_owner');
-
-  $('#change_ownership_password').val("");
-  $("#btn-list-ownership-change").addClass("disabled");
-  if ($new_list_owner.val()!= "") {
-      var $owner_select_item = $('#user_ownership_change a[data-owner-id= '+$new_list_owner.val()+']');
-      $owner_select_item.removeClass('active');
-      $('#user_ownership_change a[data-owner-id= '+$list_owner.val()+']').addClass('active');
-      $new_list_owner.val("");
-  }
-})
-/************END SELECT NEW OWNER FOR THE LIST**********/
 
 /******************* END CONTENT IN MODAL **********************/
 $(document).on('turbolinks:load',function(){
@@ -368,9 +335,6 @@ $(document).on("click","a#user_settings",function(){
 
 });
 
-
-
-
   $('div.side-nav ul.user-lists li a').on('ajax:complete', function(event, xhr, settings) {
     $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
     deadlineDatepicker($('input.deadline-datepicker'));
@@ -384,28 +348,75 @@ $(document).on("click","a#user_settings",function(){
     deadlineDatepicker($('input.deadline-datepicker'));
   });
 
-  // $("#application-date form.edit_list").on('ajax:complete', function(event, xhr, settings) {
-  //   alert("#application-date form.edit_list");
-  //   $('input.deadline-datepicker.hidden-datepicker').hover(handlerIn, handlerOut);
-  //   deadlineDatepicker($('input.deadline-datepicker'));
-  //   $('div[id^="incomplete_tasks_"]').each(function (){
-  //     mySortable($(this));
-  //   })
-  // });
 
-  // CLICK IN CANCEL BUTTON IN CHANGE OWNERSHIP
+  /******** SELECT NEW OWNER FOR THE LIST *********/
+  $(document).on('click','.ms-select-owner-list > a.collection-item', function(e) {
+    e.preventDefault();
+    var $this = $(this),
+        $new_list_owner =  $('#new_list_owner');
 
-  $(document).on("click", "#user_ownership_change a.btn-cancel", function() {
-    var $select = $(this).closest('form').find('select'),
-    value = $select.data("list-owner"),
-    $collapsible = $(this).parents($('.collapsible'));
+    if (!$this.hasClass("active")){
+        $this.siblings().removeClass('active');
+        $this.addClass('active');
+        $new_list_owner.val($this.data('owner-id'));
+    }
+  })
 
-    $(this).closest('form').find("input[type=password], current_password").val("");
-    $select.find('option[value="'+value+'"]').prop('selected', true);
-    $collapsible.collapsible('close', 0);
-    collapsibleClose($collapsible);
-    $("#list_owner").val($("#list_owner option:first").val());
-  });
+  /************END SELECT NEW OWNER FOR THE LIST**********/
+
+
+  /******** CANCEL NEW OWNER FOR THE LIST *********/
+  // $(document).on('click','#user_ownership_change .ms-btn.cancel', function(e) {
+  //   e.preventDefault();
+  //   var $new_list_owner =  $('#new_list_owner'),
+  //       $list_owner = $('#list_owner');
+  //
+  //   $('#change_ownership_password').val("");
+  //   $("#btn-list-ownership-change").addClass("disabled");
+  //   if ($new_list_owner.val()!= "") {
+  //       var $owner_select_item = $('#user_ownership_change a[data-owner-id= '+$new_list_owner.val()+']');
+  //       $owner_select_item.removeClass('active');
+  //       $('#user_ownership_change a[data-owner-id= '+$list_owner.val()+']').addClass('active');
+  //       $new_list_owner.val("");
+  //   }
+  // })
+  /************END SELECT NEW OWNER FOR THE LIST**********/
+
+  /******** CANCEL NEW OWNER FOR THE LIST *********/
+  $(document).on('click','.cancel', function(e) {
+    e.preventDefault();
+
+  var $this = $(this)
+      behavior = $this.data("behavior");
+
+  switch (behavior) {
+  	case 'cancel-ownership':
+      var $new_list_owner =  $('#new_list_owner'),
+          $list_owner = $('#list_owner');
+
+      $('#change_ownership_password').val("");
+      $("#btn-list-ownership-change").addClass("disabled");
+      if ($new_list_owner.val()!= "") {
+          var $owner_select_item = $('#user_ownership_change a[data-owner-id= '+$new_list_owner.val()+']');
+          $owner_select_item.removeClass('active');
+          $('#user_ownership_change a[data-owner-id= '+$list_owner.val()+']').addClass('active');
+          $new_list_owner.val("");
+      }
+      close_collapsible($this);
+  		break;
+  	case 'collapsible-close':
+      close_collapsible($this);
+  		break;
+
+    }
+
+  })
+  /************END SELECT NEW OWNER FOR THE LIST**********/
+
+  function close_collapsible(intance){
+    var li_eq = intance.parents("li.active").data("index");
+    intance.parents(".collapsible").collapsible('close', li_eq);
+  }
 
   // CHANGE BUTTON TO ACTIVE WHEN PASSWORD IS NOT EMPTY CHANGE OWNERSHIP
 
@@ -1032,7 +1043,7 @@ function avatarCropModal(){
 /*************** END AVATAR WHILE CREATE********************/
 
 $(document).on('submit','#popupcrop form',function(e){
-  alert("innnnnn");
+
    e.preventDefault();
    var crop_x = $("#crop_x", this),
        crop_y = $("#crop_y", this),
@@ -1043,6 +1054,8 @@ $(document).on('submit','#popupcrop form',function(e){
        f_crop_y = $("#f_crop_y", $ms_upload_avatar),
        f_crop_w = $("#f_crop_w", $ms_upload_avatar),
        f_crop_h = $("#f_crop_h", $ms_upload_avatar);
+
+
 
   f_crop_x.val(crop_x.val());
   f_crop_y.val(crop_y.val());
