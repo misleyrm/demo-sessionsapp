@@ -24,7 +24,7 @@ module LoginHelper
   end
 
   def current_all_lists
-      @lists = current_user.created_lists.where("name not null").order('created_at')
+      @lists = current_user.created_lists.where("name IS NOT null").order('created_at')
       @collaboration_lists = current_user.collaboration_lists.all
       @current_all_lists ||= @lists + @collaboration_lists
   end

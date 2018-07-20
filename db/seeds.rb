@@ -30,16 +30,13 @@
 #
 # end
 
-List.all.each do |list|
+List.where('all_tasks IS NOT true AND avatar_file_name IS NOT null').each do |list|
   # NotificationType.all.each do |notification_type|
   #   NotificationOption.all.each do |notification_option|
   #     user.notification_settings.create(notification_type: notification_type, notification_option: notification_option)
   #   end
   # end
 #
- if (list.all_tasks)
-
-else
   l = list
   l.crop_y=0
   l.crop_x=0
@@ -47,10 +44,11 @@ else
   l.crop_w=2000
   l.crop_h=2000
 
+
   url = l.avatar.url
   l.remote_image_url = url
   l.save
-end
+
 
 end
 

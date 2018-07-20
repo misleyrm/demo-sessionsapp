@@ -92,7 +92,6 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.string "notification_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index [nil], name: "index_notification_types_on_notification_type_id"
   end
 
   create_table "notifications", force: :cascade do |t|
@@ -175,7 +174,6 @@ ActiveRecord::Schema.define(version: 201610171313560) do
     t.string "remember_digest"
     t.string "image"
     t.index ["team_id"], name: "index_users_on_team_id"
-    t.index [nil], name: "index_users_on_user_id"
   end
 
   create_table "wips", force: :cascade do |t|
