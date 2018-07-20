@@ -221,11 +221,11 @@ class ListsController < ApplicationController
       @list = session[:list_id] = List.current = @user.all_task
 
       flash[:notice] = "List was successfully destroyed."
-      redirect_to root_path(@list)
-      # respond_to do |format|
-      #   format.html { }
-      #   format.js
-      # end
+      # redirect_to root_path(@list)
+      respond_to do |format|
+        format.html { }
+        format.js { render :action => "show"}
+      end
     end
   end
 

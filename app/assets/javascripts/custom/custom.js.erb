@@ -192,8 +192,6 @@ $(document).on('turbolinks:load',function(){
           $parent = $this.parent();
 
       if (!$parent.is($("li#ms-add"))){
-        $("ul.user-lists li.active").removeClass('active');
-        $this.parent().addClass('active');
 
         var id = $this.attr('id');
 
@@ -203,9 +201,13 @@ $(document).on('turbolinks:load',function(){
         $.ajax({
           complete:function(request){
             $('.tooltipped').tooltip({delay: 50});
+
             $('div[id^="incomplete_tasks_"]').each(function (){
               mySortable($(this));
             })
+            $("ul.user-lists li.active").removeClass('active');
+            console.log(request);
+            $this.parent().addClass('active');
           },
           data:'date='+ date,
           dataType:'script',

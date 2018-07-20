@@ -29,6 +29,13 @@ jQuery(document).on 'turbolinks:load', ->
           when 'listUpdated'
             $chipList.replaceWith data.htmlChip
             $chipListTopnavbar.replaceWith data.htmlChip
+          when 'destroy'
+            $nav_user = $('[data-nav-id = "' + data.user + '"]')
+            $listNavCurrentUser = $('[data-nav-list-id = "' + data.id + '"]', $nav_user)
+            $listNavCurrentUser.remove()
+            $div_currentList = $('#current-list')
+            if ($div_currentList.data('list-id')== data.id)
+              $div_currentList.html("This list was deleted by the owner")
           when 'listUpdatedOwner'
             $beforeOwner = $('[data-nav-id = "' + data.before_owner + '"]')
             $createdListBeforeOwner = $('ul#ulCreated', $beforeOwner)

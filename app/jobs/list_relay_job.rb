@@ -7,10 +7,15 @@ class ListRelayJob < ApplicationJob
       list = List.find(data["id"])
       user = list.owner
       html= render_list_li(list,user,true)
-      
+
       ActionCable.server.broadcast "list_channel", {
         data: data,
         html: html
+      }
+    elsif (data["status"]== "destroy")
+      # data["allTask_id"]= current_user.id
+      ActionCable.server.broadcast "list_channel", {
+        data: data
       }
     end
 

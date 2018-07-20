@@ -22,6 +22,7 @@ class List < ApplicationRecord
 
   # after_commit :broadcast_update, on: [:update]
   # after_create :broadcast_save
+  after_destroy :broadcast_delete
   before_destroy :tasks_delete
 
   before_save :capitalize_name
@@ -114,26 +115,33 @@ class List < ApplicationRecord
   end
 
   def tasks_delete
-    # data = Hash.new
-    # data[task_ids] = Task.where(list_id: self.id).ids
+    Notification.where(notifiable_id: self.id).delete_all
     Task.where(list_id: self.id).delete_all
-
-    #call action cable to remove all tasks from the front end
   end
 
-  def broadcast_save
+  # def broadcast_save
+  #   data= Hash.new
+  #   data["status"]= "created"
+  #   data["id"]= self.id
+  #   data["user"]= self.user_id
+  #   data["name"]= self.name
+  #
+  #   # data["image"]= self.image_url(:thumb)
+  #   data["allTask"]= self.all_tasks_list?
+  #   ListRelayJob.perform_now(self,data)
+  #
+  #  end
+
+  def broadcast_delete
     data= Hash.new
-    data["status"]= "created"
+    data["status"]= "destroy"
     data["id"]= self.id
     data["user"]= self.user_id
-    data["name"]= self.name
+    # data["current_user"]= self.user_id
 
-    # data["image"]= self.image_url(:thumb)
-    data["allTask"]= self.all_tasks_list?
+    data["allTask_id"]= self.all_tasks_list?
     ListRelayJob.perform_now(self,data)
-
-   end
-
+  end
 
   private
 

@@ -16,6 +16,7 @@ class ListPolicy
   end
 
   def update?
+    
     current_user.owner?(resource)
   end
 
