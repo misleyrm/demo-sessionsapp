@@ -1,5 +1,3 @@
-
-
 # NotificationType.create([
 #   {action: "assigned",settings_text: "Task assigned to me",notification_text: "%{actor.name} assigned you a new task %{notifiable.detail}"},
 #   {action: "assigned_cancel",settings_text: "Task assigned to me was cancel",notification_text: "%{actor.name} has cancelled the task %{notifiable.detail}."},

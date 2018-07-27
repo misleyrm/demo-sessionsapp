@@ -7,7 +7,6 @@ class List < ApplicationRecord
 
   mount_uploader :image, AvatarUploader
   after_save :crop_avatar, :if => lambda { |o| o.crop_x.present? || o.crop_y.present? || o.crop_w.present? || o.crop_h.present? }
-  # after_save :crop_avatar, on: [:create, :update]
 
   belongs_to :owner, class_name:"User", foreign_key:"user_id"
 
@@ -22,14 +21,15 @@ class List < ApplicationRecord
   has_many :invitations, dependent: :destroy
 
   # after_commit :broadcast_update, on: [:update]
+  # after_create :broadcast_save
+  after_destroy :broadcast_delete
   before_destroy :tasks_delete
 
   before_save :capitalize_name
 
   def crop_avatar
-
     image.recreate_versions! if crop_x.present?
-    # broadcast_update_avatar if !self.new_record?
+
   end
 
   # def skip_validation?
@@ -115,24 +115,32 @@ class List < ApplicationRecord
   end
 
   def tasks_delete
-    # data = Hash.new
-    # data[task_ids] = Task.where(list_id: self.id).ids
+    Notification.where(notifiable_id: self.id).delete_all
     Task.where(list_id: self.id).delete_all
-
-    #call action cable to remove all tasks from the front end
   end
 
-  def broadcast_save
-      user = User.find(self.user_id)
-      ActionCable.server.broadcast "list:#{self.id}", htmlLi: render_list_li(self,user,true), htmlChip: render_list_chip(self), status: 'listCreated', id: self.id, user: self.user_id, name: self.name, image: self.image_url(:thumb), allTask: self.all_tasks_list?
-   end
+  # def broadcast_save
+  #   data= Hash.new
+  #   data["status"]= "created"
+  #   data["id"]= self.id
+  #   data["user"]= self.user_id
+  #   data["name"]= self.name
+  #
+  #   # data["image"]= self.image_url(:thumb)
+  #   data["allTask"]= self.all_tasks_list?
+  #   ListRelayJob.perform_now(self,data)
+  #
+  #  end
 
-  def render_list_chip(list)
-     ListsController.render(partial: "lists/nav_list_name", locals: {"list": list}).squish
-  end
+  def broadcast_delete
+    data= Hash.new
+    data["status"]= "destroy"
+    data["id"]= self.id
+    data["user"]= self.user_id
+    # data["current_user"]= self.user_id
 
-  def render_list_li(list,user,active)
-     ListsController.render(partial: "lists/nav_list_name",  layout: "layouts/li_navigation", locals: {"list": list, "user": user, "active": active}).squish
+    data["allTask_id"]= self.all_tasks_list?
+    ListRelayJob.perform_now(self,data)
   end
 
   private

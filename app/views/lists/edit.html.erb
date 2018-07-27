@@ -1,6 +1,6 @@
 <div class="row"  data-edit-list-id= "<%= @list.id %>">
 	<div class="col s12  center">
-			<h2 class="modal-title center-align uppercase">Edit your List</h2>
+			<h2 class="modal-title center-align uppercase"><%= policy(@list).update? ? "Edit your" : "Show"  %> List</h2>
 			<div class="forms">
 				<%= render 'lists/form' %>
 			</div>

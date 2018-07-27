@@ -2,20 +2,24 @@
 <% if (!pending_invitation.blank?) %>
   <%= content_tag :li, id:"pending_invitation_#{pending_invitation.id}", data:{"list-pending-invitation-id": "#{pending_invitation.id}" } do%>
         <div class="collapsible-header">
-                <p><%= pending_invitation.recipient_email %></p>
-                <%= content_tag(:span) do%>
-                   <%= "#{pending_invitation.created_at.strftime("%b #{pending_invitation.created_at.day.ordinalize}")}"%>
-                <% end%>
+            <p><%= pending_invitation.recipient_email %></p>
+            <%= content_tag(:span) do%>
+               <%= "#{pending_invitation.created_at.strftime("%b #{pending_invitation.created_at.day.ordinalize}")}"%>
+            <% end%>
+            <%# if (policy(@list).update?) %>
                 <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
+            <%# end%>
         </div>
-        <div class="collapsible-body" id="list_manage_invitation">
-            <%#= hidden_field_tag ("id", value= "#{pending_invitation.id}", options ={id: "hlist_pending_invitation"}) %>
-            <div class="input-field col">
-              <%= link_to "Resend Invitation", resend_invitation_list_invitation_path(list,pending_invitation),class: "ms-btn-short lowercase su-btn submit white", remote: true %>
-            </div>
-            <div class="input-field col">
-              <%= link_to "Revoke Invitation",list_invitation_path(list, pending_invitation), method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: "ms-btn-short lowercase su-btn white delete", remote: true %>
-            </div>
-        </div>
+        <%# if (policy(@list).update?) %>
+          <div class="collapsible-body" id="list_manage_invitation">
+              <%#= hidden_field_tag ("id", value= "#{pending_invitation.id}", options ={id: "hlist_pending_invitation"}) %>
+              <div class="input-field col">
+                <%= link_to "Resend Invitation", resend_invitation_list_invitation_path(list,pending_invitation),class: "ms-btn-short lowercase su-btn submit white", remote: true %>
+              </div>
+              <div class="input-field col">
+                <%= link_to "Revoke Invitation",list_invitation_path(list, pending_invitation), method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: "ms-btn-short lowercase su-btn white delete", remote: true %>
+              </div>
+          </div>
+      <%# end%>
   <% end%>
 <% end %>

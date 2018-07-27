@@ -31,7 +31,7 @@ class InvitationsController < ApplicationController
               InvitationMailer.existing_user_invite(@invitation, @url).deliver_later
               unless @invitation.recipient.collaboration_lists.include?(@list)
                  @recipient.collaboration_lists.push(@list)  #add this user to the list as a collaborator
-                 htmlListMembersSettings = ListsController.render(partial: "lists/edit/list_members", locals: {list: @list,"member": @recipient }).squish
+                 htmlListMembersSettings = ListsController.render(partial: "lists/edit/list_members", locals: {list: @list,member: @recipient,current_user: current_user  }).squish
                  htmlInvitationSetting = ListsController.render(partial: "lists/edit/list_pending_invitation", locals: {list: @list,"pending_invitation": @invitation }).squish
                  htmlCollaborationUser = ListsController.render(partial: "lists/collaboration_user", locals: {"collaboration_user": @recipient, "current_list": @list, "active_users": [],current_user: current_user}).squish
                  htmlUserPendingInvitation = UsersController.render(partial: "users/pending_invitation", locals: {pending_invitation: @invitation}).squish
@@ -73,7 +73,7 @@ class InvitationsController < ApplicationController
         respond_to do |format|
           @htmlerrors = InvitationsController.render(partial: "shared/error_messages", locals: {"object": @invitation}).squish
           flash[:notice] = "The invitation accepted."
-          format.json { render :json => {:htmlerrors => @htmlerrors  }}
+          format.json { render :json => {:htmlerrors => @htmlerrors }}
           format.js { }
          end
 

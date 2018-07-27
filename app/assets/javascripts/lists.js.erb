@@ -92,7 +92,11 @@ $(document).on('click','form#form_list a[data-behavior="submit"]', {}, function(
     }
 
     $formData.append('list[name]', $("input#list_name").val());
-    $formData.append('list[description]', $("input#list_description").val());
+    $formData.append('list[description]', $("textarea#list_description").val());
+    $formData.append('list[crop_x]', $("#f_crop_x").val());
+    $formData.append('list[crop_y]', $("#f_crop_y").val());
+    $formData.append('list[crop_h]', $("#f_crop_h").val());
+    $formData.append('list[crop_w]', $("#f_crop_w").val());
 
     create_submit($formData,$form);
 
@@ -119,7 +123,7 @@ $(document).on('click','form#form_list a[data-behavior="submit"]', {}, function(
 // CHANGE BUTTON TO ACTIVE WHEN LIST NAME IS NOT EMPTY
 function create_submit(submit_values,form) {
  var $method = $("input[name='_method']", form).val();
- console.log($method);
+
   $.ajax({
     url: form.attr('action'),
     data: submit_values,
@@ -138,7 +142,17 @@ function create_submit(submit_values,form) {
           $('.ms-upload-avatar').css('background-image','none');
           $('.ms-upload-avatar .mousehover.hover').addClass('empty');
         }
-      
+        var   $pageContent = $('#page-content'),
+        $list = $('[data-list-id = "' + response.list.id + '"]', $pageContent),
+        $user = $('[data-user-id = "' + response.list.user_id+ '"]', $list),
+        $nav = $('[data-nav-id = "' + response.list.user_id + '"]'),
+        $listNav = $('[data-nav-list-id = "' + response.list.id + '"]'),
+        $chipList = $('.chip', $listNav),
+        $ul = $('ul#ulCreated', $nav),
+        $add = $("#ms-add", $ul);
+console.log(response.list.id);
+$(response.html).insertBefore($add);
+
         if ($("#error_explanation").length >0){
               $("#error_explanation ul").html("");
             } else {

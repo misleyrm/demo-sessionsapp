@@ -11,7 +11,6 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $listOwner = $('[data-list-id = "' + data.list_id + '"]', $pageContentOwner)
     # $listCollaborationUsersOwner = $('.list-collaboration-users', $listOwner)
     $collaborationUsersOwner = $('ul#collaboration-users', $listOwner)
-    $addCollaborationUserOwner = $('li.ms-add', $collaborationUsersOwner )
 
     $editListOwner = $('[data-edit-list-id= "'+data.list_id+'"]', $currentUserOwner)
     # collaboration user in collaboration user list
@@ -28,8 +27,11 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     # list settings
     $editList = $('[data-edit-list-id= "'+data.list_id+'"]')
     $listPendingInvitation = $('[data-list-pending-invitation-id= "' + data.id + '"]', $editList)
+    $listMember = $('[data-list-member-id= "' + data.recipient + '"]', $editList)
     $collaboratorUserSettingOwner = $('[data-list-member-id= "'+data.recipient+'"]', $editList)
     $mainCenter = $('#main_center')
+    $listMembersSettingList = $('#members ul.ms-members')
+    $listPendingInvitationsSettingList = $('#invitations ul.ms-pending-invitations')
 
     # activated or collaboratorDeleted
     $navUser = $('[data-nav-id = "' + data.recipient + '"]')
@@ -41,19 +43,28 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
     $userAcceptedInvitations = $('#accepted-invitations ul',$body)
     $pending_invitation = $('[data-pending-invitation-id= "' + data.id + '"]', $userPendingInvitations)
     $accepted_invitation = $('[data-accepted-invitation-id= "' + data.id + '"]', $userAcceptedInvitations)
-    $addMemberToSettingsListOwner = $('#members >ul', $editListOwner)
-    $addInvitationToSettingsListOwner = $('#invitations >ul', $editListOwner)
+    $addMemberToSettingsListOwner = $('#members ul.ms-members', $editListOwner)
+    $addInvitationToSettingsListOwner = $('#invitations ul.ms-pending-invitations', $editListOwner)
     switch data.status
       when 'created'
-        # Add new pending invitation to the list of pending users for the edit list if owner is login in Settings
+        # Add new  user invited (existen) to the list of collaboration users for the list if owner is login
+        if data['existing_user_invite']
+          $collaborationUsersOwner.prepend data['htmlCollaborationUser']
+        # Add new user invited (existen)to the LIST OF COLLABORATION USERS (MEMBERS) for the list if owner is login in Settings
+        $addMemberToSettingsListOwner.prepend data['htmlListMembersSettings']
+        $captionM = $('li#caption',$addMemberToSettingsListOwner)
+        if ($captionM.length > 0)
+            $captionM.remove()
+        # Add new pending invitation to the list of pending users for the EDIT LIST if owner is login in Settings
         $addInvitationToSettingsListOwner.prepend data['htmlInvitationSetting']
-        if data.existing_user_invite
-          # Add new  user invited (existen) to the list of collaboration users for the list if owner is login
-          $( data.htmlCollaborationUser ).insertBefore $addCollaborationUserOwner
-          # Add new user invited (existen)to the list of collaboration users for the list if owner is login in Settings
-          $addMemberToSettingsListOwner.prepend data['htmlListMembersSettings']
-          # Add new invitation to the list of user pending invitations in user Settings
-          $userPendingInvitations.prepend data['htmlUserPendingInvitation']
+        $captionI = $('li#caption',$addInvitationToSettingsListOwner)
+        if ($captionI.length > 0)
+            $captionI.remove()
+        # Add new invitation to the list of user pending invitations in USER SETTINGS
+        $userPendingInvitations.prepend data['htmlUserPendingInvitation']
+        $captionUPI = $('li#caption',$userPendingInvitations)
+        if ($captionUPI.length > 0)
+            $captionUPI.remove()
       when 'activated'  #revisar
         $listPendingInvitation.remove()
         $pending_invitation.remove()
@@ -78,7 +89,17 @@ App.invitation = App.cable.subscriptions.create "InvitationChannel",
         $pageContentUser.remove()
         $accepted_invitation.remove()
         $pending_invitation.remove()
-        $listPendingInvitation.remove()
+        if $listPendingInvitation.length > 0
+          $listPendingInvitation.remove()
+        if ($('li',$listPendingInvitationsSettingList).length == 0)
+          console.log data['invitation_caption_html']
+          $listPendingInvitationsSettingList.html data['invitation_caption_html']
+        if $listMember.length > 0
+          $listMember.remove()
+        console.log $('li',$listMembersSettingList)
+        if ($('li',$listMembersSettingList).length == 0)
+          console.log data['member_caption_html']
+          $listMembersSettingList.html data['member_caption_html']
         # collaboration user in collaboration user in settings
         $collaboratorUserSettingOwner.remove()
         $collaborationList = $('[data-nav-list-id= "'+data.list_id+'"]', $ulCollaborationList)

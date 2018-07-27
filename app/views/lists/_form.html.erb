@@ -4,21 +4,29 @@
       <%= content_tag "div", id: "error_message_list" do%>
          <%= render :partial => 'shared/error_messages', :locals => {:object => @list} %>
       <% end %>
-
       <div class="row">
           <div class="col s12">
               <% background = ((!@list.new_record?) && !@list.image_url.blank?) ? @list.image_url('thumb') : "" %>
               <%= content_tag(:div, :class=>["valign-wrapper", "ms-upload-avatar"],id: "preview", style: "background-image: url(#{background})") do %>
-                  <%= f.file_field :image %>
+                  <%= f.file_field :image, :disabled => !policy(@list).update_avatar?%>
+                  <%= hidden_field_tag  "origin_image_url",background,:id =>"origin-image-url" ,as: :hidden %>
                   <label for="list_image">
                       <% if ((!@list.new_record?) && (@list.image_url.blank?)) %>
-                          <span class="ms-avatar-ini show"><%= @list.name[0]%></span>
-                      <% end %>
-                      <div class="mousehover hover">
-                          <span class="circle-icon valign-wrapper hover">
-                              <%= image_tag(public_path('assets/createListHover.svg')) %>
+                          <span class="ms-avatar-ini show">
+                            <% if (@list.all_tasks_list?) %>
+                              <i class="material-icons ms-all-task">list</i>
+                            <% else%>
+                              <%= @list.name[0]%>
+                            <% end%>
                           </span>
-                      </div>
+                      <% end %>
+                      <% if policy(@list).update_avatar?%>
+                        <div class="mousehover hover">
+                            <span class="circle-icon valign-wrapper hover">
+                                <%= image_tag(public_path('assets/createListHover.svg')) %>
+                            </span>
+                        </div>
+                      <% end %>
                   </label>
                   <% %w[x y w h].each do |attribute| %>
                       <%= f.hidden_field  "crop_#{attribute}",:class =>"crop_#{attribute}", :id =>"f_crop_#{attribute}" ,as: :hidden %>
@@ -26,22 +34,24 @@
               <% end%>
           </div>
       </div>
-    <!-- List name  -->
+      <!-- List name  -->
       <div class="row">
         <div class="col s12">
             <div class="input-field">
                 <span class="prefix valign-wrapper">
                     <%= image_tag(public_path('assets/tag.svg'), class: 'prefix') %>
                 </span>
-                <%= f.text_field :name ,id: "list_name", disabled: @list.all_tasks_list?,:autocomplete => :off%>
+                <%= f.text_field :name ,id: "list_name", disabled: !policy(@list).update_name?,:autocomplete => :off%>
                 <%= f.label :name,class: (@list.new_record?)? '': 'active',id: 'icon_prefix' %>
             </div>
         </div>
       </div>
-      <!-- End List Description -->
+      <!-- End List Name -->
+
       <div class="row">
         <div class="col s12">
             <ul class="collapsible ms-accordion-section ms-accordion-edit-list" data-collapsible="accordion">
+              <!-- List Description -->
               <li class="ms-description">
                   <div class="collapsible-header">
                       <div class="ms-form-title">
@@ -56,12 +66,13 @@
                         <div class="ms-divider col s12"></div>
                     </div>
                     <div class="collapsible-body">
-                        <%= f.text_area :description,class:'materialize-textarea', id: 'list_description',:autocomplete => :off %>
+                        <%= f.text_area :description, class:'materialize-textarea', id: 'list_description',:autocomplete => :off, :disabled => !(policy(@list).update?) %>
                     </div>
               </li>
-              <% unless (@list.new_record?||@list.all_tasks_list?||!current_user.owner?(@list)) %>
+              <!-- End List Description -->
+              <% if (!@list.all_tasks_list?) %>
                 <!-- Change Ownership -->
-                <li id="change_ownership">
+                <li id="change_ownership" data-index="1">
                     <div class="collapsible-header">
                         <div class="ms-form-title">
                           <div class="input-field">
@@ -98,37 +109,41 @@
                                       <%= link_to("#!", data: {"owner-id": "#{@list.owner.id}"},class: "collection-item active" ) do%>
                                           <%= @list.owner.name%><%= current_user.owner?(@list)? "<em> (you)</em>".html_safe : "" %><i class="material-icons right">fiber_manual_record</i>
                                       <% end %>
-                                      <% @list.collaboration_users.each do |collaborator_user| %>
-                                          <% if collaborator_user.active_collaborator?(@list.id) %>
-                                              <%= link_to("#!", data: {"owner-id": "#{collaborator_user.id}"},class: "collection-item" ) do %>
-                                                  <%= collaborator_user.name%><i class="material-icons right">fiber_manual_record</i>
-                                              <% end %>
-                                          <% end %>
+                                      <% if (policy(@list).updateOwnership?) %>
+                                        <% @list.collaboration_users.each do |collaborator_user| %>
+                                            <% if collaborator_user.active_collaborator?(@list.id) %>
+                                                <%= link_to("#!", data: {"owner-id": "#{collaborator_user.id}"},class: "collection-item" ) do %>
+                                                    <%= collaborator_user.name%><i class="material-icons right">fiber_manual_record</i>
+                                                <% end %>
+                                            <% end %>
+                                        <% end %>
                                       <% end %>
                                    </div>
                                 </div>
                               </li>
                           </ul>
-                          <div class="input-field">
-                              <span class="prefix valign-wrapper">
-                                  <%= image_tag(public_path('assets/password.svg'), class: 'prefix') %>
-                              </span>
-                              <%= password_field_tag(:current_password, "", placeholder: "Current Password (for confirmation)",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
-                          </div>
-                          <div class="row">
-                            <div class="input-field left-align col s6">
-                              <%= link_to 'Transfer',"#",data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change", class: 'ms-btn btn-collapsible action disabled', remote: true  %>
+                          <% if (policy(@list).updateOwnership?) %>
+                            <div class="input-field">
+                                <span class="prefix valign-wrapper">
+                                    <%= image_tag(public_path('assets/password.svg'), class: 'prefix') %>
+                                </span>
+                                <%= password_field_tag(:current_password, "", placeholder: "Current Password (for confirmation)",id: "change_ownership_password", :options => {:autocomplete => 'off'}) %>
                             </div>
-                            <div class="input-field right-align col s6">
-                              <a href="#!" class="btn-collapsible cancel ms-btn">Cancel</a>
+                            <div class="row">
+                              <div class="input-field left-align col s6">
+                                <%= link_to 'Transfer',"#",data: { src: updateOwnership_list_path(@list) }, id: "btn-list-ownership-change", class: 'ms-btn btn-collapsible action disabled', remote: true  %>
+                              </div>
+                              <div class="input-field right-align col s6">
+                                <a href="#!" class="btn-collapsible cancel ms-btn" data-behavior="cancel-ownership">Cancel</a>
+                              </div>
+                              <div class="col s12"><p class="ms-caption">Keep in mind that you will not be able to manage this list anymore.</p></div>
                             </div>
-                            <div class="col s12"><p class="ms-caption">Keep in mind that you will not be able to manage this list anymore.</p></div>
-                          </div>
+                          <% end%>
                     </div>
                 </li>
                 <!-- End Change Ownership -->
                 <!-- Members -->
-                <li>
+                <li data-index="2">
                     <div class="collapsible-header">
                         <div class="ms-form-title">
                           <div class="input-field">
@@ -151,9 +166,7 @@
                             <% if  @list.collaboration_users.where(['user_id != ?', current_user.id]).count > 0 %>
                                 <%= render partial: "lists/edit/list_members", collection: @list.collaboration_users, as: :member, :locals => {:list => @list} %>
                             <% else %>
-                                <div class="col s12">
-                                  <p class="ms-caption">This list don't have members at this time</p>
-                                </div>
+                                <%= render partial: "layouts/li_caption", locals: {"message": "This list don't have members at this time"} %>
                             <% end %>
                           </ul>
                         </div>
@@ -161,7 +174,7 @@
                 </li>
                 <!-- End Members -->
                 <!-- Pending Invitations -->
-                <li>
+                <li data-index="3">
                   <div class="collapsible-header">
                       <div class="ms-form-title">
                          <div class="input-field">
@@ -181,53 +194,58 @@
                           <% if  @pending_invitations.count > 0 %>
                                <%= render partial: "lists/edit/list_pending_invitation", collection: @pending_invitations, as: :pending_invitation, locals: {"list": @list} %>
                           <% else %>
-                              <div class="col s12">
+                              <%= render partial: "layouts/li_caption", locals: {"message": "This list don't have pending invitation at this time"} %>
+                              <!-- <div class="col s12">
                                 <p class="ms-caption">This list don't have pending invitation at this time</p>
-                              </div>
+                              </div> -->
                           <% end %>
                         </ul>
                       </div>
                   </div>
                 </li>
                 <!-- End Pending Invitations -->
-                <!-- Delete list -->
-                <li>
-                  <div class="collapsible-header">
-                      <div class="ms-form-title">
-                          <div class="input-field">
-                              <span class="prefix valign-wrapper">
-                                  <%= image_tag(public_path('assets/delete.svg'), class: 'prefix') %>
-                              </span>
-                              <p id="icon_prefix" class="ms-label">Delete List</p>
-                              <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
-                          </div>
-                      </div>
-                      <div class="ms-divider col s12"></div>
-                  </div>
-                  <div class="collapsible-body">
-                      <div class="divider20"></div>
-                      <div id="errors">
-                      </div>
-                      <div class="input-field left-align col s6">
-                        <%= link_to 'Yes, delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'btn-collapsible action', remote: true  %>
-                      </div>
-                      <div class="input-field right-align col s6">
-                        <a href="#!" class="btn-collapsible cancel">No, Cancel</a>
-                      </div>
-                      <div class="col s12"><p class="ms-caption">This action cannot be undone. All your information will be lost.</p></div>
-                  </div>
-                </li>
-                <!-- End Delete List -->
+                <% if (policy(@list).update?) %>
+                  <!-- Delete list -->
+                  <li data-index="4">
+                    <div class="collapsible-header">
+                        <div class="ms-form-title">
+                            <div class="input-field">
+                                <span class="prefix valign-wrapper">
+                                    <%= image_tag(public_path('assets/delete.svg'), class: 'prefix') %>
+                                </span>
+                                <p id="icon_prefix" class="ms-label">Delete List</p>
+                                <i class="material-icons right ms-open-button">keyboard_arrow_left</i>
+                            </div>
+                        </div>
+                        <div class="ms-divider col s12"></div>
+                    </div>
+                    <div class="collapsible-body">
+                        <div class="divider20"></div>
+                        <div id="errors">
+                        </div>
+                        <div class="input-field left-align col s6">
+                          <%= link_to 'Yes, delete list',@list, method: :delete, data: {confirm: "Are you sure you want to delete it?"}, class: 'btn-collapsible action', remote: true  %>
+                        </div>
+                        <div class="input-field right-align col s6">
+                          <a href="#!" class="btn-collapsible cancel" id="collapsible-close" data-behavior="collapsible-close">No, Cancel</a>
+                        </div>
+                        <div class="col s12"><p class="ms-caption">This action cannot be undone. All your information will be lost.</p></div>
+                    </div>
+                  </li>
+                  <!-- End Delete List -->
+                <% end %>
               <% end%>
             </ul>
         </div>
       </div>
-      <div class="row">
-          <div class="col s12">
-            <div class="input-field center-align">
-              <div class="padding40"></div>
-              <a class="waves-effect waves-light btn btn-medium su-btn btn-flat uppercase col s12" data-behavior="submit">Save Updates</a>
-            </div>
+      <% if (policy(@list).update?) %>
+          <div class="row">
+              <div class="col s12">
+                <div class="input-field center-align">
+                  <div class="padding40"></div>
+                  <a class="waves-effect waves-light btn btn-medium su-btn btn-flat uppercase col s12" data-behavior="submit">Save Updates</a>
+                </div>
+              </div>
           </div>
-      </div>
+      <% end%>
 <% end %>

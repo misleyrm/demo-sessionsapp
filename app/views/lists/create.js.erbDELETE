@@ -44,17 +44,14 @@
   // <% end %>
 =======
 
-$('#ms-modal-dialog').modal('close');
-
-<% if @list.errors.any? %>
-    <% @list.errors.messages.each do |key,value| %>
-          $("#form_list input[name*='list[<%= key %>]']").addClass("invalid");
-    <% end %>
-    $("#error_message_list").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
-<% else %>
-  // $('#ms-modal-dialog').modal('close');
-  $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
-<% end%>
+// # <% if @list.errors.any? %>
+// #     <% @list.errors.messages.each do |key,value| %>
+// #           $("#form_list input[name*='list[<%= key %>]']").addClass("invalid");
+// #     <% end %>
+// #     $("#error_message_list").html("<%= j render :partial => 'shared/error_messages', :locals => {:object => @list} %>");
+// # <% else %>
+// #     $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
+// # <% end%>
 
 
     // $("#error_message").html("<%= j render :partial => 'shared/flash_messages', :locals => {:object => @list} %>");
@@ -65,11 +62,11 @@ $('#ms-modal-dialog').modal('close');
     //     $ulCreated = $('ul#ulCreated', $nav),
     //     $add = $("#ms-add", $ulCreated);
     //
-    // // $content.html("<%#= j render partial: 'lists/list', locals: { list: @list, user: @user, collaboration_users: [] } %>");
+    // $content.html("<%#= j render partial: 'lists/list', locals: { list: @list, user: @user, collaboration_users: [] } %>");
     //
     // droppable_all('li[id^="drop_zone_"]');
     //
-    // $("#ms-link-listSetting").html("<%= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
+    // $("#ms-link-listSetting").html("<%#= j render partial: 'lists/link_listSetting', locals:{list: @list} %>");
     //
     // $form.attr("action","lists/<%= @list.id %>");
     // $form.attr("id","edit_list_<%= @list.id %>");
