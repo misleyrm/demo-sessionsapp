@@ -78,9 +78,8 @@ gem 'jquery-atwho-rails'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
-# gem 'angularjs-rails'
-
-
+#Rollbar is a real-time exception reporting service for Ruby and other languages
+gem 'rollbar'
 # Use ActiveModel has_secure_password
 
 # Use Unicorn as the app server
